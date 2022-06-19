@@ -1,5 +1,8 @@
 import type { NextPage, NextPageContext } from 'next';
 import Head from 'next/head';
+import HomeAction from '../components/HomeAction/HomeAction';
+import HomeLoggedOut from '../components/HomeLoggedOut/HomeLoggedOut';
+import HomeNavbar from '../components/HomeNavbar/HomeNavBar';
 import TaxRatesPanel from '../components/TaxRatesPanel/TaxRatesPanel';
 import { City } from '../types/game/City';
 import { TaxRates } from '../types/universalis/TaxRates';
@@ -21,10 +24,16 @@ const Home: NextPage<HomeProps> = ({ taxes }: HomeProps) => {
         <title>{title}</title>
       </Head>
 
-      <div className="home"></div>
-      <div></div>
-      <div>
-        <TaxRatesPanel data={taxes} />
+      <div className="home">
+        <HomeNavbar />
+        <div>
+          <HomeLoggedOut />
+        </div>
+        <div>
+          <HomeAction />
+          <h4>Recent Updates</h4>
+          <TaxRatesPanel data={taxes} />
+        </div>
       </div>
     </>
   );
