@@ -16,7 +16,7 @@ const UniversalisHeader = () => {
           </Link>
         </div>
         <div className="header-nav">
-          <Image
+          <img
             src="/i/svg/loading3.svg"
             className="search-loading"
             alt="Loading"
