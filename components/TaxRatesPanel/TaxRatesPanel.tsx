@@ -16,7 +16,9 @@ const TaxRatesPanel = ({ data }: TaxRatesPanelProps) => {
             .filter((k) => isNaN(parseInt(k)))
             .map((k) => (
               <div key={k} className="flex_50">
-                <GameCityIcon city={City[k]} width={28} height={28} className="price-city-flag" />
+                <div style={{ margin: '0 2px 0 0' }}>
+                  <GameCityIcon city={City[k]} width={28} height={28} className="price-city-flag" />
+                </div>
                 {data[City[k]]}%
               </div>
             ))}
