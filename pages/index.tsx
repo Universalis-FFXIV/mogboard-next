@@ -1,12 +1,19 @@
-import type { NextPage } from 'next';
+import type { NextPage, NextPageContext } from 'next';
 import Head from 'next/head';
+import TaxRatesPanel from '../components/TaxRatesPanel/TaxRatesPanel';
+import { City } from '../types/game/City';
+import { TaxRates } from '../types/universalis/TaxRates';
 
-const Home: NextPage = () => {
+interface HomeProps {
+  taxes: Record<City, number>;
+}
+
+const Home: NextPage<HomeProps> = ({ taxes }: HomeProps) => {
   const title = 'Universalis';
   const description =
     'Final Fantasy XIV Online: Market Board aggregator. Find Prices, track Item History and create Price Alerts. Anywhere, anytime.';
   return (
-    <div>
+    <>
       <Head>
         <meta property="og:title" content={title} />
         <meta property="og:description" content={description} />
@@ -14,37 +21,44 @@ const Home: NextPage = () => {
         <title>{title}</title>
       </Head>
 
-      <h1>
-        Welcome to <a href="https://nextjs.org">Next.js!</a>
-      </h1>
-
-      <p>
-        Get started by editing <code>pages/index.tsx</code>
-      </p>
-
+      <div className="home"></div>
+      <div></div>
       <div>
-        <a href="https://nextjs.org/docs">
-          <h2>Documentation &rarr;</h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
-
-        <a href="https://nextjs.org/learn">
-          <h2>Learn &rarr;</h2>
-          <p>Learn about Next.js in an interactive course with quizzes!</p>
-        </a>
-
-        <a href="https://github.com/vercel/next.js/tree/canary/examples">
-          <h2>Examples &rarr;</h2>
-          <p>Discover and deploy boilerplate example Next.js projects.</p>
-        </a>
-
-        <a href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app">
-          <h2>Deploy &rarr;</h2>
-          <p>Instantly deploy your Next.js site to a public URL with Vercel.</p>
-        </a>
+        <TaxRatesPanel data={taxes} />
       </div>
-    </div>
+    </>
   );
 };
+
+export async function getServerSideProps(ctx: NextPageContext) {
+  let taxes: Record<City, number>;
+  try {
+    const resTaxRates = await fetch(`https://universalis.app/api/tax-rates?world=Phoenix`);
+    const taxRates: TaxRates = await resTaxRates.json();
+    taxes = {
+      [City.LimsaLominsa]: taxRates['Limsa Lominsa'],
+      [City.Gridania]: taxRates['Gridania'],
+      [City.Uldah]: taxRates["Ul'dah"],
+      [City.Ishgard]: taxRates['Ishgard'],
+      [City.Kugane]: taxRates['Kugane'],
+      [City.Crystarium]: taxRates['Crystarium'],
+      [City.OldSharlayan]: taxRates['Old Sharlayan'],
+    };
+  } catch (err) {
+    taxes = {
+      [City.LimsaLominsa]: 0,
+      [City.Gridania]: 0,
+      [City.Uldah]: 0,
+      [City.Ishgard]: 0,
+      [City.Kugane]: 0,
+      [City.Crystarium]: 0,
+      [City.OldSharlayan]: 0,
+    };
+  }
+
+  return {
+    props: { taxes },
+  };
+}
 
 export default Home;
