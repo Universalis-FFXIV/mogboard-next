@@ -1,0 +1,7 @@
+<OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/" xmlns:moz="http://www.mozilla.org/2006/browser/search/">
+    <ShortName>MogBoard</ShortName>
+    <Description>Search The FFXIV Market Bored</Description>
+    <InputEncoding>UTF-8</InputEncoding>
+    <Image width="32" height="32" type="image/png">http://mogboard.com/favicon.png</Image>
+    <Url type="text/html" method="get" template="https://mogboard.com/?search={searchTerms}"/>
+</OpenSearchDescription>

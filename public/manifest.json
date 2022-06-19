@@ -1,0 +1,21 @@
+{
+    "short_name": "Universalis",
+    "name": "Universalis",
+    "icons": [
+        {
+            "src": "/i/pwa/mipmap-xxxhdpi/universalis.png",
+            "type": "image/png",
+            "sizes": "192x192"
+        },
+        {
+            "src": "/i/pwa/web_hi_res_512.png",
+            "type": "image/png",
+            "sizes": "512x512"
+        }
+    ],
+    "start_url": "/?source=pwa",
+    "background_color": "#000000",
+    "display": "standalone",
+    "scope": "/",
+    "theme_color": "#5e5e5e"
+}
