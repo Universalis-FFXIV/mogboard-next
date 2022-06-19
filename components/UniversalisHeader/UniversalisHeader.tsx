@@ -6,13 +6,16 @@ const UniversalisHeader = () => {
     <>
       <div>
         <div className="header-home">
-          <Link href="/" className="btn-home">
-            <Image
-              src="/i/universalis/universalis.png"
-              alt="Universalis"
-              width={41.75}
-              height={64}
-            />
+          <Link href="/">
+            <a className="btn-home">
+              <Image
+                src="/i/universalis/universalis.png"
+                alt="Universalis"
+                loading="eager"
+                width={41.75}
+                height={64}
+              />
+            </a>
           </Link>
         </div>
         <div className="header-nav">

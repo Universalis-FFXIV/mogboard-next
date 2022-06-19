@@ -4,7 +4,10 @@ export default function HomeNavbar() {
       <section className="tac">
         <strong>Logged-out</strong>
       </section>
-      <p className="text-gray">Lists, Alerts, Market activity and retainer links will show here</p>
+      <p className="text-gray">
+        Lists, Alerts, Market activity and retainer links will show here when you are logged into
+        the site.
+      </p>
     </div>
   );
 }
