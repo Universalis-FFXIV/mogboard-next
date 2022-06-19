@@ -29,7 +29,30 @@ const MogboardDocument = () => {
         <link rel="manifest" href="/manifest.json" />
       </Head>
       <body>
-        <Main />
+        <div className="site-container">
+          <aside></aside>
+          <div className="site left-nav-on">
+            <header></header>
+            <nav className="site-menu"></nav>
+            <div className="market-category-view">
+              <div className="item-category-list2" id="item-category-list2"></div>
+            </div>
+
+            <main>
+              <Main />
+            </main>
+
+            <footer>
+              <a
+                href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Powered by Vercel
+              </a>
+            </footer>
+          </div>
+        </div>
         <NextScript />
       </body>
     </Html>
