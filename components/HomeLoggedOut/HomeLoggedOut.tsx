@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 
 export default function HomeLoggedOut() {
   return (
@@ -17,11 +18,11 @@ export default function HomeLoggedOut() {
       <p>Create alerts, make lists, add your retainers and get a personalised home page feed!</p>
       <br />
       <br />
-      <a href="/account/login/discord" className="btn-login">
-        <span>
+      <Link href="/account/login/discord">
+        <a className="btn-login">
           Login via <strong>Discord</strong>
-        </span>
-      </a>
+        </a>
+      </Link>
     </div>
   );
 }

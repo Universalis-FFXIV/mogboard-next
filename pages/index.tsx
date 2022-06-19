@@ -3,15 +3,26 @@ import Head from 'next/head';
 import HomeAction from '../components/HomeAction/HomeAction';
 import HomeLoggedOut from '../components/HomeLoggedOut/HomeLoggedOut';
 import HomeNavbar from '../components/HomeNavbar/HomeNavBar';
+import RecentUpdatesPanel from '../components/RecentUpdatesPanel/RecentUpdatesPanel';
 import TaxRatesPanel from '../components/TaxRatesPanel/TaxRatesPanel';
 import { City } from '../types/game/City';
+import { RecentlyUpdated } from '../types/universalis/RecentlyUpdated';
 import { TaxRates } from '../types/universalis/TaxRates';
+
+interface RecentItem {
+  id: number;
+  levelItem: number;
+  rarity: number;
+  name: string;
+  category?: string;
+}
 
 interface HomeProps {
   taxes: Record<City, number>;
+  recent: RecentItem[];
 }
 
-const Home: NextPage<HomeProps> = ({ taxes }: HomeProps) => {
+const Home: NextPage<HomeProps> = ({ taxes, recent }: HomeProps) => {
   const title = 'Universalis';
   const description =
     'Final Fantasy XIV Online: Market Board aggregator. Find Prices, track Item History and create Price Alerts. Anywhere, anytime.';
@@ -32,6 +43,7 @@ const Home: NextPage<HomeProps> = ({ taxes }: HomeProps) => {
         <div>
           <HomeAction />
           <h4>Recent Updates</h4>
+          <RecentUpdatesPanel items={recent} />
           <TaxRatesPanel data={taxes} />
         </div>
       </div>
@@ -42,8 +54,9 @@ const Home: NextPage<HomeProps> = ({ taxes }: HomeProps) => {
 export async function getServerSideProps(ctx: NextPageContext) {
   let taxes: Record<City, number>;
   try {
-    const resTaxRates = await fetch(`https://universalis.app/api/tax-rates?world=Phoenix`);
-    const taxRates: TaxRates = await resTaxRates.json();
+    const taxRates = await fetch(`https://universalis.app/api/tax-rates?world=Phoenix`).then(
+      (res) => res.json()
+    );
     taxes = {
       [City.LimsaLominsa]: taxRates['Limsa Lominsa'],
       [City.Gridania]: taxRates['Gridania'],
@@ -54,6 +67,7 @@ export async function getServerSideProps(ctx: NextPageContext) {
       [City.OldSharlayan]: taxRates['Old Sharlayan'],
     };
   } catch (err) {
+    console.log(err);
     taxes = {
       [City.LimsaLominsa]: 0,
       [City.Gridania]: 0,
@@ -65,8 +79,37 @@ export async function getServerSideProps(ctx: NextPageContext) {
     };
   }
 
+  const recent: RecentItem[] = [];
+  try {
+    const recentlyUpdated = await fetch(
+      'https://universalis.app/api/extra/stats/recently-updated'
+    ).then((res) => res.json());
+    const shown = recentlyUpdated.items.slice(0, 6);
+    for (const s of shown) {
+      try {
+        const itemData = await fetch(`https://xivapi.com/Item/${s}`).then((res) => res.json());
+        recent.push({
+          id: s,
+          levelItem: itemData.LevelItem,
+          rarity: itemData.Rarity,
+          name: itemData.Name,
+          category: itemData.ItemSearchCategory.Name,
+        });
+      } catch (err) {
+        recent.push({
+          id: s,
+          levelItem: 0,
+          rarity: 0,
+          name: '',
+        });
+      }
+    }
+  } catch (err) {
+    console.log(err);
+  }
+
   return {
-    props: { taxes },
+    props: { taxes, recent },
   };
 }
 

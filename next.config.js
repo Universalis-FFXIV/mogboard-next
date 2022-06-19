@@ -2,7 +2,7 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    domains: ['xivapi.com'],
+    domains: ['xivapi.com', 'universalis-ffxiv.github.io'],
   },
 };
 
