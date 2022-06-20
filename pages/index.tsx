@@ -3,6 +3,7 @@ import Head from 'next/head';
 import HomeAction from '../components/HomeAction/HomeAction';
 import HomeLoggedOut from '../components/HomeLoggedOut/HomeLoggedOut';
 import HomeNavbar from '../components/HomeNavbar/HomeNavBar';
+import HomeNews from '../components/HomeNews/HomeNews';
 import RecentUpdatesPanel from '../components/RecentUpdatesPanel/RecentUpdatesPanel';
 import TaxRatesPanel from '../components/TaxRatesPanel/TaxRatesPanel';
 import UploadCountPanel from '../components/UploadCountPanel/UploadCountPanel';
@@ -42,6 +43,7 @@ const Home: NextPage<HomeProps> = ({ taxes, recent, dailyUploads }: HomeProps) =
       <div className="home">
         <HomeNavbar />
         <div>
+          <HomeNews />
           <HomeLoggedOut />
         </div>
         <div>
