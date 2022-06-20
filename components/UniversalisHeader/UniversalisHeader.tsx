@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import SearchBar from '../SearchBar/SearchBar';
+import Tooltip from '../Tooltip/Tooltip';
 
 const UniversalisHeader = () => {
   return (
@@ -24,9 +25,11 @@ const UniversalisHeader = () => {
           <a className="btn-login">Login via Discord</a>
         </Link>
         <div>
-          <button className="btn-settings">
-            <span className="xiv-app_drawer_setting" />
-          </button>
+          <Tooltip label="Site Settings">
+            <button className="btn-settings">
+              <span className="xiv-app_drawer_setting" />
+            </button>
+          </Tooltip>
         </div>
       </div>
     </>
