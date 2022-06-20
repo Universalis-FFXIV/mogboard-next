@@ -3,6 +3,7 @@ import '../styles/font/styles.css';
 import '../styles/font/xivicons.css';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
+import UniversalisLayout from '../components/UniversalisLayout/UniversalisLayout';
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
@@ -10,7 +11,9 @@ function MyApp({ Component, pageProps }: AppProps) {
       <Head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
-      <Component {...pageProps} />
+      <UniversalisLayout>
+        <Component {...pageProps} />
+      </UniversalisLayout>
     </>
   );
 }

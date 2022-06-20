@@ -1,6 +1,4 @@
 import { Html, Head, Main, NextScript } from 'next/document';
-import UniversalisFooter from '../components/UniversalisFooter/UniversalisFooter';
-import UniversalisHeader from '../components/UniversalisHeader/UniversalisHeader';
 
 const MogboardDocument = () => {
   return (
@@ -31,26 +29,7 @@ const MogboardDocument = () => {
         <link rel="manifest" href="/manifest.json" />
       </Head>
       <body>
-        <div className="site-container">
-          <aside></aside>
-          <div className="site left-nav-on">
-            <header>
-              <UniversalisHeader />
-            </header>
-            <nav className="site-menu"></nav>
-            <div className="market-category-view">
-              <div className="item-category-list2" id="item-category-list2"></div>
-            </div>
-
-            <main>
-              <Main />
-            </main>
-
-            <footer>
-              <UniversalisFooter />
-            </footer>
-          </div>
-        </div>
+        <Main />
         <NextScript />
       </body>
     </Html>
