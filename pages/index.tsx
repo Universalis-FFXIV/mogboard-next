@@ -7,6 +7,7 @@ import HomeNews from '../components/HomeNews/HomeNews';
 import RecentUpdatesPanel from '../components/RecentUpdatesPanel/RecentUpdatesPanel';
 import TaxRatesPanel from '../components/TaxRatesPanel/TaxRatesPanel';
 import UploadCountPanel from '../components/UploadCountPanel/UploadCountPanel';
+import WorldUploadCountsPanel from '../components/WorldUploadCountsPanel/WorldUploadCountsPanel';
 import { City } from '../types/game/City';
 
 interface RecentItem {
@@ -21,13 +22,16 @@ interface HomeProps {
   taxes: Record<City, number>;
   recent: RecentItem[];
   dailyUploads: number[];
+  worldUploads: { world: string; count: number }[];
 }
+
+const world = 'Phoenix';
 
 function sum(arr: number[], start: number, end: number) {
   return arr.slice(start, end).reduce((a, b) => a + b, 0);
 }
 
-const Home: NextPage<HomeProps> = ({ taxes, recent, dailyUploads }: HomeProps) => {
+const Home: NextPage<HomeProps> = ({ taxes, recent, dailyUploads, worldUploads }: HomeProps) => {
   const title = 'Universalis';
   const description =
     'Final Fantasy XIV Online: Market Board aggregator. Find Prices, track Item History and create Price Alerts. Anywhere, anytime.';
@@ -51,6 +55,7 @@ const Home: NextPage<HomeProps> = ({ taxes, recent, dailyUploads }: HomeProps) =
           <h4>Recent Updates</h4>
           <RecentUpdatesPanel items={recent} />
           <TaxRatesPanel data={taxes} />
+          <WorldUploadCountsPanel data={worldUploads} world={world} />
           <UploadCountPanel today={sum(dailyUploads, 0, 1)} week={sum(dailyUploads, 0, 7)} />
           <p className="mog-honorable" style={{ textAlign: 'center', marginTop: 5 }}>
             Thank you!
@@ -64,7 +69,7 @@ const Home: NextPage<HomeProps> = ({ taxes, recent, dailyUploads }: HomeProps) =
 export async function getServerSideProps(ctx: NextPageContext) {
   let taxes: Record<City, number>;
   try {
-    const taxRates = await fetch(`https://universalis.app/api/tax-rates?world=Phoenix`).then(
+    const taxRates = await fetch(`https://universalis.app/api/tax-rates?world=${world}`).then(
       (res) => res.json()
     );
     taxes = {
@@ -128,8 +133,23 @@ export async function getServerSideProps(ctx: NextPageContext) {
     console.log(err);
   }
 
+  const worldUploads: { world: string; count: number }[] = [];
+  try {
+    const worldUploadCounts: Record<string, { count: number; proportion: number }> = await fetch(
+      'https://universalis.app/api/extra/stats/world-upload-counts'
+    ).then((res) => res.json());
+    worldUploads.push(
+      ...Object.keys(worldUploadCounts).map((k) => ({
+        world: k,
+        count: worldUploadCounts[k].count,
+      }))
+    );
+  } catch (err) {
+    console.log(err);
+  }
+
   return {
-    props: { taxes, recent, dailyUploads },
+    props: { taxes, recent, dailyUploads, worldUploads },
   };
 }
 
