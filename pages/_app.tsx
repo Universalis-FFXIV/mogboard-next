@@ -1,6 +1,7 @@
 import '../styles/app.scss';
 import '../styles/font/styles.css';
 import '../styles/font/xivicons.css';
+import 'simplebar/dist/simplebar.min.css';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import UniversalisLayout from '../components/UniversalisLayout/UniversalisLayout';
