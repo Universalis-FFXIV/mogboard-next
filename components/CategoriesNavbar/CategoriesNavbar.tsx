@@ -55,7 +55,6 @@ function NavCategory({ type, onOpen, category, divider }: NavCategoryProps) {
         id={category.id.toString()}
         className={`type-${type}`}
         onClick={() => {
-          console.log(data);
           if (data != null) {
             onOpen(
               data[category.id].map<CategoryItem>((item) => ({
