@@ -1,4 +1,3 @@
-import Image from 'next/image';
 import Link from 'next/link';
 
 const UniversalisHeader = () => {
@@ -8,10 +7,9 @@ const UniversalisHeader = () => {
         <div className="header-home">
           <Link href="/">
             <a className="btn-home">
-              <Image
+              <img
                 src="/i/universalis/universalis.png"
                 alt="Universalis"
-                loading="eager"
                 width={41.75}
                 height={64}
               />
