@@ -20,8 +20,13 @@ const UniversalisHeader = () => {
         <SearchBar />
       </div>
       <div>
+        <Link href="/account/login/discord">
+          <a className="btn-login">Login via Discord</a>
+        </Link>
         <div>
-          <span>Login stuff</span>
+          <button className="btn-settings">
+            <span className="xiv-app_drawer_setting" />
+          </button>
         </div>
       </div>
     </>
