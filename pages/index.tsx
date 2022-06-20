@@ -5,9 +5,8 @@ import HomeLoggedOut from '../components/HomeLoggedOut/HomeLoggedOut';
 import HomeNavbar from '../components/HomeNavbar/HomeNavBar';
 import RecentUpdatesPanel from '../components/RecentUpdatesPanel/RecentUpdatesPanel';
 import TaxRatesPanel from '../components/TaxRatesPanel/TaxRatesPanel';
+import UploadCountPanel from '../components/UploadCountPanel/UploadCountPanel';
 import { City } from '../types/game/City';
-import { RecentlyUpdated } from '../types/universalis/RecentlyUpdated';
-import { TaxRates } from '../types/universalis/TaxRates';
 
 interface RecentItem {
   id: number;
@@ -20,9 +19,14 @@ interface RecentItem {
 interface HomeProps {
   taxes: Record<City, number>;
   recent: RecentItem[];
+  dailyUploads: number[];
 }
 
-const Home: NextPage<HomeProps> = ({ taxes, recent }: HomeProps) => {
+function sum(arr: number[], start: number, end: number) {
+  return arr.slice(start, end).reduce((a, b) => a + b, 0);
+}
+
+const Home: NextPage<HomeProps> = ({ taxes, recent, dailyUploads }: HomeProps) => {
   const title = 'Universalis';
   const description =
     'Final Fantasy XIV Online: Market Board aggregator. Find Prices, track Item History and create Price Alerts. Anywhere, anytime.';
@@ -45,6 +49,10 @@ const Home: NextPage<HomeProps> = ({ taxes, recent }: HomeProps) => {
           <h4>Recent Updates</h4>
           <RecentUpdatesPanel items={recent} />
           <TaxRatesPanel data={taxes} />
+          <UploadCountPanel today={sum(dailyUploads, 0, 1)} week={sum(dailyUploads, 0, 7)} />
+          <p className="mog-honorable" style={{ textAlign: 'center', marginTop: 5 }}>
+            Thank you!
+          </p>
         </div>
       </div>
     </>
@@ -108,8 +116,18 @@ export async function getServerSideProps(ctx: NextPageContext) {
     console.log(err);
   }
 
+  const dailyUploads: number[] = [];
+  try {
+    const uploadHistory = await fetch(
+      'https://universalis.app/api/extra/stats/upload-history'
+    ).then((res) => res.json());
+    dailyUploads.push(...uploadHistory.uploadCountByDay);
+  } catch (err) {
+    console.log(err);
+  }
+
   return {
-    props: { taxes, recent },
+    props: { taxes, recent, dailyUploads },
   };
 }
 
