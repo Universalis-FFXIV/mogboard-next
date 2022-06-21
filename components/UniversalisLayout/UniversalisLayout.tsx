@@ -6,6 +6,9 @@ import CategoriesNavbar from '../CategoriesNavbar/CategoriesNavbar';
 import CategoryView from '../CategoryView/CategoryView';
 import ModalCover from '../ModalCover/ModalCover';
 import Popup from '../Popup/Popup';
+import SearchCategories from '../SearchCategories/SearchCategories';
+import SearchCategoryResults from '../SearchCategoryResults/SearchCategoryResults';
+import SearchResults from '../SearchResults/SearchResults';
 import SettingsModal from '../SettingsModal/SettingsModal';
 import UniversalisFooter from '../UniversalisFooter/UniversalisFooter';
 import UniversalisHeader from '../UniversalisHeader/UniversalisHeader';
@@ -63,26 +66,30 @@ export default function UniversalisLayout({ children }: PropsWithChildren) {
           <UniversalisFooter />
         </footer>
 
-        <SettingsModal
-          isOpen={settingsModalOpen}
-          closeModal={() => setSettingsModalOpen(false)}
-          onSave={() => {
-            setPopupType('success');
-            setPopupTitle('Settings Saved');
-            setPopupMessage('Refreshing site, please wait...');
-            setPopupForceOpen(true);
-            setPopupOpen(true);
-          }}
-        />
-        <ModalCover isOpen={settingsModalOpen} />
-        <Popup
-          isOpen={popupOpen}
-          type={popupType}
-          title={popupTitle}
-          message={popupMessage}
-          forceOpen={popupForceOpen}
-        />
+        <SearchResults />
+        <SearchCategories />
+        <SearchCategoryResults />
       </div>
+
+      <SettingsModal
+        isOpen={settingsModalOpen}
+        closeModal={() => setSettingsModalOpen(false)}
+        onSave={() => {
+          setPopupType('success');
+          setPopupTitle('Settings Saved');
+          setPopupMessage('Refreshing site, please wait...');
+          setPopupForceOpen(true);
+          setPopupOpen(true);
+        }}
+      />
+      <ModalCover isOpen={settingsModalOpen} />
+      <Popup
+        isOpen={popupOpen}
+        type={popupType}
+        title={popupTitle}
+        message={popupMessage}
+        forceOpen={popupForceOpen}
+      />
     </div>
   );
 }

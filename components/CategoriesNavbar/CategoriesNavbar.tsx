@@ -1,22 +1,9 @@
-import useSWR from 'swr';
+import useSWRImmutable from 'swr';
+import { filterItemSearchCategories } from '../../data/game/isc';
 import { getSearchIcon } from '../../data/game/xiv-font';
 import { CategoryItem } from '../../types/game/CategoryItem';
-
-interface ItemSearchCategory {
-  id: number;
-  name: string;
-  category: number;
-  order: number;
-}
-
-interface XIVAPIItemSearchCategoryIndex {
-  Results: {
-    ID: number;
-    Name: string;
-    Category: number;
-    Order: number;
-  }[];
-}
+import { ItemSearchCategory } from '../../types/game/ItemSearchCategory';
+import { XIVAPIItemSearchCategoryIndex } from '../../types/xivapi/XIVAPIItemSearchCategoryIndex';
 
 interface NavCategoryProps {
   type: string;
@@ -38,7 +25,7 @@ interface CategoriesNavbarProps {
 }
 
 function NavCategory({ type, onOpen, category, divider }: NavCategoryProps) {
-  const { data, error } = useSWR('/data/categories_en.js', async (path) => {
+  const { data, error } = useSWRImmutable('/data/categories_en.js', async (path) => {
     const categories: Record<number, [string, string, string, string, string, string][]> =
       await fetch(path).then((res) => res.json());
     return categories;
@@ -101,12 +88,8 @@ function NavCategoryGroup({
   );
 }
 
-function filterItemSearchCategories(data: ItemSearchCategory[], category: number) {
-  return data.filter((isc) => isc.category === category).sort((a, b) => a.order - b.order);
-}
-
 export default function CategoriesNavbar({ onCategoryOpen }: CategoriesNavbarProps) {
-  const { data, error } = useSWR<ItemSearchCategory[]>(
+  const { data, error } = useSWRImmutable<ItemSearchCategory[]>(
     'https://xivapi.com/ItemSearchCategory?columns=ID,Name,Category,Order',
     async (path) => {
       const isc: XIVAPIItemSearchCategoryIndex = await fetch(path).then((res) => res.json());
