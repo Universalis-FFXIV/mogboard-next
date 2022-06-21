@@ -1,5 +1,6 @@
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 import useSWRImmutable from 'swr';
+import useClickOutside from '../../hooks/useClickOutside';
 import useSettings from '../../hooks/useSettings';
 
 interface SettingsModalProps {
@@ -9,20 +10,7 @@ interface SettingsModalProps {
 }
 
 export default function SettingsModal({ isOpen, closeModal, onSave }: SettingsModalProps) {
-  // https://stackoverflow.com/a/42234988/14226597
-  const modalRef = useRef<HTMLDivElement>(null);
-  useEffect(() => {
-    const handleClickOutside = (e: any) => {
-      if (e.target != null && modalRef.current && !modalRef.current.contains(e.target)) {
-        closeModal();
-      }
-    };
-
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  });
+  const modalRef = useClickOutside<HTMLDivElement>(null, closeModal);
 
   const [settings, setSetting] = useSettings();
   const [server, setServer] = useState(settings['mogboard_server'] ?? 'Phoenix');

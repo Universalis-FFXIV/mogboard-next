@@ -1,4 +1,8 @@
-export default function SearchBar() {
+interface SearchBarProps {
+  onMarketClicked: () => void;
+}
+
+export default function SearchBar({ onMarketClicked }: SearchBarProps) {
   return (
     <div className="header-nav">
       <img
@@ -9,7 +13,7 @@ export default function SearchBar() {
         height={25}
       />
       <input type="text" className="search" placeholder="Search" />
-      <button className="btn-market-board">
+      <button className="btn-market-board" onClick={onMarketClicked}>
         <i className="xiv-Market"></i>
         <span>Market</span>
       </button>

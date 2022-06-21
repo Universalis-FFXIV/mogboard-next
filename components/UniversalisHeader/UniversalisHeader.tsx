@@ -4,9 +4,10 @@ import Tooltip from '../Tooltip/Tooltip';
 
 interface UniversalisHeaderProps {
   onSettingsClicked: () => void;
+  onMarketClicked: () => void;
 }
 
-const UniversalisHeader = ({ onSettingsClicked }: UniversalisHeaderProps) => {
+const UniversalisHeader = ({ onSettingsClicked, onMarketClicked }: UniversalisHeaderProps) => {
   return (
     <>
       <div>
@@ -22,7 +23,7 @@ const UniversalisHeader = ({ onSettingsClicked }: UniversalisHeaderProps) => {
             </a>
           </Link>
         </div>
-        <SearchBar />
+        <SearchBar onMarketClicked={() => onMarketClicked()} />
       </div>
       <div>
         <Link href="/account/login/discord">

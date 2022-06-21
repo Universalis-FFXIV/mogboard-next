@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { useEffect, useRef } from 'react';
 import SimpleBar from 'simplebar-react';
+import useClickOutside from '../../hooks/useClickOutside';
 import { CategoryItem } from '../../types/game/CategoryItem';
 
 interface CategoryViewProps {
@@ -11,20 +11,7 @@ interface CategoryViewProps {
 }
 
 export default function CategoryView({ isOpen, closeView, items }: CategoryViewProps) {
-  // https://stackoverflow.com/a/42234988/14226597
-  const viewRef = useRef<HTMLDivElement>(null);
-  useEffect(() => {
-    const handleClickOutside = (e: any) => {
-      if (e.target != null && viewRef.current && !viewRef.current.contains(e.target)) {
-        closeView();
-      }
-    };
-
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  });
+  const viewRef = useClickOutside<HTMLDivElement>(null, closeView);
 
   if (!isOpen) {
     return (

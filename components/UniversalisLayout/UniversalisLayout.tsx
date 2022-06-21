@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { PropsWithChildren, useState } from 'react';
 import SimpleBar from 'simplebar-react';
 import { CategoryItem } from '../../types/game/CategoryItem';
+import { ItemSearchCategory } from '../../types/game/ItemSearchCategory';
 import CategoriesNavbar from '../CategoriesNavbar/CategoriesNavbar';
 import CategoryView from '../CategoryView/CategoryView';
 import ModalCover from '../ModalCover/ModalCover';
@@ -14,10 +15,15 @@ import UniversalisFooter from '../UniversalisFooter/UniversalisFooter';
 import UniversalisHeader from '../UniversalisHeader/UniversalisHeader';
 
 export default function UniversalisLayout({ children }: PropsWithChildren) {
-  const [categoryItemsOpen, setCategoryItemsOpen] = useState(false);
-  const [categoryItems, setCategoryItems] = useState<CategoryItem[]>([]);
+  const [navCategoryItemsOpen, setNavCategoryItemsOpen] = useState(false);
+  const [navCategoryItems, setNavCategoryItems] = useState<CategoryItem[]>([]);
 
   const [settingsModalOpen, setSettingsModalOpen] = useState(false);
+
+  const [searchCategoriesOpen, setSearchCategoriesOpen] = useState(false);
+  const [searchCategoryResultsOpen, setSearchCategoryResultsOpen] = useState(false);
+  const [searchCategoryItems, setSearchCategoryItems] = useState<CategoryItem[]>([]);
+  const [searchCategory, setSearchCategory] = useState<ItemSearchCategory | undefined>(undefined);
 
   const [popupType, setPopupType] = useState<'success' | 'error' | 'warning' | 'info' | undefined>(
     undefined
@@ -43,21 +49,24 @@ export default function UniversalisLayout({ children }: PropsWithChildren) {
           </Link>
           <CategoriesNavbar
             onCategoryOpen={(cat) => {
-              setCategoryItems(cat);
-              setCategoryItemsOpen(true);
+              setNavCategoryItems(cat);
+              setNavCategoryItemsOpen(true);
             }}
           />
         </SimpleBar>
       </aside>
       <div className="site left-nav-on">
         <header>
-          <UniversalisHeader onSettingsClicked={() => setSettingsModalOpen(true)} />
+          <UniversalisHeader
+            onSettingsClicked={() => setSettingsModalOpen(true)}
+            onMarketClicked={() => setSearchCategoriesOpen(true)}
+          />
         </header>
         <nav className="site-menu"></nav>
         <CategoryView
-          isOpen={categoryItemsOpen}
-          closeView={() => setCategoryItemsOpen(false)}
-          items={categoryItems}
+          isOpen={navCategoryItemsOpen}
+          closeView={() => setNavCategoryItemsOpen(false)}
+          items={navCategoryItems}
         />
 
         <main>{children}</main>
@@ -67,8 +76,22 @@ export default function UniversalisLayout({ children }: PropsWithChildren) {
         </footer>
 
         <SearchResults />
-        <SearchCategories />
-        <SearchCategoryResults />
+        <SearchCategories
+          isOpen={searchCategoriesOpen}
+          closeBox={() => setSearchCategoriesOpen(false)}
+          onCategoryOpen={(cat, catItems) => {
+            setSearchCategoriesOpen(false);
+            setSearchCategory(cat);
+            setSearchCategoryItems(catItems);
+            setSearchCategoryResultsOpen(true);
+          }}
+        />
+        <SearchCategoryResults
+          isOpen={searchCategoryResultsOpen}
+          closeResults={() => setSearchCategoryResultsOpen(false)}
+          items={searchCategoryItems}
+          category={searchCategory}
+        />
       </div>
 
       <SettingsModal
