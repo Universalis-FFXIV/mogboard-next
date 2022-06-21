@@ -2,7 +2,11 @@ import Link from 'next/link';
 import SearchBar from '../SearchBar/SearchBar';
 import Tooltip from '../Tooltip/Tooltip';
 
-const UniversalisHeader = () => {
+interface UniversalisHeaderProps {
+  onSettingsClicked: () => void;
+}
+
+const UniversalisHeader = ({ onSettingsClicked }: UniversalisHeaderProps) => {
   return (
     <>
       <div>
@@ -26,7 +30,7 @@ const UniversalisHeader = () => {
         </Link>
         <div>
           <Tooltip label="Site Settings">
-            <button className="btn-settings">
+            <button className="btn-settings" onClick={onSettingsClicked}>
               <span className="xiv-app_drawer_setting" />
             </button>
           </Tooltip>

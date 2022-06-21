@@ -107,11 +107,9 @@ function filterItemSearchCategories(data: ItemSearchCategory[], category: number
 
 export default function CategoriesNavbar({ onCategoryOpen }: CategoriesNavbarProps) {
   const { data, error } = useSWR<ItemSearchCategory[]>(
-    '/ItemSearchCategory?columns=ID,Name,Category,Order',
+    'https://xivapi.com/ItemSearchCategory?columns=ID,Name,Category,Order',
     async (path) => {
-      const isc: XIVAPIItemSearchCategoryIndex = await fetch(`https://xivapi.com${path}`).then(
-        (res) => res.json()
-      );
+      const isc: XIVAPIItemSearchCategoryIndex = await fetch(path).then((res) => res.json());
       return isc.Results.map((r) => ({
         id: r.ID,
         name: r.Name,

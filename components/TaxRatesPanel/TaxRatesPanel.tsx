@@ -3,13 +3,14 @@ import GameCityIcon from '../GameCityIcon/GameCityIcon';
 
 interface TaxRatesPanelProps {
   data: Record<City, number>;
+  world: string;
 }
 
-const TaxRatesPanel = ({ data }: TaxRatesPanelProps) => {
+const TaxRatesPanel = ({ data, world }: TaxRatesPanelProps) => {
   return (
     <div className="flex updates_box" style={{ marginBottom: 20 }}>
       <div>
-        <h5>Current Market Tax Rates on Phoenix</h5>
+        <h5>Current Market Tax Rates on {world}</h5>
         <br />
         <div className="flex avg_prices">
           {(Object.keys(City) as Array<keyof typeof City>)

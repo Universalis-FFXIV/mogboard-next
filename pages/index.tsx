@@ -1,5 +1,7 @@
+import { IncomingMessage } from 'http';
 import type { NextPage, NextPageContext } from 'next';
 import Head from 'next/head';
+import { Cookies } from 'react-cookie';
 import HomeAction from '../components/HomeAction/HomeAction';
 import HomeLoggedOut from '../components/HomeLoggedOut/HomeLoggedOut';
 import HomeNavbar from '../components/HomeNavbar/HomeNavBar';
@@ -8,6 +10,7 @@ import RecentUpdatesPanel from '../components/RecentUpdatesPanel/RecentUpdatesPa
 import TaxRatesPanel from '../components/TaxRatesPanel/TaxRatesPanel';
 import UploadCountPanel from '../components/UploadCountPanel/UploadCountPanel';
 import WorldUploadCountsPanel from '../components/WorldUploadCountsPanel/WorldUploadCountsPanel';
+import useSettings from '../hooks/useSettings';
 import { City } from '../types/game/City';
 
 interface RecentItem {
@@ -19,19 +22,24 @@ interface RecentItem {
 }
 
 interface HomeProps {
+  world: string;
   taxes: Record<City, number>;
   recent: RecentItem[];
   dailyUploads: number[];
   worldUploads: { world: string; count: number }[];
 }
 
-const world = 'Phoenix';
-
 function sum(arr: number[], start: number, end: number) {
   return arr.slice(start, end).reduce((a, b) => a + b, 0);
 }
 
-const Home: NextPage<HomeProps> = ({ taxes, recent, dailyUploads, worldUploads }: HomeProps) => {
+const Home: NextPage<HomeProps> = ({
+  world,
+  taxes,
+  recent,
+  dailyUploads,
+  worldUploads,
+}: HomeProps) => {
   const title = 'Universalis';
   const description =
     'Final Fantasy XIV Online: Market Board aggregator. Find Prices, track Item History and create Price Alerts. Anywhere, anytime.';
@@ -54,7 +62,7 @@ const Home: NextPage<HomeProps> = ({ taxes, recent, dailyUploads, worldUploads }
           <HomeAction />
           <h4>Recent Updates</h4>
           <RecentUpdatesPanel items={recent} />
-          <TaxRatesPanel data={taxes} />
+          <TaxRatesPanel data={taxes} world={world} />
           <WorldUploadCountsPanel data={worldUploads} world={world} />
           <UploadCountPanel today={sum(dailyUploads, 0, 1)} week={sum(dailyUploads, 0, 7)} />
           <p className="mog-honorable" style={{ textAlign: 'center', marginTop: 5 }}>
@@ -67,6 +75,9 @@ const Home: NextPage<HomeProps> = ({ taxes, recent, dailyUploads, worldUploads }
 };
 
 export async function getServerSideProps(ctx: NextPageContext) {
+  const cookies = new Cookies(ctx.req?.headers.cookie);
+  const world = cookies.get<string | undefined>('mogboard_server') ?? 'Phoenix';
+
   let taxes: Record<City, number>;
   try {
     const taxRates = await fetch(`https://universalis.app/api/tax-rates?world=${world}`).then(
@@ -149,7 +160,7 @@ export async function getServerSideProps(ctx: NextPageContext) {
   }
 
   return {
-    props: { taxes, recent, dailyUploads, worldUploads },
+    props: { world, taxes, recent, dailyUploads, worldUploads },
   };
 }
 

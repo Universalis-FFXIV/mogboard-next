@@ -9,7 +9,7 @@ interface WorldUploadCount {
 
 interface WorldUploadCountsPanelProps {
   data: WorldUploadCount[];
-  world?: string;
+  world: string;
 }
 
 function selectWorld(series: Highcharts.SeriesPieOptions, world?: string) {
