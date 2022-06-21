@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import Link from 'next/link';
 import SimpleBar from 'simplebar-react';
 import useClickOutside from '../../hooks/useClickOutside';
@@ -35,7 +36,7 @@ export default function SearchCategoryResults({
             <Link key={item.id} href={`/market/${item.id}`}>
               <a className={`rarity-${item.rarity}`}>
                 <span>
-                  <img src={item.icon} alt="" />
+                  <Image src={item.icon} alt="" width={40} height={40} />
                 </span>
                 <span>
                   <div>

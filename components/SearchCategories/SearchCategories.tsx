@@ -78,8 +78,16 @@ export default function SearchCategories({
     console.error(isc.error);
   }
 
-  const iscData = isc.data ?? [];
-  const catItemsData = catItems.data ?? [];
+  if (!isc.data || !catItems.data) {
+    return (
+      <div ref={boxRef} className={`market-board-container ${isOpen ? 'open' : ''}`}>
+        <div className="market-board"></div>
+      </div>
+    );
+  }
+
+  const iscData = isc.data;
+  const catItemsData = catItems.data;
 
   const weapons = filterItemSearchCategories(iscData, 1);
   const armor = filterItemSearchCategories(iscData, 2);

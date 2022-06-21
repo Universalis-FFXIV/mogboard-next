@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { PropsWithChildren, useState } from 'react';
 import SimpleBar from 'simplebar-react';
 import { CategoryItem } from '../../types/game/CategoryItem';
+import { Item } from '../../types/game/Item';
 import { ItemSearchCategory } from '../../types/game/ItemSearchCategory';
 import CategoriesNavbar from '../CategoriesNavbar/CategoriesNavbar';
 import CategoryView from '../CategoryView/CategoryView';
@@ -19,6 +20,11 @@ export default function UniversalisLayout({ children }: PropsWithChildren) {
   const [navCategoryItems, setNavCategoryItems] = useState<CategoryItem[]>([]);
 
   const [settingsModalOpen, setSettingsModalOpen] = useState(false);
+
+  const [searchResultsOpen, setSearchResultsOpen] = useState(false);
+  const [searchResults, setSearchResults] = useState<Item[]>([]);
+  const [searchTotal, setSearchTotal] = useState(0);
+  const [searchTerm, setSearchTerm] = useState('');
 
   const [searchCategoriesOpen, setSearchCategoriesOpen] = useState(false);
   const [searchCategoryResultsOpen, setSearchCategoryResultsOpen] = useState(false);
@@ -58,6 +64,12 @@ export default function UniversalisLayout({ children }: PropsWithChildren) {
       <div className="site left-nav-on">
         <header>
           <UniversalisHeader
+            onResults={(results, totalResults, query) => {
+              setSearchResults(results);
+              setSearchTotal(totalResults);
+              setSearchTerm(query);
+              setSearchResultsOpen(true);
+            }}
             onSettingsClicked={() => setSettingsModalOpen(true)}
             onMarketClicked={() => setSearchCategoriesOpen(true)}
           />
@@ -75,7 +87,13 @@ export default function UniversalisLayout({ children }: PropsWithChildren) {
           <UniversalisFooter />
         </footer>
 
-        <SearchResults />
+        <SearchResults
+          isOpen={searchResultsOpen}
+          closeResults={() => setSearchResultsOpen(false)}
+          results={searchResults}
+          totalResults={searchTotal}
+          searchTerm={searchTerm}
+        />
         <SearchCategories
           isOpen={searchCategoriesOpen}
           closeBox={() => setSearchCategoriesOpen(false)}

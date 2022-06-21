@@ -1295,7 +1295,7 @@ ol {
       display: inline-block;
       margin-right: 10px;
 
-      img {
+      > img {
         position: absolute;
         left: 50%;
         top: 50%;
@@ -1344,7 +1344,6 @@ ol {
   .item-category-list {
     min-height: 300px;
     max-height: 1500px;
-    overflow-y: scroll;
   }
 
   .item-search-header,

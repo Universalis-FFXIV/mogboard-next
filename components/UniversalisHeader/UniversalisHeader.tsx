@@ -1,13 +1,19 @@
 import Link from 'next/link';
+import { Item } from '../../types/game/Item';
 import SearchBar from '../SearchBar/SearchBar';
 import Tooltip from '../Tooltip/Tooltip';
 
 interface UniversalisHeaderProps {
+  onResults: (results: Item[], totalResults: number, searchTerm: string) => void;
   onSettingsClicked: () => void;
   onMarketClicked: () => void;
 }
 
-const UniversalisHeader = ({ onSettingsClicked, onMarketClicked }: UniversalisHeaderProps) => {
+const UniversalisHeader = ({
+  onResults,
+  onSettingsClicked,
+  onMarketClicked,
+}: UniversalisHeaderProps) => {
   return (
     <>
       <div>
@@ -23,7 +29,7 @@ const UniversalisHeader = ({ onSettingsClicked, onMarketClicked }: UniversalisHe
             </a>
           </Link>
         </div>
-        <SearchBar onMarketClicked={() => onMarketClicked()} />
+        <SearchBar onMarketClicked={onMarketClicked} onResults={onResults} />
       </div>
       <div>
         <Link href="/account/login/discord">
