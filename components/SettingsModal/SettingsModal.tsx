@@ -5,9 +5,10 @@ import useSettings from '../../hooks/useSettings';
 interface SettingsModalProps {
   isOpen: boolean;
   closeModal: () => void;
+  onSave: () => void;
 }
 
-export default function SettingsModal({ isOpen, closeModal }: SettingsModalProps) {
+export default function SettingsModal({ isOpen, closeModal, onSave }: SettingsModalProps) {
   // https://stackoverflow.com/a/42234988/14226597
   const modalRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -246,6 +247,7 @@ export default function SettingsModal({ isOpen, closeModal }: SettingsModalProps
             setSetting('mogboard_timezone', timezone);
             setSetting('mogboard_leftnav', showLeftNav);
             setSetting('mogboard_homeworld', showDefaultHomeWorld);
+            onSave();
             location.reload();
           }}
         >
