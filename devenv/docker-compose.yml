@@ -1,0 +1,13 @@
+version: "2.4"
+services:
+  mariadb:
+    image: mariadb:10.3.32
+    ports:
+      - "4003:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: dalamud
+      MYSQL_USER: dalamud
+      MYSQL_PASSWORD: dalamud
+    volumes:
+      - ./sqlinit:/docker-entrypoint-initdb.d

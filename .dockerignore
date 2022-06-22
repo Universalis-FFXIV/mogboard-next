@@ -1,0 +1,7 @@
+.next/
+.vscode/
+node_modules/
+devenv/
+.env*.local
+.gitignore
+README.md
