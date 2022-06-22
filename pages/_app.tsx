@@ -9,9 +9,10 @@ import { Cookies, CookiesProvider } from 'react-cookie';
 import { SessionProvider } from 'next-auth/react';
 import App from 'next/app';
 
-function MyApp({
+export default function MyApp({
   Component,
-  pageProps: { session, cookies, ...pageProps },
+  cookies,
+  pageProps: { session, ...pageProps },
 }: AppProps & { cookies: Record<string, string> }) {
   return (
     <>
@@ -29,9 +30,7 @@ function MyApp({
   );
 }
 
-export async function getInitialProps(appCtx: AppContext) {
+MyApp.getInitialProps = async (appCtx: AppContext) => {
   const appProps = await App.getInitialProps(appCtx);
   return { ...appProps, cookies: appCtx.ctx.req?.headers?.cookie };
-}
-
-export default MyApp;
+};

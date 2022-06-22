@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { PropsWithChildren, useState } from 'react';
 import SimpleBar from 'simplebar-react';
+import useSettings from '../../hooks/useSettings';
 import { CategoryItem } from '../../types/game/CategoryItem';
 import { Item } from '../../types/game/Item';
 import { ItemSearchCategory } from '../../types/game/ItemSearchCategory';
@@ -16,10 +17,12 @@ import UniversalisFooter from '../UniversalisFooter/UniversalisFooter';
 import UniversalisHeader from '../UniversalisHeader/UniversalisHeader';
 
 export default function UniversalisLayout({ children }: PropsWithChildren) {
+  const [settings] = useSettings();
+
   const [navCategoryItemsOpen, setNavCategoryItemsOpen] = useState(false);
   const [navCategoryItems, setNavCategoryItems] = useState<CategoryItem[]>([]);
 
-  const [settingsModalOpen, setSettingsModalOpen] = useState(false);
+  const [settingsModalOpen, setSettingsModalOpen] = useState(settings['mogboard_server'] == null);
 
   const [searchResultsOpen, setSearchResultsOpen] = useState(false);
   const [searchResults, setSearchResults] = useState<Item[]>([]);

@@ -12,18 +12,18 @@ interface SettingsModalProps {
 export default function SettingsModal({ isOpen, closeModal, onSave }: SettingsModalProps) {
   const modalRef = useClickOutside<HTMLDivElement>(null, closeModal);
 
-  const [settings, setSetting] = useSettings();
-  const [server, setServer] = useState(settings['mogboard_server'] ?? 'Phoenix');
-  const [lang, setLang] = useState(settings['mogboard_language'] ?? 'en');
-  const [timezone, setTimezone] = useState(
-    settings['mogboard_timezone'] ??
-      Intl.DateTimeFormat().resolvedOptions().timeZone ??
-      'Europe/London'
-  );
-  const [showLeftNav, setShowLeftNav] = useState(settings['mogboard_leftnav'] ?? 'on');
-  const [showDefaultHomeWorld, setShowDefaultHomeWorld] = useState(
-    settings['mogboard_homeworld'] ?? 'no'
-  );
+  const [settings, setSetting] = useSettings({
+    mogboard_server: 'Phoenix',
+    mogboard_language: 'en',
+    mogboard_timezone: Intl.DateTimeFormat().resolvedOptions().timeZone ?? 'Europe/London',
+    mogboard_leftnav: 'on',
+    mogboard_homeworld: 'no',
+  });
+  const [server, setServer] = useState(settings['mogboard_server']);
+  const [lang, setLang] = useState(settings['mogboard_language']);
+  const [timezone, setTimezone] = useState(settings['mogboard_timezone']);
+  const [showLeftNav, setShowLeftNav] = useState(settings['mogboard_leftnav']);
+  const [showDefaultHomeWorld, setShowDefaultHomeWorld] = useState(settings['mogboard_homeworld']);
 
   const tzData = useSWRImmutable('https://universalis.app/api/v3/misc/time-zones', async (path) => {
     const tzs: { id: string; offset: number; name: string }[] = await fetch(path).then((res) =>
@@ -91,7 +91,11 @@ export default function SettingsModal({ isOpen, closeModal, onSave }: SettingsMo
                 value={server}
                 id="servers"
                 className="servers"
-                onChange={(e) => setServer(e.target.value)}
+                onChange={(e) => {
+                  if (server !== e.target.value) {
+                    setServer(e.target.value);
+                  }
+                }}
               >
                 <option disabled>- Please Choose a Server -</option>
                 {dcs.map(({ name, worlds }) => {
@@ -130,11 +134,8 @@ export default function SettingsModal({ isOpen, closeModal, onSave }: SettingsMo
                 onChange={(e) => {
                   const val = e.target.value;
                   if (
-                    val === 'en' ||
-                    val === 'fr' ||
-                    val === 'de' ||
-                    val === 'ja' ||
-                    val === 'chs'
+                    lang !== val &&
+                    (val === 'en' || val === 'fr' || val === 'de' || val === 'ja' || val === 'chs')
                   ) {
                     setLang(val);
                   }
@@ -160,7 +161,11 @@ export default function SettingsModal({ isOpen, closeModal, onSave }: SettingsMo
             value={timezone}
             id="timezones"
             className="timezones"
-            onChange={(e) => setTimezone(e.target.value)}
+            onChange={(e) => {
+              if (timezone !== e.target.value) {
+                setTimezone(e.target.value);
+              }
+            }}
           >
             <option disabled>- Choose your timezone -</option>
             {timezones
@@ -188,7 +193,7 @@ export default function SettingsModal({ isOpen, closeModal, onSave }: SettingsMo
                 className="leftnav"
                 onChange={(e) => {
                   const val = e.target.value;
-                  if (val === 'on' || val === 'off') {
+                  if (showLeftNav !== val && (val === 'on' || val === 'off')) {
                     setShowLeftNav(val);
                   }
                 }}
@@ -212,7 +217,7 @@ export default function SettingsModal({ isOpen, closeModal, onSave }: SettingsMo
                 className="homeworld"
                 onChange={(e) => {
                   const val = e.target.value;
-                  if (val === 'yes' || val === 'no') {
+                  if (showDefaultHomeWorld !== val && (val === 'yes' || val === 'no')) {
                     setShowDefaultHomeWorld(val);
                   }
                 }}
