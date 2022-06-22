@@ -6,19 +6,25 @@ import type { AppContext, AppProps } from 'next/app';
 import Head from 'next/head';
 import UniversalisLayout from '../components/UniversalisLayout/UniversalisLayout';
 import { Cookies, CookiesProvider } from 'react-cookie';
+import { SessionProvider } from 'next-auth/react';
 import App from 'next/app';
 
-function MyApp({ Component, pageProps, cookies }: AppProps & { cookies: Record<string, string> }) {
+function MyApp({
+  Component,
+  pageProps: { session, cookies, ...pageProps },
+}: AppProps & { cookies: Record<string, string> }) {
   return (
     <>
       <Head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
-      <CookiesProvider cookies={typeof window !== 'undefined' ? undefined : new Cookies(cookies)}>
-        <UniversalisLayout>
-          <Component {...pageProps} />
-        </UniversalisLayout>
-      </CookiesProvider>
+      <SessionProvider session={session}>
+        <CookiesProvider cookies={typeof window !== 'undefined' ? undefined : new Cookies(cookies)}>
+          <UniversalisLayout>
+            <Component {...pageProps} />
+          </UniversalisLayout>
+        </CookiesProvider>
+      </SessionProvider>
     </>
   );
 }

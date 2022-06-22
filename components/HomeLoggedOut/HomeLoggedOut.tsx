@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import Link from 'next/link';
+import { signIn } from 'next-auth/react';
 
 export default function HomeLoggedOut() {
   return (
@@ -18,11 +18,9 @@ export default function HomeLoggedOut() {
       <p>Create alerts, make lists, add your retainers and get a personalised home page feed!</p>
       <br />
       <br />
-      <Link href="/account/login/discord">
-        <a className="btn-login">
-          Login via <strong>Discord</strong>
-        </a>
-      </Link>
+      <a className="btn-login" onClick={() => signIn('discord')}>
+        Login via <strong>Discord</strong>
+      </a>
     </div>
   );
 }

@@ -6,6 +6,7 @@ import HomeAction from '../components/HomeAction/HomeAction';
 import HomeLoggedOut from '../components/HomeLoggedOut/HomeLoggedOut';
 import HomeNavbar from '../components/HomeNavbar/HomeNavBar';
 import HomeNews from '../components/HomeNews/HomeNews';
+import LoggedOut from '../components/LoggedOut/LoggedOut';
 import RecentUpdatesPanel from '../components/RecentUpdatesPanel/RecentUpdatesPanel';
 import TaxRatesPanel from '../components/TaxRatesPanel/TaxRatesPanel';
 import UploadCountPanel from '../components/UploadCountPanel/UploadCountPanel';
@@ -56,7 +57,9 @@ const Home: NextPage<HomeProps> = ({
         <HomeNavbar />
         <div>
           <HomeNews />
-          <HomeLoggedOut />
+          <LoggedOut>
+            <HomeLoggedOut />
+          </LoggedOut>
         </div>
         <div>
           <HomeAction />
