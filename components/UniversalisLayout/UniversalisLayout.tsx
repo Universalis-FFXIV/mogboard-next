@@ -42,41 +42,42 @@ export default function UniversalisLayout({ children }: PropsWithChildren) {
   const [popupForceOpen, setPopupForceOpen] = useState(false);
   const [popupOpen, setPopupOpen] = useState(false);
 
+  const leftNav = settings['mogboard_leftnav'] === 'on';
   return (
     <div className="site-container">
-      <aside>
-        <SimpleBar>
-          <Link href="/">
-            <a className="nav-home">
-              <img
-                src="/i/brand/universalis/universalis_bodge.png"
-                alt="Universalis"
-                width={170}
-                height={30}
-              />
-            </a>
-          </Link>
-          <CategoriesNavbar
-            onCategoryOpen={(cat) => {
-              setNavCategoryItems(cat);
-              setNavCategoryItemsOpen(true);
-            }}
-          />
-        </SimpleBar>
-      </aside>
-      <div className="site left-nav-on">
-        <header>
-          <UniversalisHeader
-            onResults={(results, totalResults, query) => {
-              setSearchResults(results);
-              setSearchTotal(totalResults);
-              setSearchTerm(query);
-              setSearchResultsOpen(true);
-            }}
-            onSettingsClicked={() => setSettingsModalOpen(true)}
-            onMarketClicked={() => setSearchCategoriesOpen(true)}
-          />
-        </header>
+      {leftNav && (
+        <aside>
+          <SimpleBar>
+            <Link href="/">
+              <a className="nav-home">
+                <img
+                  src="/i/brand/universalis/universalis_bodge.png"
+                  alt="Universalis"
+                  width={170}
+                  height={30}
+                />
+              </a>
+            </Link>
+            <CategoriesNavbar
+              onCategoryOpen={(cat) => {
+                setNavCategoryItems(cat);
+                setNavCategoryItemsOpen(true);
+              }}
+            />
+          </SimpleBar>
+        </aside>
+      )}
+      <div className={`site left-nav-${leftNav ? 'on' : 'off'}`}>
+        <UniversalisHeader
+          onResults={(results, totalResults, query) => {
+            setSearchResults(results);
+            setSearchTotal(totalResults);
+            setSearchTerm(query);
+            setSearchResultsOpen(true);
+          }}
+          onSettingsClicked={() => setSettingsModalOpen(true)}
+          onMarketClicked={() => setSearchCategoriesOpen(true)}
+        />
         <nav className="site-menu"></nav>
         <CategoryView
           isOpen={navCategoryItemsOpen}
@@ -86,9 +87,7 @@ export default function UniversalisLayout({ children }: PropsWithChildren) {
 
         <main>{children}</main>
 
-        <footer>
-          <UniversalisFooter />
-        </footer>
+        <UniversalisFooter />
 
         <SearchResults
           isOpen={searchResultsOpen}

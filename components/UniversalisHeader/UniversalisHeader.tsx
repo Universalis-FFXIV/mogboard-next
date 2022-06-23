@@ -19,7 +19,7 @@ const UniversalisHeader = ({
 }: UniversalisHeaderProps) => {
   const { data: session } = useSession();
   return (
-    <>
+    <header>
       <div>
         <div className="header-home">
           <Link href="/">
@@ -57,7 +57,7 @@ const UniversalisHeader = ({
           </Tooltip>
         </div>
       </div>
-    </>
+    </header>
   );
 };
 
