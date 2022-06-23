@@ -1,8 +1,8 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import SimpleBar from 'simplebar-react';
-import useClickOutside from '../../hooks/useClickOutside';
-import { Item } from '../../types/game/Item';
+import useClickOutside from '../../../../hooks/useClickOutside';
+import { Item } from '../../../../types/game/Item';
 
 interface SearchResultsProps {
   isOpen: boolean;

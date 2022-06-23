@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import useSWRImmutable from 'swr';
-import useClickOutside from '../../hooks/useClickOutside';
-import useSettings from '../../hooks/useSettings';
+import useClickOutside from '../../../../hooks/useClickOutside';
+import useSettings from '../../../../hooks/useSettings';
 
 interface SettingsModalProps {
   isOpen: boolean;

@@ -1,9 +1,9 @@
 import useSWRImmutable from 'swr';
-import { filterItemSearchCategories } from '../../data/game/isc';
-import { getSearchIcon } from '../../data/game/xiv-font';
-import { CategoryItem } from '../../types/game/CategoryItem';
-import { ItemSearchCategory } from '../../types/game/ItemSearchCategory';
-import { XIVAPIItemSearchCategoryIndex } from '../../types/xivapi/XIVAPIItemSearchCategoryIndex';
+import { filterItemSearchCategories } from '../../../../data/game/isc';
+import { getSearchIcon } from '../../../../data/game/xiv-font';
+import { CategoryItem } from '../../../../types/game/CategoryItem';
+import { ItemSearchCategory } from '../../../../types/game/ItemSearchCategory';
+import { XIVAPIItemSearchCategoryIndex } from '../../../../types/xivapi/XIVAPIItemSearchCategoryIndex';
 
 interface NavCategoryProps {
   type: string;

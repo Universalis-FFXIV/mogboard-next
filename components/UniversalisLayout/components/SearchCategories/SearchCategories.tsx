@@ -1,11 +1,11 @@
 import useSWRImmutable from 'swr/immutable';
-import { filterItemSearchCategories } from '../../data/game/isc';
-import { getSearchIcon } from '../../data/game/xiv-font';
-import useClickOutside from '../../hooks/useClickOutside';
-import { CategoryItem } from '../../types/game/CategoryItem';
-import { ItemSearchCategory } from '../../types/game/ItemSearchCategory';
-import { XIVAPIItemSearchCategoryIndex } from '../../types/xivapi/XIVAPIItemSearchCategoryIndex';
-import Tooltip from '../Tooltip/Tooltip';
+import { filterItemSearchCategories } from '../../../../data/game/isc';
+import { getSearchIcon } from '../../../../data/game/xiv-font';
+import useClickOutside from '../../../../hooks/useClickOutside';
+import { CategoryItem } from '../../../../types/game/CategoryItem';
+import { ItemSearchCategory } from '../../../../types/game/ItemSearchCategory';
+import { XIVAPIItemSearchCategoryIndex } from '../../../../types/xivapi/XIVAPIItemSearchCategoryIndex';
+import Tooltip from '../../../Tooltip/Tooltip';
 
 interface SearchCategoryButtonProps {
   category: ItemSearchCategory;

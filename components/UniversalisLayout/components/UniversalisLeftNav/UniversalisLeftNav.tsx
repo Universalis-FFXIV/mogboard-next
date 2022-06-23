@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import SimpleBar from 'simplebar-react';
-import { CategoryItem } from '../../types/game/CategoryItem';
+import { CategoryItem } from '../../../../types/game/CategoryItem';
 import CategoriesNavbar from '../CategoriesNavbar/CategoriesNavbar';
 
 interface UniversalisLeftNavProps {

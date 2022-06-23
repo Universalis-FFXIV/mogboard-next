@@ -3,16 +3,16 @@ import useSettings from '../../hooks/useSettings';
 import { CategoryItem } from '../../types/game/CategoryItem';
 import { Item } from '../../types/game/Item';
 import { ItemSearchCategory } from '../../types/game/ItemSearchCategory';
-import CategoryView from '../CategoryView/CategoryView';
-import ModalCover from '../ModalCover/ModalCover';
-import Popup from '../Popup/Popup';
-import SearchCategories from '../SearchCategories/SearchCategories';
-import SearchCategoryResults from '../SearchCategoryResults/SearchCategoryResults';
-import SearchResults from '../SearchResults/SearchResults';
-import SettingsModal from '../SettingsModal/SettingsModal';
-import UniversalisFooter from '../UniversalisFooter/UniversalisFooter';
-import UniversalisHeader from '../UniversalisHeader/UniversalisHeader';
-import UniversalisLeftNav from '../UniversalisLeftNav/UniversalisLeftNav';
+import CategoryView from './components/CategoryView/CategoryView';
+import ModalCover from './components/ModalCover/ModalCover';
+import Popup from './components/Popup/Popup';
+import SearchCategories from './components/SearchCategories/SearchCategories';
+import SearchCategoryResults from './components/SearchCategoryResults/SearchCategoryResults';
+import SearchResults from './components/SearchResults/SearchResults';
+import SettingsModal from './components/SettingsModal/SettingsModal';
+import UniversalisFooter from './components/UniversalisFooter/UniversalisFooter';
+import UniversalisHeader from './components/UniversalisHeader/UniversalisHeader';
+import UniversalisLeftNav from './components/UniversalisLeftNav/UniversalisLeftNav';
 
 export default function UniversalisLayout({ children }: PropsWithChildren) {
   const [settings] = useSettings();

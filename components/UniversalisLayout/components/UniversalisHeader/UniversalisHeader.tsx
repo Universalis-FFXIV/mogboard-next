@@ -1,10 +1,10 @@
 import Link from 'next/link';
-import { Item } from '../../types/game/Item';
+import { Item } from '../../../../types/game/Item';
 import SearchBar from '../SearchBar/SearchBar';
-import Tooltip from '../Tooltip/Tooltip';
+import Tooltip from '../../../Tooltip/Tooltip';
 import { useSession, signIn } from 'next-auth/react';
-import LoggedOut from '../LoggedOut/LoggedOut';
-import LoggedIn from '../LoggedIn/LoggedIn';
+import LoggedOut from '../../../LoggedOut/LoggedOut';
+import LoggedIn from '../../../LoggedIn/LoggedIn';
 
 interface UniversalisHeaderProps {
   onResults: (results: Item[], totalResults: number, searchTerm: string) => void;

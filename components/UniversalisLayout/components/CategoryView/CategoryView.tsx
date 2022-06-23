@@ -1,8 +1,8 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import SimpleBar from 'simplebar-react';
-import useClickOutside from '../../hooks/useClickOutside';
-import { CategoryItem } from '../../types/game/CategoryItem';
+import useClickOutside from '../../../../hooks/useClickOutside';
+import { CategoryItem } from '../../../../types/game/CategoryItem';
 
 interface CategoryViewProps {
   isOpen: boolean;

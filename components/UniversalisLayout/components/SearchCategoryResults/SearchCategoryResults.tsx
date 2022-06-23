@@ -1,9 +1,9 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import SimpleBar from 'simplebar-react';
-import useClickOutside from '../../hooks/useClickOutside';
-import { CategoryItem } from '../../types/game/CategoryItem';
-import { ItemSearchCategory } from '../../types/game/ItemSearchCategory';
+import useClickOutside from '../../../../hooks/useClickOutside';
+import { CategoryItem } from '../../../../types/game/CategoryItem';
+import { ItemSearchCategory } from '../../../../types/game/ItemSearchCategory';
 
 interface SearchCategoryResultsProps {
   items: CategoryItem[];
