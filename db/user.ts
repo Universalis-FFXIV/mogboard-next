@@ -105,8 +105,8 @@ export async function getUserByDiscordId(
   conn: mariadb.Connection
 ): Promise<User | null> {
   const res: Record<string, any>[] = await conn.query(
-    'SELECT id, added, last_online, is_banned, notes, sso, username, email, avatar, patron, patron_benefit_user, permissions, admin, alerts_max, alerts_expiry, alerts_update, sso_discord_id, sso_discord_avatar, sso_discord_token_expires, sso_discord_token_access, sso_discord_token_refresh, api_public_key, api_analytics_key, api_rate_limit FROM users WHERE sso = ? AND sso_discord_id = ?',
-    ['discord', discordId]
+    'SELECT id, added, last_online, is_banned, notes, sso, username, email, avatar, patron, patron_benefit_user, permissions, admin, alerts_max, alerts_expiry, alerts_update, sso_discord_id, sso_discord_avatar, sso_discord_token_expires, sso_discord_token_access, sso_discord_token_refresh, api_public_key, api_analytics_key, api_rate_limit FROM users WHERE sso_discord_id = ?',
+    [discordId]
   );
 
   if (res.length === 0) {
