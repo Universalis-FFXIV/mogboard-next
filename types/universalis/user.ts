@@ -1,3 +1,5 @@
+import { DoctrineArray } from '../../db/DoctrineArray';
+
 export interface User {
   id: string;
   added: number;
@@ -33,5 +35,5 @@ export interface UserList {
   name: string;
   custom: boolean;
   customType: number | null;
-  items: string;
+  items: DoctrineArray;
 }

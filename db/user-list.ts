@@ -1,5 +1,6 @@
 import { UserList } from '../types/universalis/user';
 import mariadb from 'mariadb';
+import { DoctrineArray } from './DoctrineArray';
 
 export async function getUserLists(userId: string, conn: mariadb.Connection): Promise<UserList[]> {
   const rows: Record<string, any>[] = await conn.query(
@@ -18,6 +19,6 @@ function rowToUserList(row: Record<string, any>): UserList {
     name: row['name'],
     custom: row['custom'],
     customType: row['custom_type'],
-    items: row['items'],
+    items: DoctrineArray.deserialize(row['items']),
   };
 }
