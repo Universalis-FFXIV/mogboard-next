@@ -1,11 +1,8 @@
-import Link from 'next/link';
 import { PropsWithChildren, useState } from 'react';
-import SimpleBar from 'simplebar-react';
 import useSettings from '../../hooks/useSettings';
 import { CategoryItem } from '../../types/game/CategoryItem';
 import { Item } from '../../types/game/Item';
 import { ItemSearchCategory } from '../../types/game/ItemSearchCategory';
-import CategoriesNavbar from '../CategoriesNavbar/CategoriesNavbar';
 import CategoryView from '../CategoryView/CategoryView';
 import ModalCover from '../ModalCover/ModalCover';
 import Popup from '../Popup/Popup';
@@ -15,6 +12,7 @@ import SearchResults from '../SearchResults/SearchResults';
 import SettingsModal from '../SettingsModal/SettingsModal';
 import UniversalisFooter from '../UniversalisFooter/UniversalisFooter';
 import UniversalisHeader from '../UniversalisHeader/UniversalisHeader';
+import UniversalisLeftNav from '../UniversalisLeftNav/UniversalisLeftNav';
 
 export default function UniversalisLayout({ children }: PropsWithChildren) {
   const [settings] = useSettings();
@@ -46,26 +44,12 @@ export default function UniversalisLayout({ children }: PropsWithChildren) {
   return (
     <div className="site-container">
       {leftNav && (
-        <aside>
-          <SimpleBar>
-            <Link href="/">
-              <a className="nav-home">
-                <img
-                  src="/i/brand/universalis/universalis_bodge.png"
-                  alt="Universalis"
-                  width={170}
-                  height={30}
-                />
-              </a>
-            </Link>
-            <CategoriesNavbar
-              onCategoryOpen={(cat) => {
-                setNavCategoryItems(cat);
-                setNavCategoryItemsOpen(true);
-              }}
-            />
-          </SimpleBar>
-        </aside>
+        <UniversalisLeftNav
+          onCategoryOpen={(cat) => {
+            setNavCategoryItems(cat);
+            setNavCategoryItemsOpen(true);
+          }}
+        />
       )}
       <div className={`site left-nav-${leftNav ? 'on' : 'off'}`}>
         <UniversalisHeader
