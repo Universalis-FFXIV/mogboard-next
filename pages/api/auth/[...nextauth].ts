@@ -13,4 +13,12 @@ export default NextAuth({
   session: {
     strategy: 'jwt',
   },
+  callbacks: {
+    async session({ session, token }) {
+      if (session.user != null) {
+        session.user.id = token.sub;
+      }
+      return session;
+    },
+  },
 });

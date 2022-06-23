@@ -1,6 +1,13 @@
 import mariadb from 'mariadb';
 
-const pool = mariadb.createPool(process.env['DATABASE_URL'] ?? '');
+const port = parseInt(process.env['DATABASE_PORT'] ?? '');
+const pool = mariadb.createPool({
+  host: process.env['DATABASE_HOST'] ?? '',
+  port: isNaN(port) ? 0 : port,
+  user: process.env['DATABASE_USER'] ?? '',
+  password: process.env['DATABASE_PASS'] ?? '',
+  database: process.env['DATABASE_NAME'] ?? '',
+});
 
 export function acquireConn() {
   return pool.getConnection();

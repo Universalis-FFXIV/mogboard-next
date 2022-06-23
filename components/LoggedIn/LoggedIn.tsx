@@ -1,10 +1,11 @@
 import { PropsWithChildren } from 'react';
-import { useSession } from 'next-auth/react';
 
-export default function LoggedIn({ children }: PropsWithChildren) {
-  const { data: session } = useSession();
+interface LoggedInProps {
+  hasSession: boolean;
+}
 
-  if (!session) {
+export default function LoggedIn({ hasSession, children }: PropsWithChildren<LoggedInProps>) {
+  if (!hasSession) {
     return <></>;
   }
 

@@ -1,10 +1,16 @@
+import { UserList } from '../../types/universalis/user';
 import LoggedIn from '../LoggedIn/LoggedIn';
 import LoggedOut from '../LoggedOut/LoggedOut';
 
-export default function HomeNavbar() {
+interface HomeNavBarProps {
+  lists: UserList[];
+  hasSession: boolean;
+}
+
+export default function HomeNavbar({ hasSession, lists }: HomeNavBarProps) {
   return (
     <div className="home-nav">
-      <LoggedOut>
+      <LoggedOut hasSession={hasSession}>
         <section className="tac">
           <strong>Logged-out</strong>
         </section>
@@ -13,15 +19,22 @@ export default function HomeNavbar() {
           the site.
         </p>
       </LoggedOut>
-      <LoggedIn>
+      <LoggedIn hasSession={hasSession}>
         <h3>
           <img src="/i/svg/th-list-light.svg" alt="" />
           Lists
         </h3>
         <div>
-          <button type="button" className="btn-disabled">
-            <span className="text-gray">You have no lists.</span>
-          </button>
+          {lists.length === 0 && (
+            <button type="button" className="btn-disabled">
+              <span className="text-gray">You have no lists.</span>
+            </button>
+          )}
+          {lists.map((list) => (
+            <button key={list.id} type="button">
+              {list.name}
+            </button>
+          ))}
         </div>
       </LoggedIn>
     </div>

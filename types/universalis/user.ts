@@ -24,3 +24,14 @@ export interface User {
   apiAnalyticsKey: string | null;
   apiRateLimit: number;
 }
+
+export interface UserList {
+  id: string;
+  userId: string | null;
+  added: number;
+  updated: number;
+  name: string;
+  custom: boolean;
+  customType: number | null;
+  items: string;
+}
