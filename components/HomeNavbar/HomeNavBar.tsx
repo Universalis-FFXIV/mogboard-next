@@ -4,10 +4,11 @@ import LoggedOut from '../LoggedOut/LoggedOut';
 
 interface HomeNavBarProps {
   lists: UserList[];
+  onListSelected: (id: string) => void;
   hasSession: boolean;
 }
 
-export default function HomeNavbar({ hasSession, lists }: HomeNavBarProps) {
+export default function HomeNavbar({ hasSession, lists, onListSelected }: HomeNavBarProps) {
   return (
     <div className="home-nav">
       <LoggedOut hasSession={hasSession}>
@@ -31,7 +32,7 @@ export default function HomeNavbar({ hasSession, lists }: HomeNavBarProps) {
             </button>
           )}
           {lists.map((list) => (
-            <button key={list.id} type="button">
+            <button key={list.id} type="button" onClick={() => onListSelected(list.id)}>
               {list.name}
             </button>
           ))}

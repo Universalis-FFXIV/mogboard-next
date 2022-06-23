@@ -308,6 +308,11 @@
     "@typescript-eslint/types" "5.28.0"
     eslint-visitor-keys "^3.3.0"
 
+"@yaireo/relative-time@^1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@yaireo/relative-time/-/relative-time-1.0.2.tgz#8e2a815e7342873092085ce31ef49d145185e7ed"
+  integrity sha512-suOm+MopHtPemY/ZYl/ZHsdrJ14ofafgQACICa2zzbvwM9TTJLjJddtvyChd+0T6G+g5OqwEf2QVhGZbMIBV1A==
+
 acorn-jsx@^5.3.2:
   version "5.3.2"
   resolved "https://registry.yarnpkg.com/acorn-jsx/-/acorn-jsx-5.3.2.tgz#7ed5bb55908b3b2f1bc55c6af1653bada7f07937"

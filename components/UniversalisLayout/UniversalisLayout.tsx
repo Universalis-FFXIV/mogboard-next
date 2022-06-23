@@ -115,17 +115,19 @@ export default function UniversalisLayout({ children }: PropsWithChildren) {
         />
       </div>
 
-      <SettingsModal
-        isOpen={settingsModalOpen}
-        closeModal={() => setSettingsModalOpen(false)}
-        onSave={() => {
-          setPopupType('success');
-          setPopupTitle('Settings Saved');
-          setPopupMessage('Refreshing site, please wait...');
-          setPopupForceOpen(true);
-          setPopupOpen(true);
-        }}
-      />
+      {settingsModalOpen && (
+        <SettingsModal
+          isOpen={settingsModalOpen}
+          closeModal={() => setSettingsModalOpen(false)}
+          onSave={() => {
+            setPopupType('success');
+            setPopupTitle('Settings Saved');
+            setPopupMessage('Refreshing site, please wait...');
+            setPopupForceOpen(true);
+            setPopupOpen(true);
+          }}
+        />
+      )}
       <ModalCover isOpen={settingsModalOpen} />
       <Popup
         isOpen={popupOpen}

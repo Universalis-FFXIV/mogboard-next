@@ -9,6 +9,7 @@ interface NavCategoryProps {
   type: string;
   onOpen: (categoryItems: CategoryItem[]) => void;
   category: ItemSearchCategory;
+  categoryItems: [string, string, string, string, string, string][];
   divider?: boolean;
 }
 
@@ -17,6 +18,7 @@ interface NavCategoryGroupProps {
   type: string;
   onCategoryOpen: (categoryItems: CategoryItem[]) => void;
   categories: ItemSearchCategory[];
+  categoryItems: Record<number, [string, string, string, string, string, string][]>;
   breakCategories?: number[];
 }
 
@@ -24,17 +26,7 @@ interface CategoriesNavbarProps {
   onCategoryOpen: (categoryItems: CategoryItem[]) => void;
 }
 
-function NavCategory({ type, onOpen, category, divider }: NavCategoryProps) {
-  const { data, error } = useSWRImmutable('/data/categories_en.js', async (path) => {
-    const categories: Record<number, [string, string, string, string, string, string][]> =
-      await fetch(path).then((res) => res.json());
-    return categories;
-  });
-
-  if (error) {
-    console.error(error);
-  }
-
+function NavCategory({ type, onOpen, category, categoryItems, divider }: NavCategoryProps) {
   return (
     <>
       {divider && <hr />}
@@ -42,18 +34,16 @@ function NavCategory({ type, onOpen, category, divider }: NavCategoryProps) {
         id={category.id.toString()}
         className={`type-${type}`}
         onClick={() => {
-          if (data != null) {
-            onOpen(
-              data[category.id].map<CategoryItem>((item) => ({
-                id: parseInt(item[0]),
-                name: item[1],
-                icon: `https://xivapi.com${item[2]}`,
-                levelItem: parseInt(item[3]),
-                rarity: parseInt(item[4]),
-                classJobs: item[5],
-              }))
-            );
-          }
+          onOpen(
+            categoryItems.map<CategoryItem>((item) => ({
+              id: parseInt(item[0]),
+              name: item[1],
+              icon: `https://xivapi.com${item[2]}`,
+              levelItem: parseInt(item[3]),
+              rarity: parseInt(item[4]),
+              classJobs: item[5],
+            }))
+          );
         }}
       >
         <i className={`xiv-${getSearchIcon(category.id)}`} />
@@ -68,6 +58,7 @@ function NavCategoryGroup({
   type,
   onCategoryOpen,
   categories,
+  categoryItems,
   breakCategories,
 }: NavCategoryGroupProps) {
   return (
@@ -80,6 +71,7 @@ function NavCategoryGroup({
             type={type}
             onOpen={onCategoryOpen}
             category={cat}
+            categoryItems={categoryItems[cat.id] ?? []}
             divider={breakCategories?.includes(cat.id)}
           />
         ))}
@@ -89,7 +81,7 @@ function NavCategoryGroup({
 }
 
 export default function CategoriesNavbar({ onCategoryOpen }: CategoriesNavbarProps) {
-  const { data, error } = useSWRImmutable<ItemSearchCategory[]>(
+  const categoriesIndex = useSWRImmutable<ItemSearchCategory[]>(
     'https://xivapi.com/ItemSearchCategory?columns=ID,Name,Category,Order',
     async (path) => {
       const isc: XIVAPIItemSearchCategoryIndex = await fetch(path).then((res) => res.json());
@@ -102,19 +94,28 @@ export default function CategoriesNavbar({ onCategoryOpen }: CategoriesNavbarPro
     }
   );
 
-  if (error) {
-    console.error(error);
+  const categoryItems = useSWRImmutable('/data/categories_en.js', async (path) => {
+    const categories: Record<number, [string, string, string, string, string, string][]> =
+      await fetch(path).then((res) => res.json());
+    return categories;
+  });
+
+  if (categoriesIndex.error) {
+    console.error(categoriesIndex.error);
+  }
+
+  if (categoryItems.error) {
+    console.error(categoryItems.error);
     return <div />;
   }
 
-  if (!data) {
-    return <div />;
-  }
+  const catData = categoriesIndex.data ?? [];
+  const catItemsData = categoryItems.data ?? {};
 
-  const weapons = filterItemSearchCategories(data, 1);
-  const armor = filterItemSearchCategories(data, 2);
-  const items = filterItemSearchCategories(data, 3);
-  const housing = filterItemSearchCategories(data, 4);
+  const weapons = filterItemSearchCategories(catData, 1);
+  const armor = filterItemSearchCategories(catData, 2);
+  const items = filterItemSearchCategories(catData, 3);
+  const housing = filterItemSearchCategories(catData, 4);
 
   return (
     <div>
@@ -123,6 +124,7 @@ export default function CategoriesNavbar({ onCategoryOpen }: CategoriesNavbarPro
         type="weapons"
         onCategoryOpen={onCategoryOpen}
         categories={weapons}
+        categoryItems={catItemsData}
         breakCategories={[14, 19, 27]}
       />
       <NavCategoryGroup
@@ -130,18 +132,21 @@ export default function CategoriesNavbar({ onCategoryOpen }: CategoriesNavbarPro
         type="armor"
         onCategoryOpen={onCategoryOpen}
         categories={armor}
+        categoryItems={catItemsData}
       />
       <NavCategoryGroup
         sectionName="ITEMS"
         type="items"
         onCategoryOpen={onCategoryOpen}
         categories={items}
+        categoryItems={catItemsData}
       />
       <NavCategoryGroup
         sectionName="HOUSING"
         type="housing"
         onCategoryOpen={onCategoryOpen}
         categories={housing}
+        categoryItems={catItemsData}
       />
       <div className="nav-gap" />
     </div>

@@ -15,6 +15,9 @@ import { UserList } from '../types/universalis/user';
 import { acquireConn, releaseConn } from '../db/connect';
 import * as listsDb from '../db/user-list';
 import { getSession } from 'next-auth/react';
+import { DataCenter } from '../types/game/DataCenter';
+import HomeUserList from '../components/HomeUserList/HomeUserList';
+import { useState } from 'react';
 
 interface RecentItem {
   id: number;
@@ -25,6 +28,7 @@ interface RecentItem {
 }
 
 interface HomeProps {
+  dcs: DataCenter[];
   world: string;
   taxes: Record<City, number>;
   recent: RecentItem[];
@@ -39,6 +43,7 @@ function sum(arr: number[], start: number, end: number) {
 }
 
 const Home: NextPage<HomeProps> = ({
+  dcs,
   world,
   taxes,
   recent,
@@ -50,6 +55,9 @@ const Home: NextPage<HomeProps> = ({
   const title = 'Universalis';
   const description =
     'Final Fantasy XIV Online: Market Board aggregator. Find Prices, track Item History and create Price Alerts. Anywhere, anytime.';
+
+  const [selectedList, setSelectedList] = useState<UserList | undefined>();
+
   return (
     <>
       <Head>
@@ -60,9 +68,19 @@ const Home: NextPage<HomeProps> = ({
       </Head>
 
       <div className="home">
-        <HomeNavbar hasSession={hasSession} lists={lists} />
+        <HomeNavbar
+          hasSession={hasSession}
+          lists={lists}
+          onListSelected={(id) => {
+            const list = lists.find((list) => list.id === id);
+            if (!selectedList || list?.id !== selectedList?.id) {
+              setSelectedList(list);
+            }
+          }}
+        />
         <div>
           <HomeNews />
+          {selectedList && <HomeUserList dcs={dcs} list={selectedList} />}
           <LoggedOut hasSession={hasSession}>
             <HomeLoggedOut />
           </LoggedOut>
@@ -102,7 +120,7 @@ export async function getServerSideProps(ctx: NextPageContext) {
       [City.OldSharlayan]: taxRates['Old Sharlayan'],
     };
   } catch (err) {
-    console.log(err);
+    console.error(err);
     taxes = {
       [City.LimsaLominsa]: 0,
       [City.Gridania]: 0,
@@ -140,7 +158,7 @@ export async function getServerSideProps(ctx: NextPageContext) {
       }
     }
   } catch (err) {
-    console.log(err);
+    console.error(err);
   }
 
   const dailyUploads: number[] = [];
@@ -150,7 +168,7 @@ export async function getServerSideProps(ctx: NextPageContext) {
     ).then((res) => res.json());
     dailyUploads.push(...uploadHistory.uploadCountByDay);
   } catch (err) {
-    console.log(err);
+    console.error(err);
   }
 
   const worldUploads: { world: string; count: number }[] = [];
@@ -165,7 +183,33 @@ export async function getServerSideProps(ctx: NextPageContext) {
       }))
     );
   } catch (err) {
-    console.log(err);
+    console.error(err);
+  }
+
+  let dcs: DataCenter[] = [];
+  try {
+    const dataCenters: { name: string; worlds: number[] }[] = await fetch(
+      'https://universalis.app/api/v3/game/data-centers'
+    ).then((res) => res.json());
+    const worlds = await fetch('https://universalis.app/api/v3/game/worlds')
+      .then((res) => res.json())
+      .then((json) =>
+        (json as { id: number; name: string }[]).reduce<
+          Record<number, { id: number; name: string }>
+        >((agg, next) => {
+          agg[next.id] = {
+            id: next.id,
+            name: next.name,
+          };
+          return agg;
+        }, {})
+      );
+    dcs = (dataCenters ?? []).map((dc) => ({
+      name: dc.name,
+      worlds: dc.worlds.map((worldId) => worlds[worldId]),
+    }));
+  } catch (err) {
+    console.error(err);
   }
 
   const session = await getSession({ req: ctx.req });
@@ -175,20 +219,16 @@ export async function getServerSideProps(ctx: NextPageContext) {
   if (session?.user?.id) {
     const conn = await acquireConn();
     try {
-      try {
-        lists = await listsDb.getUserLists(session.user.id, conn);
-      } catch (err) {
-        console.log(err);
-      }
+      lists = await listsDb.getUserLists(session.user.id, conn);
     } catch (err) {
-      console.log(err);
+      console.error(err);
     } finally {
       await releaseConn(conn);
     }
   }
 
   return {
-    props: { world, taxes, recent, dailyUploads, worldUploads, hasSession, lists },
+    props: { dcs, world, taxes, recent, dailyUploads, worldUploads, hasSession, lists },
   };
 }
 
