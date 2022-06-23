@@ -7,14 +7,12 @@ import LoggedOut from '../LoggedOut/LoggedOut';
 import LoggedIn from '../LoggedIn/LoggedIn';
 
 interface UniversalisHeaderProps {
-  hasSession: boolean;
   onResults: (results: Item[], totalResults: number, searchTerm: string) => void;
   onSettingsClicked: () => void;
   onMarketClicked: () => void;
 }
 
 const UniversalisHeader = ({
-  hasSession,
   onResults,
   onSettingsClicked,
   onMarketClicked,
@@ -38,12 +36,12 @@ const UniversalisHeader = ({
         <SearchBar onMarketClicked={onMarketClicked} onResults={onResults} />
       </div>
       <div>
-        <LoggedOut hasSession={hasSession}>
+        <LoggedOut hasSession={!!session}>
           <a className="btn-login" onClick={() => signIn('discord')}>
             Login via Discord
           </a>
         </LoggedOut>
-        <LoggedIn hasSession={hasSession}>
+        <LoggedIn hasSession={!!session}>
           <div>
             <Link href="/account">
               <a>My Account</a>
