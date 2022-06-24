@@ -1,22 +1,1410 @@
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2022-06-23 20:57-0700\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: @lingui/cli\n"
-"Language: zh-HANS\n"
-"Project-Id-Version: \n"
-"Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: \n"
-"Last-Translator: \n"
-"Language-Team: \n"
-"Plural-Forms: \n"
+"X-Generator: POEditor.com\n"
+"Project-Id-Version: Universalis\n"
+"Language: zh-Hans\n"
 
-#: components/HomeUserList/HomeUserList.tsx:143
+#: 
+msgctxt "header_market"
+msgid "Market"
+msgstr "市场"
+
+#: 
+msgctxt "header_myaccount"
+msgid "My Account"
+msgstr "账号"
+
+#: 
+msgctxt "header_discordlogin"
+msgid "Login via Discord"
+msgstr "通过 Discord 登录"
+
+#: 
+msgctxt "nav_weapons"
+msgid "WEAPONS"
+msgstr "武器"
+
+#: 
+msgctxt "nav_armor"
+msgid "ARMOR"
+msgstr "装备"
+
+#: 
+msgctxt "nav_items"
+msgid "ITEMS"
+msgstr "物品"
+
+#: 
+msgctxt "nav_housing"
+msgid "HOUSING"
+msgstr "住房"
+
+#: https://idioms.thefreedictionary.com/based+on
+msgctxt "footer_basedon"
+msgid "based on"
+msgstr "基于"
+
+#: 
+msgctxt "footer_about"
+msgid "About"
+msgstr "关于"
+
+#: 
+msgctxt "footer_docs"
+msgid "API Documentation"
+msgstr "API 文档"
+
+#: 
+msgctxt "footer_github"
+msgid "GitHub"
+msgstr "GitHub"
+
+#: 
+msgctxt "generic_discord"
+msgid "Discord"
+msgstr "Discord"
+
+#: 
+msgctxt "footer_license"
+msgid "FINAL FANTASY XIV © 2010 - 2020 SQUARE ENIX CO., LTD. All Rights Reserved."
+msgstr "FINAL FANTASY XIV © 2010 - 2020 SQUARE ENIX CO., LTD. All Rights Reserved."
+
+#: 
+msgctxt "base_tabtitle"
+msgid "Final Fantasy XIV Online: Market Board aggregator. Find Prices, track Item History and create Price Alerts. Anywhere, anytime."
+msgstr "最终幻想XIV：市场交易板整合。 查找价格，跟踪商品历史记录并创建价格提醒。 随时，随地。"
+
+#: 
+msgctxt "error_404_flavortext"
+msgid "Could not find the page you were looking for kupo~!"
+msgstr "找不到您要的页面库啵！"
+
+#: 
+msgctxt "error_404"
+msgid "404 Not Found"
+msgstr "404 找不到页面"
+
+#: 
+msgctxt "error_generic_tabtitle"
+msgid "Something went wrong"
+msgstr "出了些问题"
+
+#: 
+msgctxt "error_generic_title"
+msgid "Something went wrong!"
+msgstr "出了些问题！"
+
+#. goat is https://github.com/goaaats, prefer not to translate dev names
+#: 
+msgctxt "error_generic_made_aware"
+msgid "A goat has been made aware of this problem and will be looking into it for you!"
+msgstr "一只 goat 已经注意到了这个问题，并将着手调查它！"
+
+#: 
+msgctxt "error_generic_not_aware"
+msgid "If you continue to run into this issue, please jump on the discord for help!"
+msgstr "如果您依然遇到此问题，请加入 Discord 寻求帮助！"
+
+#: 
+msgctxt "home_market_activity"
+msgid "Market Activity"
+msgstr "市场活动"
+
+#: 
+msgctxt "home_noalerts"
+msgid "You have no alerts set up."
+msgstr "您没有设置任何提醒。"
+
+#: 
+msgctxt "generic_lists"
+msgid "Lists"
+msgstr "清单"
+
+#: 
+msgctxt "home_nolists"
+msgid "You have no lists."
+msgstr "您没有清单。"
+
+#: 
+msgctxt "generic_retainers"
+msgid "Retainers"
+msgstr "雇员"
+
+#: 
+msgctxt "home_noretainers"
+msgid "You have no retainers."
+msgstr "您没有雇员。"
+
+#: 
+msgctxt "home_logged_out"
+msgid "Logged-out"
+msgstr "尚未登录"
+
+#: 
+msgctxt "home_logged_out_guide"
+msgid "Lists, Alerts, Market activity and retainer links will show here when you are logged into the site."
+msgstr "登录以使用清单、提醒、市场动态以及雇员等功能。"
+
+#: 
+msgctxt "home_become_member"
+msgid "Become a member!"
+msgstr "成为一员！"
+
+#: 
+msgctxt "home_become_member_guide"
+msgid "Create alerts, make lists, add your retainers and get a personalised home page feed!"
+msgstr "创建提醒，生成清单，添加您的雇员并个性化您的主页简介！"
+
+#: Don't translate HTML tags.
+msgctxt "home_login_discord"
+msgid "Login via <strong>Discord</strong>"
+msgstr "通过 <strong>Discord</strong> 登录"
+
+#: 
+msgctxt "discord_capitalized"
+msgid "DISCORD"
+msgstr "DISCORD"
+
+#: 
+msgctxt "home_recent_updates"
+msgid "Recent Updates"
+msgstr "最近更新"
+
+#: 
+msgctxt "home_upload_counts_world"
+msgid "Upload Counts by World"
+msgstr "各服务器上传数"
+
+#: 
+msgctxt "home_uploads_today"
+msgid "Uploads today"
+msgstr "今日上传"
+
+#: 
+msgctxt "home_uploads_week"
+msgid "Uploads this week"
+msgstr "本周上传"
+
+#: 
+msgctxt "thank_you"
+msgid "Thank you!"
+msgstr "感谢您！"
+
+#: 
+msgctxt "home_current_tax_rates"
+msgid "Current Market Tax Rates on %s"
+msgstr "当前 %s 的市场税率"
+
+#: 
+msgctxt "alert_watcher"
+msgid "Watcher: "
+msgstr "触发器："
+
+#: 
+msgctxt "alert_last_triggered_event"
+msgid "Last Triggered Event: %s"
+msgstr "上一个触发的事件： %s"
+
+#: 
+msgctxt "alert_no_triggered_events"
+msgid "This alert has no triggered events."
+msgstr "该提醒还没有触发事件。"
+
+#: 
+msgctxt "list_guide"
 msgid "Click on the list title to view market information for this list."
+msgstr "单击清单标题以查看此清单的市场信息。"
+
+#: 
+msgctxt "list_items_contained"
+msgid "%d items in this list"
+msgstr "此清单中有 %d 个物品。"
+
+#: 
+msgctxt "news_universalis_welcome"
+msgid "Welcome to Universalis!"
+msgstr "欢迎来到 Universalis ！"
+
+#: 
+msgctxt "news_contribute"
+msgid "Contribute to market board data"
+msgstr "贡献市场布告板数据"
+
+#: 
+msgctxt "news_enjoy"
+msgid "Thank you, and enjoy your stay!"
+msgstr "谢谢，祝您玩得愉快！"
+
+#: 
+msgctxt "news_product_blurb"
+msgid "Universalis is a market board data site with crowd sourced information, based on mogboard. It can aggregate market board information from multiple sources, so if you want to help out, please check out our contributing page."
+msgstr "Universalis 是一个市场布告板数据统计站，其中包含基于 mogboard 的众多来源的市场数据。 它可以汇总来自多个来源的市场交易板信息，因此，如果您想提供帮助，请查看我们的“贡献数据”页面。"
+
+#: 
+msgctxt "generic_your_server"
+msgid "Your Server"
+msgstr "您的服务器"
+
+#: 
+msgctxt "option_choose_server_guide"
+msgid "- Please Choose a Server -"
+msgstr "- 请选择服务器 -"
+
+#: 
+msgctxt "generic_language"
+msgid "Language"
+msgstr "语言"
+
+#: 
+msgctxt "option_choose_language_guide"
+msgid "- Choose your language -"
+msgstr "- 选择您的语言 -"
+
+#: 
+msgctxt "generic_timezone"
+msgid "Timezone"
+msgstr "时区"
+
+#: 
+msgctxt "option_choose_timezone_guide"
+msgid "- Choose your timezone -"
+msgstr "- 选择您的时区 -"
+
+#: 
+msgctxt "generic_left_navigation"
+msgid "Left Navigation"
+msgstr "左侧导航"
+
+#: 
+msgctxt "option_left_nav_guide"
+msgid "This enables a quick-access left-navigation of all market categories."
+msgstr "这将开启可以快速访问所有物品分类的左侧导航。"
+
+#: 
+msgctxt "generic_no"
+msgid "No"
+msgstr "否"
+
+#: 
+msgctxt "generic_yes"
+msgid "Yes"
+msgstr "是"
+
+#: 
+msgctxt "option_save_settings"
+msgid "Save Settings"
+msgstr "保存设置"
+
+#: 
+msgctxt "generic_default_home_world"
+msgid "Default Home World"
+msgstr "原始服务器"
+
+#: 
+msgctxt "option_default_home_world_guide"
+msgid "This will show prices/history on your home world by default instead of cross-world."
+msgstr "默认情况下，这将显示您的原始服务器的价格/历史，而不是其他服务器的价格/历史。"
+
+#: Don't translate HTML tags.
+msgctxt "about_whatisthis_title"
+msgid "What is <strong>Universalis</strong>?"
+msgstr "<strong>Universalis</strong> 是什么？"
+
+#: 
+msgctxt "about_whatisthis_explanation_1"
+msgid "The site allows you to view in-game market for multiple servers at anytime, anywhere. It uses crowd-sourced data from multiple sources to provide the most up-to-date prices possible."
+msgstr "该站点使您可以随时随地查看各服务器的游戏内市场。它使用众包的形式从多个来源获取数据，以提供尽可能最新的价格。"
+
+#: 
+msgctxt "about_whatisthis_infoquestion"
+msgid "What information can I get?"
+msgstr "我可以获得什么信息？"
+
+#: 
+msgctxt "about_whatisthis_explanation_2"
+msgid "All market information is available: Prices, Materia, Retainer, Crafters and even Buyers. Everything that you see in-game is available. Additional data-views have been added such as graphs, extended history and cross-world summary is also included."
+msgstr "所有市场交易板信息都可获得：价格，魔晶石，雇员，制作者甚至买家。包括您能在游戏中看到的所有内容。同时也包含了额外的数据视图，例如价格曲线，历史的交易量和跨服的摘要。"
+
+#: 
+msgctxt "about_whatisthis_accessquestion"
+msgid "Can I have access to the data?"
+msgstr "我能够访问数据吗？"
+
+#: Don't translate HTML tags.
+msgctxt "about_whatisthis_explanation_3"
+msgid "<strong>Definitely!</strong>\n"
+"<br><br>\n"
+"Everything you see on Universalis is open for anyone to use, to learn more about how to access the data using a REST API Service, check out the %s documentation."
+msgstr "<strong>当然了！</strong>\n"
+"<br><br>\n"
+"您在 Universalis 上看到的所有内容都开放给任何人使用，要了解有关如何使用 REST API 服务访问数据的更多信息，请查阅 %s 文档。"
+
+#: 
+msgctxt "generic_special_thanks"
+msgid "Special thanks"
+msgstr "特别感谢"
+
+#: 
+msgctxt "about_whatisthis_explanation_4"
+msgid "We would like to thank Vekien and Miu from %s for their initial work on mogboard, which made this site, in its current state, possible."
+msgstr "我们要特别感谢来自于 %s 的 Vekien 和 Miu，他们对 mogboard 项目的付出使得这个网站得以存在。"
+
+#: 
+msgctxt "about_get_technical_title"
+msgid "So, how does it actually work? Get Technical."
+msgstr "那么，它实际上如何工作？ 技术细节。"
+
+#: Don't translate HTML tags.
+msgctxt "about_get_technical_explanation_1"
+msgid "<strong>Universalis</strong> runs a REST API that applications can post market board data to, after they collect the data from a running game instance by multiple users, anonymously."
+msgstr "<strong>Universalis</strong> 提供一个 REST API ，应用程序可以匿名地从多用户正在运行的游戏中收集市场交易板数据，之后将其上传到该API。"
+
+#: 
+msgctxt "about_get_technical_explanation_2"
+msgid "It stores this data, and reports it back to anyone that requests its endpoints - including this frontend, which visualizes the stored data and notifies you about changes."
+msgstr "它存储这些数据，并将其报告给请求其后端的任何人——包括网页前端，前端将可视化存储的数据并通知您有关信息的更改。"
+
+#: 
+msgctxt "generic_credits"
+msgid "Credits"
+msgstr "致谢"
+
+#: 
+msgctxt "karashiiro_credits"
+msgid "Database API, server maintenance"
+msgstr "数据库API，服务器维护"
+
+#: 
+msgctxt "goat_credits"
+msgid "Game stuff, stealing mogboard"
+msgstr "游戏相关，偷 mogboard 代码"
+
+#: 
+msgctxt "about_honorable_mentions"
+msgid "Also thanks to: Vekien, Miu, Mino and all of our uploaders!"
+msgstr "额外致谢：Vekien，Miu，Mino和所有的上传者小可爱们！"
+
+#: Don't translate HTML tags.
+msgctxt "about_data_sources"
+msgid "Game data sourced from <a href=\"%s\">XIVAPI</a> and <a href=\"%s\">FFCafe</a>"
+msgstr "游戏数据来自于 <a href=\"%s\">XIVAPI</a> 与 <a href=\"%s\">FFCafe</a>"
+
+#: 
+msgctxt "about_more_questions"
+msgid "I have more questions!"
+msgstr "我还有问题！"
+
+#: Don't translate HTML tags.
+msgctxt "about_more_questions_directory"
+msgid "Hop onto <a href=\"%s\">our Discord</a> and you can ask all your questions."
+msgstr "加入 <a href=\"%s\">我们的Discord</a> 您可以提出所有疑问。"
+
+#: Don't translate HTML tags.
+msgctxt "about_pm_invite"
+msgid "You can also PM me: <span class=\"text-yellow\">%s</span> if you prefer :)"
+msgstr "您也可以私聊我： <span class=\"text-yellow\">%s</span> 如果您愿意的话 :)"
+
+#: 
+msgctxt "contribute_howto_title"
+msgid "How to contribute to <strong>Universalis</strong>"
+msgstr "如何为 <strong>Universalis</strong> 贡献数据"
+
+#: 
+msgctxt "contribute_howto_explanation_1"
+msgid "There are multiple ways to contribute to <strong>Universalis</strong>. All of your contributions are anonymous - no one will be able to refer back to your character or account to know that you have uploaded any data. The applications below are tested by us to make sure that they don't endanger your account or your characters."
+msgstr "<strong>Universalis</strong> 有多种贡献方式。 您所有的贡献都是匿名的 —— 没有人能够通过推测您的角色或帐户来知道您已上传任何数据。 我们已对以下应用程序进行了测试，以确保它们不会危害您的帐户或角色。"
+
+#: 
+msgctxt "contribute_howto_explanation_2"
+msgid "Every contribution helps to make the data on <strong>Universalis</strong> better, more accurate and more helpful. Thank you very much for helping out!"
+msgstr "每一次贡献都会使 <strong>Universalis</strong> 上的数据更好，更准确，更有用。 非常感谢您的帮助！"
+
+#: 
+msgctxt "contribute_applicationkind_ingame_addon"
+msgid "In-Game addon"
+msgstr "游戏插件"
+
+#: 
+msgctxt "contribute_description_xivlauncher"
+msgid "FFXIVQuickLauncher is a faster launcher for FFXIV  aims to fix the slowness and tediousness of the regular launcher and adds a lot of QoL features to the game."
+msgstr "FFXIVQuickLauncher是FFXIV的快速启动器，旨在修复常规启动器的缓慢性和乏味性，并为游戏增加了许多QoL功能。由于中国服务器的启动过程被盛趣魔改，目前需要通过其他方式实现其框架Dalamud的游戏内功能。"
+
+#: 
+msgctxt "contribute_description_act_plugin"
+msgid "This is a regular ACT plugin that runs next to the always-used FFXIV_ACT_PLUGIN - just drop it into your ACT plugins folder, add it to ACT and you\\'re good to go! No configuration needed."
+msgstr "这是一个普通的 ACT 插件，可以和解析插件一起运行——只需将其放入 ACT 插件文件夹中，然后将其加载到 ACT 中就可以了！ 无需其他设置。"
+
+#: 
+msgctxt "contribute_applicationkind_act_plugin"
+msgid "ACT plugin"
+msgstr "ACT 插件"
+
+#: 
+msgctxt "contribute_applicationkind_teamcraft"
+msgid "Collaborative crafting tool"
+msgstr "协同生产工具"
+
+#: 
+msgctxt "contribute_description_teamcraft"
+msgid "FFXIV Teamcraft is a tool for Final Fantasy XIV players that helps with crafting lists organization and crafting/gathering in general. It has a lot of features to make it a one stop shop, with things like integrated alarms, custom items, permissions system, realtime sharing, etc."
+msgstr "FFXIV Teamcraft是适用于最终幻想14玩家的工具，可帮助整体生产清单和组织/收集。 它具有许多功能，使它成为一站式工具，并且集成了提醒，自定义项目，权限系统，实时共享等功能。"
+
+#: 
+msgctxt "contribute_invite_title"
+msgid "Are you making your own application?"
+msgstr "您正在制作自己的应用程序吗？"
+
+#: 
+msgctxt "contribute_invite_explanation"
+msgid "If you wish to contribute to <strong>Universalis</strong> with your own application, please contact us on our <a href=\"%s\">Discord</a>. Let\\'s work together!"
+msgstr "如果您希望使用自己的应用程序为 <strong>Universalis</strong> 做出贡献，请通过我们的 <a href=\"%s\">Discord</a> 与我们联系。一起搞事吧！"
+
+#: 
+msgctxt "generic_download"
+msgid "Download"
+msgstr "下载"
+
+#: 
+msgctxt "generic_name"
+msgid "Name"
+msgstr "名称"
+
+#: 
+msgctxt "generic_actions"
+msgid "Actions"
+msgstr "操作"
+
+#: 
+msgctxt "generic_hq_question"
+msgid "HQ?"
+msgstr "HQ?"
+
+#: 
+msgctxt "generic_hq"
+msgid "HQ"
+msgstr "HQ"
+
+#: 
+msgctxt "generic_nq"
+msgid "NQ"
+msgstr "NQ"
+
+#: 
+msgctxt "generic_crossworld_question"
+msgid "Cross-World?"
+msgstr "跨服?"
+
+#: 
+msgctxt "generic_notification"
+msgid "Notification"
+msgstr "提醒"
+
+#: 
+msgctxt "generic_email"
+msgid "Email"
+msgstr "Email"
+
+#: 
+msgctxt "generic_sent"
+msgid "Sent"
+msgstr "已发送"
+
+#: 
+msgctxt "generic_never"
+msgid "Never"
+msgstr "从不"
+
+#: 
+msgctxt "generic_edit"
+msgid "Edit"
+msgstr "编辑"
+
+#: 
+msgctxt "generic_delete"
+msgid "Delete"
+msgstr "删除"
+
+#: 
+msgctxt "alerts_table_no_alerts"
+msgid "You have no alerts for this item."
+msgstr "您尚未对此物品设置提醒。"
+
+#: There's a question mark after the phrase, but it's an image so don't include it here :V
+msgctxt "alerts_whatis_title"
+msgid "What\\'s an alert"
+msgstr "“提醒”是什么？"
+
+#: 
+msgctxt "alerts_maxed_out"
+msgid "You are currently maxed-out on alerts and will not be able to create any more."
+msgstr "您已达到最大提醒容量，无法建立新的提醒。"
+
+#: 
+msgctxt "alerts_create_alert_title"
+msgid "Create a new alert"
+msgstr "创建一个新的提醒"
+
+#: 
+msgctxt "alerts_create_alert_guide_1"
+msgid "Give your alert a name (length: 4-100)"
+msgstr "给您的提醒起个名字（长度：4-100）"
+
+#: Trigger, as in a trigger for an alert.
+msgctxt "alerts_create_alert_guide_2"
+msgid "Decide if the trigger should check NQ/HQ or both."
+msgstr "设置触发器只监控 NQ / HQ 或者都监控"
+
+#: 
+msgctxt "generic_normal_quality"
+msgid "Normal Quality"
+msgstr "普通品质"
+
+#: 
+msgctxt "generic_high_quality"
+msgid "High-Quality"
+msgstr "优质"
+
+#: Trigger, as in a trigger for an alert.
+msgctxt "alerts_create_alert_guide_3"
+msgid "Setup Triggers <strong>(Max: 15)</strong>"
+msgstr "设置触发器<strong>（最多15个）</strong>"
+
+#: Field, as in definition 10 as described here: https://www.merriam-webster.com/dictionary/field
+msgctxt "alerts_create_alert_guide_4"
+msgid "Select a Field"
+msgstr "选择一项"
+
+#: Operator, as in +-/*&|
+msgctxt "alerts_create_alert_guide_5"
+msgid "Select an Operator"
+msgstr "选择一个比较方式"
+
+#: As in adding something to a list.
+msgctxt "generic_add_to_list"
+msgid "Add"
+msgstr "添加"
+
+#: 
+msgctxt "alerts_create_alert_guide_6"
+msgid "<span class=\"text-red\">NOTE:</span> The filter: <code>Price_Added</code> is a timestamp, it is NOT a Gil value. You can convert a date to a timestamp <a href=\"%s\" target=\"_blank\">here</a>, work is being done to improve this UI."
+msgstr "<span class=\"text-red\">注意：</span> 过滤器： <code>Price_Added</code> 是一个时间戳，而不是一个价格。您可以 <a href=\"%s\" target=\"_blank\">在这里</a> 将一个时间转化为时间戳。此处UI正在考虑更简便的交互。"
+
+#: 
+msgctxt "alerts_create_alert_guide_7"
+msgid "Trigger values are checked as a series of <strong>AND</strong> conditions."
+msgstr "设置的触发器条件<strong>全部</strong>满足时才会触发提醒。"
+
+#: 
+msgctxt "alerts_create_alert_how_notify"
+msgid "How do you want to be notified?"
+msgstr "您想通过什么方式被提醒？"
+
+#: 
+msgctxt "alerts_save_alert"
+msgid "Save Alert"
+msgstr "保存提醒"
+
+#: 
+msgctxt "alerts_currently_editing"
+msgid "You are currently editing an alert"
+msgstr "您正在编辑一个提醒"
+
+#: 
+msgctxt "alerts_new_alert_tooltip"
+msgid "Reset the form and start a new alert"
+msgstr "重置表单并开始新的提醒"
+
+#: 
+msgctxt "alerts_new_alert"
+msgid "New Alert"
+msgstr "新提醒"
+
+#: 
+msgctxt "alerts_current_alerts_for"
+msgid "Current alerts for: %s"
+msgstr "当前的提醒：%s"
+
+#: 
+msgctxt "alerts_loading"
+msgid "Loading alerts..."
+msgstr "导入提醒中......"
+
+#: 
+msgctxt "generic_note_capitalized_colon"
+msgid "NOTE:"
+msgstr "注意："
+
+#: 
+msgctxt "alerts_in_discord_notice"
+msgid "You must be in <a href=\"%s\" target=\"_blank\">our Discord server</a> to receive alerts."
+msgstr "您必须加入<a href=\"%s\" target=\"_blank\">我们的Discord服务器</a>才能收到提醒消息。"
+
+#: 
+msgctxt "alerts_only_updates_under_condition_notice"
+msgid "Keep in mind that alerts will only be fired when the item is updated by someone."
+msgstr "请记住，仅当某人更新该物品时，才会触发提醒。"
+
+#: 
+msgctxt "alerts_must_be_logged_in"
+msgid "You must be logged-in to create item alerts."
+msgstr "您必须登录来创建物品提醒。"
+
+#: 
+msgctxt "alerts_deletion_confirmation"
+msgid "Are you sure you wish to delete this alert?"
+msgstr "您确定要删除这个提醒吗？"
+
+#: 
+msgctxt "generic_deletion_confirmation"
+msgid "Yes I\\'m sure, delete it."
+msgstr "是的，我确定，删掉它吧。"
+
+#: 
+msgctxt "alerts_whatisthis_guide_1"
+msgid "What are alerts?"
+msgstr "什么是“提醒”？"
+
+#: 
+msgctxt "alerts_whatisthis_guide_2"
+msgid "Alerts allow you to setup notification watchers that can track an item and send you information such as price changes or history events."
+msgstr "提醒使您可以设置通知监控，以监控某物品并向您发送价格变化或历史事件等信息的提醒。"
+
+#: As in trigger for an alert.
+msgctxt "generic_alert_trigger"
+msgid "Triggers"
+msgstr "触发器"
+
+#: 
+msgctxt "alerts_whatisthis_guide_3"
+msgid "<strong>Triggers</strong>, these are conditions you can set on the alert to be checked at interval times and if any market entry meets the criteria of the condition then your alert will be \"Triggered\" and you'll receive a notification either via Discord or Email."
+msgstr "<strong>触发器</strong>，这些是您可以在间隔时间设置的提醒条件，如果有任何市场的条目符合条件，则提醒将被“触发”，并且您会收到通过Discord或Email发送的通知。"
+
+#: 
+msgctxt "alerts_whatisthis_guide_4"
+msgid "Trigger conditions can be set against any market field and future plans will allow you to manage these dynamically as well as setup automatic triggers based on your retainers current sales."
+msgstr "可以针对任何市场数据属性设置触发条件，未来的计划将使您能够动态管理这些条件，并根据您雇员当前的销售情况设置自动触发。"
+
+#: 
+msgctxt "alerts_trigger_condition_info_title"
+msgid "Trigger Condition Information"
+msgstr "触发条件信息"
+
+#: 
+msgctxt "alerts_trigger_condition_info_guide_1"
+msgid "<strong>Prices/History: Added</strong><br>\n"
+"This is currently an Epoch Unix Timestamp. Work is being done to improve this."
+msgstr "<strong>Prices/History: Added</strong><br>\n"
+"当前是一个Epoch Unix时间戳。 正在努力改善这一点。"
+
+#: 
+msgctxt "alerts_trigger_condition_info_guide_2"
+msgid "<strong>Prices/History: \"IsXX\"</strong><br>\n"
+"The Is condition triggers such as IsHQ are bools and the value must be either 1 or 0 for true / false."
+msgstr "<strong>Prices/History: \"IsXX\"</strong><br>\n"
+"Is开头的条件触发器（例如IsHQ）是布尔值，对于true/false，值必须为1或0。"
+
+#: 
+msgctxt "alerts_trigger_condition_info_guide_3"
+msgid "<strong>History:</strong><br>\n"
+"Events for history will be based on entries added to the history after the event was created."
+msgstr "<strong>History:</strong><br>\n"
+"历史事件将基于创建事件后添加到历史的条目。"
+
+#: 
+msgctxt "friends_guide_1"
+msgid "If logged in and character verified, show if any friends have purchased this item."
+msgstr "如果已登录并验证了角色，显示是否有任何好友购买了此物品。"
+
+#: 
+msgctxt "generic_quantity_shorthand"
+msgid "#"
+msgstr "#"
+
+#: 
+msgctxt "generic_item"
+msgid "Item"
+msgstr "物品"
+
+#: 
+msgctxt "generic_server"
+msgid "Server"
+msgstr "服务器"
+
+#: 
+msgctxt "generic_price"
+msgid "Price"
+msgstr "价格"
+
+#: 
+msgctxt "generic_quantity_shorthand"
+msgid "QTY"
+msgstr "数量"
+
+#: 
+msgctxt "generic_total"
+msgid "Total"
+msgstr "总计"
+
+#: 
+msgctxt "generic_percent_difference_shorthand"
+msgid "%Diff"
+msgstr "%差异"
+
+#: 
+msgctxt "generic_buyer"
+msgid "Buyer"
+msgstr "买家"
+
+#: 
+msgctxt "generic_date"
+msgid "Date"
+msgstr "日期"
+
+#: Shown if the item has no recorded sales, you can have fun with this.
+msgctxt "market_board_really_rare"
+msgid "Really rare!?"
+msgstr "十分稀有！？"
+
+#: 
+msgctxt "market_board_no_recorded_history"
+msgid "There is currently no recorded history for this item on Universalis."
+msgstr "目前在Universalis上没有此产品的记录历史。"
+
+#: 
+msgctxt "generic_stack_size_colon"
+msgid "Stack:"
+msgstr "每组个数："
+
+#: 
+msgctxt "generic_menu"
+msgid "Menu"
+msgstr "菜单"
+
+#: 
+msgctxt "generic_cross_world"
+msgid "Cross-World"
+msgstr "跨服"
+
+#: 
+msgctxt "generic_alerts"
+msgid "Alerts"
+msgstr "提醒"
+
+#: %s here is HQ/NQ, using the existing translations for those.
+msgctxt "market_board_ppu"
+msgid "(%s) Price Per Unit"
+msgstr "(%s) 单价"
+
+#: %s here is High-Quality/Normal Quality, using the existing translations for those.
+msgctxt "market_board_ppu_quantity"
+msgid "(%s) Price Per Unit QUANTITY"
+msgstr "(%s) 单价数量"
+
+#: 
+msgctxt "market_board_stack_size_histogram_title"
+msgid "STACK SIZE HISTOGRAM <small>Last 20 Sales</small>"
+msgstr "组数直方图 <small>最近20次销售</small>"
+
+#: Cheapest HQ/Cheapest NQ
+msgctxt "market_board_cheapest_title"
+msgid "Cheapest %s"
+msgstr "%s 最低价"
+
+#: 
+msgctxt "generic_server_colon"
+msgid "Server:"
+msgstr "服务器："
+
+#: 
+msgctxt "generic_total_colon"
+msgid "Total:"
+msgstr "总计："
+
+#: 
+msgctxt "market_board_none_for_sale"
+msgid "No %s for sale."
+msgstr "没有在售的 %s 。"
+
+#: 
+msgctxt "market_board_no_hq_variant"
+msgid "Item has no HQ variant."
+msgstr "该物品没有HQ版本。"
+
+#: 
+msgctxt "market_board_purchase_history_title"
+msgid "Cross-World Purchase history (500 sales)"
+msgstr "跨服交易数据（500条）"
+
+#: As in price per unit.
+msgctxt "generic_perunit"
+msgid "(%s) PerUnit"
+msgstr "(%s) 每个"
+
+#: 
+msgctxt "generic_perunit_quantity"
+msgid "(%s) PerUnit QUANTITY"
+msgstr "(%s) 每个数量"
+
+#: 
+msgctxt "generic_prices_2"
+msgid "%s Prices"
+msgstr "%s 价格"
+
+#: 
+msgctxt "generic_purchase_history"
+msgid "%s Purchase History"
+msgstr "%s 交易历史"
+
+#: 
+msgctxt "market_board_avg_perunit"
+msgid "Avg. Per Unit"
+msgstr "平均每个"
+
+#: 
+msgctxt "market_board_avg_total"
+msgid "Avg. Total"
+msgstr "总平均"
+
+#: 
+msgctxt "load_speed"
+msgid "Load Speed: %f"
+msgstr "加载时间：%f"
+
+#: 
+msgctxt "item_shops_purchasable_npc_title"
+msgid "Purchasable from NPC Vendors"
+msgstr "可从NPC处购买"
+
+#: 
+msgctxt "item_shops_purchasable_npc_explanation"
+msgid "As this item can be bought from NPCs for pure Gil, market information is not available."
+msgstr "鉴于该物品可以花金币从NPC处购买，其市场信息不会被收集。"
+
+#: 
+msgctxt "generic_gil"
+msgid "Gil"
+msgstr "金币"
+
+#: 
+msgctxt "item_shops_purchasable_npc_not_found"
+msgid "Position unknown, go hunt for them!"
+msgstr "位置未知，去探索吧！"
+
+#: 
+msgctxt "pos_x"
+msgid "X: <span class=\"text-yellow\">%f</span>"
+msgstr "X: <span class=\"text-yellow\">%f</span>"
+
+#: 
+msgctxt "pos_y"
+msgid "Y: <span class=\"text-yellow\">%f</span>"
+msgstr "Y: <span class=\"text-yellow\">%f</span>"
+
+#: 
+msgctxt "generic_items_colon"
+msgid "Items:"
+msgstr "物品："
+
+#: 
+msgctxt "lists_have_none"
+msgid "You have no lists! <br> Create one by entering in a new name above."
+msgstr "您还没有清单！<br>通过在上面输入新名称来创建一个。"
+
+#: 
+msgctxt "lists_logged_out"
+msgid "You are not logged in. Login using Discord to create item lists."
+msgstr "您尚未登录。使用Discord登录以创建物品清单。"
+
+#: 
+msgctxt "ext_garlandtools"
+msgid "Show on GarlandTools"
+msgstr "GarlandTools中显示"
+
+#: 
+msgctxt "ext_teamcraft"
+msgid "Show on Teamcraft"
+msgstr "Teamcraft中显示"
+
+#: Slang of "favorited"
+msgctxt "generic_faved"
+msgid "Faved"
+msgstr "已收藏"
+
+#: Verb
+msgctxt "generic_favourite"
+msgid "Favourite"
+msgstr "收藏"
+
+#: 
+msgctxt "lists_add_to_list"
+msgid "Add to list"
+msgstr "添加到清单"
+
+#: 
+msgctxt "lists_loading_lists"
+msgid "Loading your item lists"
+msgstr "载入物品清单"
+
+#: 
+msgctxt "lists_limit_reached"
+msgid "You have reached the maximum of 12 lists. You cannot create any more."
+msgstr "您已达到最大的12个物品清单，无法创建新的。"
+
+#: 
+msgctxt "lists_option_1"
+msgid "Option 1) Create a new list:"
+msgstr "选项 1) 创建新清单"
+
+#: 
+msgctxt "lists_option_2"
+msgid "Option 2) Use an existing list:"
+msgstr "选项 2) 使用已存在的清单"
+
+#: 
+msgctxt "generic_remove_capitalized"
+msgid "REMOVE"
+msgstr "删除"
+
+#: 
+msgctxt "no_market_data_title_1"
+msgid "Sorry, no market data!"
+msgstr "对不起，没有市场数据！"
+
+#: 
+msgctxt "no_market_data_explanation_1"
+msgid "Universalis could not find any market data for this item on the server <strong>%s</strong>."
+msgstr "Universalis 无法在找到服务器 %s 中这个物品的市场数据。"
+
+#: 
+msgctxt "no_market_data_title_2"
+msgid "There can be a few reasons for this, here are some:"
+msgstr "这可能由以下的几点原因造成："
+
+#: 
+msgctxt "no_market_data_explanation_2"
+msgid "%s is a brand new server"
+msgstr "%s 是新服务器"
+
+#: 
+msgctxt "no_market_data_explanation_3"
+msgid "No one has contributed any information about this item yet"
+msgstr "没有人给该物品上传过数据"
+
+#: 
+msgctxt "no_market_data_explanation_4"
+msgid "Something broke"
+msgstr "服务出错了"
+
+#: 
+msgctxt "no_market_data_explanation_5"
+msgid "If it is that last one, be sure to jump on <a href=\"%s\">Discord</a> and let us know!"
+msgstr "如果是最后一点原因，请加入我们的 <a href=\"%s\">Discord</a> 通知我们！"
+
+#: 
+msgctxt "generic_prices_capitalized"
+msgid "PRICES"
+msgstr "价格"
+
+#: 
+msgctxt "generic_updated_colon"
+msgid "Updated:"
+msgstr "更新于："
+
+#: 
+msgctxt "generic_material_shorthand"
+msgid "Mat"
+msgstr "材料"
+
+#: 
+msgctxt "generic_retainer"
+msgid "Retainer"
+msgstr "雇员"
+
+#: 
+msgctxt "generic_creator"
+msgid "Creator"
+msgstr "制作者"
+
+#: 
+msgctxt "generic_no_listings"
+msgid "No Listings"
+msgstr "没有清单"
+
+#: 
+msgctxt "prices_no_listings"
+msgid "There are no listings for this item, check back later!"
+msgstr "这个物品没有清单，等会儿再来！"
+
+#: 
+msgctxt "special_shops_title"
+msgid "Special Shops"
+msgstr "特殊商店"
+
+#: 
+msgctxt "special_shop_title_colon"
+msgid "Special Shop:"
+msgstr "特殊商店："
+
+#: 
+msgctxt "generic_cost"
+msgid "Cost"
+msgstr "价格"
+
+#: 
+msgctxt "generic_qty_received"
+msgid "Qty Received"
+msgstr "收到的数量"
+
+#: 
+msgctxt "generic_quantity"
+msgid "Quantity"
+msgstr "数量"
+
+#: 
+msgctxt "generic_ppu"
+msgid "Price Per Unit"
+msgstr "单价"
+
+#: 
+msgctxt "generic_price_total"
+msgid "Price Total"
+msgstr "总价"
+
+#: 
+msgctxt "generic_gil_per_token"
+msgid "Gil Per Token"
+msgstr "每个代币的价格"
+
+#: 
+msgctxt "shop_no_listings"
+msgid "None on the market board"
+msgstr "市场布告板中没有数据"
+
+#: 
+msgctxt "generic_cannot_be_sold_capitalized"
+msgid "CANNOT BE SOLD"
+msgstr "无法出售"
+
+#: 
+msgctxt "generic_hq_colon"
+msgid "HQ:"
+msgstr "HQ:"
+
+#: 
+msgctxt "generic_account"
+msgid "Account"
+msgstr "账号"
+
+#: 
+msgctxt "generic_data_center"
+msgid "Data Center"
+msgstr "大区"
+
+#: 
+msgctxt "alerts_none_sent"
+msgid "Alert has not sent any notifications."
+msgstr "该提醒还未触发任何通知"
+
+#: 
+msgctxt "alerts_useraccount_guide_1"
+msgid "You can add alerts on item pages."
+msgstr "您可以在物品界面添加提醒。"
+
+#: 
+msgctxt "generic_max_quantity"
+msgid "Max: %d"
+msgstr "最大：%d"
+
+#: 
+msgctxt "generic_events"
+msgid "Events"
+msgstr "事件"
+
+#: 
+msgctxt "generic_expires_colon"
+msgid "Expires:"
+msgstr "过期："
+
+#: 
+msgctxt "alerts_is_active"
+msgid "Alert is active"
+msgstr "提醒已启用"
+
+#: 
+msgctxt "alerts_is_inactive"
+msgid "Alert has been disabled."
+msgstr "提醒已禁用。"
+
+#: 
+msgctxt "generic_information"
+msgid "Information"
+msgstr "信息"
+
+#: 
+msgctxt "generic_type"
+msgid "Type"
+msgstr "类别"
+
+#: 
+msgctxt "generic_sent_today"
+msgid "Sent Today"
+msgstr "今日发送"
+
+#: 
+msgctxt "generic_last_sent"
+msgid "Last Sent"
+msgstr "上次发送"
+
+#: 
+msgctxt "generic_n_days"
+msgid "%d days"
+msgstr "%s 天"
+
+#: 
+msgctxt "generic_max_alerts"
+msgid "Max Alerts"
+msgstr "最大提醒"
+
+#: 
+msgctxt "generic_alert_expiry_time"
+msgid "Alert Expiry Time"
+msgstr "提醒过期时间"
+
+#: 
+msgctxt "generic_alert_item_update"
+msgid "Alert Item Update"
+msgstr "提醒物品更新"
+
+#: 
+msgctxt "alerts_useraccount_guide_2"
+msgid "Alerts allow you to track all kinds of information about items on the market and be informed either by Discord or email for any changes that meet your requirements. To get started with creating alerts, go search for any item and then click on the Alert tab on the left."
+msgstr "提醒使您可以跟踪有关市场上物品的各种信息，并通过Discord或电子邮件通知任何符合您要求的更改。 要开始创建提醒，请先搜索任何物品，然后单击左侧的“提醒”选项卡。"
+
+#: 
+msgctxt "alerts_useraccount_guide_3"
+msgid "<strong>Alert Expiration:</strong> To keep the system clean, alerts will expire after a set amount of time from when they were created. To refresh a notification you must return to Universalis and be logged in."
+msgstr "<strong>提醒过期：</strong>为了保持系统清洁，提醒将在创建后的一段指定时间后过期。 要刷新通知，您必须返回Universalis并登录。"
+
+#: 
+msgctxt "alerts_useraccount_quota"
+msgid "You can create: <strong class=\"text-green\">%d</strong> alerts with an expiry time of: <strong class=\"text-green\">%d days</strong>."
+msgstr "您可以创建：<strong class=\"text-green\">%d</strong>个提醒，其到期时间为：<strong class=\"text-green\">%d天</strong>。"
+
+#: 
+msgctxt "generic_reports"
+msgid "Reports"
+msgstr "报告"
+
+#: 
+msgctxt "generic_characters"
+msgid "Characters"
+msgstr "角色"
+
+#: 
+msgctxt "characters_set_main"
+msgid "Set character as MAIN."
+msgstr "设定角色为主要角色。"
+
+#: 
+msgctxt "characters_no_characters"
+msgid "You have no characters, why not add one below!"
+msgstr "您没有声明角色，快来添加一个！"
+
+#: 
+msgctxt "characters_add_new_title"
+msgid "Add a new character"
+msgstr "添加角色"
+
+#: 
+msgctxt "characters_auth_code"
+msgid "AUTH CODE: %s"
+msgstr "认证码：%s"
+
+#: 
+msgctxt "characters_guide_1"
+msgid "To add a new character, you must first add your verification code. <strong>Please add your MAIN character first</strong>."
+msgstr "要添加新字符，您必须首先添加认证码。 <strong>请先添加您的主要角色</strong>。"
+
+#: 
+msgctxt "generic_selected"
+msgid "selected"
+msgstr "已选择"
+
+#: 
+msgctxt "generic_search"
+msgid "Search"
+msgstr "搜索"
+
+#: 
+msgctxt "generic_name_id_lodestone_url"
+msgid "Name, ID, or Lodestone URL"
+msgstr "姓名，ID，或 Lodestone 地址"
+
+#: 
+msgctxt "characters_guide_2"
+msgid "Go to Lodestone and Login with your character. Then <a href=\"%s\">click here to edit your profile</a>."
+msgstr "转到 Lodestone 并使用您的角色登录。 然后<a href=\"%s\">单击此处编辑您的个人资料</a>。"
+
+#: 
+msgctxt "characters_guide_3"
+msgid "In the text box, enter in your <strong>AUTH CODE</strong>, then click on Confirm (twice)."
+msgstr "在文本框中，输入您的<strong>认证码</strong>，然后单击“确认”（两次）。"
+
+#: 
+msgctxt "characters_guide_4"
+msgid "Hop back to Universalis and fill in the form below. The site will search for your character and confirm your auth code."
+msgstr "跳回 Universalis 并填写以下表格。 该站点将搜索您的角色并确认您的身份认证码。"
+
+#: 
+msgctxt "generic_logout"
+msgid "Logout"
+msgstr "登出"
+
+#: 
+msgctxt "generic_oops"
+msgid "Oops!"
+msgstr "啊哦！"
+
+#: 
+msgctxt "useraccount_index_logged_out_1"
+msgid "You must be logged in to view this area."
+msgstr "您必须登录以查看此区域。"
+
+#: 
+msgctxt "useraccount_index_logged_out_2"
+msgid "You can <a href=\"%s\">login via Discord</a> to get that juicy access!"
+msgstr "您可以<a href=\"%s\">使用 Discord 登录</a> ，简单而便捷！"
+
+#: 
+msgctxt "generic_delete_list"
+msgid "Delete List"
+msgstr "删除清单"
+
+#: 
+msgctxt "useraccount_lists_no_lists"
+msgid "You have no lists, visit some items and create some!"
+msgstr "您没有创建清单，访问一些物品界面并创建一些！"
+
+#: 
+msgctxt "userlist_tab_title"
+msgid "Custom Universalis list by %s"
+msgstr "%s 的自定义 Universalis 清单"
+
+#: 
+msgctxt "generic_list"
+msgid "List"
+msgstr "清单"
+
+#: 
+msgctxt "userlists_no_items"
+msgid "You have no items in this list."
+msgstr "此清单中没有物品"
+
+#: 
+msgctxt "generic_list_capitalized"
+msgid "LIST"
+msgstr "清单"
+
+#: 
+msgctxt "generic_show_cross_world"
+msgid "Show Cross-World"
+msgstr "显示跨服"
+
+#: Like current/max items.
+msgctxt "n_of_m_items"
+msgid "%d / %d items"
+msgstr "%d / %d 个物品"
+
+#: 
+msgctxt "generic_show_home_server_only"
+msgid "Show Home Server Only"
+msgstr "只显示主服务器"
+
+#: 
+msgctxt "userlists_remove_item_tooltip"
+msgid "Remove item from list"
+msgstr "从清单中删除物品"
+
+#: 
+msgctxt "userlists_top_5_sale"
+msgid "Top 5 cheapest - Total for sale: %d"
+msgstr "5个最低价——在售总价：%d"
+
+#: 
+msgctxt "generic_last_5_sales"
+msgid "Last 5 sales"
+msgstr "过去5次售卖"
+
+#: 
+msgctxt "generic_last_updated_colon"
+msgid "Last updated:"
+msgstr "上次更新："
+
+#: 
+msgctxt "userlists_fetch_failed_for_item"
+msgid "Market info could not be fetched for: %s at this time."
+msgstr "%s 的市场信息暂时无法被获取。"
+
+#: 
+msgctxt "contribute_description_matcha"
+msgid "If you are playing on chinese server(other servers are not supported), you can use Matcha plugin provided by FFCAFE which have built-in Universalis integration. Matcha also provides a overlay to show price information from Universalis."
+msgstr "如果您在国服，则可以使用 FFCafe 提供的抹茶 Matcha 插件，该插件支持选择自动向 Universalist 上报数据。 抹茶 Matcha 还提供了一个悬浮窗可以实时查看来自 Universalis 的价格信息。"
+
+#: 
+msgctxt "generic_no_data"
+msgid "No data"
+msgstr "无数据"
+
+#: 
+msgctxt "generic_not_sellable"
+msgid "Not Sellable"
+msgstr "不可出售"
+
+#: 
+msgctxt "generic_cannot_be_sold"
+msgid "Cannot be sold"
+msgstr "当前版本无法出售"
+
+#: 
+msgctxt "user_list_recently_viewed"
+msgid "Recently Viewed"
 msgstr ""
 
-#: components/HomeUserList/HomeUserList.tsx:143
-#~ msgid "list_guide"
-#~ msgstr ""
+#: 
+msgctxt "user_list_favourites"
+msgid "Favourites"
+msgstr ""
+
+#: 
+msgctxt "alerts_create_alert_guide_6"
+msgid "Should the alert check the whole Data Center?"
+msgstr ""
+
+#: 
+msgctxt "alerts_create_alert_guide_7"
+msgid "Check entire Data Center"
+msgstr ""
+
+#: 
+msgctxt "lists_rename_list"
+msgid "Rename List"
+msgstr ""
+
+#: 
+msgctxt "generic_rename"
+msgid "Rename"
+msgstr ""
+
+#: 
+msgctxt "sales_label"
+msgid "Sales"
+msgstr ""
+
+#: 
+msgctxt "listings_label"
+msgid "Listings"
+msgstr ""
+
