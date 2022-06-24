@@ -1,3 +1,4 @@
+import { Trans } from '@lingui/macro';
 import RelativeTime from '@yaireo/relative-time';
 import Link from 'next/link';
 import useSWR from 'swr';
@@ -138,7 +139,9 @@ export default function HomeUserList({ dcs, list }: HomeUserListProps) {
             <a>{list.name}</a>
           </Link>
         </h3>
-        <p>Click on the list title to view market information for this list.</p>
+        <p>
+          <Trans>Click on the list title to view market information for this list.</Trans>
+        </p>
         <br />
         <h6>{list.items.length} items in this list</h6>
         <ul>

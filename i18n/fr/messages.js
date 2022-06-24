@@ -1,0 +1,1 @@
+/*eslint-disable*/module.exports={messages:{"Click on the list title to view market information for this list.":"Click on the list title to view market information for this list.","list_guide":"list_guide"}};
