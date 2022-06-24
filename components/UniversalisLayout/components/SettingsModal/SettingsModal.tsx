@@ -113,7 +113,9 @@ export default function SettingsModal({ isOpen, closeModal, onSave }: SettingsMo
                   }
                 }}
               >
-                <option value={t`- Please Choose a Server -`} disabled />
+                <option disabled>
+                  <Trans>- Please Choose a Server -</Trans>
+                </option>
                 {dcs.map(({ name, region, worlds }) => (
                   <optgroup key={name} label={`${name} - ${region}`}>
                     {worlds.map((world) => (
@@ -146,7 +148,9 @@ export default function SettingsModal({ isOpen, closeModal, onSave }: SettingsMo
                   }
                 }}
               >
-                <option value={t`- Choose your language -`} disabled />
+                <option disabled>
+                  <Trans>- Choose your language -</Trans>
+                </option>
                 <option value="en">English</option>
                 <option value="fr">Français</option>
                 <option value="de">Deutsch</option>
@@ -174,7 +178,9 @@ export default function SettingsModal({ isOpen, closeModal, onSave }: SettingsMo
               }
             }}
           >
-            <option value={t`- Choose your timezone -`} disabled />
+            <option disabled>
+              <Trans>- Choose your timezone -</Trans>
+            </option>
             {timezones
               .sort((a, b) => a.offset - b.offset)
               .map(({ id, name }) => (
