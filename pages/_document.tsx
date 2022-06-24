@@ -1,5 +1,7 @@
 import { Html, Head, Main, NextScript } from 'next/document';
 
+const isDev = process.env['APP_ENV'] !== 'prod';
+
 const MogboardDocument = () => {
   return (
     <Html>
@@ -16,7 +18,7 @@ const MogboardDocument = () => {
         <meta name="theme-color" content="#BD983A" />
 
         <link rel="alternate" type="application/json+oembed" href="/json/oembed.json" />
-        <link rel="shortcut icon" type="image/png" href="/favicon.png" />
+        <link rel="shortcut icon" type="image/png" href={`/favicon${isDev ? '_dev' : ''}.png`} />
         <link rel="apple-touch-icon" type="image/png" href="/i/universalis/universalis_ios.png" />
         <link
           href="https://fonts.googleapis.com/css?family=Cinzel|Fjalla+One&display=swap"
