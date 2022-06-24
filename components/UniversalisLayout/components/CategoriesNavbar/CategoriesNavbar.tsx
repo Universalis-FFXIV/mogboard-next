@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import useSWRImmutable from 'swr';
 import { filterItemSearchCategories } from '../../../../data/game/isc';
 import { getSearchIcon } from '../../../../data/game/xiv-font';
@@ -85,18 +86,24 @@ export default function CategoriesNavbar({ onCategoryOpen }: CategoriesNavbarPro
   const [settings] = useSettings();
   const lang: string = settings['mogboard_language'] ?? 'en';
 
-  const categoriesIndex = useSWRImmutable<ItemSearchCategory[]>(
-    `https://xivapi.com/ItemSearchCategory?columns=ID,Name,Category,Order&language=${lang}`,
-    async (path) => {
-      const isc: XIVAPIItemSearchCategoryIndex = await fetch(path).then((res) => res.json());
-      return isc.Results.map((r) => ({
-        id: r.ID,
-        name: r.Name,
-        category: r.Category,
-        order: r.Order,
-      }));
-    }
-  );
+  const [categoriesIndex, setCategoriesIndex] = useState<ItemSearchCategory[]>([]);
+  useEffect(() => {
+    (async () => {
+      const isc: XIVAPIItemSearchCategoryIndex = await fetch(
+        `https://xivapi.com/ItemSearchCategory?columns=ID,Name,Category,Order&language=${
+          lang as string
+        }`
+      ).then((res) => res.json());
+      setCategoriesIndex(
+        isc.Results.map((r) => ({
+          id: r.ID,
+          name: r.Name,
+          category: r.Category,
+          order: r.Order,
+        }))
+      );
+    })();
+  }, [lang]);
 
   const categoryItems = useSWRImmutable(`/data/categories_${lang}.js`, async (path) => {
     const categories: Record<number, [string, string, string, string, string, string][]> =
@@ -104,22 +111,17 @@ export default function CategoriesNavbar({ onCategoryOpen }: CategoriesNavbarPro
     return categories;
   });
 
-  if (categoriesIndex.error) {
-    console.error(categoriesIndex.error);
-  }
-
   if (categoryItems.error) {
     console.error(categoryItems.error);
     return <div />;
   }
 
-  const catData = categoriesIndex.data ?? [];
   const catItemsData = categoryItems.data ?? {};
 
-  const weapons = filterItemSearchCategories(catData, 1);
-  const armor = filterItemSearchCategories(catData, 2);
-  const items = filterItemSearchCategories(catData, 3);
-  const housing = filterItemSearchCategories(catData, 4);
+  const weapons = filterItemSearchCategories(categoriesIndex, 1);
+  const armor = filterItemSearchCategories(categoriesIndex, 2);
+  const items = filterItemSearchCategories(categoriesIndex, 3);
+  const housing = filterItemSearchCategories(categoriesIndex, 4);
 
   return (
     <div>

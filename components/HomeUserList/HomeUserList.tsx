@@ -1,9 +1,11 @@
 import { t, Trans } from '@lingui/macro';
 import RelativeTime from '@yaireo/relative-time';
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
 import { sprintf } from 'sprintf-js';
 import useSWR from 'swr';
 import useSWRImmutable from 'swr/immutable';
+import { getItems } from '../../data/game/items';
 import useSettings from '../../hooks/useSettings';
 import { CategoryItem } from '../../types/game/CategoryItem';
 import { DataCenter } from '../../types/game/DataCenter';
@@ -48,7 +50,7 @@ function CheapestListing({ listing, hq }: CheapestListingProps) {
 export default function HomeUserList({ dcs, list }: HomeUserListProps) {
   const [settings] = useSettings();
   const dc = dcs.find((x) => x.worlds.some((y) => y.name === settings['mogboard_server']));
-  const lang: string = settings['mogboard_language'] ?? 'en';
+  const lang = settings['mogboard_language'] ?? 'en';
 
   const itemIdsStr = list.items.reduce<string>((agg, next) => `${agg},${next}`, '');
   const marketNq = useSWR(
@@ -66,24 +68,34 @@ export default function HomeUserList({ dcs, list }: HomeUserListProps) {
     }
   );
 
-  const categoriesIndex = useSWRImmutable<ItemSearchCategory[]>(
-    `https://xivapi.com/ItemSearchCategory?columns=ID,Name,Category,Order&language=${lang}`,
-    async (path) => {
-      const isc: XIVAPIItemSearchCategoryIndex = await fetch(path).then((res) => res.json());
-      return isc.Results.map((r) => ({
-        id: r.ID,
-        name: r.Name,
-        category: r.Category,
-        order: r.Order,
-      }));
-    }
-  );
+  const [categoriesIndex, setCategoriesIndex] = useState<ItemSearchCategory[]>([]);
+  useEffect(() => {
+    (async () => {
+      const isc: XIVAPIItemSearchCategoryIndex = await fetch(
+        `https://xivapi.com/ItemSearchCategory?columns=ID,Name,Category,Order&language=${
+          lang as string
+        }`
+      ).then((res) => res.json());
+      setCategoriesIndex(
+        isc.Results.map((r) => ({
+          id: r.ID,
+          name: r.Name,
+          category: r.Category,
+          order: r.Order,
+        }))
+      );
+    })();
+  }, [lang]);
 
-  const categories = useSWRImmutable(`/data/categories_${lang}.js`, async (path) => {
-    const categories: Record<number, [string, string, string, string, string, string][]> =
-      await fetch(path).then((res) => res.json());
-    return categories;
-  });
+  const [items, setItems] = useState<
+    Record<number, { categoryId: number | null } & Omit<CategoryItem, 'id'>>
+  >({});
+  useEffect(() => {
+    (async () => {
+      const data = await getItems(lang);
+      setItems(data);
+    })();
+  }, [lang]);
 
   if (marketNq.error) {
     console.error(marketNq.error);
@@ -95,34 +107,9 @@ export default function HomeUserList({ dcs, list }: HomeUserListProps) {
     return <div />;
   }
 
-  if (categories.error) {
-    console.error(categories.error);
-    return <div />;
-  }
-
-  if (categoriesIndex.error) {
-    console.error(categories.error);
-    return <div />;
-  }
-
   const marketNqData = marketNq.data?.items ?? {};
   const marketHqData = marketHq.data?.items ?? {};
-  const categoryData = Object.entries(categories.data ?? {}).reduce<
-    Record<number, { categoryId: number | null } & Omit<CategoryItem, 'id'>>
-  >((agg, [catId, next]) => {
-    for (const x of next) {
-      agg[parseInt(x[0])] = {
-        categoryId: isNaN(parseInt(catId)) ? null : parseInt(catId),
-        name: x[1],
-        icon: `https://xivapi.com${x[2]}`,
-        levelItem: parseInt(x[3]),
-        rarity: parseInt(x[4]),
-        classJobs: x[5],
-      };
-    }
-    return agg;
-  }, {});
-  const categoryIndexData = (categoriesIndex.data ?? []).reduce<
+  const categoryIndexData = (categoriesIndex ?? []).reduce<
     Record<number, Omit<ItemSearchCategory, 'id'>>
   >((agg, next) => {
     agg[next.id] = {
@@ -153,14 +140,13 @@ export default function HomeUserList({ dcs, list }: HomeUserListProps) {
           {list.items
             .filter(
               (item: number) =>
-                (marketNqData[item] != null || marketHqData[item] != null) &&
-                categoryData[item] != null
+                (marketNqData[item] != null || marketHqData[item] != null) && items[item] != null
             )
             .map((item: number) => {
               const itemMarketUpdated = marketNqData[item]?.lastUploadTime ?? 0;
               const itemCheapestNq = marketNqData[item]?.listings.find(() => true);
               const itemCheapestHq = marketHqData[item]?.listings.find(() => true);
-              const itemInfo = categoryData[item];
+              const itemInfo = items[item];
               const itemCat = itemInfo.categoryId ? categoryIndexData[itemInfo.categoryId] : null;
               return (
                 <li key={item} style={{ display: 'flex' }}>
