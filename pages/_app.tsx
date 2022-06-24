@@ -7,6 +7,8 @@ import Head from 'next/head';
 import UniversalisLayout from '../components/UniversalisLayout/UniversalisLayout';
 import { Cookies, CookiesProvider } from 'react-cookie';
 import { SessionProvider } from 'next-auth/react';
+import Highcharts from 'highcharts';
+import HighchartsAccessibility from 'highcharts/modules/accessibility';
 import { i18n } from '@lingui/core';
 import { I18nProvider } from '@lingui/react';
 import { en, ja, de, fr, zh } from 'make-plural/plurals';
@@ -32,6 +34,10 @@ i18n.loadLocaleData({
   fr: { plurals: fr },
   'zh-HANS': { plurals: zh },
 });
+
+if (typeof Highcharts === 'object') {
+  HighchartsAccessibility(Highcharts);
+}
 
 export default function MyApp({
   Component,
