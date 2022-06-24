@@ -1,10 +1,12 @@
+import { Trans } from '@lingui/macro';
+
 export default function HomeAction() {
   return (
     <div className="home-box patreon-discord">
       <a href="https://discord.gg/JcMvMxD" className="discord" target="_blank" rel="noreferrer">
         <span>
           <img src="/i/brand/discord/logo_white.png" alt="Discord" height={30} width={30.6333} />
-          DISCORD
+          <Trans>DISCORD</Trans>
         </span>
       </a>
       <a href="/contribute" className="patreon">

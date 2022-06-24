@@ -1,3 +1,5 @@
+import { t } from '@lingui/macro';
+import { sprintf } from 'sprintf-js';
 import { City } from '../../types/game/City';
 import GameCityIcon from '../GameCityIcon/GameCityIcon';
 
@@ -7,10 +9,11 @@ interface TaxRatesPanelProps {
 }
 
 const TaxRatesPanel = ({ data, world }: TaxRatesPanelProps) => {
+  const header = sprintf(t`Current Market Tax Rates on %s`, world);
   return (
     <div className="flex updates_box" style={{ marginBottom: 20 }}>
       <div>
-        <h5>Current Market Tax Rates on {world}</h5>
+        <h5>{header}</h5>
         <br />
         <div className="flex avg_prices">
           {(Object.keys(City) as Array<keyof typeof City>)

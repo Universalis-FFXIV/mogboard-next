@@ -1,3 +1,4 @@
+import { Trans } from '@lingui/macro';
 import { UserList } from '../../types/universalis/user';
 import LoggedIn from '../LoggedIn/LoggedIn';
 import LoggedOut from '../LoggedOut/LoggedOut';
@@ -13,22 +14,28 @@ export default function HomeNavbar({ hasSession, lists, onListSelected }: HomeNa
     <div className="home-nav">
       <LoggedOut hasSession={hasSession}>
         <section className="tac">
-          <strong>Logged-out</strong>
+          <strong>
+            <Trans>Logged-out</Trans>
+          </strong>
         </section>
         <p className="text-gray">
-          Lists, Alerts, Market activity and retainer links will show here when you are logged into
-          the site.
+          <Trans>
+            Lists, Alerts, Market activity and retainer links will show here when you are logged
+            into the site.
+          </Trans>
         </p>
       </LoggedOut>
       <LoggedIn hasSession={hasSession}>
         <h3>
           <img src="/i/svg/th-list-light.svg" alt="" />
-          Lists
+          <Trans>Lists</Trans>
         </h3>
         <div>
           {lists.length === 0 && (
             <button type="button" className="btn-disabled">
-              <span className="text-gray">You have no lists.</span>
+              <span className="text-gray">
+                <Trans>You have no lists.</Trans>
+              </span>
             </button>
           )}
           {lists.map((list) => (

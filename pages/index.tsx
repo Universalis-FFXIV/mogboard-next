@@ -18,6 +18,7 @@ import { getSession } from 'next-auth/react';
 import { DataCenter } from '../types/game/DataCenter';
 import HomeUserList from '../components/HomeUserList/HomeUserList';
 import { useState } from 'react';
+import { Trans } from '@lingui/macro';
 
 interface RecentItem {
   id: number;
@@ -87,13 +88,15 @@ const Home: NextPage<HomeProps> = ({
         </div>
         <div>
           <HomeAction />
-          <h4>Recent Updates</h4>
+          <h4>
+            <Trans>Recent Updates</Trans>
+          </h4>
           <RecentUpdatesPanel items={recent} />
           <TaxRatesPanel data={taxes} world={world} />
           <WorldUploadCountsPanel data={worldUploads} world={world} />
           <UploadCountPanel today={sum(dailyUploads, 0, 1)} week={sum(dailyUploads, 0, 7)} />
           <p className="mog-honorable" style={{ textAlign: 'center', marginTop: 5 }}>
-            Thank you!
+            <Trans>Thank you!</Trans>
           </p>
         </div>
       </div>

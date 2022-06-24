@@ -1,7 +1,9 @@
 import Image from 'next/image';
 import { signIn } from 'next-auth/react';
+import { t, Trans } from '@lingui/macro';
 
 export default function HomeLoggedOut() {
+  const discord = t`Login via <strong>Discord</strong>`;
   return (
     <div className="home-logged-out">
       <div>
@@ -13,14 +15,22 @@ export default function HomeLoggedOut() {
         />
       </div>
       <br />
-      <strong>Become a member!</strong>
+      <strong>
+        <Trans>Become a member!</Trans>
+      </strong>
       <br />
-      <p>Create alerts, make lists, add your retainers and get a personalised home page feed!</p>
+      <p>
+        <Trans>
+          Create alerts, make lists, add your retainers and get a personalised home page feed!
+        </Trans>
+      </p>
       <br />
       <br />
-      <a className="btn-login" onClick={() => signIn('discord')}>
-        Login via <strong>Discord</strong>
-      </a>
+      <a
+        className="btn-login"
+        onClick={() => signIn('discord')}
+        dangerouslySetInnerHTML={{ __html: discord }}
+      ></a>
     </div>
   );
 }

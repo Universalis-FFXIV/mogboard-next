@@ -1,3 +1,4 @@
+import { t } from '@lingui/macro';
 import Link from 'next/link';
 import GameItemIcon from '../GameItemIcon/GameItemIcon';
 
@@ -12,6 +13,7 @@ interface RecentUpdatesPanelProps {
 }
 
 export default function RecentUpdatesPanel({ items }: RecentUpdatesPanelProps) {
+  const error = `(${t`Cannot be sold`})`;
   return (
     <div className="home-box home-trending">
       {items.map((item) => (
@@ -30,7 +32,7 @@ export default function RecentUpdatesPanel({ items }: RecentUpdatesPanelProps) {
                 <a className={`rarity-${item.rarity}`}>{item.name}</a>
               </Link>
             </div>
-            <small>{item.category ?? '(Cannot be sold)'}</small>
+            <small>{item.category ?? error}</small>
           </div>
         </div>
       ))}
