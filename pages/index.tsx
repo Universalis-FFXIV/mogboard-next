@@ -104,6 +104,7 @@ const Home: NextPage<HomeProps> = ({
 export async function getServerSideProps(ctx: NextPageContext) {
   const cookies = new Cookies(ctx.req?.headers.cookie);
   const world = cookies.get<string | undefined>('mogboard_server') ?? 'Phoenix';
+  const lang = cookies.get<string | undefined>('mogboard_language') ?? 'en';
 
   let taxes: Record<City, number>;
   try {
@@ -145,8 +146,8 @@ export async function getServerSideProps(ctx: NextPageContext) {
           id: s,
           levelItem: itemData.LevelItem,
           rarity: itemData.Rarity,
-          name: itemData.Name,
-          category: itemData.ItemSearchCategory.Name,
+          name: itemData[`Name_${lang}`],
+          category: itemData.ItemSearchCategory[`Name_${lang}`],
         });
       } catch (err) {
         recent.push({

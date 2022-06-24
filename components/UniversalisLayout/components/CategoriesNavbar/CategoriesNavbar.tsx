@@ -1,6 +1,7 @@
 import useSWRImmutable from 'swr';
 import { filterItemSearchCategories } from '../../../../data/game/isc';
 import { getSearchIcon } from '../../../../data/game/xiv-font';
+import useSettings from '../../../../hooks/useSettings';
 import { CategoryItem } from '../../../../types/game/CategoryItem';
 import { ItemSearchCategory } from '../../../../types/game/ItemSearchCategory';
 import { XIVAPIItemSearchCategoryIndex } from '../../../../types/xivapi/XIVAPIItemSearchCategoryIndex';
@@ -81,8 +82,11 @@ function NavCategoryGroup({
 }
 
 export default function CategoriesNavbar({ onCategoryOpen }: CategoriesNavbarProps) {
+  const [settings] = useSettings();
+  const lang: string = settings['mogboard_language'] ?? 'en';
+
   const categoriesIndex = useSWRImmutable<ItemSearchCategory[]>(
-    'https://xivapi.com/ItemSearchCategory?columns=ID,Name,Category,Order',
+    `https://xivapi.com/ItemSearchCategory?columns=ID,Name,Category,Order&language=${lang}`,
     async (path) => {
       const isc: XIVAPIItemSearchCategoryIndex = await fetch(path).then((res) => res.json());
       return isc.Results.map((r) => ({
@@ -94,7 +98,7 @@ export default function CategoriesNavbar({ onCategoryOpen }: CategoriesNavbarPro
     }
   );
 
-  const categoryItems = useSWRImmutable('/data/categories_en.js', async (path) => {
+  const categoryItems = useSWRImmutable(`/data/categories_${lang}.js`, async (path) => {
     const categories: Record<number, [string, string, string, string, string, string][]> =
       await fetch(path).then((res) => res.json());
     return categories;

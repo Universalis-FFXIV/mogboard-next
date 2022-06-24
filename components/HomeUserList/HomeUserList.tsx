@@ -48,6 +48,7 @@ function CheapestListing({ listing, hq }: CheapestListingProps) {
 export default function HomeUserList({ dcs, list }: HomeUserListProps) {
   const [settings] = useSettings();
   const dc = dcs.find((x) => x.worlds.some((y) => y.name === settings['mogboard_server']));
+  const lang: string = settings['mogboard_language'] ?? 'en';
 
   const itemIdsStr = list.items.reduce<string>((agg, next) => `${agg},${next}`, '');
   const marketNq = useSWR(
@@ -66,7 +67,7 @@ export default function HomeUserList({ dcs, list }: HomeUserListProps) {
   );
 
   const categoriesIndex = useSWRImmutable<ItemSearchCategory[]>(
-    'https://xivapi.com/ItemSearchCategory?columns=ID,Name,Category,Order',
+    `https://xivapi.com/ItemSearchCategory?columns=ID,Name,Category,Order&language=${lang}`,
     async (path) => {
       const isc: XIVAPIItemSearchCategoryIndex = await fetch(path).then((res) => res.json());
       return isc.Results.map((r) => ({
@@ -78,7 +79,7 @@ export default function HomeUserList({ dcs, list }: HomeUserListProps) {
     }
   );
 
-  const categories = useSWRImmutable('/data/categories_en.js', async (path) => {
+  const categories = useSWRImmutable(`/data/categories_${lang}.js`, async (path) => {
     const categories: Record<number, [string, string, string, string, string, string][]> =
       await fetch(path).then((res) => res.json());
     return categories;
