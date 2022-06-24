@@ -90,7 +90,6 @@ export default function SettingsModal({ isOpen, closeModal, onSave }: SettingsMo
 
   const timezones = tzData.data ?? [];
 
-  console.log('begin');
   return (
     <div ref={modalRef} className={`modal modal_settings ${isOpen ? 'open' : ''}`}>
       <button type="button" className="modal_close_button" onClick={closeModal}>
