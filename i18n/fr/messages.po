@@ -1,22 +1,1410 @@
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2022-06-23 20:57-0700\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: @lingui/cli\n"
+"X-Generator: POEditor.com\n"
+"Project-Id-Version: Universalis\n"
 "Language: fr\n"
-"Project-Id-Version: \n"
-"Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: \n"
-"Last-Translator: \n"
-"Language-Team: \n"
-"Plural-Forms: \n"
 
-#: components/HomeUserList/HomeUserList.tsx:143
+#: 
+msgctxt "header_market"
+msgid "Market"
+msgstr "Marché"
+
+#: 
+msgctxt "header_myaccount"
+msgid "My Account"
+msgstr "Mon compte"
+
+#: 
+msgctxt "header_discordlogin"
+msgid "Login via Discord"
+msgstr "Se connecter avec Discord"
+
+#: 
+msgctxt "nav_weapons"
+msgid "WEAPONS"
+msgstr "Armes"
+
+#: 
+msgctxt "nav_armor"
+msgid "ARMOR"
+msgstr "Équipement"
+
+#: 
+msgctxt "nav_items"
+msgid "ITEMS"
+msgstr "Objets"
+
+#: 
+msgctxt "nav_housing"
+msgid "HOUSING"
+msgstr "Logement"
+
+#: https://idioms.thefreedictionary.com/based+on
+msgctxt "footer_basedon"
+msgid "based on"
+msgstr "fondé sur"
+
+#: 
+msgctxt "footer_about"
+msgid "About"
+msgstr "À propos"
+
+#: 
+msgctxt "footer_docs"
+msgid "API Documentation"
+msgstr "Documentation API"
+
+#: 
+msgctxt "footer_github"
+msgid "GitHub"
+msgstr "GitHub"
+
+#: 
+msgctxt "generic_discord"
+msgid "Discord"
+msgstr "Discord"
+
+#: 
+msgctxt "footer_license"
+msgid "FINAL FANTASY XIV © 2010 - 2020 SQUARE ENIX CO., LTD. All Rights Reserved."
+msgstr "FINAL FANTASY XIV © 2010 - 2020 SQUARE ENIX CO., LTD. Tous Droits Réservés."
+
+#: 
+msgctxt "base_tabtitle"
+msgid "Final Fantasy XIV Online: Market Board aggregator. Find Prices, track Item History and create Price Alerts. Anywhere, anytime."
+msgstr "Final Fantasy XIV Online: agrégateur de tableau des ventes. Rechercher les prix, suivre l'historique des objets et créer des alertes de prix. N'importe où, n'importe quand."
+
+#: 
+msgctxt "error_404_flavortext"
+msgid "Could not find the page you were looking for kupo~!"
+msgstr "Impossible de trouver la page recherchée, kuppo~!"
+
+#: 
+msgctxt "error_404"
+msgid "404 Not Found"
+msgstr "404 Page non trouvée"
+
+#: 
+msgctxt "error_generic_tabtitle"
+msgid "Something went wrong"
+msgstr "Quelque chose a mal tourné"
+
+#: 
+msgctxt "error_generic_title"
+msgid "Something went wrong!"
+msgstr "Quelque chose a mal tourné !"
+
+#: 
+msgctxt "error_generic_made_aware"
+msgid "A goat has been made aware of this problem and will be looking into it for you!"
+msgstr "Une chèvre a été informée de ce problème et l'examinera pour vous !"
+
+#: 
+msgctxt "error_generic_not_aware"
+msgid "If you continue to run into this issue, please jump on the discord for help!"
+msgstr "Si vous continuez à rencontrer ce problème, merci de rejoindre Discord pour obtenir de l'aide !"
+
+#: 
+msgctxt "home_market_activity"
+msgid "Market Activity"
+msgstr "Activité du tableau des ventes"
+
+#: 
+msgctxt "home_noalerts"
+msgid "You have no alerts set up."
+msgstr "Tu n'as aucune alerte de configurée."
+
+#: 
+msgctxt "generic_lists"
+msgid "Lists"
+msgstr "Listes"
+
+#: 
+msgctxt "home_nolists"
+msgid "You have no lists."
+msgstr "Tu n'as aucune liste."
+
+#: 
+msgctxt "generic_retainers"
+msgid "Retainers"
+msgstr "Servants"
+
+#: 
+msgctxt "home_noretainers"
+msgid "You have no retainers."
+msgstr "Tu n'a aucun servant."
+
+#: 
+msgctxt "home_logged_out"
+msgid "Logged-out"
+msgstr "Déconnecté"
+
+#: 
+msgctxt "home_logged_out_guide"
+msgid "Lists, Alerts, Market activity and retainer links will show here when you are logged into the site."
+msgstr "Les liens Listes, Alertes, Activité du tableau des ventes et Servants seront affichés ici lorsque tu seras connecté sur ce site."
+
+#: 
+msgctxt "home_become_member"
+msgid "Become a member!"
+msgstr "Deviens membre !"
+
+#: 
+msgctxt "home_become_member_guide"
+msgid "Create alerts, make lists, add your retainers and get a personalised home page feed!"
+msgstr "Crée des alertes, fais des listes, ajoute tes servants pour avoir une page d'accueil personnalisée !"
+
+#: Don't translate HTML tags.
+msgctxt "home_login_discord"
+msgid "Login via <strong>Discord</strong>"
+msgstr "Se connecter avec <strong>Discord</strong>"
+
+#: 
+msgctxt "discord_capitalized"
+msgid "DISCORD"
+msgstr "DISCORD"
+
+#: 
+msgctxt "home_recent_updates"
+msgid "Recent Updates"
+msgstr "Mises à jour récentes"
+
+#: 
+msgctxt "home_upload_counts_world"
+msgid "Upload Counts by World"
+msgstr "Nombre de mises à jour par Monde"
+
+#: 
+msgctxt "home_uploads_today"
+msgid "Uploads today"
+msgstr "Mises à jour aujourd'hui"
+
+#: 
+msgctxt "home_uploads_week"
+msgid "Uploads this week"
+msgstr "Mises à jour cette semaine"
+
+#: 
+msgctxt "thank_you"
+msgid "Thank you!"
+msgstr "Merci !"
+
+#: 
+msgctxt "home_current_tax_rates"
+msgid "Current Market Tax Rates on %s"
+msgstr "Taxes actuelles du marché sur %s"
+
+#: 
+#, fuzzy
+msgctxt "alert_watcher"
+msgid "Watcher: "
+msgstr "Observateur : "
+
+#: 
+msgctxt "alert_last_triggered_event"
+msgid "Last Triggered Event: %s"
+msgstr "Dernier événement déclencheur : %s"
+
+#: 
+msgctxt "alert_no_triggered_events"
+msgid "This alert has no triggered events."
+msgstr "Cette alerte n'a aucun événement déclencheur."
+
+#: 
+msgctxt "list_guide"
 msgid "Click on the list title to view market information for this list."
+msgstr "Clique sur le titre de la liste pour voir les informations du marché pour cette liste."
+
+#: 
+msgctxt "list_items_contained"
+msgid "%d items in this list"
+msgstr "%d objets dans cette liste"
+
+#: 
+msgctxt "news_universalis_welcome"
+msgid "Welcome to Universalis!"
+msgstr "Bienvenue sur Universalis !"
+
+#: 
+msgctxt "news_contribute"
+msgid "Contribute to market board data"
+msgstr "Participe à la mise à jour des données du tableau des ventes"
+
+#: 
+msgctxt "news_enjoy"
+msgid "Thank you, and enjoy your stay!"
+msgstr "Merci, et profite de ton séjour ici !"
+
+#: 
+msgctxt "news_product_blurb"
+msgid "Universalis is a market board data site with crowd sourced information, based on mogboard. It can aggregate market board information from multiple sources, so if you want to help out, please check out our contributing page."
+msgstr "Universalis est un site de données participatives du tableau des ventes, basé sur Mogboard. Il est capable d'agréger les informations du tableau des ventes à partir de plusieurs sources, donc n'hésite pas à jeter un œil à notre page dédiée à la contribution si tu veux nous aider."
+
+#: 
+msgctxt "generic_your_server"
+msgid "Your Server"
+msgstr "Ton serveur"
+
+#: 
+msgctxt "option_choose_server_guide"
+msgid "- Please Choose a Server -"
+msgstr "- Merci de sélectionner un serveur -"
+
+#: 
+msgctxt "generic_language"
+msgid "Language"
+msgstr "Langue"
+
+#: 
+msgctxt "option_choose_language_guide"
+msgid "- Choose your language -"
+msgstr "- Choisis ta langue -"
+
+#: 
+msgctxt "generic_timezone"
+msgid "Timezone"
+msgstr "Fuseau horaire"
+
+#: 
+msgctxt "option_choose_timezone_guide"
+msgid "- Choose your timezone -"
+msgstr "- Choisis ton fuseau horaire -"
+
+#: 
+msgctxt "generic_left_navigation"
+msgid "Left Navigation"
+msgstr "Menu de navigation gauche"
+
+#: 
+msgctxt "option_left_nav_guide"
+msgid "This enables a quick-access left-navigation of all market categories."
+msgstr "Permet un accès rapide à toutes les catégories du tableau des ventes dans le menu à gauche"
+
+#: 
+msgctxt "generic_no"
+msgid "No"
+msgstr "Non"
+
+#: 
+msgctxt "generic_yes"
+msgid "Yes"
+msgstr "Oui"
+
+#: 
+msgctxt "option_save_settings"
+msgid "Save Settings"
+msgstr "Sauvegarder la configuration"
+
+#: 
+msgctxt "generic_default_home_world"
+msgid "Default Home World"
+msgstr "Monde d'origine par défaut"
+
+#: 
+msgctxt "option_default_home_world_guide"
+msgid "This will show prices/history on your home world by default instead of cross-world."
+msgstr "Montre les prix/historique sur ton Monde d'origine par défaut, au lieu des informations inter-Monde"
+
+#: Don't translate HTML tags.
+msgctxt "about_whatisthis_title"
+msgid "What is <strong>Universalis</strong>?"
+msgstr "Qu'est-ce que <strong>Universalis</strong> ?"
+
+#: 
+msgctxt "about_whatisthis_explanation_1"
+msgid "The site allows you to view in-game market for multiple servers at anytime, anywhere. It uses crowd-sourced data from multiple sources to provide the most up-to-date prices possible."
+msgstr "Ce site permet de visualiser le tableau des ventes du jeu pour plusieurs serveurs n'importe quand et de n'importe où. Il utilise des données participatives provenant de plusieurs sources pour fournir les prix les plus à jour possible."
+
+#: 
+msgctxt "about_whatisthis_infoquestion"
+msgid "What information can I get?"
+msgstr "Quel information puis-je obtenir ici ?"
+
+#: 
+msgctxt "about_whatisthis_explanation_2"
+msgid "All market information is available: Prices, Materia, Retainer, Crafters and even Buyers. Everything that you see in-game is available. Additional data-views have been added such as graphs, extended history and cross-world summary is also included."
+msgstr "Toutes les informations du marché sont disponibles : prix, matérias, servants, artisans et même les acheteurs. Tout ce que tu peux voir dans le jeu est disponible ici. D'autres vues de données ont été ajoutées comme des graphiques, des historiques étendus et un résumé des informations inter-Monde a également été ajouté."
+
+#: 
+msgctxt "about_whatisthis_accessquestion"
+msgid "Can I have access to the data?"
+msgstr "Puis-je accéder aux données ?"
+
+#: Don't translate HTML tags.
+msgctxt "about_whatisthis_explanation_3"
+msgid "<strong>Definitely!</strong>\n"
+"<br><br>\n"
+"Everything you see on Universalis is open for anyone to use, to learn more about how to access the data using a REST API Service, check out the %s documentation."
+msgstr "<strong>Bien sûr !</strong>\n"
+"<br><br>\n"
+"Tout ce que tu vois sur Universalis est ouvert à chacun pour utilisation. Pour en savoir plus sur comment accéder aux données en utilisant le service d'API REST, consulte la documentation %s."
+
+#: 
+msgctxt "generic_special_thanks"
+msgid "Special thanks"
+msgstr "Remerciements particuliers"
+
+#: 
+msgctxt "about_whatisthis_explanation_4"
+msgid "We would like to thank Vekien and Miu from %s for their initial work on mogboard, which made this site, in its current state, possible."
+msgstr "Nous aimerions remercier Vekien et Miu de %s pour leur travail initial sur Mogboard qui a permis à ce site, dans sa version actuelle, d'exister."
+
+#: 
+msgctxt "about_get_technical_title"
+msgid "So, how does it actually work? Get Technical."
+msgstr "Et donc, comment ça marche concrètement ? Parle moi <em>technique</em>."
+
+#: Don't translate HTML tags.
+msgctxt "about_get_technical_explanation_1"
+msgid "<strong>Universalis</strong> runs a REST API that applications can post market board data to, after they collect the data from a running game instance by multiple users, anonymously."
+msgstr "<strong>Universalis</strong> fais tourner une API REST que les applications peuvent utiliser pour y envoyer anonymement les données du tableau des ventes, après avoir collecté les données à partir d'une instance du jeu, par plusieurs utilisateurs."
+
+#: 
+msgctxt "about_get_technical_explanation_2"
+msgid "It stores this data, and reports it back to anyone that requests its endpoints - including this frontend, which visualizes the stored data and notifies you about changes."
+msgstr "Il enregistre les données et les renvoie à n'importe qui les demandant aux endpoints (y compris le frontend qui permet la visualisation des données stockées et te notifies de tous changements)."
+
+#: 
+msgctxt "generic_credits"
+msgid "Credits"
+msgstr "Remerciements"
+
+#: 
+msgctxt "karashiiro_credits"
+msgid "Database API, server maintenance"
+msgstr "Base de données API, maintenance du serveur"
+
+#: 
+msgctxt "goat_credits"
+msgid "Game stuff, stealing mogboard"
+msgstr "Truc du jeu, pompage de mogboard"
+
+#: 
+msgctxt "about_honorable_mentions"
+msgid "Also thanks to: Vekien, Miu, Mino and all of our uploaders!"
+msgstr "Remerciements également à : Vekien, Miu, Mino et tous nos uploaders !"
+
+#: Don't translate HTML tags.
+msgctxt "about_data_sources"
+msgid "Game data sourced from <a href=\"%s\">XIVAPI</a> and <a href=\"%s\">FFCafe</a>"
+msgstr "Données du jeu obtenues de <a href=\"%s\">XIVAPI</a> et <a href=\"%s\">FFCafe</a>"
+
+#: 
+msgctxt "about_more_questions"
+msgid "I have more questions!"
+msgstr "J'ai encore des questions !"
+
+#: Don't translate HTML tags.
+msgctxt "about_more_questions_directory"
+msgid "Hop onto <a href=\"%s\">our Discord</a> and you can ask all your questions."
+msgstr "Rejoins <a href=\"%s\">notre Discord</a> et tu pourras poser toutes les questions que tu veux."
+
+#: Don't translate HTML tags.
+msgctxt "about_pm_invite"
+msgid "You can also PM me: <span class=\"text-yellow\">%s</span> if you prefer :)"
+msgstr "Tu peux également m'envoyer un message privé : <span class=\"text-yellow\">%s</span> si tu préfères :)"
+
+#: 
+msgctxt "contribute_howto_title"
+msgid "How to contribute to <strong>Universalis</strong>"
+msgstr "Comment contribuer à <strong>Universalis</strong>"
+
+#: 
+msgctxt "contribute_howto_explanation_1"
+msgid "There are multiple ways to contribute to <strong>Universalis</strong>. All of your contributions are anonymous - no one will be able to refer back to your character or account to know that you have uploaded any data. The applications below are tested by us to make sure that they don't endanger your account or your characters."
+msgstr "Il y a plusieurs manières de contribuer à <strong>Universalis</strong>. Toutes les contributions sont anonymes (personne ne pourra remonter jusqu'à ton personnage ou compte pour savoir que tu as envoyé des données). Les applications ci-dessous ont été testées par nos soins pour être sûrs qu'elles ne mettent pas en danger ton compte ou tes personnages."
+
+#: 
+msgctxt "contribute_howto_explanation_2"
+msgid "Every contribution helps to make the data on <strong>Universalis</strong> better, more accurate and more helpful. Thank you very much for helping out!"
+msgstr "Chaque contribution aide <strong>Universalis</strong> à fournir de meilleures données, plus précises et utiles. Merci beaucoup de nous y aider !"
+
+#: 
+msgctxt "contribute_applicationkind_ingame_addon"
+msgid "In-Game addon"
+msgstr "Module complémentaire du jeu"
+
+#: 
+msgctxt "contribute_description_xivlauncher"
+msgid "FFXIVQuickLauncher is a faster launcher for FFXIV  aims to fix the slowness and tediousness of the regular launcher and adds a lot of QoL features to the game."
+msgstr "FFXIVQuickLauncher est un lanceur pour FFXIV plus rapide qui vise à corriger la lenteur et les problèmes du lanceur habituel, et ajoute des fonctionnalités au jeu qui améliore son utilisation."
+
+#: 
+msgctxt "contribute_description_act_plugin"
+msgid "This is a regular ACT plugin that runs next to the always-used FFXIV_ACT_PLUGIN - just drop it into your ACT plugins folder, add it to ACT and you\\'re good to go! No configuration needed."
+msgstr "Il s'agit d'un plugin ACT normal qui tourne à côté de l'éternel FFXIV_ACT_PLUGIN. Dépose-le simplement dans ton dossier de plugins ACT, ajoute-le dans ACT et c'est parti ! Aucune configuration n'est nécessaire."
+
+#: 
+msgctxt "contribute_applicationkind_act_plugin"
+msgid "ACT plugin"
+msgstr "Plugin ACT"
+
+#: 
+msgctxt "contribute_applicationkind_teamcraft"
+msgid "Collaborative crafting tool"
+msgstr "Outil d'artisanat collaboratif"
+
+#: 
+msgctxt "contribute_description_teamcraft"
+msgid "FFXIV Teamcraft is a tool for Final Fantasy XIV players that helps with crafting lists organization and crafting/gathering in general. It has a lot of features to make it a one stop shop, with things like integrated alarms, custom items, permissions system, realtime sharing, etc."
+msgstr "FFXIV Teamcraft est un outil pour les joueurs de Final Fantasy XIV qui aide à organiser des listes d'artisanat, et l'artisanat/la récolte en général. Il contient plein de fonctionnalités qui en font un incontournable, avec par exemple des alarmes intégrées, des objets personnalisés, un système de permissions, du partage en temps réel, etc."
+
+#: 
+msgctxt "contribute_invite_title"
+msgid "Are you making your own application?"
+msgstr "Est-ce que tu fais ta propre application ?"
+
+#: 
+msgctxt "contribute_invite_explanation"
+msgid "If you wish to contribute to <strong>Universalis</strong> with your own application, please contact us on our <a href=\"%s\">Discord</a>. Let\\'s work together!"
+msgstr "Si tu veux contribuer à <strong>Universalis</strong> grâce à ta propre application, n'hésite pas à nous contacter sur notre <a href=\"%s\">Discord</a>. Allons-y ensemble !"
+
+#: 
+msgctxt "generic_download"
+msgid "Download"
+msgstr "Télécharger"
+
+#: 
+msgctxt "generic_name"
+msgid "Name"
+msgstr "Nom"
+
+#: 
+msgctxt "generic_actions"
+msgid "Actions"
+msgstr "Actions"
+
+#: 
+msgctxt "generic_hq_question"
+msgid "HQ?"
+msgstr "HQ ?"
+
+#: 
+msgctxt "generic_hq"
+msgid "HQ"
+msgstr "HQ"
+
+#: 
+msgctxt "generic_nq"
+msgid "NQ"
+msgstr "QN"
+
+#: 
+msgctxt "generic_crossworld_question"
+msgid "Cross-World?"
+msgstr "Inter-Monde ?"
+
+#: 
+msgctxt "generic_notification"
+msgid "Notification"
+msgstr "Notification"
+
+#: 
+msgctxt "generic_email"
+msgid "Email"
+msgstr "Email"
+
+#: 
+msgctxt "generic_sent"
+msgid "Sent"
+msgstr "Envoyé"
+
+#: 
+msgctxt "generic_never"
+msgid "Never"
+msgstr "Jamais"
+
+#: 
+msgctxt "generic_edit"
+msgid "Edit"
+msgstr "Éditer"
+
+#: 
+msgctxt "generic_delete"
+msgid "Delete"
+msgstr "Supprimer"
+
+#: 
+msgctxt "alerts_table_no_alerts"
+msgid "You have no alerts for this item."
+msgstr "Tu n'as aucune alerte pour cet objet."
+
+#: There's a question mark after the phrase, but it's an image so don't include it here :V
+msgctxt "alerts_whatis_title"
+msgid "What\\'s an alert"
+msgstr "Qu'est-ce qu'une alerte"
+
+#: 
+msgctxt "alerts_maxed_out"
+msgid "You are currently maxed-out on alerts and will not be able to create any more."
+msgstr "Tu as atteins le nombre maximal d'alertes et ne peux plus en créer d'autres."
+
+#: 
+msgctxt "alerts_create_alert_title"
+msgid "Create a new alert"
+msgstr "Créer une nouvelle alerte"
+
+#: 
+msgctxt "alerts_create_alert_guide_1"
+msgid "Give your alert a name (length: 4-100)"
+msgstr "Donne un nom à ton alerte"
+
+#: Trigger, as in a trigger for an alert.
+msgctxt "alerts_create_alert_guide_2"
+msgid "Decide if the trigger should check NQ/HQ or both."
+msgstr "Décide si le déclencheur doit surveiller QN, HQ ou les deux."
+
+#: 
+msgctxt "generic_normal_quality"
+msgid "Normal Quality"
+msgstr "Qualité normale"
+
+#: 
+msgctxt "generic_high_quality"
+msgid "High-Quality"
+msgstr "Haute-qualité"
+
+#: Trigger, as in a trigger for an alert.
+msgctxt "alerts_create_alert_guide_3"
+msgid "Setup Triggers <strong>(Max: 15)</strong>"
+msgstr "Configure des déclencheurs <strong>(Max : 15)</strong>"
+
+#: Field, as in definition 10 as described here: https://www.merriam-webster.com/dictionary/field
+msgctxt "alerts_create_alert_guide_4"
+msgid "Select a Field"
+msgstr "Choisis un champ"
+
+#: Operator, as in +-/*&|
+msgctxt "alerts_create_alert_guide_5"
+msgid "Select an Operator"
+msgstr "Choisis une opération"
+
+#: As in adding something to a list.
+msgctxt "generic_add_to_list"
+msgid "Add"
+msgstr "Ajouter"
+
+#: 
+msgctxt "alerts_create_alert_guide_6"
+msgid "<span class=\"text-red\">NOTE:</span> The filter: <code>Price_Added</code> is a timestamp, it is NOT a Gil value. You can convert a date to a timestamp <a href=\"%s\" target=\"_blank\">here</a>, work is being done to improve this UI."
+msgstr "<span class=\"text-red\">NOTE :</span> Le filtre : <code>Price_Added</code> est un horodatage, ce n'est PAS un nombre de Gil. Tu peux convertir une date en horodatage <a href=\"%s\" target=\"_blank\">ici</a>, des améliorations sont en cours pour améliorer cette IU."
+
+#: 
+msgctxt "alerts_create_alert_guide_7"
+msgid "Trigger values are checked as a series of <strong>AND</strong> conditions."
+msgstr "Les valeurs de déclenchement sont vérifiées sous la forme d'une série de conditions <strong>ET</strong>."
+
+#: 
+msgctxt "alerts_create_alert_how_notify"
+msgid "How do you want to be notified?"
+msgstr "Comment veux-tu être notifié ?"
+
+#: 
+msgctxt "alerts_save_alert"
+msgid "Save Alert"
+msgstr "Enregistrer l'alerte"
+
+#: 
+msgctxt "alerts_currently_editing"
+msgid "You are currently editing an alert"
+msgstr "Tu es en train de modifier une alerte"
+
+#: 
+msgctxt "alerts_new_alert_tooltip"
+msgid "Reset the form and start a new alert"
+msgstr "Réinitialiser le formulaire et créer une nouvelle alerte"
+
+#: 
+msgctxt "alerts_new_alert"
+msgid "New Alert"
+msgstr "Nouvelle alerte"
+
+#: 
+msgctxt "alerts_current_alerts_for"
+msgid "Current alerts for: %s"
+msgstr "Alertes en cours pour : %s"
+
+#: 
+msgctxt "alerts_loading"
+msgid "Loading alerts..."
+msgstr "Chargement des alertes..."
+
+#: 
+msgctxt "generic_note_capitalized_colon"
+msgid "NOTE:"
+msgstr "NOTE :"
+
+#: 
+msgctxt "alerts_in_discord_notice"
+msgid "You must be in <a href=\"%s\" target=\"_blank\">our Discord server</a> to receive alerts."
+msgstr "Tu dois faire partie de <a href=\"%s\" target=\"_blank\">notre Discord</a> pour recevoir des alertes."
+
+#: 
+msgctxt "alerts_only_updates_under_condition_notice"
+msgid "Keep in mind that alerts will only be fired when the item is updated by someone."
+msgstr "Note que les alertes ne seront déclenchées que lorsque l'objet est mis à jour par quelqu'un."
+
+#: 
+msgctxt "alerts_must_be_logged_in"
+msgid "You must be logged-in to create item alerts."
+msgstr "Tu dois être connecté pour créer des alertes d'objet."
+
+#: 
+msgctxt "alerts_deletion_confirmation"
+msgid "Are you sure you wish to delete this alert?"
+msgstr "Es-tu sûr de vouloir supprimer cette alerte ?"
+
+#: 
+msgctxt "generic_deletion_confirmation"
+msgid "Yes I\\'m sure, delete it."
+msgstr "Oui certain, supprime-la"
+
+#: 
+msgctxt "alerts_whatisthis_guide_1"
+msgid "What are alerts?"
+msgstr "Que sont les alertes ?"
+
+#: 
+msgctxt "alerts_whatisthis_guide_2"
+msgid "Alerts allow you to setup notification watchers that can track an item and send you information such as price changes or history events."
+msgstr "Les alertes te permettent de configurer des observateurs qui vont suivre un objet et t'envoyer des informations comme les changements de prix ou des événements de l'historique."
+
+#: As in trigger for an alert.
+msgctxt "generic_alert_trigger"
+msgid "Triggers"
+msgstr "Déclencheurs"
+
+#: 
+msgctxt "alerts_whatisthis_guide_3"
+msgid "<strong>Triggers</strong>, these are conditions you can set on the alert to be checked at interval times and if any market entry meets the criteria of the condition then your alert will be \"Triggered\" and you'll receive a notification either via Discord or Email."
+msgstr "<strong>Déclencheurs</strong>, il s'agit de conditions que tu peux définir sur une alerte pour qu'elles soient régulièrement vérifiées et si un objet du marché répond aux critères de la condition, alors ton alerte va être \"déclenchée\" et tu recevras une notification soit dans Discord, soit par email."
+
+#: 
+msgctxt "alerts_whatisthis_guide_4"
+msgid "Trigger conditions can be set against any market field and future plans will allow you to manage these dynamically as well as setup automatic triggers based on your retainers current sales."
+msgstr "Les conditions de déclenchement peuvent être configurées par rapport à n'importe quel champ du tableau des ventes, et devrait te permettre dans le futur de les gérer dynamiquement, ainsi que de définir des déclencheurs automatiques en fonction des ventes actuelles de tes servants."
+
+#: 
+msgctxt "alerts_trigger_condition_info_title"
+msgid "Trigger Condition Information"
+msgstr "Information sur les conditions de déclenchement"
+
+#: 
+msgctxt "alerts_trigger_condition_info_guide_1"
+msgid "<strong>Prices/History: Added</strong><br>\n"
+"This is currently an Epoch Unix Timestamp. Work is being done to improve this."
+msgstr "<strong>Prix/Historique : Ajouté</strong><br>\n"
+"Il s'agit pour l'instant d'un horodatage de type Epoch Unix. Des travaux sont en cours pour améliorer ceci."
+
+#: 
+msgctxt "alerts_trigger_condition_info_guide_2"
+msgid "<strong>Prices/History: \"IsXX\"</strong><br>\n"
+"The Is condition triggers such as IsHQ are bools and the value must be either 1 or 0 for true / false."
+msgstr "<strong>Prix/Historique: \"IsXX\"</strong><br>\n"
+"La condition \"Is\" comme par exemple IsHQ sont des valeurs booléennes et leur valeur doit être soit 1 ou 0, respectivement pour vrai ou faux."
+
+#: 
+msgctxt "alerts_trigger_condition_info_guide_3"
+msgid "<strong>History:</strong><br>\n"
+"Events for history will be based on entries added to the history after the event was created."
+msgstr "<strong>Historique :</strong><br>\n"
+"Les événements de l'historique seront basés sur les entrées du marché ajoutées à l'historique après que l'événement soit créé."
+
+#: 
+msgctxt "friends_guide_1"
+msgid "If logged in and character verified, show if any friends have purchased this item."
+msgstr "Si tu es connecté et que ton personnage est vérifié, indique si un de tes amis a acheté cet objet."
+
+#: 
+msgctxt "generic_quantity_shorthand"
+msgid "#"
+msgstr "#"
+
+#: 
+msgctxt "generic_item"
+msgid "Item"
+msgstr "Objet"
+
+#: 
+msgctxt "generic_server"
+msgid "Server"
+msgstr "Serveur"
+
+#: 
+msgctxt "generic_price"
+msgid "Price"
+msgstr "Prix"
+
+#: 
+msgctxt "generic_quantity_shorthand"
+msgid "QTY"
+msgstr "QTÉ"
+
+#: 
+msgctxt "generic_total"
+msgid "Total"
+msgstr "Total"
+
+#: 
+msgctxt "generic_percent_difference_shorthand"
+msgid "%Diff"
+msgstr "%Diff"
+
+#: 
+msgctxt "generic_buyer"
+msgid "Buyer"
+msgstr "Acheteur"
+
+#: 
+msgctxt "generic_date"
+msgid "Date"
+msgstr "Date"
+
+#: Shown if the item has no recorded sales, you can have fun with this.
+msgctxt "market_board_really_rare"
+msgid "Really rare!?"
+msgstr "Vraiment rare!?"
+
+#: 
+msgctxt "market_board_no_recorded_history"
+msgid "There is currently no recorded history for this item on Universalis."
+msgstr "Il n'y a actuellement aucun historique connu pour cet objet dans Universalis."
+
+#: 
+msgctxt "generic_stack_size_colon"
+msgid "Stack:"
+msgstr "Pile :"
+
+#: 
+msgctxt "generic_menu"
+msgid "Menu"
+msgstr "Menu"
+
+#: 
+msgctxt "generic_cross_world"
+msgid "Cross-World"
+msgstr "Inter-Monde"
+
+#: 
+msgctxt "generic_alerts"
+msgid "Alerts"
+msgstr "Alertes"
+
+#: %s here is HQ/NQ, using the existing translations for those.
+msgctxt "market_board_ppu"
+msgid "(%s) Price Per Unit"
+msgstr "(%s) Prix Par Unité"
+
+#: %s here is High-Quality/Normal Quality, using the existing translations for those.
+msgctxt "market_board_ppu_quantity"
+msgid "(%s) Price Per Unit QUANTITY"
+msgstr "(%s) Prix Par Unité QUANTITÉ"
+
+#: 
+msgctxt "market_board_stack_size_histogram_title"
+msgid "STACK SIZE HISTOGRAM <small>Last 20 Sales</small>"
+msgstr "TAILLE de la PILE HISTOGRAMME <small>20 dernières ventes</small>"
+
+#: Cheapest HQ/Cheapest NQ
+msgctxt "market_board_cheapest_title"
+msgid "Cheapest %s"
+msgstr "Moins cher %s"
+
+#: 
+msgctxt "generic_server_colon"
+msgid "Server:"
+msgstr "Serveur :"
+
+#: 
+msgctxt "generic_total_colon"
+msgid "Total:"
+msgstr "Total :"
+
+#: 
+msgctxt "market_board_none_for_sale"
+msgid "No %s for sale."
+msgstr "Pas de %s à la vente."
+
+#: 
+msgctxt "market_board_no_hq_variant"
+msgid "Item has no HQ variant."
+msgstr "Cet objet n'a pas de version HQ."
+
+#: 
+msgctxt "market_board_purchase_history_title"
+msgid "Cross-World Purchase history (500 sales)"
+msgstr "Historique des achats Inter-Monde (500 ventes)"
+
+#: As in price per unit.
+msgctxt "generic_perunit"
+msgid "(%s) PerUnit"
+msgstr "(%s) ParUnité"
+
+#: 
+msgctxt "generic_perunit_quantity"
+msgid "(%s) PerUnit QUANTITY"
+msgstr "(%s) ParUnité QUANTITÉ"
+
+#: 
+msgctxt "generic_prices_2"
+msgid "%s Prices"
+msgstr "%s Prix"
+
+#: 
+msgctxt "generic_purchase_history"
+msgid "%s Purchase History"
+msgstr "%s Historique d'achat"
+
+#: 
+msgctxt "market_board_avg_perunit"
+msgid "Avg. Per Unit"
+msgstr "Moy. Par Unité"
+
+#: 
+msgctxt "market_board_avg_total"
+msgid "Avg. Total"
+msgstr "Moy. Total"
+
+#: 
+msgctxt "load_speed"
+msgid "Load Speed: %f"
+msgstr "Vitesse de chargement : %f"
+
+#: 
+msgctxt "item_shops_purchasable_npc_title"
+msgid "Purchasable from NPC Vendors"
+msgstr "Peut être acheté auprès des vendeurs PNJ"
+
+#: 
+msgctxt "item_shops_purchasable_npc_explanation"
+msgid "As this item can be bought from NPCs for pure Gil, market information is not available."
+msgstr "Comme cet objet peut être acheté auprès des PNJs pour des Gils, les informations du marché ne sont pas disponibles."
+
+#: 
+msgctxt "generic_gil"
+msgid "Gil"
+msgstr "Gil"
+
+#: 
+msgctxt "item_shops_purchasable_npc_not_found"
+msgid "Position unknown, go hunt for them!"
+msgstr "Position inconnue, chasse-les !"
+
+#: 
+msgctxt "pos_x"
+msgid "X: <span class=\"text-yellow\">%f</span>"
+msgstr "X: <span class=\"text-yellow\">%f</span>"
+
+#: 
+msgctxt "pos_y"
+msgid "Y: <span class=\"text-yellow\">%f</span>"
+msgstr "Y: <span class=\"text-yellow\">%f</span>"
+
+#: 
+msgctxt "generic_items_colon"
+msgid "Items:"
+msgstr "Objets :"
+
+#: 
+msgctxt "lists_have_none"
+msgid "You have no lists! <br> Create one by entering in a new name above."
+msgstr "Tu n'as aucune liste ! <br> Crées-en une en indiquant un nouveau nom ci-dessus."
+
+#: 
+msgctxt "lists_logged_out"
+msgid "You are not logged in. Login using Discord to create item lists."
+msgstr "Tu n'es pas connecté. Connecte-toi en utilisant Discord pour créer des listes d'objets."
+
+#: 
+msgctxt "ext_garlandtools"
+msgid "Show on GarlandTools"
+msgstr "Afficher sur GarlandTools"
+
+#: 
+msgctxt "ext_teamcraft"
+msgid "Show on Teamcraft"
+msgstr "Afficher sur Teamcraft"
+
+#: Slang of "favorited"
+msgctxt "generic_faved"
+msgid "Faved"
+msgstr "Préféré"
+
+#: Verb
+msgctxt "generic_favourite"
+msgid "Favourite"
+msgstr "Favoris"
+
+#: 
+msgctxt "lists_add_to_list"
+msgid "Add to list"
+msgstr "Ajouter à une liste"
+
+#: 
+msgctxt "lists_loading_lists"
+msgid "Loading your item lists"
+msgstr "Chargement de tes listes d'objets"
+
+#: 
+msgctxt "lists_limit_reached"
+msgid "You have reached the maximum of 12 lists. You cannot create any more."
+msgstr "Tu as atteint le nombre maximal de 12 listes. Tu ne peux pas en créer d'autres."
+
+#: 
+msgctxt "lists_option_1"
+msgid "Option 1) Create a new list:"
+msgstr "Option 1) Créer une nouvelle liste :"
+
+#: 
+msgctxt "lists_option_2"
+msgid "Option 2) Use an existing list:"
+msgstr "Option 2) Utiliser une liste existante :"
+
+#: 
+msgctxt "generic_remove_capitalized"
+msgid "REMOVE"
+msgstr "RETIRER"
+
+#: 
+msgctxt "no_market_data_title_1"
+msgid "Sorry, no market data!"
+msgstr "Désolé, aucune information du marché !"
+
+#: 
+msgctxt "no_market_data_explanation_1"
+msgid "Universalis could not find any market data for this item on the server <strong>%s</strong>."
+msgstr "Universalis n'a pas pu trouver de données du marché pour cet objet sur le serveur <strong>%s</strong>."
+
+#: 
+msgctxt "no_market_data_title_2"
+msgid "There can be a few reasons for this, here are some:"
+msgstr "Il peut y avoir plusieurs raisons à cela, en voici quelques-unes :"
+
+#: 
+msgctxt "no_market_data_explanation_2"
+msgid "%s is a brand new server"
+msgstr "%s est un tout nouveau serveur"
+
+#: 
+msgctxt "no_market_data_explanation_3"
+msgid "No one has contributed any information about this item yet"
+msgstr "Personne n'a encore fourni d'informations sur cet objet"
+
+#: 
+msgctxt "no_market_data_explanation_4"
+msgid "Something broke"
+msgstr "Quelque chose s'est mal passé"
+
+#: 
+msgctxt "no_market_data_explanation_5"
+msgid "If it is that last one, be sure to jump on <a href=\"%s\">Discord</a> and let us know!"
+msgstr "Si c'est cette dernière explication, n'hésite pas à venir sur <a href=\"%s\">Discord</a> pour nous le signaler."
+
+#: 
+msgctxt "generic_prices_capitalized"
+msgid "PRICES"
+msgstr "PRIX"
+
+#: 
+msgctxt "generic_updated_colon"
+msgid "Updated:"
+msgstr "Mis à jour :"
+
+#: 
+msgctxt "generic_material_shorthand"
+msgid "Mat"
+msgstr "Mat"
+
+#: 
+msgctxt "generic_retainer"
+msgid "Retainer"
+msgstr "Servant"
+
+#: 
+msgctxt "generic_creator"
+msgid "Creator"
+msgstr "Créateur"
+
+#: 
+msgctxt "generic_no_listings"
+msgid "No Listings"
+msgstr "Pas de listes"
+
+#: 
+msgctxt "prices_no_listings"
+msgid "There are no listings for this item, check back later!"
+msgstr "Il n'y a aucune liste pour cet objet, reviens voir plus tard !"
+
+#: 
+msgctxt "special_shops_title"
+msgid "Special Shops"
 msgstr ""
 
-#: components/HomeUserList/HomeUserList.tsx:143
-#~ msgid "list_guide"
-#~ msgstr ""
+#: 
+msgctxt "special_shop_title_colon"
+msgid "Special Shop:"
+msgstr ""
+
+#: 
+msgctxt "generic_cost"
+msgid "Cost"
+msgstr "Coût"
+
+#: 
+msgctxt "generic_qty_received"
+msgid "Qty Received"
+msgstr "Qté reçue"
+
+#: 
+msgctxt "generic_quantity"
+msgid "Quantity"
+msgstr "Quantité"
+
+#: 
+msgctxt "generic_ppu"
+msgid "Price Per Unit"
+msgstr "Prix Par Unité"
+
+#: 
+msgctxt "generic_price_total"
+msgid "Price Total"
+msgstr "Prix Total"
+
+#: 
+msgctxt "generic_gil_per_token"
+msgid "Gil Per Token"
+msgstr "Gil par token"
+
+#: 
+msgctxt "shop_no_listings"
+msgid "None on the market board"
+msgstr "Rien sur le tableau des ventes"
+
+#: 
+msgctxt "generic_cannot_be_sold_capitalized"
+msgid "CANNOT BE SOLD"
+msgstr "NE PEUT PAS ÊTRE VENDU"
+
+#: 
+msgctxt "generic_hq_colon"
+msgid "HQ:"
+msgstr "HQ:"
+
+#: 
+msgctxt "generic_account"
+msgid "Account"
+msgstr "Compte"
+
+#: 
+msgctxt "generic_data_center"
+msgid "Data Center"
+msgstr "Data Center"
+
+#: 
+msgctxt "alerts_none_sent"
+msgid "Alert has not sent any notifications."
+msgstr "L'alerte n'a envoyé aucune notification."
+
+#: 
+msgctxt "alerts_useraccount_guide_1"
+msgid "You can add alerts on item pages."
+msgstr "Tu peux ajouter des alertes sur les pages des objets."
+
+#: 
+msgctxt "generic_max_quantity"
+msgid "Max: %d"
+msgstr "Max: %d"
+
+#: 
+msgctxt "generic_events"
+msgid "Events"
+msgstr "Événéments"
+
+#: 
+msgctxt "generic_expires_colon"
+msgid "Expires:"
+msgstr "Expire :"
+
+#: 
+msgctxt "alerts_is_active"
+msgid "Alert is active"
+msgstr "L'alerte est active"
+
+#: 
+msgctxt "alerts_is_inactive"
+msgid "Alert has been disabled."
+msgstr "L'alerte a été désactivée."
+
+#: 
+msgctxt "generic_information"
+msgid "Information"
+msgstr "Information"
+
+#: 
+msgctxt "generic_type"
+msgid "Type"
+msgstr "Type"
+
+#: 
+msgctxt "generic_sent_today"
+msgid "Sent Today"
+msgstr "Envoyé aujourd'hui"
+
+#: 
+msgctxt "generic_last_sent"
+msgid "Last Sent"
+msgstr "Envoyé pour la dernière fois"
+
+#: 
+msgctxt "generic_n_days"
+msgid "%d days"
+msgstr "%d jours"
+
+#: 
+msgctxt "generic_max_alerts"
+msgid "Max Alerts"
+msgstr "Alertes Max"
+
+#: 
+msgctxt "generic_alert_expiry_time"
+msgid "Alert Expiry Time"
+msgstr "Durée d'expiration de l'alerte"
+
+#: 
+msgctxt "generic_alert_item_update"
+msgid "Alert Item Update"
+msgstr "Mise à jour de l'alerte pour l'objet"
+
+#: 
+msgctxt "alerts_useraccount_guide_2"
+msgid "Alerts allow you to track all kinds of information about items on the market and be informed either by Discord or email for any changes that meet your requirements. To get started with creating alerts, go search for any item and then click on the Alert tab on the left."
+msgstr "Les alertes te permettent de suivre toute sorte d'information concernant les objets sur le marché et d'être informé soit sur Discord soit par email pour tout changement que tu aurais choisis de suivre. Pour créer des alertes, cherche un objet et clique sur l'onglet Alerte sur la gauche."
+
+#: 
+msgctxt "alerts_useraccount_guide_3"
+msgid "<strong>Alert Expiration:</strong> To keep the system clean, alerts will expire after a set amount of time from when they were created. To refresh a notification you must return to Universalis and be logged in."
+msgstr "<strong>Expiration de l'alerte :</strong> Pour garder le système sain, les alertes expirent automatiquement un certain temps après leur création. Pour rafraîchir une notification, tu dois revenir consulter Universalis et être connecté."
+
+#: 
+msgctxt "alerts_useraccount_quota"
+msgid "You can create: <strong class=\"text-green\">%d</strong> alerts with an expiry time of: <strong class=\"text-green\">%d days</strong>."
+msgstr "Tu peux créer: <strong class=\"text-green\">%d</strong> alertes avec une durée d'expiration  de : <strong class=\"text-green\">%d jours</strong>."
+
+#: 
+msgctxt "generic_reports"
+msgid "Reports"
+msgstr "Rapports"
+
+#: 
+msgctxt "generic_characters"
+msgid "Characters"
+msgstr "Personnages"
+
+#: 
+msgctxt "characters_set_main"
+msgid "Set character as MAIN."
+msgstr "Définir ce personnage comme ton PRINCIPAL."
+
+#: 
+msgctxt "characters_no_characters"
+msgid "You have no characters, why not add one below!"
+msgstr "Tu n'as aucun personnage, pourquoi ne pas en ajouter un ci-dessous !"
+
+#: 
+msgctxt "characters_add_new_title"
+msgid "Add a new character"
+msgstr "Ajouter un nouveau personnage"
+
+#: 
+msgctxt "characters_auth_code"
+msgid "AUTH CODE: %s"
+msgstr "CODE D'AUTHENTIFICATION : %s"
+
+#: 
+msgctxt "characters_guide_1"
+msgid "To add a new character, you must first add your verification code. <strong>Please add your MAIN character first</strong>."
+msgstr "Pour ajouter un nouveau personnage, tu dois d'abord entrer ton code de vérification. <strong>Merci d'ajouter ton personnage PRINCIPAL en premier</strong>."
+
+#: 
+msgctxt "generic_selected"
+msgid "selected"
+msgstr "sélectionné"
+
+#: 
+msgctxt "generic_search"
+msgid "Search"
+msgstr "Rechercher"
+
+#: 
+msgctxt "generic_name_id_lodestone_url"
+msgid "Name, ID, or Lodestone URL"
+msgstr "Nom, ID, ou URL Lodestone"
+
+#: 
+msgctxt "characters_guide_2"
+msgid "Go to Lodestone and Login with your character. Then <a href=\"%s\">click here to edit your profile</a>."
+msgstr "Va sur Lodestone et connecte toi avec ton personnage. Ensuite <a href=\"%s\">clique ici pour éditer ton profil</a>."
+
+#: 
+msgctxt "characters_guide_3"
+msgid "In the text box, enter in your <strong>AUTH CODE</strong>, then click on Confirm (twice)."
+msgstr "Dans le champ de texte, entre ton <strong>CODE D'AUTHENTIFICATION</strong>, puis clique sur Confirmer (deux fois)."
+
+#: 
+msgctxt "characters_guide_4"
+msgid "Hop back to Universalis and fill in the form below. The site will search for your character and confirm your auth code."
+msgstr "Reviens sur Universalis et remplis le formulaire ci-dessous. Le site va chercher ton personnage et confirmer ton code d'authentification."
+
+#: 
+msgctxt "generic_logout"
+msgid "Logout"
+msgstr "Se déconnecter"
+
+#: 
+msgctxt "generic_oops"
+msgid "Oops!"
+msgstr "Oups !"
+
+#: 
+msgctxt "useraccount_index_logged_out_1"
+msgid "You must be logged in to view this area."
+msgstr "Tu dois être connecté pour voir cet espace."
+
+#: 
+msgctxt "useraccount_index_logged_out_2"
+msgid "You can <a href=\"%s\">login via Discord</a> to get that juicy access!"
+msgstr "Tu peux <a href=\"%s\">te connecter via Discord</a> pour obtenir cet accès incroyable !"
+
+#: 
+msgctxt "generic_delete_list"
+msgid "Delete List"
+msgstr "Supprimer la liste"
+
+#: 
+msgctxt "useraccount_lists_no_lists"
+msgid "You have no lists, visit some items and create some!"
+msgstr "Tu n'as aucune liste, consulte des objets et crées-en quelques-unes !"
+
+#: 
+msgctxt "userlist_tab_title"
+msgid "Custom Universalis list by %s"
+msgstr "List Universalis personnalisée par %s"
+
+#: 
+msgctxt "generic_list"
+msgid "List"
+msgstr "Liste"
+
+#: 
+msgctxt "userlists_no_items"
+msgid "You have no items in this list."
+msgstr "Tu n'as aucun objet dans cette liste."
+
+#: 
+msgctxt "generic_list_capitalized"
+msgid "LIST"
+msgstr "LISTE"
+
+#: 
+msgctxt "generic_show_cross_world"
+msgid "Show Cross-World"
+msgstr "Afficher Inter-Monde"
+
+#: Like current/max items.
+msgctxt "n_of_m_items"
+msgid "%d / %d items"
+msgstr "%d / %d objets"
+
+#: 
+msgctxt "generic_show_home_server_only"
+msgid "Show Home Server Only"
+msgstr "Afficher seulement le Monde d'origine"
+
+#: 
+msgctxt "userlists_remove_item_tooltip"
+msgid "Remove item from list"
+msgstr "Retirer l'objet de la liste"
+
+#: 
+msgctxt "userlists_top_5_sale"
+msgid "Top 5 cheapest - Total for sale: %d"
+msgstr "Top 5 des moins chers - Total pour les ventes : %d"
+
+#: 
+msgctxt "generic_last_5_sales"
+msgid "Last 5 sales"
+msgstr "5 dernières ventes"
+
+#: 
+msgctxt "generic_last_updated_colon"
+msgid "Last updated:"
+msgstr "Dernière mise à jour :"
+
+#: 
+msgctxt "userlists_fetch_failed_for_item"
+msgid "Market info could not be fetched for: %s at this time."
+msgstr "Les informations du marché n'ont pas pu être retrouvées pour : %s pour le moment."
+
+#: 
+msgctxt "contribute_description_matcha"
+msgid "If you are playing on chinese server(other servers are not supported), you can use Matcha plugin provided by FFCAFE which have built-in Universalis integration. Matcha also provides a overlay to show price information from Universalis."
+msgstr "Si tu joues sur un serveur chinois (les autres serveurs ne sont pas supportés), tu peux utiliser le plugin Matcha fournis par FFCAFE qui s'intègre nativement avec Universalis. Matcha fournis aussi un overlay pour montrer les prix depuis Universalis."
+
+#: 
+msgctxt "generic_no_data"
+msgid "No data"
+msgstr "Pas de données"
+
+#: 
+msgctxt "generic_not_sellable"
+msgid "Not Sellable"
+msgstr "Non vendable"
+
+#: 
+msgctxt "generic_cannot_be_sold"
+msgid "Cannot be sold"
+msgstr "Ne peut pas être vendu"
+
+#: 
+msgctxt "user_list_recently_viewed"
+msgid "Recently Viewed"
+msgstr "Consultés récemment"
+
+#: 
+msgctxt "user_list_favourites"
+msgid "Favourites"
+msgstr "Favoris"
+
+#: 
+msgctxt "alerts_create_alert_guide_6"
+msgid "Should the alert check the whole Data Center?"
+msgstr "L'alerte doit surveiller le centre de données ?"
+
+#: 
+msgctxt "alerts_create_alert_guide_7"
+msgid "Check entire Data Center"
+msgstr "Surveiller le centre de données"
+
+#: 
+msgctxt "lists_rename_list"
+msgid "Rename List"
+msgstr ""
+
+#: 
+msgctxt "generic_rename"
+msgid "Rename"
+msgstr ""
+
+#: 
+msgctxt "sales_label"
+msgid "Sales"
+msgstr ""
+
+#: 
+msgctxt "listings_label"
+msgid "Listings"
+msgstr ""
+
