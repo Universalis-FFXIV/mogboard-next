@@ -1,6 +1,7 @@
-import { Trans } from '@lingui/macro';
+import { t, Trans } from '@lingui/macro';
 import RelativeTime from '@yaireo/relative-time';
 import Link from 'next/link';
+import { sprintf } from 'sprintf-js';
 import useSWR from 'swr';
 import useSWRImmutable from 'swr/immutable';
 import useSettings from '../../hooks/useSettings';
@@ -23,21 +24,23 @@ interface CheapestListingProps {
 
 function CheapestListing({ listing, hq }: CheapestListingProps) {
   const quality = hq ? 'HQ' : 'NQ';
+  const header = sprintf(t`Cheapest %s`, quality);
+  const none = sprintf(t`No %s for sale.`, quality);
   return (
     <div className="cheapest">
-      <h2 style={{ margin: 0 }}>Cheapest {quality}</h2>
+      <h2 style={{ margin: 0 }}>{header}</h2>
       {listing && (
         <div className="cheapest_price">
           <i className="xiv-Gil"></i>
           <em>{listing.quantity.toLocaleString()} x </em>
           <span className="cheapest_value">{listing.pricePerUnit.toLocaleString()} </span>
           <span className="cheapest_price_info">
-            Server: <strong>{listing.worldName}</strong> - Total:{' '}
+            <Trans>Server:</Trans> <strong>{listing.worldName}</strong> - <Trans>Total:</Trans>{' '}
             <strong>{listing.total.toLocaleString()}</strong>
           </span>
         </div>
       )}
-      {!listing && `No ${quality} for sale.`}
+      {!listing && none}
     </div>
   );
 }
@@ -130,6 +133,7 @@ export default function HomeUserList({ dcs, list }: HomeUserListProps) {
   }, {});
 
   const relativeTime = new RelativeTime();
+  const listDescription = sprintf(t`%d items in this list`, list.items.length);
 
   return (
     <div className="home-tab open">
@@ -143,7 +147,7 @@ export default function HomeUserList({ dcs, list }: HomeUserListProps) {
           <Trans>Click on the list title to view market information for this list.</Trans>
         </p>
         <br />
-        <h6>{list.items.length} items in this list</h6>
+        <h6>{listDescription}</h6>
         <ul>
           {list.items
             .filter(
@@ -165,14 +169,14 @@ export default function HomeUserList({ dcs, list }: HomeUserListProps) {
                     <a href={`/market/${item}`} className={`rarity-${itemInfo.rarity}`}>
                       {itemInfo.name}
                     </a>
-                    <small>{itemInfo.categoryId ? itemCat?.name : '(Not Sellable)'}</small>
+                    <small>{itemInfo.categoryId ? itemCat?.name : `(${t`Not Sellable`})`}</small>
                   </div>
                   <div style={{ flex: '0 0 50%' }}>
                     <CheapestListing listing={itemCheapestHq} hq={true} />
                     <CheapestListing listing={itemCheapestNq} hq={false} />
                     <div>
                       <small>
-                        Last updated:{' '}
+                        <Trans>Last updated:</Trans>{' '}
                         {itemMarketUpdated > 0
                           ? relativeTime.from(new Date(itemMarketUpdated))
                           : 'No data'}
