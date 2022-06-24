@@ -69,10 +69,23 @@ export default function SettingsModal({ isOpen, closeModal, onSave }: SettingsMo
     oceania: ['Materia'],
     china: ['陆行鸟', '莫古力', '猫小胖', '豆豆柴'],
   };
-  const dcs = (dcData.data ?? []).map((dc) => ({
-    name: dc.name,
-    worlds: dc.worlds.map((worldId) => worlds[worldId]),
-  }));
+  const dcs = (dcData.data ?? [])
+    .map((dc) => ({
+      name: dc.name,
+      region: dcRegions.europe.includes(dc.name)
+        ? 'Europe'
+        : dcRegions.japan.includes(dc.name)
+        ? 'Japan'
+        : dcRegions.america.includes(dc.name)
+        ? 'America'
+        : dcRegions.oceania.includes(dc.name)
+        ? 'Oceania'
+        : dcRegions.china.includes(dc.name)
+        ? '中国'
+        : '(Unknown)',
+      worlds: dc.worlds.map((worldId) => worlds[worldId]),
+    }))
+    .sort((a, b) => a.region.localeCompare(b.region));
 
   const timezones = tzData.data ?? [];
 
@@ -98,28 +111,15 @@ export default function SettingsModal({ isOpen, closeModal, onSave }: SettingsMo
                 }}
               >
                 <option disabled>- Please Choose a Server -</option>
-                {dcs.map(({ name, worlds }) => {
-                  const region = dcRegions.europe.includes(name)
-                    ? 'Europe'
-                    : dcRegions.japan.includes(name)
-                    ? 'Japan'
-                    : dcRegions.america.includes(name)
-                    ? 'America'
-                    : dcRegions.oceania.includes(name)
-                    ? 'Oceania'
-                    : dcRegions.china.includes(name)
-                    ? '中国'
-                    : '(Unknown)';
-                  return (
-                    <optgroup key={`${name} - ${region}`} label={`${name} - ${region}`}>
-                      {worlds.map((world) => (
-                        <option key={world} value={world}>
-                          {world}
-                        </option>
-                      ))}
-                    </optgroup>
-                  );
-                })}
+                {dcs.map(({ name, region, worlds }) => (
+                  <optgroup key={`${name} - ${region}`} label={`${name} - ${region}`}>
+                    {worlds.map((world) => (
+                      <option key={world} value={world}>
+                        {world}
+                      </option>
+                    ))}
+                  </optgroup>
+                ))}
               </select>
             </div>
           </div>
