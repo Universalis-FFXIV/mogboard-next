@@ -2,6 +2,7 @@ import { t } from '@lingui/macro';
 import { useState, useEffect } from 'react';
 import useSWRImmutable from 'swr';
 import { filterItemSearchCategories } from '../../../../data/game/isc';
+import { getRepositoryUrl } from '../../../../data/game/repository';
 import { getSearchIcon } from '../../../../data/game/xiv-font';
 import useSettings from '../../../../hooks/useSettings';
 import { CategoryItem } from '../../../../types/game/CategoryItem';
@@ -92,10 +93,9 @@ export default function CategoriesNavbar({ onCategoryOpen }: CategoriesNavbarPro
   const [categoriesIndex, setCategoriesIndex] = useState<ItemSearchCategory[]>([]);
   useEffect(() => {
     (async () => {
+      const baseUrl = getRepositoryUrl(lang);
       const isc: XIVAPIItemSearchCategoryIndex = await fetch(
-        `https://xivapi.com/ItemSearchCategory?columns=ID,Name,Category,Order&language=${
-          lang as string
-        }`
+        `${baseUrl}/ItemSearchCategory?columns=ID,Name,Category,Order&language=${lang}`
       ).then((res) => res.json());
       setCategoriesIndex(
         isc.Results.map((r) => ({

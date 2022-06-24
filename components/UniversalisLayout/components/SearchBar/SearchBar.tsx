@@ -1,44 +1,13 @@
 import { t, Trans } from '@lingui/macro';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+import { searchItems } from '../../../../data/game/search';
 import useClickOutside from '../../../../hooks/useClickOutside';
 import useSettings from '../../../../hooks/useSettings';
 import { Item } from '../../../../types/game/Item';
 
-interface XIVAPISearchResults {
-  Pagination: {
-    Results: number;
-    ResultsTotal: number;
-  };
-  Results: {
-    ID: number;
-    Icon: string;
-    ItemKind: {
-      Name: string;
-    };
-    ItemSearchCategory: {
-      ID: number;
-      Name: string;
-    };
-    LevelItem: number;
-    Name: string;
-    Rarity: number;
-  }[];
-}
-
 interface SearchBarProps {
   onResults: (results: Item[], totalResults: number, searchTerm: string) => void;
   onMarketClicked: () => void;
-}
-
-async function searchXIVAPI(
-  query: string,
-  lang: string,
-  algorithm: string = 'wildcard'
-): Promise<XIVAPISearchResults> {
-  const results: XIVAPISearchResults = await fetch(
-    `https://xivapi.com/search?string=${query}&indexes=item&language=${lang}&filters=ItemSearchCategory.ID>=1&columns=ID,Icon,Name,LevelItem,Rarity,ItemSearchCategory.Name,ItemSearchCategory.ID,ItemKind.Name&limit=100&sort_field=LevelItem&sort_order=desc&string_algo=${algorithm}`
-  ).then((res) => res.json());
-  return results;
 }
 
 export default function SearchBar({ onResults, onMarketClicked }: SearchBarProps) {
@@ -55,40 +24,25 @@ export default function SearchBar({ onResults, onMarketClicked }: SearchBarProps
 
   const search = async (q: string) => {
     try {
-      const res1 = await searchXIVAPI(q, settings['mogboard_language'] ?? 'en');
-      const res2 = await searchXIVAPI(q, settings['mogboard_language'] ?? 'en', 'fuzzy');
+      const res1 = await searchItems(q, settings['mogboard_language'] ?? 'en');
+      const res2 = await searchItems(q, settings['mogboard_language'] ?? 'en', 'fuzzy');
 
       const res = res1;
-      let shownResults = res1.Pagination.Results + res2.Pagination.Results;
-      let totalResults = res1.Pagination.ResultsTotal + res2.Pagination.ResultsTotal;
-      res2.Results.forEach((result) => {
-        if (!res.Results.find((item) => item.ID === result.ID)) {
-          res.Results.push(result);
+      let shownResults = res1.resultsReturned + res2.resultsReturned;
+      let totalResults = res1.resultsTotal + res2.resultsTotal;
+      res2.results.forEach((result) => {
+        if (!res.results.find((item) => item.id === result.id)) {
+          res.results.push(result);
         } else {
           shownResults--;
           totalResults--;
         }
       });
-      res.Results.sort((a, b) => b.LevelItem - a.LevelItem);
-      res.Pagination.Results = shownResults;
-      res.Pagination.ResultsTotal = totalResults;
+      res.results.sort((a, b) => b.levelItem - a.levelItem);
+      res.resultsReturned = shownResults;
+      res.resultsTotal = totalResults;
 
-      onResults(
-        res.Results.map((r) => ({
-          id: r.ID,
-          name: r.Name,
-          icon: `https://xivapi.com${r.Icon}`,
-          levelItem: r.LevelItem,
-          rarity: r.Rarity,
-          itemKind: r.ItemKind.Name,
-          itemSearchCategory: {
-            id: r.ItemSearchCategory.ID,
-            name: r.ItemSearchCategory.Name,
-          },
-        })),
-        res.Pagination.ResultsTotal,
-        q
-      );
+      onResults(res.results, res.resultsTotal, q);
     } catch (err) {
       console.error(err);
     }

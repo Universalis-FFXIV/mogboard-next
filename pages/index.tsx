@@ -19,6 +19,7 @@ import { DataCenter } from '../types/game/DataCenter';
 import HomeUserList from '../components/HomeUserList/HomeUserList';
 import { useState } from 'react';
 import { Trans } from '@lingui/macro';
+import { getRepositoryUrl } from '../data/game/repository';
 
 interface RecentItem {
   id: number;
@@ -144,7 +145,8 @@ export async function getServerSideProps(ctx: NextPageContext) {
     const shown = recentlyUpdated.items.slice(0, 6);
     for (const s of shown) {
       try {
-        const itemData = await fetch(`https://xivapi.com/Item/${s}`).then((res) => res.json());
+        const baseUrl = getRepositoryUrl(lang);
+        const itemData = await fetch(`${baseUrl}/Item/${s}`).then((res) => res.json());
         recent.push({
           id: s,
           levelItem: itemData.LevelItem,
