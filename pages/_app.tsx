@@ -9,6 +9,7 @@ import { Cookies, CookiesProvider } from 'react-cookie';
 import { SessionProvider } from 'next-auth/react';
 import { i18n } from '@lingui/core';
 import { I18nProvider } from '@lingui/react';
+import { en, ja, de, fr, zh } from 'make-plural/plurals';
 import { messages as messagesEn } from '../i18n/en/messages';
 import { messages as messagesJa } from '../i18n/ja/messages';
 import { messages as messagesDe } from '../i18n/de/messages';
@@ -23,21 +24,29 @@ i18n.load({
   fr: messagesFr,
   'zh-HANS': messagesZhHans,
 });
-i18n.activate('en');
+
+i18n.loadLocaleData({
+  en: { plurals: en },
+  ja: { plurals: ja },
+  de: { plurals: de },
+  fr: { plurals: fr },
+  'zh-HANS': { plurals: zh },
+});
 
 export default function MyApp({
   Component,
   cookies,
   pageProps: { session, ...pageProps },
 }: AppProps & { cookies: Record<string, string> }) {
+  i18n.activate(parseLang(new Cookies(cookies).get('mogboard_language')));
   return (
     <>
       <Head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
       <SessionProvider session={session}>
-        <CookiesProvider cookies={typeof window !== 'undefined' ? undefined : new Cookies(cookies)}>
-          <I18nProvider i18n={i18n}>
+        <CookiesProvider cookies={new Cookies(cookies)}>
+          <I18nProvider i18n={i18n} forceRenderOnLocaleChange={false}>
             <UniversalisLayout>
               <Component {...pageProps} />
             </UniversalisLayout>
@@ -52,3 +61,15 @@ MyApp.getInitialProps = async (appCtx: AppContext) => {
   const appProps = await App.getInitialProps(appCtx);
   return { ...appProps, cookies: appCtx.ctx.req?.headers?.cookie };
 };
+
+function parseLang(lang: any): string {
+  if (typeof lang !== 'string') {
+    return 'en';
+  }
+
+  if (lang === 'chs') {
+    return 'zh-HANS';
+  }
+
+  return lang;
+}
