@@ -10,7 +10,7 @@ const MogboardDocument = () => {
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://universalis.app" />
         <meta property="og:image" content="https://universalis.app/i/universalis/universalis.png" />
-        <meta name="keywords" content="FFXIV,Market,Boards,Database" />
+        <meta name="keywords" content="Universalis,FFXIV,Market,Board,Database,API" />
         <meta
           name="google-site-verification"
           content="sAL0Wyt9UZG63TXf1FK2aqMVOiGhcCqjZBuIp2onG0s"
