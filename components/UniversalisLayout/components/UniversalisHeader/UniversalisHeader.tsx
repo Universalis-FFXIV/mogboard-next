@@ -5,6 +5,7 @@ import Tooltip from '../../../Tooltip/Tooltip';
 import { useSession, signIn } from 'next-auth/react';
 import LoggedOut from '../../../LoggedOut/LoggedOut';
 import LoggedIn from '../../../LoggedIn/LoggedIn';
+import { Trans } from '@lingui/macro';
 
 interface UniversalisHeaderProps {
   onResults: (results: Item[], totalResults: number, searchTerm: string) => void;
@@ -38,13 +39,15 @@ const UniversalisHeader = ({
       <div>
         <LoggedOut hasSession={!!session}>
           <a className="btn-login" onClick={() => signIn('discord')}>
-            Login via Discord
+            <Trans>Login via Discord</Trans>
           </a>
         </LoggedOut>
         <LoggedIn hasSession={!!session}>
           <div>
             <Link href="/account">
-              <a>My Account</a>
+              <a>
+                <Trans>My Account</Trans>
+              </a>
             </Link>
             <span className="username">{session?.user?.name}</span>
           </div>

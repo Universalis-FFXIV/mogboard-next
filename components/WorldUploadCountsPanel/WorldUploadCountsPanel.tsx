@@ -1,3 +1,4 @@
+import { Trans } from '@lingui/macro';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import { useRef } from 'react';
@@ -96,7 +97,9 @@ export default function WorldUploadCountsPanel({ data, world }: WorldUploadCount
   return (
     <div className="flex updates_box" style={{ marginBottom: 20 }}>
       <div>
-        <h5>Upload Counts by World</h5>
+        <h5>
+          <Trans>Upload Counts by World</Trans>
+        </h5>
         <br />
         <div className="flex avg_prices">
           <div className="highchart-noborder" style={{ width: '100%' }}>

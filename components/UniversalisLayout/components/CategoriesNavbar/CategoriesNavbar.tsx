@@ -1,3 +1,4 @@
+import { t } from '@lingui/macro';
 import { useState, useEffect } from 'react';
 import useSWRImmutable from 'swr';
 import { filterItemSearchCategories } from '../../../../data/game/isc';
@@ -65,7 +66,9 @@ function NavCategoryGroup({
 }: NavCategoryGroupProps) {
   return (
     <div className="nav-box">
-      <div className="nav-heading">{sectionName}</div>
+      <div className="nav-heading" style={{ textTransform: 'uppercase' }}>
+        {sectionName}
+      </div>
       <div>
         {categories.map((cat) => (
           <NavCategory
@@ -126,7 +129,7 @@ export default function CategoriesNavbar({ onCategoryOpen }: CategoriesNavbarPro
   return (
     <div>
       <NavCategoryGroup
-        sectionName="WEAPONS"
+        sectionName={t`WEAPONS`}
         type="weapons"
         onCategoryOpen={onCategoryOpen}
         categories={weapons}
@@ -134,21 +137,21 @@ export default function CategoriesNavbar({ onCategoryOpen }: CategoriesNavbarPro
         breakCategories={[14, 19, 27]}
       />
       <NavCategoryGroup
-        sectionName="ARMOR"
+        sectionName={t`ARMOR`}
         type="armor"
         onCategoryOpen={onCategoryOpen}
         categories={armor}
         categoryItems={catItemsData}
       />
       <NavCategoryGroup
-        sectionName="ITEMS"
+        sectionName={t`ITEMS`}
         type="items"
         onCategoryOpen={onCategoryOpen}
         categories={items}
         categoryItems={catItemsData}
       />
       <NavCategoryGroup
-        sectionName="HOUSING"
+        sectionName={t`HOUSING`}
         type="housing"
         onCategoryOpen={onCategoryOpen}
         categories={housing}

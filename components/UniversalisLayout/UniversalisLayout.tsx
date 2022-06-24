@@ -108,6 +108,7 @@ export default function UniversalisLayout({ children }: PropsWithChildren) {
             setPopupMessage('Refreshing site, please wait...');
             setPopupForceOpen(true);
             setPopupOpen(true);
+            location.reload();
           }}
         />
       )}

@@ -1,5 +1,7 @@
+import { t, Trans } from '@lingui/macro';
 import { useEffect, useState } from 'react';
 import useClickOutside from '../../../../hooks/useClickOutside';
+import useSettings from '../../../../hooks/useSettings';
 import { Item } from '../../../../types/game/Item';
 
 interface XIVAPISearchResults {
@@ -30,10 +32,11 @@ interface SearchBarProps {
 
 async function searchXIVAPI(
   query: string,
+  lang: string,
   algorithm: string = 'wildcard'
 ): Promise<XIVAPISearchResults> {
   const results: XIVAPISearchResults = await fetch(
-    `https://xivapi.com/search?string=${query}&indexes=item&filters=ItemSearchCategory.ID>=1&columns=ID,Icon,Name,LevelItem,Rarity,ItemSearchCategory.Name,ItemSearchCategory.ID,ItemKind.Name&limit=100&sort_field=LevelItem&sort_order=desc&string_algo=${algorithm}`
+    `https://xivapi.com/search?string=${query}&indexes=item&language=${lang}&filters=ItemSearchCategory.ID>=1&columns=ID,Icon,Name,LevelItem,Rarity,ItemSearchCategory.Name,ItemSearchCategory.ID,ItemKind.Name&limit=100&sort_field=LevelItem&sort_order=desc&string_algo=${algorithm}`
   ).then((res) => res.json());
   return results;
 }
@@ -43,6 +46,7 @@ export default function SearchBar({ onResults, onMarketClicked }: SearchBarProps
   const [complete, setComplete] = useState(false);
   const [searching, setSearching] = useState(false);
   const [query, setQuery] = useState('');
+  const [settings] = useSettings();
 
   const inputRef = useClickOutside<HTMLInputElement>(null, () => {
     setTyping(false);
@@ -51,8 +55,8 @@ export default function SearchBar({ onResults, onMarketClicked }: SearchBarProps
 
   const search = async (q: string) => {
     try {
-      const res1 = await searchXIVAPI(q);
-      const res2 = await searchXIVAPI(q, 'fuzzy');
+      const res1 = await searchXIVAPI(q, settings['mogboard_language'] ?? 'en');
+      const res2 = await searchXIVAPI(q, settings['mogboard_language'] ?? 'en', 'fuzzy');
 
       const res = res1;
       let shownResults = res1.Pagination.Results + res2.Pagination.Results;
@@ -106,7 +110,7 @@ export default function SearchBar({ onResults, onMarketClicked }: SearchBarProps
         ref={inputRef}
         type="text"
         className={`search ${typing ? 'typing' : ''} ${complete ? 'complete' : ''}`}
-        placeholder="Search"
+        placeholder={t`Search`}
         value={query}
         onChange={(e) => {
           const val = e.target.value.trim();
@@ -125,9 +129,11 @@ export default function SearchBar({ onResults, onMarketClicked }: SearchBarProps
           }
         }}
       />
-      <button className="btn-market-board" onClick={onMarketClicked}>
+      <button className="btn-market-board" style={{ display: 'flex' }} onClick={onMarketClicked}>
         <i className="xiv-Market"></i>
-        <span>Market</span>
+        <span>
+          <Trans>Market</Trans>
+        </span>
       </button>
     </div>
   );

@@ -1,3 +1,4 @@
+import { Trans } from '@lingui/macro';
 import useSWRImmutable from 'swr/immutable';
 import { filterItemSearchCategories } from '../../../../data/game/isc';
 import { getSearchIcon } from '../../../../data/game/xiv-font';
@@ -98,7 +99,9 @@ export default function SearchCategories({
     <div ref={boxRef} className={`market-board-container ${isOpen ? 'open' : ''}`}>
       <div className="market-board">
         <div className="categories">
-          <h2>WEAPONS</h2>
+          <h2>
+            <Trans>WEAPONS</Trans>
+          </h2>
           <div className="categories-list">
             {weapons.map((cat) => (
               <SearchCategoryButton
@@ -111,7 +114,9 @@ export default function SearchCategories({
           </div>
         </div>
         <div className="categories">
-          <h2>ARMOR</h2>
+          <h2 style={{ textTransform: 'uppercase' }}>
+            <Trans>ARMOR</Trans>
+          </h2>
           <div className="categories-list">
             {armor.map((cat) => (
               <SearchCategoryButton
@@ -124,7 +129,9 @@ export default function SearchCategories({
           </div>
         </div>
         <div className="categories">
-          <h2>ITEMS</h2>
+          <h2 style={{ textTransform: 'uppercase' }}>
+            <Trans>ITEMS</Trans>
+          </h2>
           <div className="categories-list">
             {items.map((cat) => (
               <SearchCategoryButton
@@ -137,7 +144,9 @@ export default function SearchCategories({
           </div>
         </div>
         <div className="categories">
-          <h2>HOUSING</h2>
+          <h2 style={{ textTransform: 'uppercase' }}>
+            <Trans>HOUSING</Trans>
+          </h2>
           <div className="categories-list">
             {housing.map((cat) => (
               <SearchCategoryButton

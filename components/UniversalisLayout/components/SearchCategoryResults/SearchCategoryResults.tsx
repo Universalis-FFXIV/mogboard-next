@@ -1,3 +1,4 @@
+import { Trans } from '@lingui/macro';
 import Image from 'next/image';
 import Link from 'next/link';
 import SimpleBar from 'simplebar-react';
@@ -19,18 +20,18 @@ export default function SearchCategoryResults({
   closeResults,
 }: SearchCategoryResultsProps) {
   const resultsRef = useClickOutside<HTMLDivElement>(null, closeResults);
-  const searchHeight = 695;
-
   return (
     <div ref={resultsRef} className={`market-category-container ${isOpen ? 'open' : ''}`}>
       <div className="market-category">
         <div className="item-category-header">
           <div>
-            {category?.name} - {items.length} items
+            <Trans>
+              {category?.name} - {items.length} items
+            </Trans>
           </div>
           <div>&nbsp;</div>
         </div>
-        <SimpleBar style={{ height: searchHeight }}>
+        <SimpleBar style={{ height: '73vh' }}>
           <div className="gap" />
           {items.map((item) => (
             <Link key={item.id} href={`/market/${item.id}`}>

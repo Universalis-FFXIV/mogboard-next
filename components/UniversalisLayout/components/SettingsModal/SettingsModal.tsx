@@ -1,3 +1,4 @@
+import { t, Trans } from '@lingui/macro';
 import { useState } from 'react';
 import useSWRImmutable from 'swr';
 import useClickOutside from '../../../../hooks/useClickOutside';
@@ -73,22 +74,23 @@ export default function SettingsModal({ isOpen, closeModal, onSave }: SettingsMo
     .map((dc) => ({
       name: dc.name,
       region: dcRegions.europe.includes(dc.name)
-        ? 'Europe'
+        ? t`Europe`
         : dcRegions.japan.includes(dc.name)
-        ? 'Japan'
+        ? t`Japan`
         : dcRegions.america.includes(dc.name)
-        ? 'America'
+        ? t`America`
         : dcRegions.oceania.includes(dc.name)
-        ? 'Oceania'
+        ? t`Oceania`
         : dcRegions.china.includes(dc.name)
-        ? '中国'
-        : '(Unknown)',
+        ? t`中国`
+        : t`(Unknown)`,
       worlds: dc.worlds.map((worldId) => worlds[worldId]),
     }))
     .sort((a, b) => a.region.localeCompare(b.region));
 
   const timezones = tzData.data ?? [];
 
+  console.log('begin');
   return (
     <div ref={modalRef} className={`modal modal_settings ${isOpen ? 'open' : ''}`}>
       <button type="button" className="modal_close_button" onClick={closeModal}>
@@ -98,7 +100,9 @@ export default function SettingsModal({ isOpen, closeModal, onSave }: SettingsMo
       <div className={`row row_top ${settings['mogboard_server'] == '' ? 'row-alert' : ''}`}>
         <div className="flex">
           <div className="flex_50">
-            <label htmlFor="servers">Your Server</label>
+            <label htmlFor="servers">
+              <Trans>Your Server</Trans>
+            </label>
             <div className="form">
               <select
                 value={server}
@@ -110,9 +114,9 @@ export default function SettingsModal({ isOpen, closeModal, onSave }: SettingsMo
                   }
                 }}
               >
-                <option disabled>- Please Choose a Server -</option>
+                <option value={t`- Please Choose a Server -`} disabled />
                 {dcs.map(({ name, region, worlds }) => (
-                  <optgroup key={`${name} - ${region}`} label={`${name} - ${region}`}>
+                  <optgroup key={name} label={`${name} - ${region}`}>
                     {worlds.map((world) => (
                       <option key={world} value={world}>
                         {world}
@@ -125,7 +129,9 @@ export default function SettingsModal({ isOpen, closeModal, onSave }: SettingsMo
           </div>
 
           <div className="flex_50">
-            <label htmlFor="languages">Language</label>
+            <label htmlFor="languages">
+              <Trans>Language</Trans>
+            </label>
             <div className="form">
               <select
                 value={lang}
@@ -141,7 +147,7 @@ export default function SettingsModal({ isOpen, closeModal, onSave }: SettingsMo
                   }
                 }}
               >
-                <option disabled>- Choose your language -</option>
+                <option value={t`- Choose your language -`} disabled />
                 <option value="en">English</option>
                 <option value="fr">Français</option>
                 <option value="de">Deutsch</option>
@@ -155,7 +161,9 @@ export default function SettingsModal({ isOpen, closeModal, onSave }: SettingsMo
       </div>
 
       <div className="row row_top">
-        <label htmlFor="timezones">Timezone</label>
+        <label htmlFor="timezones">
+          <Trans>Timezone</Trans>
+        </label>
         <div className="form">
           <select
             value={timezone}
@@ -167,7 +175,7 @@ export default function SettingsModal({ isOpen, closeModal, onSave }: SettingsMo
               }
             }}
           >
-            <option disabled>- Choose your timezone -</option>
+            <option value={t`- Choose your timezone -`} disabled />
             {timezones
               .sort((a, b) => a.offset - b.offset)
               .map(({ id, name }) => (
@@ -182,9 +190,13 @@ export default function SettingsModal({ isOpen, closeModal, onSave }: SettingsMo
       <div className="row row_top">
         <div className="flex">
           <div className="flex_50">
-            <label htmlFor="leftnav">Left Navigation</label>
+            <label htmlFor="leftnav">
+              <Trans>Left Navigation</Trans>
+            </label>
             <div style={{ paddingBottom: 10 }}>
-              <small>This enables a quick-access left-navigation of all market categories.</small>
+              <small>
+                <Trans>This enables a quick-access left-navigation of all market categories.</Trans>
+              </small>
             </div>
             <div className="form">
               <select
@@ -198,16 +210,25 @@ export default function SettingsModal({ isOpen, closeModal, onSave }: SettingsMo
                   }
                 }}
               >
-                <option value="off">No</option>
-                <option value="on">Yes</option>
+                <option value="off">
+                  <Trans>No</Trans>
+                </option>
+                <option value="on">
+                  <Trans>Yes</Trans>
+                </option>
               </select>
             </div>
           </div>
           <div className="flex_50">
-            <label htmlFor="homeworld">Default Home World</label>
+            <label htmlFor="homeworld">
+              <Trans>Default Home World</Trans>
+            </label>
             <div style={{ paddingBottom: 10 }}>
               <small>
-                This will show prices/history on your home world by default instead of cross-world.
+                <Trans>
+                  This will show prices/history on your home world by default instead of
+                  cross-world.
+                </Trans>
               </small>
             </div>
             <div className="form">
@@ -222,8 +243,12 @@ export default function SettingsModal({ isOpen, closeModal, onSave }: SettingsMo
                   }
                 }}
               >
-                <option value="no">No</option>
-                <option value="yes">Yes</option>
+                <option value="no">
+                  <Trans>No</Trans>
+                </option>
+                <option value="yes">
+                  <Trans>Yes</Trans>
+                </option>
               </select>
             </div>
           </div>
@@ -241,10 +266,9 @@ export default function SettingsModal({ isOpen, closeModal, onSave }: SettingsMo
             setSetting('mogboard_leftnav', showLeftNav);
             setSetting('mogboard_homeworld', showDefaultHomeWorld);
             onSave();
-            location.reload();
           }}
         >
-          Save Settings
+          <Trans>Save Settings</Trans>
         </button>
       </div>
     </div>
