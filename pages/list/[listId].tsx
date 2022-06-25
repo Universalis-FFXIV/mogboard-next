@@ -5,17 +5,19 @@ import { useSession } from 'next-auth/react';
 import Head from 'next/head';
 import { useState, useEffect } from 'react';
 import { sprintf } from 'sprintf-js';
+import useSWR from 'swr';
 import GameItemIcon from '../../components/GameItemIcon/GameItemIcon';
 import ItemHeader from '../../components/ItemHeader/ItemHeader';
-import ItemProvider, { useItem } from '../../components/ItemProvider/ItemProvider';
 import ListingsTable from '../../components/ListingsTable/ListingsTable';
 import SalesTable from '../../components/SalesTable/SalesTable';
 import Tooltip from '../../components/Tooltip/Tooltip';
+import { getRepositoryUrl } from '../../data/game/repository';
 import { acquireConn, releaseConn } from '../../db/connect';
 import * as userDb from '../../db/user';
 import * as listDb from '../../db/user-list';
 import useSettings from '../../hooks/useSettings';
 import { DataCenter } from '../../types/game/DataCenter';
+import { Item } from '../../types/game/Item';
 import { User, UserList } from '../../types/universalis/user';
 
 interface UserClean {
@@ -30,31 +32,14 @@ interface ListProps {
 }
 
 interface ListItemMarketProps {
-  dcs: DataCenter[];
+  item?: Item;
+  market: any;
   showHomeWorld: boolean;
-  world: string;
 }
 
-function ListItemMarket({ dcs, showHomeWorld, world }: ListItemMarketProps) {
-  const item = useItem();
-
-  const dc = dcs.find((x) => x.worlds.some((y) => y.name === world));
-  const [market, setMarket] = useState<any>(null);
-  useEffect(() => {
-    (async () => {
-      if (item == null) {
-        return;
-      }
-
-      const data = await fetch(
-        `https://universalis.app/api/${showHomeWorld ? world : dc?.name ?? 'Chaos'}/${item.id}`
-      ).then((res) => res.json());
-      setMarket(data);
-    })();
-  }, [item, showHomeWorld, world, dc]);
-
+function ListItemMarket({ item, market, showHomeWorld }: ListItemMarketProps) {
   if (item == null) {
-    return <></>;
+    return <div />;
   }
 
   const marketFailed = t`Market info could not be fetched for: %s at this time.`;
@@ -63,13 +48,13 @@ function ListItemMarket({ dcs, showHomeWorld, world }: ListItemMarketProps) {
   }
 
   const relativeTime = new RelativeTime();
-
-  const cheapestHeader = t`Top 5 cheapest - Total for sale: %d`;
   return (
     <div className="flex">
       <div className="flex_50 pl_mt_p">
         <div className="pl-mt">
-          <h3>{sprintf(cheapestHeader, market.listings.length)}</h3>
+          <h3>
+            <Trans>Top 5 cheapest</Trans>
+          </h3>
           <div>
             <ListingsTable
               market={market}
@@ -108,13 +93,77 @@ const List: NextPage<ListProps> = ({ dcs, list, owner }) => {
   const [settings] = useSettings();
   const session = useSession();
 
+  const lang = settings['mogboard_language'] ?? 'en';
   const showHomeWorld = settings['mogboard_homeworld'] === 'yes';
   const world = settings['mogboard_server'] ?? 'Phoenix';
+  const dc = dcs.find((x) => x.worlds.some((y) => y.name === world));
+  const server = showHomeWorld ? world : dc?.name ?? 'Chaos';
+
+  const listItems = list?.items as number[];
+  const itemIds = list?.items.join() ?? '0';
+
+  const market = useSWR(
+    `https://universalis.app/api/v2/${server}/${itemIds}?listings=5&entries=5`,
+    async (path) => {
+      const data = await fetch(path).then((res) => res.json());
+      return data;
+    }
+  );
+
+  const [items, setItems] = useState<Record<number, Item>>({});
+  useEffect(() => {
+    (async () => {
+      if (listItems == null) {
+        return;
+      }
+
+      const baseUrl = getRepositoryUrl(lang);
+      for (const itemId of listItems) {
+        let data: any = null;
+        do {
+          const res = await fetch(`${baseUrl}/Item/${itemId}`);
+          if (res.status === 429) {
+            await new Promise((resolve) => setTimeout(resolve, 3000));
+          } else {
+            data = await res.json();
+          }
+        } while (data == null);
+
+        setItems((last) => ({
+          ...last,
+          ...{
+            [itemId]: {
+              id: data.ID,
+              name: data.Name,
+              icon: `https://xivapi.com${data.Icon}`,
+              levelItem: data.LevelItem,
+              rarity: data.Rarity,
+              itemKind: data.ItemKind.Name,
+              itemSearchCategory: {
+                id: data.ItemSearchCategory.ID,
+                name: data.ItemSearchCategory.Name,
+              },
+              classJobCategory: data.ClassJobCategory
+                ? {
+                    id: data.ClassJobCategory.ID,
+                    name: data.ClassJobCategory.Name,
+                  }
+                : undefined,
+            },
+          },
+        }));
+      }
+    })();
+  }, [lang, listItems]);
 
   const userId = session.data?.user.id;
   const ownerId = owner?.id;
 
-  if (list == null) {
+  if (market.error) {
+    console.error(market.error);
+  }
+
+  if (list == null || !market.data) {
     return <div />;
   }
 
@@ -156,28 +205,31 @@ const List: NextPage<ListProps> = ({ dcs, list, owner }) => {
             )}
           </span>
         </h1>
-        {list.items.length > 0 ? (
-          <ItemProvider itemId={list.items[0]}>
-            <div className="pl_i">
-              <div>
-                <GameItemIcon id={list.items[0]} height={100} width={100} />
-              </div>
-              <div>
-                <h2>
-                  <ItemHeader />
-                  {session && userId && userId === ownerId && (
-                    <Tooltip label={t`Remove item from list`}>
-                      <a className="pl_remove">
-                        <i className="xiv-NavigationClose"></i>
-                      </a>
-                    </Tooltip>
-                  )}
-                </h2>
-                <ListItemMarket dcs={dcs} showHomeWorld={showHomeWorld} world={world} />
-              </div>
+        {listItems.map((itemId) => (
+          <div key={itemId} className="pl_i">
+            <div>
+              <GameItemIcon id={itemId} height={100} width={100} />
             </div>
-          </ItemProvider>
-        ) : (
+            <div>
+              <h2>
+                <ItemHeader item={items[itemId]} />
+                {session && userId && userId === ownerId && (
+                  <Tooltip label={t`Remove item from list`}>
+                    <a className="pl_remove">
+                      <i className="xiv-NavigationClose"></i>
+                    </a>
+                  </Tooltip>
+                )}
+              </h2>
+              <ListItemMarket
+                item={items[itemId]}
+                market={market.data.items[itemId]}
+                showHomeWorld={showHomeWorld}
+              />
+            </div>
+          </div>
+        ))}
+        {list.items.length === 0 && (
           <div className="alert-dark">
             <Trans>You have no items in this list.</Trans>
           </div>

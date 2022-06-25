@@ -1,7 +1,6 @@
 import { Fragment, useState } from 'react';
 
 enum SortDirection {
-  None,
   Ascending,
   Descending,
 }
@@ -32,13 +31,8 @@ type SortState<T, U extends keyof T = keyof T> = {
 
 type SortStateFactory<T, U extends keyof T = keyof T> = (key: U) => SortState<T>;
 
-function matchSort<T>(
-  direction: SortDirection,
-  { none, asc, desc }: { none: () => T; asc: () => T; desc: () => T }
-): T {
+function matchSort<T>(direction: SortDirection, { asc, desc }: { asc: () => T; desc: () => T }): T {
   switch (direction) {
-    case SortDirection.None:
-      return none();
     case SortDirection.Ascending:
       return asc();
     case SortDirection.Descending:
@@ -48,8 +42,7 @@ function matchSort<T>(
 
 function cycleDirections(initial: SortDirection) {
   return matchSort(initial, {
-    none: () => SortDirection.Descending,
-    asc: () => SortDirection.None,
+    asc: () => SortDirection.Descending,
     desc: () => SortDirection.Ascending,
   });
 }
@@ -60,7 +53,7 @@ function updateDirection<T, U extends keyof T = keyof T>(
 ) {
   let direction = currentState.direction;
   if (currentState.key !== key) {
-    direction = SortDirection.None;
+    direction = SortDirection.Ascending;
   }
 
   return cycleDirections(direction);
@@ -73,7 +66,7 @@ function createPartialSort<T, U extends keyof T = keyof T>(
   const nextDirection = updateDirection(
     currentState ?? {
       key,
-      direction: SortDirection.None,
+      direction: SortDirection.Ascending,
     },
     key
   );
@@ -88,7 +81,6 @@ function intSortFn<T extends FilterObject<T, number>>(k: NumericKey<T>) {
     const an = a[k] ?? 0;
     const bn = b[k] ?? 0;
     return matchSort(direction, {
-      none: () => 0,
       asc: () => an - bn,
       desc: () => bn - an,
     });
@@ -100,7 +92,6 @@ function arrayLengthSortFn<T extends FilterObject<T, Array<unknown>>>(k: ArrayKe
     const al: Array<unknown> = a[k];
     const bl: Array<unknown> = b[k];
     return matchSort(direction, {
-      none: () => 0,
       asc: () => al.length - bl.length,
       desc: () => bl.length - al.length,
     });
@@ -109,10 +100,9 @@ function arrayLengthSortFn<T extends FilterObject<T, Array<unknown>>>(k: ArrayKe
 
 function boolSortFn<T extends FilterObject<T, boolean>>(k: BooleanKey<T>) {
   return (direction: SortDirection) => (a: T, b: T) => {
-    const an = a[k] ? 1 : 0;
-    const bn = b[k] ? 1 : 0;
+    const an = a[k] ? 1 : -1;
+    const bn = b[k] ? 1 : -1;
     return matchSort(direction, {
-      none: () => 0,
       asc: () => an - bn,
       desc: () => bn - an,
     });
@@ -122,7 +112,6 @@ function boolSortFn<T extends FilterObject<T, boolean>>(k: BooleanKey<T>) {
 function stringSortFn<T extends FilterObject<T, string>>(k: StringKey<T>) {
   return (direction: SortDirection) => (a: T, b: T) => {
     return matchSort(direction, {
-      none: () => 0,
       asc: () => (a[k] ?? '').localeCompare(b[k] ?? ''),
       desc: () => (b[k] ?? '').localeCompare(a[k] ?? ''),
     });

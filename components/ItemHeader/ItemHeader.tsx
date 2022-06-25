@@ -1,9 +1,11 @@
 import Link from 'next/link';
-import { useItem } from '../ItemProvider/ItemProvider';
+import { Item } from '../../types/game/Item';
 
-export default function ItemHeader() {
-  const item = useItem();
+interface ItemHeaderProps {
+  item?: Item;
+}
 
+export default function ItemHeader({ item }: ItemHeaderProps) {
   if (item == null) {
     return <></>;
   }
