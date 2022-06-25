@@ -2,8 +2,24 @@ import { UserList } from '../types/universalis/user';
 import mariadb from 'mariadb';
 import { DoctrineArray } from './DoctrineArray';
 
+export async function getUserListOwnerId(
+  listId: string,
+  conn: mariadb.Connection
+): Promise<string | null> {
+  const rows: Record<string, any>[] = await conn.query(
+    'SELECT user_id FROM users_lists WHERE id = ?',
+    [listId]
+  );
+
+  if (rows.length === 0) {
+    return null;
+  }
+
+  return rows[0]['user_id'];
+}
+
 export async function getUserList(
-  listId: string | undefined,
+  listId: string,
   conn: mariadb.Connection
 ): Promise<UserList | null> {
   const rows: Record<string, any>[] = await conn.query(
@@ -16,6 +32,19 @@ export async function getUserList(
   }
 
   return rowToUserList(rows[0]);
+}
+
+export function renameUserList(
+  userId: string,
+  listId: string,
+  name: string,
+  conn: mariadb.Connection
+) {
+  return conn.execute('UPDATE users_lists SET name = ? WHERE id = ? AND user_id = ?', [
+    name,
+    listId,
+    userId,
+  ]);
 }
 
 export async function getUserLists(userId: string, conn: mariadb.Connection): Promise<UserList[]> {

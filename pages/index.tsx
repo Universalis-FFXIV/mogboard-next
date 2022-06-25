@@ -1,4 +1,4 @@
-import type { NextPage, NextPageContext } from 'next';
+import type { GetServerSidePropsContext, NextPage } from 'next';
 import Head from 'next/head';
 import { Cookies } from 'react-cookie';
 import HomeAction from '../components/HomeAction/HomeAction';
@@ -14,12 +14,13 @@ import { City } from '../types/game/City';
 import { UserList } from '../types/universalis/user';
 import { acquireConn, releaseConn } from '../db/connect';
 import * as listsDb from '../db/user-list';
-import { getSession } from 'next-auth/react';
 import { DataCenter } from '../types/game/DataCenter';
 import HomeUserList from '../components/HomeUserList/HomeUserList';
 import { useState } from 'react';
 import { Trans } from '@lingui/macro';
 import { getRepositoryUrl } from '../data/game/repository';
+import { getServerSession } from 'next-auth';
+import { authOptions } from './api/auth/[...nextauth]';
 
 interface RecentItem {
   id: number;
@@ -105,7 +106,7 @@ const Home: NextPage<HomeProps> = ({
   );
 };
 
-export async function getServerSideProps(ctx: NextPageContext) {
+export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   const cookies = new Cookies(ctx.req?.headers.cookie);
   const world = cookies.get<string | undefined>('mogboard_server') ?? 'Phoenix';
   const lang = cookies.get<string | undefined>('mogboard_language') ?? 'en';
@@ -218,7 +219,7 @@ export async function getServerSideProps(ctx: NextPageContext) {
     console.error(err);
   }
 
-  const session = await getSession({ req: ctx.req });
+  const session = await getServerSession(ctx, authOptions);
   const hasSession = !!session;
 
   let lists: UserList[] = [];

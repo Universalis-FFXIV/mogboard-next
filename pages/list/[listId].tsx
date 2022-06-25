@@ -1,6 +1,6 @@
 import { t, Trans } from '@lingui/macro';
 import RelativeTime from '@yaireo/relative-time';
-import { NextPage, NextPageContext } from 'next';
+import { GetServerSidePropsContext, NextPage } from 'next';
 import { useSession } from 'next-auth/react';
 import Head from 'next/head';
 import { useState, useEffect } from 'react';
@@ -11,6 +11,7 @@ import ItemHeader from '../../components/ItemHeader/ItemHeader';
 import ListingsTable from '../../components/ListingsTable/ListingsTable';
 import SalesTable from '../../components/SalesTable/SalesTable';
 import Tooltip from '../../components/Tooltip/Tooltip';
+import { usePopup } from '../../components/UniversalisLayout/components/Popup/Popup';
 import { getRepositoryUrl } from '../../data/game/repository';
 import { acquireConn, releaseConn } from '../../db/connect';
 import * as userDb from '../../db/user';
@@ -93,6 +94,52 @@ const List: NextPage<ListProps> = ({ dcs, list, owner }) => {
   const [settings] = useSettings();
   const session = useSession();
 
+  const [newName, setNewName] = useState(list?.name);
+  const [renaming, setRenaming] = useState(false);
+  const [renameModalOpen, setRenameModalOpen] = useState(false);
+
+  const { setPopup } = usePopup();
+
+  const renameList = (name: string) => {
+    if (list == null) {
+      return;
+    }
+
+    fetch(`/api/web/list/${list.id}`, {
+      method: 'PUT',
+      body: JSON.stringify({ name }),
+      headers: { 'Content-Type': 'application/json' },
+    })
+      .then(async (res) => {
+        if (!res.ok) {
+          const body =
+            res.headers.get('Content-Type') === 'application/json'
+              ? await res.text()
+              : (await res.json()).message;
+          throw new Error(body);
+        }
+
+        setRenameModalOpen(false);
+        setPopup({
+          type: 'success',
+          title: 'Renamed list',
+          message: 'You have renamed your list!',
+          isOpen: true,
+          forceOpen: true,
+        });
+        location.reload();
+      })
+      .catch((err) =>
+        setPopup({
+          type: 'error',
+          title: 'Error',
+          message: err instanceof Error ? err.message : `${err}`,
+          isOpen: true,
+        })
+      )
+      .finally(() => setRenaming(false));
+  };
+
   const lang = settings['mogboard_language'] ?? 'en';
   const [showHomeWorld, setShowHomeWorld] = useState(settings['mogboard_homeworld'] === 'yes');
   const world = settings['mogboard_server'] ?? 'Phoenix';
@@ -169,23 +216,30 @@ const List: NextPage<ListProps> = ({ dcs, list, owner }) => {
     console.error(market.error);
   }
 
+  const title = (list?.name ?? '') + ' - ' + t`List`;
+  const description = sprintf(t`Custom Universalis list by %s`, owner?.username ?? '');
+  const ListHead = () => (
+    <Head>
+      <meta property="og:title" content={title} />
+      <meta property="og:description" content={description} />
+      <meta name="description" content={description} />
+      <title>{title}</title>
+    </Head>
+  );
+
   if (list == null || !market.data) {
-    return <div />;
+    return <ListHead />;
   }
 
-  const title = list.name + ' - ' + t`List`;
-  const description = sprintf(t`Custom Universalis list by %s`, owner?.username ?? '');
+  if (newName == null) {
+    setNewName(list.name);
+  }
 
   const nOfMItems = sprintf(t`%d / %d items`, list.items.length, 100);
 
   return (
     <>
-      <Head>
-        <meta property="og:title" content={title} />
-        <meta property="og:description" content={description} />
-        <meta name="description" content={description} />
-        <title>{title}</title>
-      </Head>
+      <ListHead />
 
       <div className="pl">
         <small>
@@ -194,7 +248,7 @@ const List: NextPage<ListProps> = ({ dcs, list, owner }) => {
         <h1>
           {list.name}
           <span>
-            <a className="link_rename_list">
+            <a className="link_rename_list" onClick={() => setRenameModalOpen(true)}>
               <Trans>Rename</Trans>
             </a>
             &nbsp;&nbsp;|&nbsp;&nbsp;
@@ -247,8 +301,12 @@ const List: NextPage<ListProps> = ({ dcs, list, owner }) => {
           </div>
         )}
       </div>
-      <div className="modal list_rename_modal">
-        <button type="button" className="modal_close_button">
+      <div className={`modal list_rename_modal ${renameModalOpen ? 'open' : ''}`}>
+        <button
+          type="button"
+          className="modal_close_button"
+          onClick={() => setRenameModalOpen(false)}
+        >
           <i className="xiv-NavigationClose"></i>
         </button>
         <div className="modal_row">
@@ -265,13 +323,25 @@ const List: NextPage<ListProps> = ({ dcs, list, owner }) => {
                 type="text"
                 placeholder="Name"
                 className="full"
-                defaultValue={list.name}
+                value={newName}
+                onChange={(e) => setNewName(e.target.value)}
               />
             </div>
             <br />
             <br />
             <div className="modal_form_end">
-              <button type="submit" className="btn-green btn_rename_list">
+              <button
+                type="submit"
+                disabled={renaming}
+                className="btn-green btn_rename_list"
+                onClick={(e) => {
+                  e.preventDefault();
+                  if (newName != null) {
+                    setRenaming(true);
+                    renameList(newName);
+                  }
+                }}
+              >
                 <Trans>Rename List</Trans>
               </button>
             </div>
@@ -282,7 +352,7 @@ const List: NextPage<ListProps> = ({ dcs, list, owner }) => {
   );
 };
 
-export async function getServerSideProps(ctx: NextPageContext) {
+export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   let { listId } = ctx.query;
   if (typeof listId !== 'string') {
     listId = undefined;
@@ -316,18 +386,20 @@ export async function getServerSideProps(ctx: NextPageContext) {
 
   let list: UserList | null = null;
   let owner: User | null = null;
-  try {
-    const conn = await acquireConn();
+  if (listId != null) {
     try {
-      list = await listDb.getUserList(listId, conn);
-      if (list?.userId != null) {
-        owner = await userDb.getUser(list.userId, conn);
+      const conn = await acquireConn();
+      try {
+        list = await listDb.getUserList(listId, conn);
+        if (list?.userId != null) {
+          owner = await userDb.getUser(list.userId, conn);
+        }
+      } finally {
+        await releaseConn(conn);
       }
-    } finally {
-      await releaseConn(conn);
+    } catch (err) {
+      console.error(err);
     }
-  } catch (err) {
-    console.error(err);
   }
 
   let ownerClean: UserClean | null = null;

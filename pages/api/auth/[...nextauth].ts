@@ -1,8 +1,8 @@
-import NextAuth from 'next-auth';
+import NextAuth, { NextAuthOptions } from 'next-auth';
 import DiscordProvider from 'next-auth/providers/discord';
 import DalamudAdapter from '../../../db/DalamudAdapter';
 
-export default NextAuth({
+export const authOptions: NextAuthOptions = {
   adapter: DalamudAdapter(),
   providers: [
     DiscordProvider({
@@ -13,6 +13,7 @@ export default NextAuth({
   session: {
     strategy: 'jwt',
   },
+  secret: process.env['NEXTAUTH_SECRET'],
   callbacks: {
     async session({ session, token }) {
       if (session.user != null) {
@@ -21,4 +22,6 @@ export default NextAuth({
       return session;
     },
   },
-});
+};
+
+export default NextAuth(authOptions);

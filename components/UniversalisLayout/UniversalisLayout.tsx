@@ -5,7 +5,7 @@ import { Item } from '../../types/game/Item';
 import { ItemSearchCategory } from '../../types/game/ItemSearchCategory';
 import CategoryView from './components/CategoryView/CategoryView';
 import ModalCover from './components/ModalCover/ModalCover';
-import Popup from './components/Popup/Popup';
+import Popup, { usePopup } from './components/Popup/Popup';
 import SearchCategories from './components/SearchCategories/SearchCategories';
 import SearchCategoryResults from './components/SearchCategoryResults/SearchCategoryResults';
 import SearchResults from './components/SearchResults/SearchResults';
@@ -32,13 +32,9 @@ export default function UniversalisLayout({ children }: PropsWithChildren) {
   const [searchCategoryItems, setSearchCategoryItems] = useState<CategoryItem[]>([]);
   const [searchCategory, setSearchCategory] = useState<ItemSearchCategory | undefined>(undefined);
 
-  const [popupType, setPopupType] = useState<'success' | 'error' | 'warning' | 'info' | undefined>(
-    undefined
-  );
-  const [popupTitle, setPopupTitle] = useState<string | undefined>(undefined);
-  const [popupMessage, setPopupMessage] = useState<string | undefined>(undefined);
-  const [popupForceOpen, setPopupForceOpen] = useState(false);
-  const [popupOpen, setPopupOpen] = useState(false);
+  const { popup, setPopup } = usePopup();
+
+  const anyModalOpen = settingsModalOpen;
 
   const leftNav = settings['mogboard_leftnav'] === 'on';
   return (
@@ -103,23 +99,19 @@ export default function UniversalisLayout({ children }: PropsWithChildren) {
           isOpen={settingsModalOpen}
           closeModal={() => setSettingsModalOpen(false)}
           onSave={() => {
-            setPopupType('success');
-            setPopupTitle('Settings Saved');
-            setPopupMessage('Refreshing site, please wait...');
-            setPopupForceOpen(true);
-            setPopupOpen(true);
+            setPopup({
+              type: 'success',
+              title: 'Settings Saved',
+              message: 'Refreshing site, please wait...',
+              forceOpen: true,
+              isOpen: true,
+            });
             location.reload();
           }}
         />
       )}
-      <ModalCover isOpen={settingsModalOpen} />
-      <Popup
-        isOpen={popupOpen}
-        type={popupType}
-        title={popupTitle}
-        message={popupMessage}
-        forceOpen={popupForceOpen}
-      />
+      <ModalCover isOpen={anyModalOpen} />
+      <Popup {...popup} onClose={() => setPopup({ isOpen: false })} />
     </div>
   );
 }

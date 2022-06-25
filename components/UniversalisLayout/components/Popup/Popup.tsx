@@ -1,3 +1,5 @@
+import { createContext, PropsWithChildren, useContext } from 'react';
+
 const icons = {
   success: 'xiv-SymbolCheck',
   error: 'xiv-SymbolCross',
@@ -11,9 +13,32 @@ interface PopupProps {
   message?: string;
   forceOpen?: boolean;
   isOpen: boolean;
+  onClose: () => void;
 }
 
-export default function Popup({ type, title, message, forceOpen, isOpen }: PopupProps) {
+export type PopupData = Omit<PopupProps, 'onClose'>;
+
+interface PopupContextData {
+  popup: PopupData;
+  setPopup: (popup: PopupData) => void;
+}
+
+const PopupContext = createContext<PopupContextData>({
+  popup: { isOpen: false },
+  setPopup: () => {},
+});
+
+export const PopupProvider = ({
+  popup,
+  setPopup,
+  children,
+}: PropsWithChildren<PopupContextData>) => {
+  return <PopupContext.Provider value={{ popup, setPopup }}>{children}</PopupContext.Provider>;
+};
+
+export const usePopup = () => useContext(PopupContext);
+
+export default function Popup({ type, title, message, forceOpen, isOpen, onClose }: PopupProps) {
   return (
     <div className={`popup ${isOpen ? 'open' : ''}`}>
       <div className="popup_display">
@@ -21,6 +46,7 @@ export default function Popup({ type, title, message, forceOpen, isOpen }: Popup
           type="button"
           className="popup_close_button"
           style={{ visibility: forceOpen ? 'hidden' : undefined }}
+          onClick={onClose}
         >
           <i className="xiv-NavigationClose"></i>
         </button>

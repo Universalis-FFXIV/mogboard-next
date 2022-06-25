@@ -1,6 +1,6 @@
 import { RefObject, useEffect, useRef } from 'react';
 
-export default function useClickOutside<T extends Element>(
+export default function useClickOutside<T extends Element = Element>(
   initialValue: T | null,
   fn: () => void
 ): RefObject<T> {

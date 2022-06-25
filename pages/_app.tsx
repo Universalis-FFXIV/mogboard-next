@@ -18,6 +18,8 @@ import { messages as messagesDe } from '../i18n/de/messages';
 import { messages as messagesFr } from '../i18n/fr/messages';
 import { messages as messagesZhHans } from '../i18n/zh-HANS/messages';
 import App from 'next/app';
+import { useState } from 'react';
+import { PopupData, PopupProvider } from '../components/UniversalisLayout/components/Popup/Popup';
 
 i18n.load({
   en: messagesEn,
@@ -45,6 +47,7 @@ export default function MyApp({
   pageProps: { session, ...pageProps },
 }: AppProps & { cookies: Record<string, string> }) {
   i18n.activate(parseLang(new Cookies(cookies).get('mogboard_language')));
+  const [popup, setPopup] = useState<PopupData>({ isOpen: false });
   return (
     <>
       <Head>
@@ -53,9 +56,11 @@ export default function MyApp({
       <SessionProvider session={session}>
         <CookiesProvider cookies={new Cookies(cookies)}>
           <I18nProvider i18n={i18n} forceRenderOnLocaleChange={false}>
-            <UniversalisLayout>
-              <Component {...pageProps} />
-            </UniversalisLayout>
+            <PopupProvider popup={popup} setPopup={setPopup}>
+              <UniversalisLayout>
+                <Component {...pageProps} />
+              </UniversalisLayout>
+            </PopupProvider>
           </I18nProvider>
         </CookiesProvider>
       </SessionProvider>
