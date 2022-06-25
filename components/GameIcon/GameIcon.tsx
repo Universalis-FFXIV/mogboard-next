@@ -1,5 +1,3 @@
-import Image from 'next/image';
-
 type GameIconSize = '1x' | '2x';
 type GameIconExt = 'png';
 
@@ -24,7 +22,7 @@ const getIconUrl = (bin: string, id: string, ext: GameIconExt, size: GameIconSiz
 
 const GameIcon = ({ bin, id, ext, size, width, height, className }: GameIconProps) => {
   return (
-    <Image
+    <img
       src={getIconUrl(bin, id, ext, size)}
       width={width}
       height={height}

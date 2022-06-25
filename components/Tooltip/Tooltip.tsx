@@ -14,15 +14,15 @@ import {
 } from '@floating-ui/react-dom-interactions';
 import { motion, AnimatePresence } from 'framer-motion';
 
-interface Props {
-  label: string;
+interface TooltipProps {
+  label?: string | JSX.Element;
   placement?: Placement;
   children: JSX.Element;
 }
 
 // https://codesandbox.io/s/winter-tree-wmmffl?file=/src/AnimatedTooltip.tsx
 
-export default function Tooltip({ children, label, placement = 'top' }: Props) {
+export default function Tooltip({ children, label, placement = 'top' }: TooltipProps) {
   const [open, setOpen] = useState(false);
 
   const { x, y, reference, floating, strategy, context } = useFloating({

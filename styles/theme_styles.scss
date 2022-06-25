@@ -427,7 +427,7 @@ table {
 }
 
 .table-sortable {
-  th[data-sort]:hover {
+  th.sort:hover {
     background-color: var(--table-color-3x);
     position: relative;
     box-shadow: 0 0 5px #000;

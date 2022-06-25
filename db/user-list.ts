@@ -2,6 +2,22 @@ import { UserList } from '../types/universalis/user';
 import mariadb from 'mariadb';
 import { DoctrineArray } from './DoctrineArray';
 
+export async function getUserList(
+  listId: string | undefined,
+  conn: mariadb.Connection
+): Promise<UserList | null> {
+  const rows: Record<string, any>[] = await conn.query(
+    'SELECT id, user_id, added, updated, name, custom, custom_type, items FROM users_lists WHERE id = ?',
+    [listId]
+  );
+
+  if (rows.length === 0) {
+    return null;
+  }
+
+  return rowToUserList(rows[0]);
+}
+
 export async function getUserLists(userId: string, conn: mariadb.Connection): Promise<UserList[]> {
   const rows: Record<string, any>[] = await conn.query(
     'SELECT id, user_id, added, updated, name, custom, custom_type, items FROM users_lists WHERE user_id = ?',

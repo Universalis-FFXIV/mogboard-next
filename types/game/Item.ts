@@ -9,4 +9,8 @@ export interface Item {
     id: number;
     name: string;
   };
+  classJobCategory?: {
+    id: number;
+    name: string;
+  };
 }
