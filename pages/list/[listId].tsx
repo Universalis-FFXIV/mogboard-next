@@ -129,29 +129,35 @@ const List: NextPage<ListProps> = ({ dcs, list, owner }) => {
           }
         } while (data == null);
 
-        setItems((last) => ({
-          ...last,
-          ...{
-            [itemId]: {
-              id: data.ID,
-              name: data.Name,
-              icon: `https://xivapi.com${data.Icon}`,
-              levelItem: data.LevelItem,
-              rarity: data.Rarity,
-              itemKind: data.ItemKind.Name,
-              itemSearchCategory: {
-                id: data.ItemSearchCategory.ID,
-                name: data.ItemSearchCategory.Name,
+        setItems((last) => {
+          if (last[itemId]) {
+            return last;
+          }
+
+          return {
+            ...last,
+            ...{
+              [itemId]: {
+                id: data.ID,
+                name: data.Name,
+                icon: `https://xivapi.com${data.Icon}`,
+                levelItem: data.LevelItem,
+                rarity: data.Rarity,
+                itemKind: data.ItemKind.Name,
+                itemSearchCategory: {
+                  id: data.ItemSearchCategory.ID,
+                  name: data.ItemSearchCategory.Name,
+                },
+                classJobCategory: data.ClassJobCategory
+                  ? {
+                      id: data.ClassJobCategory.ID,
+                      name: data.ClassJobCategory.Name,
+                    }
+                  : undefined,
               },
-              classJobCategory: data.ClassJobCategory
-                ? {
-                    id: data.ClassJobCategory.ID,
-                    name: data.ClassJobCategory.Name,
-                  }
-                : undefined,
             },
-          },
-        }));
+          };
+        });
       }
     })();
   }, [lang, listItems]);
@@ -214,7 +220,13 @@ const List: NextPage<ListProps> = ({ dcs, list, owner }) => {
               <h2>
                 <ItemHeader item={items[itemId]} />
                 {session && userId && userId === ownerId && (
-                  <Tooltip label={t`Remove item from list`}>
+                  <Tooltip
+                    label={
+                      <div style={{ textAlign: 'center', width: 140 }}>
+                        <Trans>Remove item from list</Trans>
+                      </div>
+                    }
+                  >
                     <a className="pl_remove">
                       <i className="xiv-NavigationClose"></i>
                     </a>
