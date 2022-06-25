@@ -2,6 +2,7 @@ import { Trans } from '@lingui/macro';
 import { Fragment, PropsWithChildren, useState } from 'react';
 import GameCityIcon from '../GameCityIcon/GameCityIcon';
 import GameMateria from '../GameMateria/GameMateria';
+import SortTable from '../SortTable/SortTable';
 import Tooltip from '../Tooltip/Tooltip';
 
 interface ListingsTableProps {
@@ -29,109 +30,6 @@ type ListingRow = {
   creatorName: string;
 } & ({ average: number; diff: number } | { average: null; diff: null }) &
   ({ crossWorld: true; world: string } | { crossWorld: false; world: null });
-
-enum SortDirection {
-  None,
-  Ascending,
-  Descending,
-}
-
-type FilterListingKeys<T> = {
-  [K in keyof ListingRow]: ListingRow[K] extends T ? K : never;
-}[keyof ListingRow];
-
-type ListingNumericKey = FilterListingKeys<number | null>;
-
-type ListingArrayKey = FilterListingKeys<Array<any>>;
-
-type ListingBooleanKey = FilterListingKeys<boolean>;
-
-type ListingStringKey = FilterListingKeys<string | null>;
-
-type ListingSortFunction = (direction: SortDirection) => (a: ListingRow, b: ListingRow) => number;
-
-type ListingSortFactory<T extends keyof ListingRow> = (key: T) => ListingSortFunction;
-
-type ListingSortState<T extends keyof ListingRow = keyof ListingRow> = {
-  key: T;
-  direction: SortDirection;
-  fn: ListingSortFunction;
-};
-
-type ListingSortStateFactory<T extends keyof ListingRow> = (key: T) => ListingSortState<T>;
-
-function matchSort<T>(
-  direction: SortDirection,
-  { none, asc, desc }: { none: () => T; asc: () => T; desc: () => T }
-): T {
-  switch (direction) {
-    case SortDirection.None:
-      return none();
-    case SortDirection.Ascending:
-      return asc();
-    case SortDirection.Descending:
-      return desc();
-  }
-}
-
-function cycleDirections(initial: SortDirection) {
-  return matchSort(initial, {
-    none: () => SortDirection.Descending,
-    asc: () => SortDirection.None,
-    desc: () => SortDirection.Ascending,
-  });
-}
-
-function updateDirection<T extends keyof ListingRow>(currentState: ListingSortState, key: T) {
-  let direction = currentState.direction;
-  if (currentState.key !== key) {
-    direction = SortDirection.None;
-  }
-
-  return cycleDirections(direction);
-}
-
-function createPartialSort<T extends keyof ListingRow>(currentState: ListingSortState, key: T) {
-  const nextDirection = updateDirection(currentState, key);
-  return {
-    key: key,
-    direction: nextDirection,
-  };
-}
-
-const intSort: ListingSortFactory<ListingNumericKey> = (k) => (direction) => (a, b) => {
-  return matchSort(direction, {
-    none: () => 0,
-    asc: () => (a[k] ?? 0) - (b[k] ?? 0),
-    desc: () => (b[k] ?? 0) - (a[k] ?? 0),
-  });
-};
-
-const arrayLengthSort: ListingSortFactory<ListingArrayKey> = (k) => (direction) => (a, b) => {
-  return matchSort(direction, {
-    none: () => 0,
-    asc: () => a[k].length - b[k].length,
-    desc: () => b[k].length - a[k].length,
-  });
-};
-
-const boolSort: ListingSortFactory<ListingBooleanKey> = (k) => (direction) => (a, b) => {
-  const an = a[k] ? 1 : 0;
-  const bn = b[k] ? 1 : 0;
-  return matchSort(direction, {
-    none: () => 0,
-    asc: () => an - bn,
-    desc: () => bn - an,
-  });
-};
-
-const stringSort: ListingSortFactory<ListingStringKey> = (k) => (direction) => (a, b) => {
-  return matchSort(direction, {
-    none: () => 0,
-    asc: () => (a[k] ?? '').localeCompare(b[k] ?? ''),
-    desc: () => (b[k] ?? '').localeCompare(a[k] ?? ''),
-  });
-};
 
 function ListingsTableHeader({
   onSelected,
@@ -242,93 +140,65 @@ export default function ListingsTable({
         diff: avgForQuality != null ? diff : null,
       };
     });
-
-  const [sort, setSort] = useState<ListingSortState>({
-    key: 'n',
-    direction: SortDirection.None,
-    fn: intSort('n'),
-  });
-
-  const createIntSort: ListingSortStateFactory<ListingNumericKey> = (key) => {
-    return { ...createPartialSort(sort, key), fn: intSort(key) };
-  };
-
-  const createArrayLengthSort: ListingSortStateFactory<ListingArrayKey> = (key) => {
-    return { ...createPartialSort(sort, key), fn: arrayLengthSort(key) };
-  };
-
-  const createBoolSort: ListingSortStateFactory<ListingBooleanKey> = (key) => {
-    return { ...createPartialSort(sort, key), fn: boolSort(key) };
-  };
-
-  const createStringSort: ListingSortStateFactory<ListingStringKey> = (key) => {
-    return { ...createPartialSort(sort, key), fn: stringSort(key) };
-  };
-
-  listingRows.sort(sort.fn(sort.direction));
-
   return (
     <div className="table product_table">
-      <table className="table-sortable">
-        <thead>
+      <SortTable
+        className="table-sortable"
+        rows={listingRows}
+        headers={(ctx) =>
+          listingRows.length > 0 ? (
+            <>
+              <ListingsTableHeader className="tac" onSelected={() => ctx.intSort('n')}>
+                <Trans>#</Trans>
+              </ListingsTableHeader>
+              {crossWorld && (
+                <ListingsTableHeader onSelected={() => ctx.stringSort('world')}>
+                  <Trans>Server</Trans>
+                </ListingsTableHeader>
+              )}
+              <ListingsTableHeader onSelected={() => ctx.boolSort('hq')}>
+                <Trans>HQ</Trans>
+              </ListingsTableHeader>
+              <ListingsTableHeader onSelected={() => ctx.arrayLengthSort('materia')}>
+                <Trans>Mat</Trans>
+              </ListingsTableHeader>
+              <ListingsTableHeader onSelected={() => ctx.intSort('pricePerUnit')}>
+                <Trans>Price</Trans>
+              </ListingsTableHeader>
+              <ListingsTableHeader onSelected={() => ctx.intSort('quantity')}>
+                <Trans>QTY</Trans>
+              </ListingsTableHeader>
+              <ListingsTableHeader onSelected={() => ctx.intSort('total')}>
+                <Trans>Total</Trans>
+              </ListingsTableHeader>
+              {includeDiff && (
+                <ListingsTableHeader onSelected={() => ctx.intSort('diff')}>
+                  <Trans>%Diff</Trans>
+                </ListingsTableHeader>
+              )}
+              <ListingsTableHeader onSelected={() => ctx.stringSort('retainerName')}>
+                <Trans>Retainer</Trans>
+              </ListingsTableHeader>
+              <ListingsTableHeader onSelected={() => ctx.stringSort('creatorName')}>
+                <Trans>Creator</Trans>
+              </ListingsTableHeader>
+            </>
+          ) : (
+            <th>
+              <Trans>No Listings</Trans>
+            </th>
+          )
+        }
+        fallback={
           <tr>
-            {market.listings.length > 0 ? (
-              <>
-                <ListingsTableHeader className="tac" onSelected={() => setSort(createIntSort('n'))}>
-                  <Trans>#</Trans>
-                </ListingsTableHeader>
-                {crossWorld && (
-                  <ListingsTableHeader onSelected={() => setSort(createStringSort('world'))}>
-                    <Trans>Server</Trans>
-                  </ListingsTableHeader>
-                )}
-                <ListingsTableHeader onSelected={() => setSort(createBoolSort('hq'))}>
-                  <Trans>HQ</Trans>
-                </ListingsTableHeader>
-                <ListingsTableHeader onSelected={() => setSort(createArrayLengthSort('materia'))}>
-                  <Trans>Mat</Trans>
-                </ListingsTableHeader>
-                <ListingsTableHeader onSelected={() => setSort(createIntSort('pricePerUnit'))}>
-                  <Trans>Price</Trans>
-                </ListingsTableHeader>
-                <ListingsTableHeader onSelected={() => setSort(createIntSort('quantity'))}>
-                  <Trans>QTY</Trans>
-                </ListingsTableHeader>
-                <ListingsTableHeader onSelected={() => setSort(createIntSort('total'))}>
-                  <Trans>Total</Trans>
-                </ListingsTableHeader>
-                {includeDiff && (
-                  <ListingsTableHeader onSelected={() => setSort(createIntSort('diff'))}>
-                    <Trans>%Diff</Trans>
-                  </ListingsTableHeader>
-                )}
-                <ListingsTableHeader onSelected={() => setSort(createStringSort('retainerName'))}>
-                  <Trans>Retainer</Trans>
-                </ListingsTableHeader>
-                <ListingsTableHeader onSelected={() => setSort(createStringSort('creatorName'))}>
-                  <Trans>Creator</Trans>
-                </ListingsTableHeader>
-              </>
-            ) : (
-              <th>
-                <Trans>No Listings</Trans>
-              </th>
-            )}
+            <td colSpan={9}>
+              <Trans>There are no listings for this item, check back later!</Trans>
+            </td>
           </tr>
-        </thead>
-        <tbody>
-          {listingRows.map((listing, i) => (
-            <ListingsTableRow key={i} listing={listing} />
-          ))}
-          {market.listings.length === 0 && (
-            <tr>
-              <td>
-                <Trans>There are no listings for this item, check back later!</Trans>
-              </td>
-            </tr>
-          )}
-        </tbody>
-      </table>
+        }
+      >
+        {(listing) => <ListingsTableRow listing={listing} />}
+      </SortTable>
     </div>
   );
 }
