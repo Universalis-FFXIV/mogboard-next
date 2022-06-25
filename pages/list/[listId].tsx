@@ -94,7 +94,7 @@ const List: NextPage<ListProps> = ({ dcs, list, owner }) => {
   const session = useSession();
 
   const lang = settings['mogboard_language'] ?? 'en';
-  const showHomeWorld = settings['mogboard_homeworld'] === 'yes';
+  const [showHomeWorld, setShowHomeWorld] = useState(settings['mogboard_homeworld'] === 'yes');
   const world = settings['mogboard_server'] ?? 'Phoenix';
   const dc = dcs.find((x) => x.worlds.some((y) => y.name === world));
   const server = showHomeWorld ? world : dc?.name ?? 'Chaos';
@@ -113,12 +113,16 @@ const List: NextPage<ListProps> = ({ dcs, list, owner }) => {
   const [items, setItems] = useState<Record<number, Item>>({});
   useEffect(() => {
     (async () => {
-      if (listItems == null) {
+      if (listItems == null || Object.keys(items).length > 0) {
         return;
       }
 
       const baseUrl = getRepositoryUrl(lang);
       for (const itemId of listItems) {
+        if (items[itemId]) {
+          continue;
+        }
+
         let data: any = null;
         do {
           const res = await fetch(`${baseUrl}/Item/${itemId}`);
@@ -130,10 +134,6 @@ const List: NextPage<ListProps> = ({ dcs, list, owner }) => {
         } while (data == null);
 
         setItems((last) => {
-          if (last[itemId]) {
-            return last;
-          }
-
           return {
             ...last,
             ...{
@@ -160,7 +160,7 @@ const List: NextPage<ListProps> = ({ dcs, list, owner }) => {
         });
       }
     })();
-  }, [lang, listItems]);
+  }, [lang, items, listItems]);
 
   const userId = session.data?.user.id;
   const ownerId = owner?.id;
@@ -200,12 +200,12 @@ const List: NextPage<ListProps> = ({ dcs, list, owner }) => {
             &nbsp;&nbsp;|&nbsp;&nbsp;
             {nOfMItems}
             &nbsp;&nbsp;|&nbsp;&nbsp;
-            {settings['mogboard_homeworld'] === 'yes' ? (
-              <a>
+            {showHomeWorld ? (
+              <a onClick={() => setShowHomeWorld(false)}>
                 <Trans>Show Cross-World</Trans>
               </a>
             ) : (
-              <a>
+              <a onClick={() => setShowHomeWorld(true)}>
                 <Trans>Show Home Server Only</Trans>
               </a>
             )}
