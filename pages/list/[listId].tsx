@@ -11,6 +11,7 @@ import ItemHeader from '../../components/ItemHeader/ItemHeader';
 import ListingsTable from '../../components/ListingsTable/ListingsTable';
 import SalesTable from '../../components/SalesTable/SalesTable';
 import Tooltip from '../../components/Tooltip/Tooltip';
+import { useModalCover } from '../../components/UniversalisLayout/components/ModalCover/ModalCover';
 import { usePopup } from '../../components/UniversalisLayout/components/Popup/Popup';
 import { getRepositoryUrl } from '../../data/game/repository';
 import { acquireConn, releaseConn } from '../../db/connect';
@@ -99,6 +100,17 @@ const List: NextPage<ListProps> = ({ dcs, list, owner }) => {
   const [renameModalOpen, setRenameModalOpen] = useState(false);
 
   const { setPopup } = usePopup();
+  const { setModalCover } = useModalCover();
+
+  const openRenameModal = () => {
+    setRenameModalOpen(true);
+    setModalCover({ isOpen: true });
+  };
+
+  const closeRenameModal = () => {
+    setRenameModalOpen(true);
+    setModalCover({ isOpen: true });
+  };
 
   const renameList = (name: string) => {
     if (list == null) {
@@ -119,7 +131,7 @@ const List: NextPage<ListProps> = ({ dcs, list, owner }) => {
           throw new Error(body);
         }
 
-        setRenameModalOpen(false);
+        closeRenameModal();
         setPopup({
           type: 'success',
           title: 'Renamed list',
@@ -248,7 +260,7 @@ const List: NextPage<ListProps> = ({ dcs, list, owner }) => {
         <h1>
           {list.name}
           <span>
-            <a className="link_rename_list" onClick={() => setRenameModalOpen(true)}>
+            <a className="link_rename_list" onClick={() => openRenameModal()}>
               <Trans>Rename</Trans>
             </a>
             &nbsp;&nbsp;|&nbsp;&nbsp;
@@ -302,11 +314,7 @@ const List: NextPage<ListProps> = ({ dcs, list, owner }) => {
         )}
       </div>
       <div className={`modal list_rename_modal ${renameModalOpen ? 'open' : ''}`}>
-        <button
-          type="button"
-          className="modal_close_button"
-          onClick={() => setRenameModalOpen(false)}
-        >
+        <button type="button" className="modal_close_button" onClick={() => closeRenameModal()}>
           <i className="xiv-NavigationClose"></i>
         </button>
         <div className="modal_row">

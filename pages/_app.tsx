@@ -20,6 +20,10 @@ import { messages as messagesZhHans } from '../i18n/zh-HANS/messages';
 import App from 'next/app';
 import { useState } from 'react';
 import { PopupData, PopupProvider } from '../components/UniversalisLayout/components/Popup/Popup';
+import {
+  ModalCoverData,
+  ModalCoverProvider,
+} from '../components/UniversalisLayout/components/ModalCover/ModalCover';
 
 i18n.load({
   en: messagesEn,
@@ -48,6 +52,7 @@ export default function MyApp({
 }: AppProps & { cookies: Record<string, string> }) {
   i18n.activate(parseLang(new Cookies(cookies).get('mogboard_language')));
   const [popup, setPopup] = useState<PopupData>({ isOpen: false });
+  const [modalCover, setModalCover] = useState<ModalCoverData>({ isOpen: false });
   return (
     <>
       <Head>
@@ -57,9 +62,11 @@ export default function MyApp({
         <CookiesProvider cookies={new Cookies(cookies)}>
           <I18nProvider i18n={i18n} forceRenderOnLocaleChange={false}>
             <PopupProvider popup={popup} setPopup={setPopup}>
-              <UniversalisLayout>
-                <Component {...pageProps} />
-              </UniversalisLayout>
+              <ModalCoverProvider modalCover={modalCover} setModalCover={setModalCover}>
+                <UniversalisLayout>
+                  <Component {...pageProps} />
+                </UniversalisLayout>
+              </ModalCoverProvider>
             </PopupProvider>
           </I18nProvider>
         </CookiesProvider>

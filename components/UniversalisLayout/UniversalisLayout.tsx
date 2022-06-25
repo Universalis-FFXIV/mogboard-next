@@ -4,7 +4,7 @@ import { CategoryItem } from '../../types/game/CategoryItem';
 import { Item } from '../../types/game/Item';
 import { ItemSearchCategory } from '../../types/game/ItemSearchCategory';
 import CategoryView from './components/CategoryView/CategoryView';
-import ModalCover from './components/ModalCover/ModalCover';
+import ModalCover, { useModalCover } from './components/ModalCover/ModalCover';
 import Popup, { usePopup } from './components/Popup/Popup';
 import SearchCategories from './components/SearchCategories/SearchCategories';
 import SearchCategoryResults from './components/SearchCategoryResults/SearchCategoryResults';
@@ -33,8 +33,17 @@ export default function UniversalisLayout({ children }: PropsWithChildren) {
   const [searchCategory, setSearchCategory] = useState<ItemSearchCategory | undefined>(undefined);
 
   const { popup, setPopup } = usePopup();
+  const { modalCover, setModalCover } = useModalCover();
 
-  const anyModalOpen = settingsModalOpen;
+  const openSettingsModal = () => {
+    setModalCover({ isOpen: true });
+    setSettingsModalOpen(true);
+  };
+
+  const closeSettingsModal = () => {
+    setModalCover({ isOpen: false });
+    setSettingsModalOpen(false);
+  };
 
   const leftNav = settings['mogboard_leftnav'] === 'on';
   return (
@@ -55,7 +64,7 @@ export default function UniversalisLayout({ children }: PropsWithChildren) {
             setSearchTerm(query);
             setSearchResultsOpen(true);
           }}
-          onSettingsClicked={() => setSettingsModalOpen(true)}
+          onSettingsClicked={() => openSettingsModal()}
           onMarketClicked={() => setSearchCategoriesOpen(true)}
         />
         <nav className="site-menu"></nav>
@@ -97,7 +106,7 @@ export default function UniversalisLayout({ children }: PropsWithChildren) {
       {settingsModalOpen && (
         <SettingsModal
           isOpen={settingsModalOpen}
-          closeModal={() => setSettingsModalOpen(false)}
+          closeModal={() => closeSettingsModal()}
           onSave={() => {
             setPopup({
               type: 'success',
@@ -110,7 +119,7 @@ export default function UniversalisLayout({ children }: PropsWithChildren) {
           }}
         />
       )}
-      <ModalCover isOpen={anyModalOpen} />
+      <ModalCover {...modalCover} />
       <Popup {...popup} onClose={() => setPopup({ isOpen: false })} />
     </div>
   );
