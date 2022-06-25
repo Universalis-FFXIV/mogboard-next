@@ -9,6 +9,7 @@ import GameItemIcon from '../../components/GameItemIcon/GameItemIcon';
 import ItemHeader from '../../components/ItemHeader/ItemHeader';
 import ItemProvider, { useItem } from '../../components/ItemProvider/ItemProvider';
 import ListingsTable from '../../components/ListingsTable/ListingsTable';
+import SalesTable from '../../components/SalesTable/SalesTable';
 import Tooltip from '../../components/Tooltip/Tooltip';
 import { acquireConn, releaseConn } from '../../db/connect';
 import * as userDb from '../../db/user';
@@ -85,7 +86,15 @@ function ListItemMarket({ dcs, showHomeWorld, world }: ListItemMarketProps) {
           <h3>
             <Trans>Last 5 sales</Trans>
           </h3>
-          <div></div>
+          <div>
+            <SalesTable
+              market={market}
+              crossWorld={!showHomeWorld}
+              includeDiff={false}
+              start={0}
+              end={5}
+            />
+          </div>
           <small>
             <Trans>Last updated:</Trans> {relativeTime.from(new Date(market.lastUploadTime))}
           </small>

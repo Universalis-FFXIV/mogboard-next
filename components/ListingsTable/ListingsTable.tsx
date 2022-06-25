@@ -1,5 +1,5 @@
 import { Trans } from '@lingui/macro';
-import { Fragment, PropsWithChildren, useState } from 'react';
+import { Fragment, PropsWithChildren } from 'react';
 import GameCityIcon from '../GameCityIcon/GameCityIcon';
 import GameMateria from '../GameMateria/GameMateria';
 import SortTable from '../SortTable/SortTable';
@@ -111,8 +111,9 @@ export default function ListingsTable({
 }: ListingsTableProps) {
   const { currentAveragePriceNQ, currentAveragePriceHQ } = market;
   const listingRows: ListingRow[] = (market.listings as any[])
+    .sort((a, b) => a.pricePerUnit - b.pricePerUnit)
     .slice(start, end)
-    .map((listing: any, i: number) => {
+    .map((listing, i) => {
       const avgForQuality = includeDiff
         ? listing.hq
           ? currentAveragePriceHQ
@@ -134,7 +135,7 @@ export default function ListingsTable({
         retainerName: listing.retainerName,
         retainerCity: listing.retainerCity,
         creatorName: listing.creatorName ? listing.creatorName : '?',
-        crossWorld: crossWorld,
+        crossWorld,
         world: crossWorld ? listing.worldName : null,
         average: avgForQuality,
         diff: avgForQuality != null ? diff : null,
@@ -191,7 +192,7 @@ export default function ListingsTable({
         }
         fallback={
           <tr>
-            <td colSpan={9}>
+            <td>
               <Trans>There are no listings for this item, check back later!</Trans>
             </td>
           </tr>
