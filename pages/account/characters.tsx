@@ -23,7 +23,7 @@ type LodestoneParams = { id: number } | { world: string; name: string };
 const Account: NextPage<AccountProps> = ({ hasSession, characters, verification, dcs }) => {
   const [settings] = useSettings();
 
-  const getCharacter = async (data: LodestoneParams) => {
+  const addCharacter = async (data: LodestoneParams) => {
     fetch('/api/web/lodestone', {
       method: 'POST',
       body: JSON.stringify(data),
@@ -177,7 +177,7 @@ const Account: NextPage<AccountProps> = ({ hasSession, characters, verification,
                     className="btn-blue character_add"
                     onClick={(e) => {
                       e.preventDefault();
-                      getCharacter({ id: 0 });
+                      addCharacter({ id: 0 });
                     }}
                   >
                     <Trans>Search</Trans>

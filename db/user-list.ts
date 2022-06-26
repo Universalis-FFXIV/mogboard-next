@@ -1,6 +1,7 @@
 import { UserList } from '../types/universalis/user';
 import mariadb from 'mariadb';
 import { DoctrineArray } from './DoctrineArray';
+import { unix } from './util';
 
 export async function getUserListOwnerId(
   listId: string,
@@ -40,8 +41,9 @@ export function updateUserListName(
   name: string,
   conn: mariadb.Connection
 ) {
-  return conn.execute('UPDATE users_lists SET name = ? WHERE id = ? AND user_id = ?', [
+  return conn.execute('UPDATE users_lists SET name = ?, updated = ? WHERE id = ? AND user_id = ?', [
     name,
+    unix(),
     listId,
     userId,
   ]);
@@ -53,11 +55,10 @@ export function updateUserListItems(
   items: number[],
   conn: mariadb.Connection
 ) {
-  return conn.execute('UPDATE users_lists SET items = ? WHERE id = ? AND user_id = ?', [
-    new DoctrineArray(...items).serialize(),
-    listId,
-    userId,
-  ]);
+  return conn.execute(
+    'UPDATE users_lists SET items = ?, updated = ? WHERE id = ? AND user_id = ?',
+    [new DoctrineArray(...items).serialize(), unix(), listId, userId]
+  );
 }
 
 export async function getUserLists(userId: string, conn: mariadb.Connection): Promise<UserList[]> {

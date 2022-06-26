@@ -7,8 +7,7 @@ import { authOptions } from '../../auth/[...nextauth]';
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'PUT') {
     res.setHeader('Allow', ['PUT']);
-    res.status(405).end(`Method ${req.method} not allowed`);
-    return;
+    return res.status(405).end(`Method ${req.method} not allowed`);
   }
 
   const session = await getServerSession({ req, res }, authOptions);
@@ -16,31 +15,26 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   const { name, items } = req.body;
 
   if (!session || !session.user.id) {
-    res.status(401).json({ message: 'You must be logged in to perform this action.' });
-    return;
+    return res.status(401).json({ message: 'You must be logged in to perform this action.' });
   }
 
   if (typeof listId !== 'string') {
-    res.status(400).json({ message: 'Invalid list provided.' });
-    return;
+    return res.status(400).json({ message: 'Invalid list provided.' });
   }
 
   if (name != null && (typeof name !== 'string' || name.length < 3)) {
-    res.status(400).json({ message: 'Invalid list name.' });
-    return;
+    return res.status(400).json({ message: 'Invalid list name.' });
   }
 
   if (items != null && (!Array.isArray(items) || items.some((item) => typeof item !== 'number'))) {
-    res.status(400).json({ message: 'Invalid list items.' });
-    return;
+    return res.status(400).json({ message: 'Invalid list items.' });
   }
 
   const conn = await acquireConn();
   try {
     const ownerId = await db.getUserListOwnerId(listId, conn);
     if (ownerId !== session.user.id) {
-      res.status(403).json({ message: 'You are not authorized to perform this action.' });
-      return;
+      return res.status(403).json({ message: 'You are not authorized to perform this action.' });
     }
 
     if (name != null) {
@@ -52,8 +46,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
   } catch (err) {
     console.error(err);
-    res.status(500).json({ message: 'Unknown error' });
-    return;
+    return res.status(500).json({ message: 'Unknown error' });
   } finally {
     await releaseConn(conn);
   }

@@ -1,9 +1,37 @@
 import { UserCharacter } from '../types/universalis/user';
 import mariadb from 'mariadb';
 import { createHash } from 'crypto';
+import { unix } from './util';
 
 export function getUserAuthCode(userId: string): string {
   return 'MB' + createHash('sha1').update(userId).digest('hex').substring(0, 5).toUpperCase();
+}
+
+export function linkUserCharacter(userId: string, characterId: string, conn: mariadb.Connection) {
+  return conn.execute('UPDATE users_characters SET user_id = ?, updated = ? WHERE id = ?', [
+    userId,
+    unix(),
+    characterId,
+  ]);
+}
+
+export function unlinkUserCharacter(userId: string, characterId: string, conn: mariadb.Connection) {
+  return conn.execute(
+    'UPDATE users_characters SET user_id = NULL, updated = ? WHERE id = ? AND user_id = ?',
+    [unix(), characterId, userId]
+  );
+}
+
+export function updateMainUserCharacter(
+  userId: string,
+  characterId: string,
+  main: boolean,
+  conn: mariadb.Connection
+) {
+  return conn.execute(
+    'UPDATE users_characters SET main = ?, updated = ? WHERE id = ? AND user_id = ?',
+    [main, unix(), characterId, userId]
+  );
 }
 
 export function createUserCharacter(character: UserCharacter, conn: mariadb.Connection) {
@@ -32,6 +60,38 @@ export async function getUserCharacters(
     [userId]
   );
   return rows.map(rowToUserCharacter);
+}
+
+export async function getUserCharacter(
+  characterId: string,
+  conn: mariadb.Connection
+): Promise<UserCharacter | null> {
+  const rows: Record<string, any>[] = await conn.query(
+    'SELECT id, user_id, lodestone_id, name, server, avatar, main, confirmed, updated FROM users_characters WHERE id = ?',
+    [characterId]
+  );
+
+  if (rows.length === 0) {
+    return null;
+  }
+
+  return rowToUserCharacter(rows[0]);
+}
+
+export async function getUserCharacterByLodestoneId(
+  lodestoneId: number,
+  conn: mariadb.Connection
+): Promise<UserCharacter | null> {
+  const rows: Record<string, any>[] = await conn.query(
+    'SELECT id, user_id, lodestone_id, name, server, avatar, main, confirmed, updated FROM users_characters WHERE lodestone_id = ?',
+    [lodestoneId]
+  );
+
+  if (rows.length === 0) {
+    return null;
+  }
+
+  return rowToUserCharacter(rows[0]);
 }
 
 function rowToUserCharacter(row: Record<string, any>): UserCharacter {
