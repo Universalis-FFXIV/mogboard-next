@@ -35,5 +35,5 @@ export interface UserList {
   name: string;
   custom: boolean;
   customType: number | null;
-  items: DoctrineArray;
+  items: number[] | DoctrineArray;
 }

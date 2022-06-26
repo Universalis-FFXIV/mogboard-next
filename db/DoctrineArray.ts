@@ -22,7 +22,11 @@ export class DoctrineArray extends ArrayWithEnd<any> {
   public serialize(): string {
     const fragments = [`a:${this.length}:{`];
     for (let i = 0; i < this.length; i++) {
-      fragments.push(`i:${i};i:${this[i]};`);
+      if (typeof this[i] === 'number') {
+        fragments.push(`i:${i};i:${this[i]};`);
+      } else {
+        throw new Error('Unknown array element type.');
+      }
     }
     fragments.push('}');
     return fragments.join('');

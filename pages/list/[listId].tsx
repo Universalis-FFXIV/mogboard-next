@@ -3,7 +3,7 @@ import RelativeTime from '@yaireo/relative-time';
 import { GetServerSidePropsContext, NextPage } from 'next';
 import { useSession } from 'next-auth/react';
 import Head from 'next/head';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef, useMemo } from 'react';
 import { sprintf } from 'sprintf-js';
 import useSWR from 'swr';
 import GameItemIcon from '../../components/GameItemIcon/GameItemIcon';
@@ -96,8 +96,10 @@ const List: NextPage<ListProps> = ({ dcs, list, owner }) => {
   const session = useSession();
 
   const [newName, setNewName] = useState(list?.name);
-  const [renaming, setRenaming] = useState(false);
+  const [updating, setUpdating] = useState(false);
   const [renameModalOpen, setRenameModalOpen] = useState(false);
+
+  const submitRef = useRef<HTMLButtonElement>(null);
 
   const { setPopup } = usePopup();
   const { setModalCover } = useModalCover();
@@ -112,34 +114,42 @@ const List: NextPage<ListProps> = ({ dcs, list, owner }) => {
     setModalCover({ isOpen: true });
   };
 
-  const renameList = (name: string) => {
+  const updateList = (
+    data: Partial<Pick<UserList, 'name' | 'items'>>,
+    options?: { reload?: boolean }
+  ) => {
     if (list == null) {
       return;
     }
 
     fetch(`/api/web/list/${list.id}`, {
       method: 'PUT',
-      body: JSON.stringify({ name }),
+      body: JSON.stringify(data),
       headers: { 'Content-Type': 'application/json' },
     })
       .then(async (res) => {
         if (!res.ok) {
           const body =
             res.headers.get('Content-Type') === 'application/json'
-              ? await res.text()
-              : (await res.json()).message;
+              ? (await res.json()).message
+              : await res.text();
           throw new Error(body);
         }
 
-        closeRenameModal();
-        setPopup({
-          type: 'success',
-          title: 'Renamed list',
-          message: 'You have renamed your list!',
-          isOpen: true,
-          forceOpen: true,
-        });
-        location.reload();
+        if (renameModalOpen) {
+          closeRenameModal();
+          setPopup({
+            type: 'success',
+            title: 'Renamed list',
+            message: 'You have renamed your list!',
+            isOpen: true,
+            forceOpen: true,
+          });
+        }
+
+        if (options?.reload == null || options.reload) {
+          location.reload();
+        }
       })
       .catch((err) =>
         setPopup({
@@ -149,7 +159,7 @@ const List: NextPage<ListProps> = ({ dcs, list, owner }) => {
           isOpen: true,
         })
       )
-      .finally(() => setRenaming(false));
+      .finally(() => setUpdating(false));
   };
 
   const lang = settings['mogboard_language'] ?? 'en';
@@ -158,12 +168,16 @@ const List: NextPage<ListProps> = ({ dcs, list, owner }) => {
   const dc = dcs.find((x) => x.worlds.some((y) => y.name === world));
   const server = showHomeWorld ? world : dc?.name ?? 'Chaos';
 
-  const listItems = list?.items as number[];
-  const itemIds = list?.items.join() ?? '0';
+  const listItemIds = useMemo<number[]>(() => list?.items ?? [], [list?.items]);
+  const itemIds = list?.items.join() ?? '';
 
   const market = useSWR(
     `https://universalis.app/api/v2/${server}/${itemIds}?listings=5&entries=5`,
     async (path) => {
+      if (listItemIds.length === 0) {
+        return null;
+      }
+
       const data = await fetch(path).then((res) => res.json());
       return data;
     }
@@ -172,12 +186,12 @@ const List: NextPage<ListProps> = ({ dcs, list, owner }) => {
   const [items, setItems] = useState<Record<number, Item>>({});
   useEffect(() => {
     (async () => {
-      if (listItems == null || Object.keys(items).length > 0) {
+      if (listItemIds == null || Object.keys(items).length > 0) {
         return;
       }
 
       const baseUrl = getRepositoryUrl(lang);
-      for (const itemId of listItems) {
+      for (const itemId of listItemIds) {
         if (items[itemId]) {
           continue;
         }
@@ -219,7 +233,7 @@ const List: NextPage<ListProps> = ({ dcs, list, owner }) => {
         });
       }
     })();
-  }, [lang, items, listItems]);
+  }, [lang, items, listItemIds]);
 
   const userId = session.data?.user.id;
   const ownerId = owner?.id;
@@ -239,7 +253,7 @@ const List: NextPage<ListProps> = ({ dcs, list, owner }) => {
     </Head>
   );
 
-  if (list == null || !market.data) {
+  if (list == null || (listItemIds.length > 0 && !market.data)) {
     return <ListHead />;
   }
 
@@ -277,7 +291,7 @@ const List: NextPage<ListProps> = ({ dcs, list, owner }) => {
             )}
           </span>
         </h1>
-        {listItems.map((itemId) => (
+        {listItemIds.map((itemId) => (
           <div key={itemId} className="pl_i">
             <div>
               <GameItemIcon id={itemId} height={100} width={100} />
@@ -293,7 +307,14 @@ const List: NextPage<ListProps> = ({ dcs, list, owner }) => {
                       </div>
                     }
                   >
-                    <a className="pl_remove">
+                    <a
+                      className="pl_remove"
+                      onClick={() => {
+                        const newListItemIds = listItemIds;
+                        newListItemIds.splice(newListItemIds.indexOf(itemId), 1);
+                        updateList({ items: newListItemIds });
+                      }}
+                    >
                       <i className="xiv-NavigationClose"></i>
                     </a>
                   </Tooltip>
@@ -307,7 +328,7 @@ const List: NextPage<ListProps> = ({ dcs, list, owner }) => {
             </div>
           </div>
         ))}
-        {list.items.length === 0 && (
+        {listItemIds.length === 0 && (
           <div className="alert-dark">
             <Trans>You have no items in this list.</Trans>
           </div>
@@ -339,18 +360,28 @@ const List: NextPage<ListProps> = ({ dcs, list, owner }) => {
             <br />
             <div className="modal_form_end">
               <button
+                ref={submitRef}
                 type="submit"
-                disabled={renaming}
-                className="btn-green btn_rename_list"
+                disabled={updating}
+                className={`btn-green btn_rename_list ${updating ? 'loading_interaction' : ''}`}
+                style={
+                  updating
+                    ? {
+                        minWidth: submitRef.current?.offsetWidth,
+                        minHeight: submitRef.current?.offsetHeight,
+                        display: 'inline-block',
+                      }
+                    : undefined
+                }
                 onClick={(e) => {
                   e.preventDefault();
                   if (newName != null) {
-                    setRenaming(true);
-                    renameList(newName);
+                    setUpdating(true);
+                    updateList({ name: newName });
                   }
                 }}
               >
-                <Trans>Rename List</Trans>
+                {updating ? <>&nbsp;</> : <Trans>Rename List</Trans>}
               </button>
             </div>
           </form>

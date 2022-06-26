@@ -34,7 +34,7 @@ export async function getUserList(
   return rowToUserList(rows[0]);
 }
 
-export function renameUserList(
+export function updateUserListName(
   userId: string,
   listId: string,
   name: string,
@@ -42,6 +42,19 @@ export function renameUserList(
 ) {
   return conn.execute('UPDATE users_lists SET name = ? WHERE id = ? AND user_id = ?', [
     name,
+    listId,
+    userId,
+  ]);
+}
+
+export function updateUserListItems(
+  userId: string,
+  listId: string,
+  items: number[],
+  conn: mariadb.Connection
+) {
+  return conn.execute('UPDATE users_lists SET items = ? WHERE id = ? AND user_id = ?', [
+    new DoctrineArray(...items).serialize(),
     listId,
     userId,
   ]);
