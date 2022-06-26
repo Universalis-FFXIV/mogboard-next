@@ -4,6 +4,8 @@ import { getServerSession } from 'next-auth';
 import Head from 'next/head';
 import { sprintf } from 'sprintf-js';
 import AccountLayout from '../../components/AccountLayout/AccountLayout';
+import { useModalCover } from '../../components/UniversalisLayout/components/ModalCover/ModalCover';
+import { usePopup } from '../../components/UniversalisLayout/components/Popup/Popup';
 import { acquireConn, releaseConn } from '../../db/connect';
 import { getUserAuthCode, getUserCharacters } from '../../db/user-character';
 import useSettings from '../../hooks/useSettings';
@@ -23,6 +25,27 @@ type LodestoneParams = { id: number } | { world: string; name: string };
 const Account: NextPage<AccountProps> = ({ hasSession, characters, verification, dcs }) => {
   const [settings] = useSettings();
 
+  const { setPopup } = usePopup();
+  const { setModalCover } = useModalCover();
+
+  const handleErr = async (res: Response) => {
+    if (!res.ok) {
+      const body = res.headers.get('Content-Type')?.includes('application/json')
+        ? (await res.json()).message
+        : await res.text();
+      throw new Error(body);
+    }
+  };
+
+  const popupErr = (err: any) => {
+    setPopup({
+      type: 'error',
+      title: 'Error',
+      message: err instanceof Error ? err.message : `${err}`,
+      isOpen: true,
+    });
+  };
+
   const addCharacter = async (data: LodestoneParams) => {
     fetch('/api/web/lodestone', {
       method: 'POST',
@@ -32,17 +55,47 @@ const Account: NextPage<AccountProps> = ({ hasSession, characters, verification,
       },
     })
       .then(async (res) => {
-        if (!res.ok) {
-          const body = res.headers.get('Content-Type')?.includes('application/json')
-            ? (await res.json()).message
-            : await res.text();
-          throw new Error(body);
-        }
-
-        const character = await res.json();
-        console.log(character);
+        await handleErr(res);
+        setPopup({
+          type: 'success',
+          title: 'Character Added!',
+          message: 'Your character has been added, the page will refresh in 3 seconds.',
+          isOpen: true,
+          forceOpen: true,
+        });
+        setTimeout(location.reload, 3000);
       })
-      .catch(console.error);
+      .catch(popupErr);
+  };
+
+  const updateCharacter = async (data: Pick<UserCharacter, 'lodestoneId' | 'main'>) => {
+    fetch('/api/web/lodestone', {
+      method: 'PUT',
+      body: JSON.stringify(data),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then(async (res) => {
+        await handleErr(res);
+        location.reload();
+      })
+      .catch(popupErr);
+  };
+
+  const unlinkCharacter = async (data: Pick<UserCharacter, 'id'>) => {
+    fetch('/api/web/lodestone', {
+      method: 'DELETE',
+      body: JSON.stringify(data),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then(async (res) => {
+        await handleErr(res);
+        location.reload();
+      })
+      .catch(popupErr);
   };
 
   const title = 'Characters - Account - Universalis';
