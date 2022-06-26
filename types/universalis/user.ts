@@ -37,3 +37,15 @@ export interface UserList {
   customType: number | null;
   items: number[] | DoctrineArray;
 }
+
+export interface UserCharacter {
+  id: string;
+  userId: string | null;
+  lodestoneId: number;
+  name: string | null;
+  server: string | null;
+  avatar: string | null;
+  main: boolean;
+  confirmed: boolean;
+  updated: number;
+}
