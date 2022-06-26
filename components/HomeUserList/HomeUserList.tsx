@@ -52,7 +52,7 @@ export default function HomeUserList({ dcs, list }: HomeUserListProps) {
   const dc = dcs.find((x) => x.worlds.some((y) => y.name === settings['mogboard_server']));
   const lang = settings['mogboard_language'] ?? 'en';
 
-  const itemIdsStr = list.items.reduce<string>((agg, next) => `${agg},${next}`, '');
+  const itemIdsStr = (list.items as number[]).reduce<string>((agg, next) => `${agg},${next}`, '');
   const marketNq = useSWR(
     `https://universalis.app/api/v2/${dc?.name ?? 'Chaos'}/${itemIdsStr}?listings=1&entries=0&hq=0`,
     async (path) => {
@@ -127,7 +127,7 @@ export default function HomeUserList({ dcs, list }: HomeUserListProps) {
     <div className="home-tab open">
       <div className="home-box2 home-itemlist">
         <h3>
-          <Link href={`/list/${list.id}`}>
+          <Link href="/list/[listId]" as={`/list/${list.id}`}>
             <a>{list.name}</a>
           </Link>
         </h3>
@@ -153,9 +153,9 @@ export default function HomeUserList({ dcs, list }: HomeUserListProps) {
                   <div style={{ flex: '0 0 50%' }}>
                     <GameItemIcon id={item} width={32} height={32} />
                     {itemInfo.levelItem > 1 && <em className="ilv">{itemInfo.levelItem}</em>}
-                    <a href={`/market/${item}`} className={`rarity-${itemInfo.rarity}`}>
-                      {itemInfo.name}
-                    </a>
+                    <Link href={`/market/${item}`}>
+                      <a className={`rarity-${itemInfo.rarity}`}>{itemInfo.name}</a>
+                    </Link>
                     <small>{itemInfo.categoryId ? itemCat?.name : `(${t`Not Sellable`})`}</small>
                   </div>
                   <div style={{ flex: '0 0 50%' }}>

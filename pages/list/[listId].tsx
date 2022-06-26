@@ -122,17 +122,16 @@ const List: NextPage<ListProps> = ({ dcs, list, owner }) => {
       return;
     }
 
-    fetch(`/api/web/list/${list.id}`, {
+    fetch(`/api/web/lists/${list.id}`, {
       method: 'PUT',
       body: JSON.stringify(data),
       headers: { 'Content-Type': 'application/json' },
     })
       .then(async (res) => {
         if (!res.ok) {
-          const body =
-            res.headers.get('Content-Type') === 'application/json'
-              ? (await res.json()).message
-              : await res.text();
+          const body = res.headers.get('Content-Type')?.includes('application/json')
+            ? (await res.json()).message
+            : await res.text();
           throw new Error(body);
         }
 
