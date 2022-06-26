@@ -69,7 +69,7 @@ export default function DalamudAdapter(): Adapter {
           name: user.username,
           email: user.email,
           emailVerified: null,
-          image: user.avatar ?? user.ssoDiscordAvatar,
+          image: user.avatar || user.ssoDiscordAvatar,
         };
       } finally {
         await releaseConn(conn);
@@ -88,7 +88,7 @@ export default function DalamudAdapter(): Adapter {
           name: user.username,
           email: user.email,
           emailVerified: null,
-          image: user.avatar ?? user.ssoDiscordAvatar,
+          image: user.avatar || user.ssoDiscordAvatar,
         };
       } finally {
         await releaseConn(conn);
@@ -97,12 +97,14 @@ export default function DalamudAdapter(): Adapter {
     async getUserByAccount(account) {
       const conn = await acquireConn();
       try {
-        let user: User | null;
+        let user: User | null = null;
         if (account.provider === 'discord') {
           user = await db.getUserByDiscordId(account.providerAccountId, conn);
         } else {
           return null;
         }
+
+        console.log(user);
 
         if (user == null) {
           return null;
@@ -113,7 +115,7 @@ export default function DalamudAdapter(): Adapter {
           name: user.username,
           email: user.email,
           emailVerified: null,
-          image: user.avatar ?? user.ssoDiscordAvatar,
+          image: user.avatar || user.ssoDiscordAvatar,
         };
       } finally {
         await releaseConn(conn);
@@ -159,7 +161,7 @@ export default function DalamudAdapter(): Adapter {
         const id = user.id!;
         const username = user.name ?? mogUser.username;
         const email = user.email ?? mogUser.email;
-        const avatar = user.image ?? mogUser.avatar ?? '';
+        const avatar = user.image || mogUser.avatar || '';
 
         await db.updateUserBasic(id, username, email, avatar ?? '', conn);
 
