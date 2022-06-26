@@ -3,10 +3,7 @@ import { User } from '../types/universalis/user';
 import { acquireConn, releaseConn } from './connect';
 import { v4 as uuidv4 } from 'uuid';
 import * as db from './user';
-
-function unix() {
-  return Math.floor(new Date().valueOf() / 1000);
-}
+import { unix } from './util';
 
 export default function DalamudAdapter(): Adapter {
   return {

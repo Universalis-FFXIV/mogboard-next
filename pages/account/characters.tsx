@@ -1,12 +1,11 @@
 import { t, Trans } from '@lingui/macro';
-import { createHash } from 'crypto';
 import { GetServerSidePropsContext, NextPage } from 'next';
 import { getServerSession } from 'next-auth';
 import Head from 'next/head';
 import { sprintf } from 'sprintf-js';
 import AccountLayout from '../../components/AccountLayout/AccountLayout';
 import { acquireConn, releaseConn } from '../../db/connect';
-import { getUserCharacters } from '../../db/user-character';
+import { getUserAuthCode, getUserCharacters } from '../../db/user-character';
 import useSettings from '../../hooks/useSettings';
 import { DataCenter } from '../../types/game/DataCenter';
 import { UserCharacter } from '../../types/universalis/user';
@@ -19,9 +18,34 @@ interface AccountProps {
   dcs: DataCenter[];
 }
 
+type LodestoneParams = { id: number } | { world: string; name: string };
+
 const Account: NextPage<AccountProps> = ({ hasSession, characters, verification, dcs }) => {
   const [settings] = useSettings();
-  const title = 'Characters - Universalis';
+
+  const getCharacter = async (data: LodestoneParams) => {
+    fetch('/api/web/lodestone', {
+      method: 'POST',
+      body: JSON.stringify(data),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then(async (res) => {
+        if (!res.ok) {
+          const body = res.headers.get('Content-Type')?.includes('application/json')
+            ? (await res.json()).message
+            : await res.text();
+          throw new Error(body);
+        }
+
+        const character = await res.json();
+        console.log(character);
+      })
+      .catch(console.error);
+  };
+
+  const title = 'Characters - Account - Universalis';
   const description =
     'Final Fantasy XIV Online: Market Board aggregator. Find Prices, track Item History and create Price Alerts. Anywhere, anytime.';
   return (
@@ -148,7 +172,14 @@ const Account: NextPage<AccountProps> = ({ hasSession, characters, verification,
                 </div>
                 <div className="flex_10">
                   <label>&nbsp;</label>
-                  <button type="button" className="btn-blue character_add">
+                  <button
+                    type="button"
+                    className="btn-blue character_add"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      getCharacter({ id: 0 });
+                    }}
+                  >
                     <Trans>Search</Trans>
                   </button>
                 </div>
@@ -178,8 +209,7 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
       await releaseConn(conn);
     }
 
-    verification =
-      'MB' + createHash('sha1').update(session.user.id).digest('hex').substring(0, 5).toUpperCase();
+    verification = getUserAuthCode(session.user.id);
   }
 
   let dcs: DataCenter[] = [];

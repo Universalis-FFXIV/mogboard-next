@@ -11,3 +11,7 @@ services:
       MYSQL_PASSWORD: dalamud
     volumes:
       - ./sqlinit:/docker-entrypoint-initdb.d
+  lodestone:
+    image: ghcr.io/universalis-ffxiv/lodestone:latest
+    ports:
+      - "5022:3999"
