@@ -29,7 +29,7 @@ interface UserClean {
 
 interface ListProps {
   dcs: DataCenter[];
-  list: UserList | null;
+  list: UserList;
   owner: UserClean | null;
 }
 
@@ -95,7 +95,7 @@ const List: NextPage<ListProps> = ({ dcs, list, owner }) => {
   const [settings] = useSettings();
   const session = useSession();
 
-  const [newName, setNewName] = useState(list?.name);
+  const [newName, setNewName] = useState(list.name);
   const [updating, setUpdating] = useState(false);
   const [renameModalOpen, setRenameModalOpen] = useState(false);
 
@@ -118,10 +118,6 @@ const List: NextPage<ListProps> = ({ dcs, list, owner }) => {
     data: Partial<Pick<UserList, 'name' | 'items'>>,
     options?: { reload?: boolean }
   ) => {
-    if (list == null) {
-      return;
-    }
-
     fetch(`/api/web/lists/${list.id}`, {
       method: 'PUT',
       body: JSON.stringify(data),
@@ -167,8 +163,8 @@ const List: NextPage<ListProps> = ({ dcs, list, owner }) => {
   const dc = dcs.find((x) => x.worlds.some((y) => y.name === world));
   const server = showHomeWorld ? world : dc?.name ?? 'Chaos';
 
-  const listItemIds = useMemo<number[]>(() => list?.items ?? [], [list?.items]);
-  const itemIds = list?.items.join() ?? '';
+  const listItemIds = useMemo<number[]>(() => list.items, [list.items]);
+  const itemIds = list.items.join();
 
   const market = useSWR(
     `https://universalis.app/api/v2/${server}/${itemIds}?listings=5&entries=5`,
@@ -185,7 +181,7 @@ const List: NextPage<ListProps> = ({ dcs, list, owner }) => {
   const [items, setItems] = useState<Record<number, Item>>({});
   useEffect(() => {
     (async () => {
-      if (listItemIds == null || Object.keys(items).length > 0) {
+      if (Object.keys(items).length > 0) {
         return;
       }
 
@@ -241,7 +237,7 @@ const List: NextPage<ListProps> = ({ dcs, list, owner }) => {
     console.error(market.error);
   }
 
-  const title = (list?.name ?? '') + ' - ' + t`List`;
+  const title = list.name + ' - ' + t`List` + ' - Universalis';
   const description = sprintf(t`Custom Universalis list by %s`, owner?.username ?? '');
   const ListHead = () => (
     <Head>
@@ -252,12 +248,8 @@ const List: NextPage<ListProps> = ({ dcs, list, owner }) => {
     </Head>
   );
 
-  if (list == null || (listItemIds.length > 0 && !market.data)) {
+  if (listItemIds.length > 0 && !market.data) {
     return <ListHead />;
-  }
-
-  if (newName == null) {
-    setNewName(list.name);
   }
 
   const nOfMItems = sprintf(t`%d / %d items`, list.items.length, 100);
@@ -393,7 +385,7 @@ const List: NextPage<ListProps> = ({ dcs, list, owner }) => {
 export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   let { listId } = ctx.query;
   if (typeof listId !== 'string') {
-    listId = undefined;
+    return { redirect: '/404' };
   }
 
   let dcs: DataCenter[] = [];
@@ -429,7 +421,11 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
       const conn = await acquireConn();
       try {
         list = await listDb.getUserList(listId, conn);
-        if (list?.userId != null) {
+        if (list == null) {
+          return { redirect: '/404' };
+        }
+
+        if (list.userId != null) {
           owner = await userDb.getUser(list.userId, conn);
         }
       } finally {

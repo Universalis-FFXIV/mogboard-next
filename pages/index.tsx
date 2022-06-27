@@ -78,6 +78,8 @@ const Home: NextPage<HomeProps> = ({
             const list = lists.find((list) => list.id === id);
             if (!selectedList || list?.id !== selectedList?.id) {
               setSelectedList(list);
+            } else if (list.id === selectedList.id) {
+              setSelectedList(undefined);
             }
           }}
         />
