@@ -130,7 +130,7 @@ const Account: NextPage<AccountProps> = ({ hasSession, characters, verification,
       .catch(popupErr);
   };
 
-  const title = 'Characters - Account - Universalis';
+  const title = 'Characters - Universalis';
   const description =
     'Final Fantasy XIV Online: Market Board aggregator. Find Prices, track Item History and create Price Alerts. Anywhere, anytime.';
   return (
