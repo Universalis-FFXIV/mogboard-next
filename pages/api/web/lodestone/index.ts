@@ -32,12 +32,10 @@ async function post(req: NextApiRequest, res: NextApiResponse) {
       character = await getCharacter(lId);
     } catch (err) {
       console.error(err);
-      return res
-        .status(404)
-        .json({
-          message:
-            'Could not find your character on Lodestone, try entering the Lodestone URL for your character.',
-        });
+      return res.status(404).json({
+        message:
+          'Could not find your character on Lodestone, try entering the Lodestone URL for your character.',
+      });
     }
   } else if (typeof world === 'string' && typeof name === 'string') {
     try {
@@ -45,12 +43,10 @@ async function post(req: NextApiRequest, res: NextApiResponse) {
       character = await getCharacter(lId);
     } catch (err) {
       console.error(err);
-      return res
-        .status(404)
-        .json({
-          message:
-            'Could not find your character on Lodestone, try entering the Lodestone URL for your character.',
-        });
+      return res.status(404).json({
+        message:
+          'Could not find your character on Lodestone, try entering the Lodestone URL for your character.',
+      });
     }
   } else {
     return res.status(400).json({ message: 'No valid parameter set provided.' });
@@ -106,7 +102,7 @@ async function post(req: NextApiRequest, res: NextApiResponse) {
     await releaseConn(conn);
   }
 
-  return res.json({ message: 'ok' });
+  return res.json({ message: 'Success' });
 }
 
 async function put(req: NextApiRequest, res: NextApiResponse) {
@@ -149,7 +145,7 @@ async function put(req: NextApiRequest, res: NextApiResponse) {
     }
   }
 
-  return res.json({ message: 'ok' });
+  return res.json({ message: 'Success' });
 }
 
 async function del(req: NextApiRequest, res: NextApiResponse) {
@@ -188,7 +184,7 @@ async function del(req: NextApiRequest, res: NextApiResponse) {
     await releaseConn(conn);
   }
 
-  return res.json({ message: 'ok' });
+  return res.json({ message: 'Success' });
 }
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {

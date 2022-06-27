@@ -69,6 +69,10 @@ export async function getUserLists(userId: string, conn: mariadb.Connection): Pr
   return rows.map(rowToUserList);
 }
 
+export function deleteUserList(userId: string, listId: string, conn: mariadb.Connection) {
+  return conn.execute('DELETE FROM users_lists WHERE id = ? AND user_id = ?', [listId, userId]);
+}
+
 function rowToUserList(row: Record<string, any>): UserList {
   return {
     id: row['id'],
