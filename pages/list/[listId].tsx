@@ -385,7 +385,9 @@ const List: NextPage<ListProps> = ({ dcs, list, owner }) => {
 export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   let { listId } = ctx.query;
   if (typeof listId !== 'string') {
-    return { redirect: '/404' };
+    return {
+      notFound: true,
+    };
   }
 
   let dcs: DataCenter[] = [];
@@ -422,7 +424,9 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
       try {
         list = await listDb.getUserList(listId, conn);
         if (list == null) {
-          return { redirect: '/404' };
+          return {
+            notFound: true,
+          };
         }
 
         if (list.userId != null) {
