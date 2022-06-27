@@ -193,7 +193,7 @@ const List: NextPage<ListProps> = ({ dcs, list, owner }) => {
 
         let data: any = null;
         do {
-          const res = await fetch(`${baseUrl}/Item/${itemId}&language=${lang}`);
+          const res = await fetch(`${baseUrl}/Item/${itemId}`);
           if (res.status === 429) {
             await new Promise((resolve) => setTimeout(resolve, 3000));
           } else {
@@ -207,19 +207,19 @@ const List: NextPage<ListProps> = ({ dcs, list, owner }) => {
             ...{
               [itemId]: {
                 id: data.ID,
-                name: data.Name,
+                name: data[`Name_${lang}`],
                 icon: `https://xivapi.com${data.Icon}`,
                 levelItem: data.LevelItem,
                 rarity: data.Rarity,
-                itemKind: data.ItemKind.Name,
+                itemKind: data.ItemKind[`Name_${lang}`],
                 itemSearchCategory: {
                   id: data.ItemSearchCategory.ID,
-                  name: data.ItemSearchCategory.Name,
+                  name: data.ItemSearchCategory[`Name_${lang}`],
                 },
                 classJobCategory: data.ClassJobCategory
                   ? {
                       id: data.ClassJobCategory.ID,
-                      name: data.ClassJobCategory.Name,
+                      name: data.ClassJobCategory[`Name_${lang}`],
                     }
                   : undefined,
               },
@@ -385,9 +385,7 @@ const List: NextPage<ListProps> = ({ dcs, list, owner }) => {
 export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   let { listId } = ctx.query;
   if (typeof listId !== 'string') {
-    return {
-      notFound: true,
-    };
+    return { notFound: true };
   }
 
   let dcs: DataCenter[] = [];
@@ -424,9 +422,7 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
       try {
         list = await listDb.getUserList(listId, conn);
         if (list == null) {
-          return {
-            notFound: true,
-          };
+          return { notFound: true };
         }
 
         if (list.userId != null) {
