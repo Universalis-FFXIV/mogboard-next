@@ -2,6 +2,7 @@ import { t, Trans } from '@lingui/macro';
 import { NextPage } from 'next';
 import Head from 'next/head';
 import { sprintf } from 'sprintf-js';
+import MoreQuestions from '../components/MoreQuestions/MoreQuestions';
 
 const About: NextPage = () => {
   const title = 'About - Universalis';
@@ -157,34 +158,7 @@ const About: NextPage = () => {
           <br />
           <br />
         </div>
-        <div className="page-block">
-          <br />
-          <br />
-          <div className="page-short">
-            <h3>
-              <Trans>I have more questions!</Trans>
-            </h3>
-            <p
-              dangerouslySetInnerHTML={{
-                __html: sprintf(
-                  t`Hop onto <a href="%s">our Discord</a> and you can
-                  ask all your questions.`,
-                  'https://discord.gg/JcMvMxD'
-                ),
-              }}
-            ></p>
-            <p
-              dangerouslySetInnerHTML={{
-                __html: sprintf(
-                  t`You can also PM me: <span class="text-yellow">%s</span> if you prefer :)`,
-                  'meeboo'
-                ),
-              }}
-            ></p>
-          </div>
-          <br />
-          <br />
-        </div>
+        <MoreQuestions />
       </div>
     </>
   );
