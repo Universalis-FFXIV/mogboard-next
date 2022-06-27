@@ -81,17 +81,12 @@ const Contribute: NextPage = () => {
             ></h3>
             <p
               dangerouslySetInnerHTML={{
-                __html: t`There are multiple ways to contribute to <strong>Universalis</strong>.
-                All of your contributions are anonymous - no one will be able to refer back
-                to your character or account to know that you have uploaded any data.
-                The applications below are tested by us to make sure that they don't endanger
-                your account or your characters.`,
+                __html: t`There are multiple ways to contribute to <strong>Universalis</strong>. All of your contributions are anonymous - no one will be able to refer back to your character or account to know that you have uploaded any data. The applications below are tested by us to make sure that they don't endanger your account or your characters.`,
               }}
             ></p>
             <p
               dangerouslySetInnerHTML={{
-                __html: t`Every contribution helps to make the data on <strong>Universalis</strong> better,
-                more accurate and more helpful. Thank you very much for helping out!`,
+                __html: t`Every contribution helps to make the data on <strong>Universalis</strong> better, more accurate and more helpful. Thank you very much for helping out!`,
               }}
             ></p>
           </div>
@@ -100,9 +95,7 @@ const Contribute: NextPage = () => {
           <Contributor
             name="FFXIVQuickLauncher"
             kind={t`In-Game addon`}
-            description={t`FFXIVQuickLauncher is a faster launcher for FFXIV aims to fix the slowness and tediousness of 
-                          the regular launcher and adds a lot of QoL features to the game. A Universalis
-                          uploader that can be disabled is built into the launcher.`}
+            description={t`FFXIVQuickLauncher is a faster launcher for FFXIV aims to fix the slowness and tediousness of the regular launcher and adds a lot of QoL features to the game. A Universalis uploader that can be disabled is built into the launcher.`}
             intlUrl="https://github.com/goaaats/FFXIVQuickLauncher/"
             cnUrl="https://gitee.com/bluefissure/Dalamud/releases/v4.9.8.2-beta.5"
           />
@@ -110,8 +103,7 @@ const Contribute: NextPage = () => {
           <Contributor
             name="Universalis"
             kind={t`ACT plugin`}
-            description={t`This is a regular ACT plugin that runs next to the always-used FFXIV_ACT_PLUGIN - just drop it into your
-            ACT plugins folder, add it to ACT and you\'re good to go! No configuration needed.`}
+            description={t`This is a regular ACT plugin that runs next to the always-used FFXIV_ACT_PLUGIN - just drop it into your ACT plugins folder, add it to ACT and you\'re good to go! No configuration needed.`}
             intlUrl="https://github.com/goaaats/universalis_act_plugin/releases/latest"
             cnUrl="https://gitee.com/bluefissure/universalis_act_plugin/releases/v1.1"
           />
@@ -119,18 +111,14 @@ const Contribute: NextPage = () => {
           <Contributor
             name="FFXIV Teamcraft"
             kind={t`Collaborative crafting tool`}
-            description={t`FFXIV Teamcraft is a tool for Final Fantasy XIV players that helps with crafting lists organization and
-            crafting/gathering in general. It has a lot of features to make it a one stop shop, with things like
-            integrated alarms, custom items, permissions system, realtime sharing, etc.`}
+            description={t`FFXIV Teamcraft is a tool for Final Fantasy XIV players that helps with crafting lists organization and crafting/gathering in general. It has a lot of features to make it a one stop shop, with things like integrated alarms, custom items, permissions system, realtime sharing, etc.`}
             intlUrl="https://github.com/ffxiv-teamcraft/ffxiv-teamcraft/releases/latest"
           />
           <br />
           <Contributor
             name="Matcha"
             kind={t`ACT plugin`}
-            description={t`If you are playing on chinese server(other servers are not supported), you can use Matcha plugin
-            provided by FFCAFE which have built-in Universalis integration. Matcha also provides a overlay
-            to show price information from Universalis.`}
+            description={t`If you are playing on chinese server(other servers are not supported), you can use Matcha plugin provided by FFCAFE which have built-in Universalis integration. Matcha also provides a overlay to show price information from Universalis.`}
             intlUrl="https://ffcafe.org/matcha/universalis/"
           />
           <div className="page-short">
@@ -140,8 +128,7 @@ const Contribute: NextPage = () => {
             <p
               dangerouslySetInnerHTML={{
                 __html: sprintf(
-                  t`If you wish to contribute to <strong>Universalis</strong> with your own application,
-                please contact us on our <a href="%s">Discord</a>. Let\'s work together!`,
+                  t`If you wish to contribute to <strong>Universalis</strong> with your own application, please contact us on our <a href="%s">Discord</a>. Let\'s work together!`,
                   'https://discord.gg/JcMvMxD'
                 ),
               }}

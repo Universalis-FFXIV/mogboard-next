@@ -57,11 +57,7 @@ const About: NextPage = () => {
             <p
               dangerouslySetInnerHTML={{
                 __html: sprintf(
-                  t`<strong>Definitely!</strong>
-                <br><br>
-                Everything you see on Universalis is open for anyone to use, to learn more
-                about how to access the data using a REST API Service, check out the
-                %s documentation.`,
+                  t`<strong>Definitely!</strong><br /><br />Everything you see on Universalis is open for anyone to use, to learn more about how to access the data using a REST API Service, check out the %s documentation.`,
                   '<a href="https://docs.universalis.app">Universalis</a>'
                 ),
               }}
@@ -76,8 +72,7 @@ const About: NextPage = () => {
             <p
               dangerouslySetInnerHTML={{
                 __html: sprintf(
-                  t`We would like to thank Vekien and Miu from %s for their initial work on mogboard,
-                  which made this site, in its current state, possible.`,
+                  t`We would like to thank Vekien and Miu from %s for their initial work on mogboard, which made this site, in its current state, possible.`,
                   '<a href="https://xivapi.com">XIVAPI</a>'
                 ),
               }}
@@ -96,8 +91,7 @@ const About: NextPage = () => {
             </h3>
             <p
               dangerouslySetInnerHTML={{
-                __html: t`<strong>Universalis</strong> runs a REST API that applications can post market board data to,
-                  after they collect the data from a running game instance by multiple users, anonymously.`,
+                __html: t`<strong>Universalis</strong> runs a REST API that applications can post market board data to, after they collect the data from a running game instance by multiple users, anonymously.`,
               }}
             ></p>
             <p>
