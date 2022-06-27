@@ -14,23 +14,17 @@ const UniversalisFooter = () => {
             </a>
           </Link>
           &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-          <Link href="/docs">
-            <a className="btn-menu">
-              <Trans>API Documentation</Trans>
-            </a>
-          </Link>
+          <a href="https://docs.universalis.app" className="btn-menu">
+            <Trans>API Documentation</Trans>
+          </a>
           &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-          <Link href="https://github.com/Universalis-FFXIV/Universalis">
-            <a className="btn-menu">
-              <Trans>GitHub</Trans>
-            </a>
-          </Link>
+          <a href="https://github.com/Universalis-FFXIV/Universalis" className="btn-menu">
+            <Trans>GitHub</Trans>
+          </a>
           &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-          <Link href="https://discord.gg/JcMvMxD">
-            <a className="btn-menu">
-              <Trans>Discord</Trans>
-            </a>
-          </Link>
+          <a href="https://discord.gg/JcMvMxD" className="btn-menu">
+            <Trans>Discord</Trans>
+          </a>
         </div>
         <div>
           <Trans>FINAL FANTASY XIV © 2010 - 2020 SQUARE ENIX CO., LTD. All Rights Reserved.</Trans>
