@@ -32,15 +32,25 @@ async function post(req: NextApiRequest, res: NextApiResponse) {
       character = await getCharacter(lId);
     } catch (err) {
       console.error(err);
-      return res.status(404).json({ message: 'Failed to find character.' });
+      return res
+        .status(404)
+        .json({
+          message:
+            'Could not find your character on Lodestone, try entering the Lodestone URL for your character.',
+        });
     }
   } else if (typeof world === 'string' && typeof name === 'string') {
     try {
       lId = await searchCharacter(world, name);
-      character = await getCharacter(lodestoneId);
+      character = await getCharacter(lId);
     } catch (err) {
       console.error(err);
-      return res.status(404).json({ message: 'Failed to find character.' });
+      return res
+        .status(404)
+        .json({
+          message:
+            'Could not find your character on Lodestone, try entering the Lodestone URL for your character.',
+        });
     }
   } else {
     return res.status(400).json({ message: 'No valid parameter set provided.' });
@@ -54,32 +64,40 @@ async function post(req: NextApiRequest, res: NextApiResponse) {
   const conn = await acquireConn();
   try {
     const userCharacters = await getUserCharacters(session.user.id, conn);
+    const initialCharacterCount = userCharacters.length;
     if (userCharacters.map((c) => c.lodestoneId).includes(lId)) {
       return res.status(440).json({ message: 'User has already linked the requested character.' });
     }
 
-    const existing = await getUserCharacterByLodestoneId(lodestoneId, conn);
+    let finalId: string;
+    const existing = await getUserCharacterByLodestoneId(lId, conn);
     if (existing != null) {
       if (existing.userId != null) {
         return res.status(403).json({ message: 'Character is linked to a different user.' });
       } else {
+        finalId = existing.id;
         await linkUserCharacter(session.user.id, existing.id, conn);
       }
     } else {
+      finalId = uuidv4();
       await createUserCharacter(
         {
-          id: uuidv4(),
+          id: finalId,
           userId: session.user.id,
-          lodestoneId,
+          lodestoneId: lId,
           name: character.name,
           server: character.world,
           avatar: character.avatar,
-          main: userCharacters.length === 0,
+          main: false,
           confirmed: true,
           updated: unix(),
         },
         conn
       );
+    }
+
+    if (initialCharacterCount === 0) {
+      await updateMainUserCharacter(session.user.id, finalId, true, conn);
     }
   } catch (err) {
     console.error(err);
@@ -115,7 +133,7 @@ async function put(req: NextApiRequest, res: NextApiResponse) {
         const characters = await getUserCharacters(session.user.id, conn);
         for (const c of characters) {
           if (c.main) {
-            await updateMainUserCharacter(session.user.id, target.id, false, conn);
+            await updateMainUserCharacter(session.user.id, c.id, false, conn);
           }
         }
 
@@ -148,7 +166,21 @@ async function del(req: NextApiRequest, res: NextApiResponse) {
 
   const conn = await acquireConn();
   try {
+    const target = await getUserCharacter(id, conn);
+    if (target == null) {
+      return res.status(404).json({ message: 'Character not found.' });
+    }
+
     await unlinkUserCharacter(session.user.id, id, conn);
+
+    if (target.main) {
+      const characters = (await getUserCharacters(session.user.id, conn)).filter(
+        (c) => c.id !== target.id
+      );
+      if (characters.length > 0) {
+        await updateMainUserCharacter(session.user.id, characters[0].id, true, conn);
+      }
+    }
   } catch (err) {
     console.error(err);
     return res.status(500).json({ message: 'Unknown error' });

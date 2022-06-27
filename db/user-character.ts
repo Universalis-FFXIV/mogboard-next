@@ -17,7 +17,7 @@ export function linkUserCharacter(userId: string, characterId: string, conn: mar
 
 export function unlinkUserCharacter(userId: string, characterId: string, conn: mariadb.Connection) {
   return conn.execute(
-    'UPDATE users_characters SET user_id = NULL, updated = ? WHERE id = ? AND user_id = ?',
+    'UPDATE users_characters SET user_id = NULL, updated = ?, main = FALSE WHERE id = ? AND user_id = ?',
     [unix(), characterId, userId]
   );
 }

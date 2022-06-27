@@ -2,9 +2,9 @@ import { t, Trans } from '@lingui/macro';
 import { GetServerSidePropsContext, NextPage } from 'next';
 import { getServerSession } from 'next-auth';
 import Head from 'next/head';
+import { useRef, useState } from 'react';
 import { sprintf } from 'sprintf-js';
 import AccountLayout from '../../components/AccountLayout/AccountLayout';
-import { useModalCover } from '../../components/UniversalisLayout/components/ModalCover/ModalCover';
 import { usePopup } from '../../components/UniversalisLayout/components/Popup/Popup';
 import { acquireConn, releaseConn } from '../../db/connect';
 import { getUserAuthCode, getUserCharacters } from '../../db/user-character';
@@ -20,13 +20,39 @@ interface AccountProps {
   dcs: DataCenter[];
 }
 
-type LodestoneParams = { id: number } | { world: string; name: string };
+type LodestoneParams = { lodestoneId: number } | { world: string; name: string };
 
 const Account: NextPage<AccountProps> = ({ hasSession, characters, verification, dcs }) => {
   const [settings] = useSettings();
 
   const { setPopup } = usePopup();
-  const { setModalCover } = useModalCover();
+
+  const submitRef = useRef<HTMLButtonElement>(null);
+
+  const [searching, setSearching] = useState(false);
+  const [progressText, setProgressText] = useState('');
+  const [world, setWorld] = useState(settings['mogboard_server'] ?? 'Phoenix');
+  const [charSearch, setCharSearch] = useState('');
+  const parseCharSearch = ():
+    | { isLodestoneId: true; lodestoneId: number }
+    | { isLodestoneId: false; name: string } => {
+    let n = parseInt(charSearch);
+    if (!isNaN(n)) {
+      return { isLodestoneId: true, lodestoneId: n };
+    }
+
+    const matches =
+      /https?:\/\/\w{2}\.finalfantasyxiv\.com\/lodestone\/character\/(?<id>\d+)\/?/g.exec(
+        charSearch
+      );
+    const groups = matches?.groups ?? {};
+    n = parseInt(groups['id']);
+    if (!isNaN(n)) {
+      return { isLodestoneId: true, lodestoneId: n };
+    }
+
+    return { isLodestoneId: false, name: charSearch };
+  };
 
   const handleErr = async (res: Response) => {
     if (!res.ok) {
@@ -47,6 +73,8 @@ const Account: NextPage<AccountProps> = ({ hasSession, characters, verification,
   };
 
   const addCharacter = async (data: LodestoneParams) => {
+    setSearching(true);
+    setProgressText('Searching Lodestone for your character...');
     fetch('/api/web/lodestone', {
       method: 'POST',
       body: JSON.stringify(data),
@@ -63,12 +91,16 @@ const Account: NextPage<AccountProps> = ({ hasSession, characters, verification,
           isOpen: true,
           forceOpen: true,
         });
-        setTimeout(location.reload, 3000);
+        setTimeout(() => location.reload(), 3000);
       })
-      .catch(popupErr);
+      .catch(popupErr)
+      .finally(() => {
+        setProgressText('');
+        setSearching(false);
+      });
   };
 
-  const updateCharacter = async (data: Pick<UserCharacter, 'lodestoneId' | 'main'>) => {
+  const updateCharacter = async (data: Pick<UserCharacter, 'id' | 'main'>) => {
     fetch('/api/web/lodestone', {
       method: 'PUT',
       body: JSON.stringify(data),
@@ -127,7 +159,10 @@ const Account: NextPage<AccountProps> = ({ hasSession, characters, verification,
                   />
                 </div>
                 <div className="flex_90 character_info">
-                  <a className="character_remove">
+                  <a
+                    className="character_remove"
+                    onClick={() => unlinkCharacter({ id: character.id })}
+                  >
                     <Trans>REMOVE</Trans>
                   </a>
                   <h4 className="char_name">
@@ -137,7 +172,7 @@ const Account: NextPage<AccountProps> = ({ hasSession, characters, verification,
                     {character.server} - <Trans>Updated:</Trans>{' '}
                     {new Date(character.updated * 1000).toLocaleString()}
                   </p>
-                  <a>
+                  <a onClick={() => updateCharacter({ id: character.id, main: true })}>
                     <Trans>Set character as MAIN.</Trans>
                   </a>
                 </div>
@@ -200,6 +235,8 @@ const Account: NextPage<AccountProps> = ({ hasSession, characters, verification,
                     name="character_string"
                     id="character_string"
                     placeholder=""
+                    value={charSearch}
+                    onChange={(e) => setCharSearch(e.target.value)}
                   ></input>
                 </div>
                 <div className="flex_40">
@@ -210,7 +247,8 @@ const Account: NextPage<AccountProps> = ({ hasSession, characters, verification,
                     className="full"
                     name="character_server"
                     id="character_server"
-                    defaultValue={settings['mogboard_server']}
+                    defaultValue={settings['mogboard_server'] ?? 'Phoenix'}
+                    onChange={(e) => setWorld(e.target.value)}
                   >
                     {dcs.map((dc) => (
                       <optgroup key={dc.name} label={dc.name}>
@@ -226,18 +264,33 @@ const Account: NextPage<AccountProps> = ({ hasSession, characters, verification,
                 <div className="flex_10">
                   <label>&nbsp;</label>
                   <button
+                    ref={submitRef}
                     type="button"
-                    className="btn-blue character_add"
+                    className={`btn-blue character_add ${searching ? 'loading_interaction' : ''}`}
+                    style={
+                      searching
+                        ? {
+                            minWidth: submitRef.current?.offsetWidth,
+                            minHeight: submitRef.current?.offsetHeight,
+                            display: 'inline-block',
+                          }
+                        : undefined
+                    }
                     onClick={(e) => {
                       e.preventDefault();
-                      addCharacter({ id: 0 });
+                      const params = parseCharSearch();
+                      if (params.isLodestoneId) {
+                        addCharacter({ lodestoneId: params.lodestoneId });
+                      } else {
+                        addCharacter({ name: params.name, world });
+                      }
                     }}
                   >
-                    <Trans>Search</Trans>
+                    {searching ? <></> : <Trans>Search</Trans>}
                   </button>
                 </div>
               </div>
-              <div className="character_add_response"></div>
+              <div className="character_add_response">{progressText}</div>
             </div>
           </div>
         </div>
