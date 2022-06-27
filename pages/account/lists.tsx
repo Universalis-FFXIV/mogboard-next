@@ -49,7 +49,7 @@ const Lists: NextPage<ListsProps> = ({ hasSession, lists }) => {
 
         let data: any = null;
         do {
-          const res = await fetch(`${baseUrl}/Item/${itemId}`);
+          const res = await fetch(`${baseUrl}/Item/${itemId}&language=${lang}`);
           if (res.status === 429) {
             await new Promise((resolve) => setTimeout(resolve, 3000));
           } else {
