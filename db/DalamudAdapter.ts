@@ -101,8 +101,6 @@ export default function DalamudAdapter(): Adapter {
           return null;
         }
 
-        console.log(user);
-
         if (user == null) {
           return null;
         }
