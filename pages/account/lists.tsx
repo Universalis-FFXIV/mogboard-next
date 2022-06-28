@@ -72,6 +72,10 @@ const Lists: NextPage<ListsProps> = ({ hasSession, lists }) => {
                   id: data.ItemSearchCategory.ID,
                   name: data.ItemSearchCategory[`Name_${lang}`],
                 },
+                itemUiCategory: {
+                  id: data.ItemUICategory.ID,
+                  name: data.ItemUICategory[`Name_${lang}`],
+                },
                 classJobCategory: data.ClassJobCategory
                   ? {
                       id: data.ClassJobCategory.ID,
