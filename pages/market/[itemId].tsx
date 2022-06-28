@@ -338,6 +338,7 @@ function MarketDataCenter({ item, dc }: MarketDataCenterProps) {
                 start={0}
                 end={entriesToShow(hqListings)}
               />
+              <br />
             </>
           )}
           <h6>
@@ -369,6 +370,7 @@ function MarketDataCenter({ item, dc }: MarketDataCenterProps) {
                 start={0}
                 end={entriesToShow(hqSales)}
               />
+              <br />
             </>
           )}
           <h6>{sprintf(t`%s Purchase History`, 'NQ')}</h6>
