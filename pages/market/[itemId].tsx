@@ -259,8 +259,6 @@ const Market: NextPage<MarketProps> = ({ hasSession, lists, itemId, dcs }) => {
   const [selectedWorld, setSelectedWorld] = useState<string | null>(
     queryServer ?? (showHomeWorld ? homeWorld : null)
   );
-  console.log(dc);
-  console.log(selectedWorld);
 
   const [item, setItem] = useState<Item | null>(null);
   useEffect(() => {
