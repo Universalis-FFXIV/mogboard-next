@@ -326,7 +326,7 @@ function MarketDataCenter({ item, dc }: MarketDataCenterProps) {
           {item.canBeHq && (
             <>
               <h6>
-                <img src="/i/game/hq.png" alt="High Quality" height={15} />{' '}
+                <img src="/i/game/hq.png" alt="High Quality" height={15} width={15} />{' '}
                 {sprintf(t`%s Prices`, 'HQ')} {t`(Includes 5% GST)`}
               </h6>
               <ListingsTable
@@ -357,7 +357,7 @@ function MarketDataCenter({ item, dc }: MarketDataCenterProps) {
           {item.canBeHq && (
             <>
               <h6>
-                <img src="/i/game/hq.png" alt="High Quality" height={15} />{' '}
+                <img src="/i/game/hq.png" alt="High Quality" height={15} width={15} />{' '}
                 {sprintf(t`%s Purchase History`, 'HQ')}
               </h6>
               <SalesTable
@@ -399,7 +399,7 @@ function MarketDataCenter({ item, dc }: MarketDataCenterProps) {
               <div className="flex avg_prices">
                 {item.canBeHq && (
                   <div className="flex_50 price-hq">
-                    <img src="/i/game/hq.png" alt="High Quality" />{' '}
+                    <img src="/i/game/hq.png" alt="High Quality" height={16} width={16} />{' '}
                     {hqListingsAveragePpu.toLocaleString()}
                   </div>
                 )}
@@ -416,7 +416,7 @@ function MarketDataCenter({ item, dc }: MarketDataCenterProps) {
               <div className="flex avg_prices">
                 {item.canBeHq && (
                   <div className="flex_50 price-hq">
-                    <img src="/i/game/hq.png" alt="High Quality" />{' '}
+                    <img src="/i/game/hq.png" alt="High Quality" height={16} width={16} />{' '}
                     {hqListingsAverageTotal.toLocaleString()}
                   </div>
                 )}
@@ -440,7 +440,7 @@ function MarketDataCenter({ item, dc }: MarketDataCenterProps) {
               <div className="flex avg_prices">
                 {item.canBeHq && (
                   <div className="flex_50 price-hq">
-                    <img src="/i/game/hq.png" alt="High Quality" />{' '}
+                    <img src="/i/game/hq.png" alt="High Quality" height={16} width={16} />{' '}
                     {hqSalesAveragePpu.toLocaleString()}
                   </div>
                 )}
@@ -457,7 +457,7 @@ function MarketDataCenter({ item, dc }: MarketDataCenterProps) {
               <div className="flex avg_prices">
                 {item.canBeHq && (
                   <div className="flex_50 price-hq">
-                    <img src="/i/game/hq.png" alt="High Quality" />{' '}
+                    <img src="/i/game/hq.png" alt="High Quality" height={16} width={16} />{' '}
                     {hqSalesAverageTotal.toLocaleString()}
                   </div>
                 )}
