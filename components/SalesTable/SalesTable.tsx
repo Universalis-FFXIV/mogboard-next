@@ -58,7 +58,7 @@ function SalesTableRow({ sale }: { sale: SaleRow }) {
       <td className="price-current">{sale.pricePerUnit.toLocaleString()}</td>
       <td className="price-qty">{sale.quantity.toLocaleString()}</td>
       <td className="price-total">{sale.total.toLocaleString()}</td>
-      {sale.diff && (
+      {sale.diff != null && (
         <td
           className={`price-diff ${
             Math.ceil(sale.diff) >= 20
@@ -72,7 +72,7 @@ function SalesTableRow({ sale }: { sale: SaleRow }) {
             label={
               <div style={{ textAlign: 'center' }}>
                 This listing is {sale.diff > 0 ? '+' : ''}
-                {sale.diff == 0 ? '-' : Math.round(sale.diff) + '%'}{' '}
+                {sale.diff === 0 ? '-' : Math.round(sale.diff).toLocaleString() + '%'}{' '}
                 {sale.diff > 0 ? 'more' : 'less'} than the current <br />
                 <strong>Avg. Price Per Unit</strong>: {sale.hq ? '(HQ)' : '(NQ)'}{' '}
                 {Math.round(sale.average).toLocaleString()}
@@ -80,8 +80,9 @@ function SalesTableRow({ sale }: { sale: SaleRow }) {
             }
           >
             <span style={{ width: '100%' }}>
-              {sale.diff > 0 ? '+' : ''}
-              {Math.ceil(sale.diff).toLocaleString()}%
+              {sale.diff == 0
+                ? '-'
+                : (sale.diff > 0 ? '+' : '') + Math.ceil(sale.diff).toLocaleString() + '%'}
             </span>
           </Tooltip>
         </td>

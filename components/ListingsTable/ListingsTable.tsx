@@ -69,7 +69,7 @@ function ListingsTableRow({ listing }: { listing: ListingRow }) {
       <td className="price-current">{listing.pricePerUnit.toLocaleString()}</td>
       <td className="price-qty">{listing.quantity.toLocaleString()}</td>
       <td className="price-total">{listing.total.toLocaleString()}</td>
-      {listing.diff && (
+      {listing.diff != null && (
         <td
           className={`price-diff ${
             Math.ceil(listing.diff) >= 20
@@ -83,7 +83,7 @@ function ListingsTableRow({ listing }: { listing: ListingRow }) {
             label={
               <div style={{ textAlign: 'center' }}>
                 This listing is {listing.diff > 0 ? '+' : ''}
-                {listing.diff == 0 ? '-' : Math.round(listing.diff) + '%'}{' '}
+                {listing.diff === 0 ? '-' : Math.round(listing.diff).toLocaleString() + '%'}{' '}
                 {listing.diff > 0 ? 'more' : 'less'} than the current <br />
                 <strong>Avg. Price Per Unit</strong>: {listing.hq ? '(HQ)' : '(NQ)'}{' '}
                 {Math.round(listing.average).toLocaleString()}
@@ -91,8 +91,9 @@ function ListingsTableRow({ listing }: { listing: ListingRow }) {
             }
           >
             <span style={{ width: '100%' }}>
-              {listing.diff > 0 ? '+' : ''}
-              {Math.ceil(listing.diff).toLocaleString()}%
+              {listing.diff == 0
+                ? '-'
+                : (listing.diff > 0 ? '+' : '') + Math.ceil(listing.diff).toLocaleString() + '%'}
             </span>
           </Tooltip>
         </td>

@@ -476,28 +476,25 @@ function MarketDataCenter({ item, dc }: MarketDataCenterProps) {
 }
 
 function MarketWorld({ item, worldName }: MarketWorldProps) {
+  const [market, setMarket] = useState<any>(null);
+  useEffect(() => {
+    (async () => {
+      const market = await fetch(`https://universalis.app/api/v2/${worldName}/${item.id}`).then(
+        (res) => res.json()
+      );
+      setMarket(market);
+    })();
+  }, [worldName, item.id]);
+
   const relativeTime = new RelativeTime();
 
-  const { data, error } = useSWR(`https://universalis.app/api/v2/${worldName}/${item.id}`, (path) =>
-    fetch(path).then((res) => res.json())
-  );
-
-  if (error) {
-    console.error(error);
+  if (market == null) {
     return <></>;
-  }
-
-  if (!data) {
-    return <></>;
-  }
-
-  if (!data.lastUploadTime) {
-    return <NoMarketData worldName={worldName} />;
   }
 
   return (
     <>
-      {item.stackSize && item.stackSize > 1 && data.stackSizeHistogram && (
+      {item.stackSize && item.stackSize > 1 && market.stackSizeHistogram && (
         <div>
           <h4
             dangerouslySetInnerHTML={{
@@ -506,19 +503,38 @@ function MarketWorld({ item, worldName }: MarketWorldProps) {
           ></h4>
         </div>
       )}
+
       <div className="tab-market-tables">
         <div className="cw-table cw-prices">
           <h4>
             <Trans>PRICES</Trans>{' '}
             <small>
-              <Trans>Updated:</Trans> {relativeTime.from(new Date(data.lastUploadTime))}
+              <Trans>Updated:</Trans> {relativeTime.from(new Date(market.lastUploadTime))}
             </small>
           </h4>
+          <ListingsTable
+            listings={market.listings}
+            averageHq={market.currentAveragePriceHQ}
+            averageNq={market.currentAveragePriceNQ}
+            crossWorld={false}
+            includeDiff={true}
+            start={0}
+            end={entriesToShow(market.listings)}
+          />
         </div>
         <div className="cw-table cw-history">
           <h4>
             <Trans>HISTORY</Trans>
           </h4>
+          <SalesTable
+            sales={market.recentHistory}
+            averageHq={market.averagePriceHQ}
+            averageNq={market.averagePriceNQ}
+            crossWorld={false}
+            includeDiff={true}
+            start={0}
+            end={entriesToShow(market.listings)}
+          />
         </div>
       </div>
     </>
