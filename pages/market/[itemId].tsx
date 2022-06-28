@@ -247,15 +247,20 @@ const Market: NextPage<MarketProps> = ({ hasSession, lists, itemId, dcs }) => {
   const [settings] = useSettings();
 
   const router = useRouter();
-  const queryServer = typeof router.query.server === 'string' ? router.query.server : null;
+  const queryServer =
+    typeof router.query.server === 'string' && router.query.server.length > 0
+      ? router.query.server
+      : null;
 
   const lang = settings['mogboard_language'] ?? 'en';
   const showHomeWorld = settings['mogboard_homeworld'] === 'yes';
   const homeWorld = settings['mogboard_server'] ?? 'Phoenix';
-  const dc = dcs.find((x) => x.worlds.some((y) => y.name === queryServer ?? homeWorld));
+  const dc = dcs.find((x) => x.worlds.some((y) => y.name === (queryServer ?? homeWorld)));
   const [selectedWorld, setSelectedWorld] = useState<string | null>(
     queryServer ?? (showHomeWorld ? homeWorld : null)
   );
+  console.log(dc);
+  console.log(selectedWorld);
 
   const [item, setItem] = useState<Item | null>(null);
   useEffect(() => {
