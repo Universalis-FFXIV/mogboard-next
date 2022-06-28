@@ -5,7 +5,9 @@ import SortTable from '../SortTable/SortTable';
 import Tooltip from '../Tooltip/Tooltip';
 
 interface SalesTableProps {
-  market: any;
+  sales: any[];
+  averageHq: number;
+  averageNq: number;
   crossWorld: boolean;
   includeDiff: boolean;
   start?: number;
@@ -59,7 +61,11 @@ function SalesTableRow({ sale }: { sale: SaleRow }) {
       {sale.diff && (
         <td
           className={`price-diff ${
-            sale.diff >= 20 ? 'price-diff-bad' : sale.diff < -10 ? 'price-diff-good' : ''
+            Math.ceil(sale.diff) >= 20
+              ? 'price-diff-bad'
+              : Math.ceil(sale.diff) < -10
+              ? 'price-diff-good'
+              : ''
           }`}
         >
           <Tooltip
@@ -73,7 +79,10 @@ function SalesTableRow({ sale }: { sale: SaleRow }) {
               </div>
             }
           >
-            <span style={{ width: '100%' }}>{Math.round(sale.diff).toLocaleString()}%</span>
+            <span style={{ width: '100%' }}>
+              {sale.diff > 0 ? '+' : ''}
+              {Math.ceil(sale.diff).toLocaleString()}%
+            </span>
           </Tooltip>
         </td>
       )}
@@ -84,19 +93,18 @@ function SalesTableRow({ sale }: { sale: SaleRow }) {
 }
 
 export default function SalesTable({
-  market,
+  sales,
+  averageHq,
+  averageNq,
   crossWorld,
   includeDiff,
   start,
   end,
 }: SalesTableProps) {
-  const { averagePriceNQ, averagePriceHQ } = market;
-  const saleRows: SaleRow[] = (market.recentHistory as any[])
+  const saleRows: SaleRow[] = sales
     .sort((a, b) => b.timestamp - a.timestamp)
-    .slice(start, end)
     .map((sale, i) => {
-      const avgForQuality = includeDiff ? (sale.hq ? averagePriceHQ : averagePriceNQ) : null;
-      const diff = (sale.pricePerUnit / avgForQuality) * 100 - 100;
+      const avgForQuality: any = includeDiff ? (sale.hq ? averageHq : averageNq) : null;
       return {
         n: i + 1,
         hq: sale.hq,
@@ -108,7 +116,7 @@ export default function SalesTable({
         crossWorld,
         world: crossWorld ? sale.worldName : null,
         average: avgForQuality,
-        diff: avgForQuality != null ? diff : null,
+        diff: avgForQuality != null ? (sale.pricePerUnit / avgForQuality) * 100 - 100 : null,
       };
     });
   return (
@@ -116,6 +124,8 @@ export default function SalesTable({
       <SortTable
         className="table-sortable"
         rows={saleRows}
+        start={start}
+        end={end}
         headers={(ctx) =>
           saleRows.length > 0 ? (
             <>

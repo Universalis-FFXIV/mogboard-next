@@ -6,7 +6,9 @@ import SortTable from '../SortTable/SortTable';
 import Tooltip from '../Tooltip/Tooltip';
 
 interface ListingsTableProps {
-  market: any;
+  listings: any[];
+  averageNq: number;
+  averageHq: number;
   crossWorld: boolean;
   includeDiff: boolean;
   start?: number;
@@ -70,7 +72,11 @@ function ListingsTableRow({ listing }: { listing: ListingRow }) {
       {listing.diff && (
         <td
           className={`price-diff ${
-            listing.diff >= 20 ? 'price-diff-bad' : listing.diff < -10 ? 'price-diff-good' : ''
+            Math.ceil(listing.diff) >= 20
+              ? 'price-diff-bad'
+              : Math.ceil(listing.diff) < -10
+              ? 'price-diff-good'
+              : ''
           }`}
         >
           <Tooltip
@@ -84,7 +90,10 @@ function ListingsTableRow({ listing }: { listing: ListingRow }) {
               </div>
             }
           >
-            <span style={{ width: '100%' }}>{Math.round(listing.diff).toLocaleString()}%</span>
+            <span style={{ width: '100%' }}>
+              {listing.diff > 0 ? '+' : ''}
+              {Math.ceil(listing.diff).toLocaleString()}%
+            </span>
           </Tooltip>
         </td>
       )}
@@ -103,23 +112,18 @@ function ListingsTableRow({ listing }: { listing: ListingRow }) {
 }
 
 export default function ListingsTable({
-  market,
+  listings,
+  averageNq,
+  averageHq,
   crossWorld,
   includeDiff,
   start,
   end,
 }: ListingsTableProps) {
-  const { currentAveragePriceNQ, currentAveragePriceHQ } = market;
-  const listingRows: ListingRow[] = (market.listings as any[])
+  const listingRows: ListingRow[] = listings
     .sort((a, b) => a.pricePerUnit - b.pricePerUnit)
-    .slice(start, end)
     .map((listing, i) => {
-      const avgForQuality = includeDiff
-        ? listing.hq
-          ? currentAveragePriceHQ
-          : currentAveragePriceNQ
-        : null;
-      const diff = (listing.pricePerUnit / avgForQuality) * 100 - 100;
+      const avgForQuality: any = includeDiff ? (listing.hq ? averageHq : averageNq) : null;
       return {
         n: i + 1,
         hq: listing.hq,
@@ -138,7 +142,7 @@ export default function ListingsTable({
         crossWorld,
         world: crossWorld ? listing.worldName : null,
         average: avgForQuality,
-        diff: avgForQuality != null ? diff : null,
+        diff: avgForQuality != null ? (listing.pricePerUnit / avgForQuality) * 100 - 100 : null,
       };
     });
   return (
@@ -146,6 +150,8 @@ export default function ListingsTable({
       <SortTable
         className="table-sortable"
         rows={listingRows}
+        start={start}
+        end={end}
         headers={(ctx) =>
           listingRows.length > 0 ? (
             <>

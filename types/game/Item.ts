@@ -8,6 +8,7 @@ export interface Item {
   rarity: number;
   itemKind: string;
   stackSize?: number;
+  canBeHq?: boolean;
   itemSearchCategory: {
     id: number;
     name: string;

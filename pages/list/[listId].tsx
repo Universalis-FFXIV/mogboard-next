@@ -56,7 +56,9 @@ function ListItemMarket({ item, market, showHomeWorld }: ListItemMarketProps) {
           </h3>
           <div>
             <ListingsTable
-              market={market}
+              listings={market.listings}
+              averageHq={market.currentAveragePriceHQ}
+              averageNq={market.currentAveragePriceNQ}
               crossWorld={!showHomeWorld}
               includeDiff={false}
               start={0}
@@ -72,7 +74,9 @@ function ListItemMarket({ item, market, showHomeWorld }: ListItemMarketProps) {
           </h3>
           <div>
             <SalesTable
-              market={market}
+              sales={market.recentHistory}
+              averageHq={market.averagePriceHQ}
+              averageNq={market.averagePriceNQ}
               crossWorld={!showHomeWorld}
               includeDiff={false}
               start={0}

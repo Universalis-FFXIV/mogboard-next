@@ -131,6 +131,8 @@ interface SortTableProps<T> {
   className?: string;
   fallback: JSX.Element;
   rows: T[];
+  start?: number;
+  end?: number;
 }
 
 export default function SortTable<T>({
@@ -138,6 +140,8 @@ export default function SortTable<T>({
   headers,
   className,
   rows,
+  start,
+  end,
   fallback,
 }: SortTableProps<T>) {
   const intSort: SortFactory<T, NumericKey<T>> = intSortFn;
@@ -180,7 +184,7 @@ export default function SortTable<T>({
         </tr>
       </thead>
       <tbody>
-        {rows.map((row, i) => (
+        {rows.slice(start, end).map((row, i) => (
           <Fragment key={i}>{children(row)}</Fragment>
         ))}
         {rows.length === 0 && fallback}
