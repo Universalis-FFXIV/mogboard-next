@@ -37,3 +37,6 @@ yarn-error.log*
 # IDE folders
 .idea/
 .vscode/
+
+# NPM lockfile (use Yarn's only)
+package-lock.json
