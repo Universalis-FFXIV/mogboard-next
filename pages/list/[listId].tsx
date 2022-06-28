@@ -1,7 +1,7 @@
 import { t, Trans } from '@lingui/macro';
 import RelativeTime from '@yaireo/relative-time';
 import { GetServerSidePropsContext, NextPage } from 'next';
-import { useSession } from 'next-auth/react';
+import { getServerSession } from 'next-auth';
 import Head from 'next/head';
 import { useState, useEffect, useRef, useMemo } from 'react';
 import { sprintf } from 'sprintf-js';
@@ -20,17 +20,14 @@ import * as listDb from '../../db/user-list';
 import useSettings from '../../hooks/useSettings';
 import { DataCenter } from '../../types/game/DataCenter';
 import { Item } from '../../types/game/Item';
-import { User, UserList } from '../../types/universalis/user';
-
-interface UserClean {
-  id: string;
-  username: string;
-}
+import { UserList } from '../../types/universalis/user';
+import { authOptions } from '../api/auth/[...nextauth]';
 
 interface ListProps {
   dcs: DataCenter[];
   list: UserList;
-  owner: UserClean | null;
+  reqIsOwner: boolean;
+  ownerName: string;
 }
 
 interface ListItemMarketProps {
@@ -91,9 +88,8 @@ function ListItemMarket({ item, market, showHomeWorld }: ListItemMarketProps) {
   );
 }
 
-const List: NextPage<ListProps> = ({ dcs, list, owner }) => {
+const List: NextPage<ListProps> = ({ dcs, list, reqIsOwner, ownerName }) => {
   const [settings] = useSettings();
-  const session = useSession();
 
   const [newName, setNewName] = useState(list.name);
   const [updating, setUpdating] = useState(false);
@@ -234,15 +230,12 @@ const List: NextPage<ListProps> = ({ dcs, list, owner }) => {
     })();
   }, [lang, items, listItemIds]);
 
-  const userId = session.data?.user.id;
-  const ownerId = owner?.id;
-
   if (market.error) {
     console.error(market.error);
   }
 
   const title = list.name + ' - ' + t`List` + ' - Universalis';
-  const description = sprintf(t`Custom Universalis list by %s`, owner?.username ?? '');
+  const description = sprintf(t`Custom Universalis list by %s`, ownerName);
   const ListHead = () => (
     <Head>
       <meta property="og:title" content={title} />
@@ -269,10 +262,14 @@ const List: NextPage<ListProps> = ({ dcs, list, owner }) => {
         <h1>
           {list.name}
           <span>
-            <a className="link_rename_list" onClick={() => openRenameModal()}>
-              <Trans>Rename</Trans>
-            </a>
-            &nbsp;&nbsp;|&nbsp;&nbsp;
+            {reqIsOwner && (
+              <>
+                <a className="link_rename_list" onClick={() => openRenameModal()}>
+                  <Trans>Rename</Trans>
+                </a>
+                &nbsp;&nbsp;|&nbsp;&nbsp;
+              </>
+            )}
             {nOfMItems}
             &nbsp;&nbsp;|&nbsp;&nbsp;
             {showHomeWorld ? (
@@ -294,7 +291,7 @@ const List: NextPage<ListProps> = ({ dcs, list, owner }) => {
             <div>
               <h2>
                 <ItemHeader item={items[itemId]} />
-                {session && userId && userId === ownerId && (
+                {reqIsOwner && (
                   <Tooltip
                     label={
                       <div style={{ textAlign: 'center', width: 140 }}>
@@ -418,8 +415,11 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
     console.error(err);
   }
 
+  const session = await getServerSession(ctx, authOptions);
+
   let list: UserList | null = null;
-  let owner: User | null = null;
+  let reqIsOwner = false;
+  let ownerName = 'unknown user';
   if (listId != null) {
     try {
       const conn = await acquireConn();
@@ -430,7 +430,11 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
         }
 
         if (list.userId != null) {
-          owner = await userDb.getUser(list.userId, conn);
+          const owner = await userDb.getUser(list.userId, conn);
+          if (owner != null) {
+            reqIsOwner = owner.id === session?.user.id;
+            ownerName = owner.username;
+          }
         }
       } finally {
         await releaseConn(conn);
@@ -440,16 +444,8 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
     }
   }
 
-  let ownerClean: UserClean | null = null;
-  if (owner != null) {
-    ownerClean = {
-      id: owner.id,
-      username: owner.username,
-    };
-  }
-
   return {
-    props: { list, owner: ownerClean, dcs },
+    props: { list, reqIsOwner, ownerName, dcs },
   };
 }
 
