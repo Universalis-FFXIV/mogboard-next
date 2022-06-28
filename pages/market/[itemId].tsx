@@ -6,7 +6,6 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { sprintf } from 'sprintf-js';
-import useSWR from 'swr';
 import GameItemIcon from '../../components/GameItemIcon/GameItemIcon';
 import ListingsTable from '../../components/ListingsTable/ListingsTable';
 import LoggedIn from '../../components/LoggedIn/LoggedIn';
