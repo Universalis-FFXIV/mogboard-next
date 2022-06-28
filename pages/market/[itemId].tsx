@@ -492,6 +492,10 @@ function MarketWorld({ item, worldName }: MarketWorldProps) {
     return <></>;
   }
 
+  if (!market.lastUploadTime) {
+    return <NoMarketData worldName={worldName} />;
+  }
+
   return (
     <>
       {item.stackSize && item.stackSize > 1 && market.stackSizeHistogram && (
