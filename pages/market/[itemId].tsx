@@ -509,7 +509,8 @@ function MarketWorld({ item, worldName }: MarketWorldProps) {
           <h4>
             <Trans>PRICES</Trans>{' '}
             <small>
-              <Trans>Updated:</Trans> {relativeTime.from(new Date(market.lastUploadTime))}
+              <Trans>Updated:</Trans> {relativeTime.from(new Date(market.lastUploadTime))}{' '}
+              {t`(Includes 5% GST)`}
             </small>
           </h4>
           <ListingsTable
