@@ -200,7 +200,6 @@ function SalesChart({ server, itemId }: SalesChartProps) {
 
     return {};
   }, [data]);
-  console.log(chartComponentRef);
 
   return (
     <div className="highchart" style={{ width: '100%' }}>
@@ -793,10 +792,10 @@ const Market: NextPage<MarketProps> = ({ hasSession, lists, itemId, dcs }) => {
                 hasSession={hasSession}
                 lists={lists}
                 favourite={false}
-                itemId={itemId}
+                itemId={item.id}
               />
               <div>
-                <GameItemIcon id={itemId} width={100} height={100} />
+                <GameItemIcon id={item.id} width={100} height={100} />
               </div>
               <div>
                 <div className="item_info">
