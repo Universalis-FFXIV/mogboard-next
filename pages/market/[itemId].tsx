@@ -346,6 +346,8 @@ function MarketDataCenter({ item, dc }: MarketDataCenterProps) {
   const [markets, setMarkets] = useState<Record<number, any>>({});
   useEffect(() => {
     (async () => {
+      setMarkets({});
+
       for (const world of dc.worlds) {
         const market = await fetch(`https://universalis.app/api/v2/${world.id}/${item.id}`).then(
           (res) => res.json()
@@ -644,6 +646,8 @@ function MarketWorld({ item, worldName }: MarketWorldProps) {
   const [market, setMarket] = useState<any>(null);
   useEffect(() => {
     (async () => {
+      setMarket(null);
+
       const market = await fetch(`https://universalis.app/api/v2/${worldName}/${item.id}`).then(
         (res) => res.json()
       );
