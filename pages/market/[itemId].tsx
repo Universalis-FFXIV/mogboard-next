@@ -1,10 +1,12 @@
 import { t, Trans } from '@lingui/macro';
 import RelativeTime from '@yaireo/relative-time';
+import Highcharts from 'highcharts';
+import HighchartsReact from 'highcharts-react-official';
 import { GetServerSidePropsContext, NextPage } from 'next';
 import { getServerSession } from 'next-auth';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { Dispatch, useEffect, useMemo, useReducer, useRef, useState } from 'react';
 import { sprintf } from 'sprintf-js';
 import GameItemIcon from '../../components/GameItemIcon/GameItemIcon';
 import ListingsTable from '../../components/ListingsTable/ListingsTable';
@@ -19,6 +21,11 @@ import { DataCenter } from '../../types/game/DataCenter';
 import { Item } from '../../types/game/Item';
 import { UserList } from '../../types/universalis/user';
 import { authOptions } from '../api/auth/[...nextauth]';
+
+interface SalesChartProps {
+  server: string;
+  itemId: number;
+}
 
 interface MarketListsProps {
   hasSession: boolean;
@@ -46,6 +53,199 @@ interface MarketProps {
 
 function entriesToShow(entries: {}[]) {
   return Math.max(Math.floor(entries.length * 0.1), 10);
+}
+
+function createOptions(data: any[], dispatch: Dispatch<ViewRange>): Highcharts.Options {
+  return {
+    credits: {
+      enabled: false,
+    },
+    scrollbar: {
+      enabled: false,
+    },
+    legend: {
+      enabled: true,
+    },
+    boost: {
+      useGPUTranslations: true,
+      allowForce: true,
+    },
+    rangeSelector: {
+      allButtonsEnabled: true,
+      buttons: [
+        {
+          type: 'month',
+          count: 1,
+          text: '1m',
+          title: 'View 1 month',
+        },
+        {
+          type: 'month',
+          count: 3,
+          text: '3m',
+          title: 'View 3 months',
+        },
+        {
+          type: 'month',
+          count: 6,
+          text: '6m',
+          title: 'View 6 months',
+        },
+        {
+          type: 'ytd',
+          text: 'YTD',
+          title: 'View year to date',
+        },
+        {
+          type: 'year',
+          count: 1,
+          text: '1y',
+          title: 'View 1 year',
+        },
+        {
+          type: 'all',
+          text: 'All',
+          title: 'View all',
+        },
+      ],
+      selected: 0,
+    },
+    xAxis: [
+      {
+        range: 60 * 60 * 24 * 30 * 1000,
+      },
+      {
+        range: 60 * 60 * 24 * 30 * 1000,
+      },
+    ],
+    tooltip: {
+      valueDecimals: 0,
+    },
+    yAxis: [
+      {
+        visible: false,
+      },
+      {
+        visible: false,
+      },
+    ],
+    series: [
+      {
+        id: 'HC_History_HQ',
+        name: sprintf(t`(%s) PerUnit`, 'HQ'),
+        data: data
+          .filter((sale) => sale.hq)
+          .map((sale) => [sale.timestamp * 1000, sale.pricePerUnit]),
+        yAxis: 0,
+        showInNavigator: true,
+        type: 'line',
+        navigatorOptions: {
+          color: 'rgba(202,200,68,0.35)',
+        },
+      },
+      {
+        id: 'HC_History_NQ',
+        name: sprintf(t`(%s) PerUnit`, 'NQ'),
+        data: data
+          .filter((sale) => !sale.hq)
+          .map((sale) => [sale.timestamp * 1000, sale.pricePerUnit]),
+        yAxis: 0,
+        showInNavigator: true,
+        type: 'line',
+        navigatorOptions: {
+          color: 'rgba(120,120,120,0.35)',
+        },
+      },
+      {
+        id: 'HC_History_HQ_volume',
+        name: sprintf(t`(%s) PerUnit QUANTITY`, 'HQ'),
+        data: data.filter((sale) => sale.hq).map((sale) => [sale.timestamp * 1000, sale.quantity]),
+        yAxis: 1,
+        linkedTo: 'HC_History_HQ',
+        type: 'column',
+        showInNavigator: false,
+      },
+      {
+        id: 'HC_History_NQ_volume',
+        name: sprintf(t`(%s) PerUnit QUANTITY`, 'NQ'),
+        data: data.filter((sale) => !sale.hq).map((sale) => [sale.timestamp * 1000, sale.quantity]),
+        yAxis: 1,
+        linkedTo: 'HC_History_NQ',
+        type: 'column',
+        showInNavigator: false,
+      },
+    ],
+  };
+}
+
+type ViewState = { from: Date; to: Date };
+
+type ViewRange = '1mo' | '3mo' | '6mo' | 'ytd' | 'year' | 'all';
+
+const rangeToState = (range: ViewRange) => {
+  const to = new Date();
+  const from = new Date();
+  switch (range) {
+    case '1mo':
+      from.setMonth(from.getMonth() - 1);
+      return { from, to };
+    case '3mo':
+      from.setMonth(from.getMonth() - 3);
+      return { from, to };
+    case '6mo':
+      from.setMonth(from.getMonth() - 6);
+      return { from, to };
+    case 'ytd':
+      from.setFullYear(from.getFullYear() - 1);
+      return { from, to };
+    case 'year':
+      to.setMonth(0, 1);
+      to.setHours(0, 0, 0, 0);
+      from.setDate(to.getFullYear() - 1);
+      return { from, to };
+    case 'all':
+      from.setTime(0);
+      return { from, to };
+  }
+};
+
+const reducer = (_: ViewState, range: ViewRange) => {
+  return rangeToState(range);
+};
+
+function SalesChart({ server, itemId }: SalesChartProps) {
+  const chartComponentRef = useRef<HighchartsReact.RefObject>(null);
+
+  const [data, setData] = useState<any[]>([]);
+  useEffect(() => {
+    (async () => {
+      const sales = await fetch(`https://universalis.app/api/history/${server}/${itemId}`)
+        .then((res) => res.json())
+        .then((market) => market.entries.sort((a: any, b: any) => a.timestamp - b.timestamp));
+      setData(sales);
+    })();
+  }, [itemId, server]);
+
+  const [view, dispatch] = useReducer(reducer, rangeToState('1mo'));
+  const options = useMemo<Highcharts.Options>(() => {
+    if (typeof Highcharts === 'object') {
+      return createOptions(data, dispatch);
+    }
+
+    return {};
+  }, [data]);
+  console.log(chartComponentRef);
+
+  return (
+    <div className="highchart" style={{ width: '100%' }}>
+      <HighchartsReact
+        highcharts={Highcharts}
+        options={options}
+        constructorType="stockChart"
+        ref={chartComponentRef}
+      />
+    </div>
+  );
 }
 
 function MarketLists({ hasSession, lists, favourite, itemId }: MarketListsProps) {
@@ -313,6 +513,7 @@ function MarketDataCenter({ item, dc }: MarketDataCenterProps) {
       <h6>
         <Trans>Cross-World Purchase history (500 sales)</Trans>
       </h6>
+      <SalesChart server={dc.name} itemId={item.id} />
       {item.stackSize && item.stackSize > 1 && (
         <div>
           <h6>
