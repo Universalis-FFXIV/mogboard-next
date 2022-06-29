@@ -112,9 +112,11 @@ function createOptions(data: any[], dispatch: Dispatch<ViewRange>): Highcharts.O
     },
     xAxis: [
       {
+        ordinal: false,
         range: 60 * 60 * 24 * 30 * 1000,
       },
       {
+        ordinal: false,
         range: 60 * 60 * 24 * 30 * 1000,
       },
     ],
