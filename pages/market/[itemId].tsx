@@ -6,7 +6,7 @@ import { GetServerSidePropsContext, NextPage } from 'next';
 import { getServerSession } from 'next-auth';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import { Dispatch, useEffect, useMemo, useReducer, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { sprintf } from 'sprintf-js';
 import GameItemIcon from '../../components/GameItemIcon/GameItemIcon';
 import ListingsTable from '../../components/ListingsTable/ListingsTable';
@@ -664,6 +664,7 @@ function MarketWorld({ item, worldName }: MarketWorldProps) {
 
   return (
     <>
+      <SalesChart server={worldName} itemId={item.id} />
       {item.stackSize && item.stackSize > 1 && market.stackSizeHistogram && (
         <div>
           <h4
@@ -673,7 +674,6 @@ function MarketWorld({ item, worldName }: MarketWorldProps) {
           ></h4>
         </div>
       )}
-
       <div className="tab-market-tables">
         <div className="cw-table cw-prices">
           <h4>
