@@ -55,7 +55,7 @@ function entriesToShow(entries: {}[]) {
   return Math.max(Math.floor(entries.length * 0.1), 10);
 }
 
-function createOptions(data: any[], dispatch: Dispatch<ViewRange>): Highcharts.Options {
+function createOptions(data: any[]): Highcharts.Options {
   return {
     credits: {
       enabled: false,
@@ -180,41 +180,6 @@ function createOptions(data: any[], dispatch: Dispatch<ViewRange>): Highcharts.O
   };
 }
 
-type ViewState = { from: Date; to: Date };
-
-type ViewRange = '1mo' | '3mo' | '6mo' | 'ytd' | 'year' | 'all';
-
-const rangeToState = (range: ViewRange) => {
-  const to = new Date();
-  const from = new Date();
-  switch (range) {
-    case '1mo':
-      from.setMonth(from.getMonth() - 1);
-      return { from, to };
-    case '3mo':
-      from.setMonth(from.getMonth() - 3);
-      return { from, to };
-    case '6mo':
-      from.setMonth(from.getMonth() - 6);
-      return { from, to };
-    case 'ytd':
-      from.setFullYear(from.getFullYear() - 1);
-      return { from, to };
-    case 'year':
-      to.setMonth(0, 1);
-      to.setHours(0, 0, 0, 0);
-      from.setDate(to.getFullYear() - 1);
-      return { from, to };
-    case 'all':
-      from.setTime(0);
-      return { from, to };
-  }
-};
-
-const reducer = (_: ViewState, range: ViewRange) => {
-  return rangeToState(range);
-};
-
 function SalesChart({ server, itemId }: SalesChartProps) {
   const chartComponentRef = useRef<HighchartsReact.RefObject>(null);
 
@@ -228,10 +193,9 @@ function SalesChart({ server, itemId }: SalesChartProps) {
     })();
   }, [itemId, server]);
 
-  const [view, dispatch] = useReducer(reducer, rangeToState('1mo'));
   const options = useMemo<Highcharts.Options>(() => {
     if (typeof Highcharts === 'object') {
-      return createOptions(data, dispatch);
+      return createOptions(data);
     }
 
     return {};
