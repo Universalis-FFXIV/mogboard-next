@@ -10,6 +10,7 @@ import { SessionProvider } from 'next-auth/react';
 import Highcharts from 'highcharts';
 import HighchartsAccessibility from 'highcharts/modules/accessibility';
 import HighchartsStock from 'highcharts/modules/stock';
+import HighchartsHistogram from 'highcharts/modules/histogram-bellcurve';
 import { i18n } from '@lingui/core';
 import { I18nProvider } from '@lingui/react';
 import { en, ja, de, fr, zh } from 'make-plural/plurals';
@@ -46,6 +47,7 @@ i18n.loadLocaleData({
 if (typeof Highcharts === 'object') {
   HighchartsAccessibility(Highcharts);
   HighchartsStock(Highcharts);
+  HighchartsHistogram(Highcharts);
   Highcharts.setOptions(MogboardHighchartsTheme);
   Highcharts.setOptions({
     lang: {

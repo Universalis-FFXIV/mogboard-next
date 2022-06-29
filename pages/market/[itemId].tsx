@@ -22,6 +22,11 @@ import { Item } from '../../types/game/Item';
 import { UserList } from '../../types/universalis/user';
 import { authOptions } from '../api/auth/[...nextauth]';
 
+interface StackSizeHistogramProps {
+  item: Item;
+  data: any[];
+}
+
 interface SalesChartProps {
   server: string;
   itemId: number;
@@ -55,7 +60,7 @@ function entriesToShow(entries: {}[]) {
   return Math.max(Math.floor(entries.length * 0.1), 10);
 }
 
-function createOptions(data: any[]): Highcharts.Options {
+function createSalesOptions(data: any[]): Highcharts.Options {
   return {
     credits: {
       enabled: false,
@@ -195,7 +200,7 @@ function SalesChart({ server, itemId }: SalesChartProps) {
 
   const options = useMemo<Highcharts.Options>(() => {
     if (typeof Highcharts === 'object') {
-      return createOptions(data);
+      return createSalesOptions(data);
     }
 
     return {};
@@ -209,6 +214,87 @@ function SalesChart({ server, itemId }: SalesChartProps) {
         constructorType="stockChart"
         ref={chartComponentRef}
       />
+    </div>
+  );
+}
+
+function createHistogramOptions(data: any[], item: Item): Highcharts.Options {
+  return {
+    chart: {
+      height: 200,
+    },
+    plotOptions: {
+      histogram: {
+        binWidth: 1,
+      },
+    },
+    credits: {
+      text: '',
+    },
+    title: {
+      text: '',
+    },
+    xAxis: [
+      {
+        allowDecimals: false,
+        type: 'linear',
+        title: {
+          text: 'Quantity',
+        },
+      },
+    ],
+    yAxis: [
+      {
+        allowDecimals: false,
+        title: {
+          text: 'Sales',
+        },
+      },
+    ],
+    series: [
+      {
+        id: 'histogram_all',
+        name: 'Total',
+        data: data.map((x) => x.quantity) as unknown as undefined,
+        type: 'histogram',
+        zIndex: -2,
+      },
+      {
+        id: 'histogram_all_NQ',
+        name: '(NQ) Stack Size Histogram',
+        data: data.filter((x) => x.hq).map((x) => x.quantity) as unknown as undefined,
+        type: 'histogram',
+        zIndex: -1,
+      },
+      ...((item.canBeHq
+        ? [
+            {
+              id: 'histogram_all_HQ',
+              name: '(HQ) Stack Size Histogram',
+              data: data.filter((x) => !x.hq).map((x) => x.quantity) as unknown as undefined,
+              type: 'histogram',
+              zIndex: 0,
+            },
+          ]
+        : []) as Highcharts.SeriesOptionsType[]),
+    ],
+  };
+}
+
+function StackSizeHistogram({ data, item }: StackSizeHistogramProps) {
+  const chartComponentRef = useRef<HighchartsReact.RefObject>(null);
+
+  const options = useMemo<Highcharts.Options>(() => {
+    if (typeof Highcharts === 'object') {
+      return createHistogramOptions(data, item);
+    }
+
+    return {};
+  }, [data, item]);
+
+  return (
+    <div className="highchart" style={{ height: 200, width: '100%' }}>
+      <HighchartsReact highcharts={Highcharts} options={options} ref={chartComponentRef} />
     </div>
   );
 }
@@ -486,6 +572,7 @@ function MarketDataCenter({ item, dc }: MarketDataCenterProps) {
           <h6>
             <Trans>STACK SIZE HISTOGRAM</Trans>
           </h6>
+          <StackSizeHistogram item={item} data={allSales} />
         </div>
       )}
       <div className="cross_world_markets">
@@ -675,6 +762,7 @@ function MarketWorld({ item, worldName }: MarketWorldProps) {
               __html: t`STACK SIZE HISTOGRAM <small>Last 20 Sales</small>`,
             }}
           ></h4>
+          <StackSizeHistogram item={item} data={market.recentHistory} />
         </div>
       )}
       <div className="tab-market-tables">
