@@ -6,6 +6,7 @@ import { DataCenter } from '../../../types/game/DataCenter';
 import { Item } from '../../../types/game/Item';
 import ListingsTable from '../../ListingsTable/ListingsTable';
 import SalesTable from '../../SalesTable/SalesTable';
+import MarketCheapest from '../MarketCheapest/MarketCheapest';
 import MarketHistoryGraph from '../MarketHistoryGraph/MarketHistoryGraph';
 import MarketServerUpdateTimes from '../MarketServerUpdateTimes/MarketServerUpdateTimes';
 import MarketStackSizeHistogram from '../MarketStackSizeHistogram/MarketStackSizeHistogram';
@@ -98,48 +99,8 @@ export default function MarketDataCenter({ item, dc }: MarketDataCenterProps) {
     <>
       <MarketServerUpdateTimes worlds={worldsSorted} uploadTimes={markets} />
       <div className="cross_world_markets">
-        <div className="cheapest">
-          <h2>{sprintf(t`Cheapest %s`, 'HQ')}</h2>
-          {item.canBeHq && (
-            <>
-              {hqListings.length > 0 && (
-                <div className="cheapest_price">
-                  <i className="xiv-Gil"></i> <em>{hqListings[0].quantity.toLocaleString()} x</em>
-                  <span className="cheapest_value">
-                    &nbsp;
-                    {hqListings[0].pricePerUnit.toLocaleString()}
-                  </span>
-                  &nbsp;
-                  <span className="cheapest_price_info">
-                    <Trans>Server:</Trans> <strong>{hqListings[0].worldName}</strong> -&nbsp;
-                    <Trans>Total:</Trans> <strong>{hqListings[0].total.toLocaleString()}</strong>
-                  </span>
-                </div>
-              )}
-              {hqListings.length === 0 && sprintf(t`No %s for sale.`, 'HQ')}
-            </>
-          )}
-          {!item.canBeHq && t`Item has no HQ variant.`}
-        </div>
-        <div className="cheapest">
-          <h2>{sprintf(t`Cheapest %s`, 'NQ')}</h2>
-
-          {nqListings.length > 0 && (
-            <div className="cheapest_price">
-              <i className="xiv-Gil"></i> <em>{nqListings[0].quantity.toLocaleString()} x</em>
-              <span className="cheapest_value">
-                &nbsp;
-                {nqListings[0].pricePerUnit.toLocaleString()}
-              </span>
-              &nbsp;
-              <span className="cheapest_price_info">
-                <Trans>Server:</Trans> <strong>{nqListings[0].worldName}</strong> -&nbsp;
-                <Trans>Total:</Trans> <strong>{nqListings[0].total.toLocaleString()}</strong>
-              </span>
-            </div>
-          )}
-          {nqListings.length === 0 && sprintf(t`No %s for sale.`, 'NQ')}
-        </div>
+        <MarketCheapest item={item} listings={hqListings} quality="HQ" />
+        <MarketCheapest item={item} listings={nqListings} quality="NQ" />
       </div>
       <br />
       <br />
