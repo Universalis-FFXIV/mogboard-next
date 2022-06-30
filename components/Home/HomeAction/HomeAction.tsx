@@ -1,4 +1,5 @@
 import { Trans } from '@lingui/macro';
+import Link from 'next/link';
 
 export default function HomeAction() {
   return (
@@ -9,16 +10,18 @@ export default function HomeAction() {
           <Trans>DISCORD</Trans>
         </span>
       </a>
-      <a href="/contribute" className="patreon">
-        <span>
-          <img
-            src="/i/brand/contribute/logo_name.png"
-            alt="Contribute"
-            height={60}
-            width={124.117}
-          />
-        </span>
-      </a>
+      <Link href="/contribute">
+        <a className="patreon">
+          <span>
+            <img
+              src="/i/brand/contribute/logo_name.png"
+              alt="Contribute"
+              height={60}
+              width={124.117}
+            />
+          </span>
+        </a>
+      </Link>
       <a href="https://patreon.com/universalis" className="patreon">
         <span>
           <img src="/i/brand/patreon/logo_name.jpg" alt="Patreon" height={60} width={124.117} />

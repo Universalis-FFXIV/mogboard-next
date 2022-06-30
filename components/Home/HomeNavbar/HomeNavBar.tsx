@@ -1,7 +1,7 @@
 import { Trans } from '@lingui/macro';
-import { UserList } from '../../types/universalis/user';
-import LoggedIn from '../LoggedIn/LoggedIn';
-import LoggedOut from '../LoggedOut/LoggedOut';
+import { UserList } from '../../../types/universalis/user';
+import LoggedIn from '../../LoggedIn/LoggedIn';
+import LoggedOut from '../../LoggedOut/LoggedOut';
 
 interface HomeNavBarProps {
   lists: UserList[];

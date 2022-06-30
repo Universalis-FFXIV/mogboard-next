@@ -5,14 +5,14 @@ import { useEffect, useState } from 'react';
 import { sprintf } from 'sprintf-js';
 import useSWR from 'swr';
 import useSWRImmutable from 'swr/immutable';
-import { getItems } from '../../data/game/items';
-import useSettings from '../../hooks/useSettings';
-import { CategoryItem } from '../../types/game/CategoryItem';
-import { DataCenter } from '../../types/game/DataCenter';
-import { ItemSearchCategory } from '../../types/game/ItemSearchCategory';
-import { UserList } from '../../types/universalis/user';
-import { XIVAPIItemSearchCategoryIndex } from '../../types/xivapi/XIVAPIItemSearchCategoryIndex';
-import GameItemIcon from '../GameItemIcon/GameItemIcon';
+import { getItems } from '../../../data/game/items';
+import useSettings from '../../../hooks/useSettings';
+import { CategoryItem } from '../../../types/game/CategoryItem';
+import { DataCenter } from '../../../types/game/DataCenter';
+import { ItemSearchCategory } from '../../../types/game/ItemSearchCategory';
+import { UserList } from '../../../types/universalis/user';
+import { XIVAPIItemSearchCategoryIndex } from '../../../types/xivapi/XIVAPIItemSearchCategoryIndex';
+import GameItemIcon from '../../GameItemIcon/GameItemIcon';
 
 interface HomeUserListProps {
   dcs: DataCenter[];
