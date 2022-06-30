@@ -7,6 +7,7 @@ import { Item } from '../../../types/game/Item';
 import ListingsTable from '../../ListingsTable/ListingsTable';
 import SalesTable from '../../SalesTable/SalesTable';
 import MarketHistoryGraph from '../MarketHistoryGraph/MarketHistoryGraph';
+import MarketServerUpdateTimes from '../MarketServerUpdateTimes/MarketServerUpdateTimes';
 import MarketStackSizeHistogram from '../MarketStackSizeHistogram/MarketStackSizeHistogram';
 
 interface MarketDataCenterProps {
@@ -95,18 +96,7 @@ export default function MarketDataCenter({ item, dc }: MarketDataCenterProps) {
 
   return (
     <>
-      <div className="market_update_times">
-        {worldsSorted.map((world) => (
-          <div key={world.id}>
-            <h4>{world.name}</h4>
-            <div>
-              {markets[world.id].lastUploadTime
-                ? relativeTime.from(new Date(markets[world.id].lastUploadTime))
-                : t`No data`}
-            </div>
-          </div>
-        ))}
-      </div>
+      <MarketServerUpdateTimes worlds={worldsSorted} uploadTimes={markets} />
       <div className="cross_world_markets">
         <div className="cheapest">
           <h2>{sprintf(t`Cheapest %s`, 'HQ')}</h2>
