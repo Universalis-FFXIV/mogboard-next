@@ -15,6 +15,7 @@ import { useModalCover } from '../../components/UniversalisLayout/components/Mod
 import { usePopup } from '../../components/UniversalisLayout/components/Popup/Popup';
 import { getRepositoryUrl } from '../../data/game/repository';
 import { acquireConn, releaseConn } from '../../db/connect';
+import { DoctrineArray } from '../../db/DoctrineArray';
 import * as userDb from '../../db/user';
 import * as listDb from '../../db/user-list';
 import useSettings from '../../hooks/useSettings';
@@ -164,7 +165,7 @@ const List: NextPage<ListProps> = ({ dcs, list, reqIsOwner, ownerName }) => {
   const server = showHomeWorld ? world : dc?.name ?? 'Chaos';
 
   const listItemIds = useMemo<number[]>(() => list.items, [list.items]);
-  const itemIds = list.items.join();
+  const itemIds = `0,${list.items.join()}`;
 
   const market = useSWR(
     `https://universalis.app/api/v2/${server}/${itemIds}?listings=5&entries=5`,
@@ -308,7 +309,7 @@ const List: NextPage<ListProps> = ({ dcs, list, reqIsOwner, ownerName }) => {
                       onClick={() => {
                         const newListItemIds = listItemIds;
                         newListItemIds.splice(newListItemIds.indexOf(itemId), 1);
-                        updateList({ items: newListItemIds });
+                        updateList({ items: new DoctrineArray(...newListItemIds) });
                       }}
                     >
                       <i className="xiv-NavigationClose"></i>

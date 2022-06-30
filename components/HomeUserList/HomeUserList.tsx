@@ -52,7 +52,7 @@ export default function HomeUserList({ dcs, list }: HomeUserListProps) {
   const dc = dcs.find((x) => x.worlds.some((y) => y.name === settings['mogboard_server']));
   const lang = settings['mogboard_language'] ?? 'en';
 
-  const itemIdsStr = (list.items as number[]).reduce<string>((agg, next) => `${agg},${next}`, '');
+  const itemIdsStr = `0,${list.items.join()}`;
   const marketNq = useSWR(
     `https://universalis.app/api/v2/${dc?.name ?? 'Chaos'}/${itemIdsStr}?listings=1&entries=0&hq=0`,
     async (path) => {
