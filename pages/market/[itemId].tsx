@@ -4,7 +4,6 @@ import { getServerSession } from 'next-auth';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useEffect, useReducer, useState } from 'react';
-import { getRepositoryUrl } from '../../data/game/repository';
 import { acquireConn, releaseConn } from '../../db/connect';
 import {
   createUserList,
