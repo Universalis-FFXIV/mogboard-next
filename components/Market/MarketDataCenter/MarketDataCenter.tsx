@@ -6,6 +6,7 @@ import { DataCenter } from '../../../types/game/DataCenter';
 import { Item } from '../../../types/game/Item';
 import ListingsTable from '../../ListingsTable/ListingsTable';
 import SalesTable from '../../SalesTable/SalesTable';
+import MarketAverages from '../MarketAverages/MarketAverages';
 import MarketCheapest from '../MarketCheapest/MarketCheapest';
 import MarketHistoryGraph from '../MarketHistoryGraph/MarketHistoryGraph';
 import MarketServerUpdateTimes from '../MarketServerUpdateTimes/MarketServerUpdateTimes';
@@ -187,83 +188,25 @@ export default function MarketDataCenter({ item, dc }: MarketDataCenterProps) {
           <h6>
             <Trans>Listings</Trans>
           </h6>
-          <div className="flex census_box">
-            <div>
-              <h5>
-                <Trans>Avg. Per Unit</Trans>
-              </h5>
-              <br />
-              <div className="flex avg_prices">
-                {item.canBeHq && (
-                  <div className="flex_50 price-hq">
-                    <img src="/i/game/hq.png" alt="High Quality" height={16} width={16} />{' '}
-                    {hqListingsAveragePpu.toLocaleString()}
-                  </div>
-                )}
-                <div className={item.canBeHq ? 'flex_50' : 'flex_100'}>
-                  {nqListingsAveragePpu.toLocaleString()}
-                </div>
-              </div>
-            </div>
-            <div>
-              <h5>
-                <Trans>Avg. Total</Trans>
-              </h5>
-              <br />
-              <div className="flex avg_prices">
-                {item.canBeHq && (
-                  <div className="flex_50 price-hq">
-                    <img src="/i/game/hq.png" alt="High Quality" height={16} width={16} />{' '}
-                    {hqListingsAverageTotal.toLocaleString()}
-                  </div>
-                )}
-                <div className={item.canBeHq ? 'flex_50' : 'flex_100'}>
-                  {nqListingsAverageTotal.toLocaleString()}
-                </div>
-              </div>
-            </div>
-          </div>
+          <MarketAverages
+            item={item}
+            averagePpuHq={hqListingsAveragePpu}
+            averagePpuNq={nqListingsAveragePpu}
+            averageTotalHq={hqListingsAverageTotal}
+            averageTotalNq={nqListingsAverageTotal}
+          />
         </div>
         <div>
           <h6>
             <Trans>Sales</Trans>
           </h6>
-          <div className="flex census_box">
-            <div>
-              <h5>
-                <Trans>Avg. Per Unit</Trans>
-              </h5>
-              <br />
-              <div className="flex avg_prices">
-                {item.canBeHq && (
-                  <div className="flex_50 price-hq">
-                    <img src="/i/game/hq.png" alt="High Quality" height={16} width={16} />{' '}
-                    {hqSalesAveragePpu.toLocaleString()}
-                  </div>
-                )}
-                <div className={item.canBeHq ? 'flex_50' : 'flex_100'}>
-                  {nqSalesAveragePpu.toLocaleString()}
-                </div>
-              </div>
-            </div>
-            <div>
-              <h5>
-                <Trans>Avg. Total</Trans>
-              </h5>
-              <br />
-              <div className="flex avg_prices">
-                {item.canBeHq && (
-                  <div className="flex_50 price-hq">
-                    <img src="/i/game/hq.png" alt="High Quality" height={16} width={16} />{' '}
-                    {hqSalesAverageTotal.toLocaleString()}
-                  </div>
-                )}
-                <div className={item.canBeHq ? 'flex_50' : 'flex_100'}>
-                  {nqSalesAverageTotal.toLocaleString()}
-                </div>
-              </div>
-            </div>
-          </div>
+          <MarketAverages
+            item={item}
+            averagePpuHq={hqSalesAveragePpu}
+            averagePpuNq={nqSalesAveragePpu}
+            averageTotalHq={hqSalesAverageTotal}
+            averageTotalNq={nqSalesAverageTotal}
+          />
         </div>
       </div>
     </>
