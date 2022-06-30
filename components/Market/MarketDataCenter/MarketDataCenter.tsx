@@ -1,5 +1,4 @@
 import { t, Trans } from '@lingui/macro';
-import RelativeTime from '@yaireo/relative-time';
 import { useState, useEffect } from 'react';
 import { sprintf } from 'sprintf-js';
 import { DataCenter } from '../../../types/game/DataCenter';
@@ -37,7 +36,6 @@ export default function MarketDataCenter({ item, dc }: MarketDataCenterProps) {
   }, [dc.worlds, item.id]);
 
   const worldsSorted = dc.worlds.sort((a, b) => a.name.localeCompare(b.name));
-  const relativeTime = new RelativeTime();
 
   if (Object.keys(markets).length !== dc.worlds.length) {
     return <></>;
