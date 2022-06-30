@@ -26,6 +26,7 @@ import { DoctrineArray } from '../../db/DoctrineArray';
 import MarketNav, { ListsDispatchAction } from '../../components/Market/MarketNav/MarketNav';
 import MarketDataCenter from '../../components/Market/MarketDataCenter/MarketDataCenter';
 import MarketWorld from '../../components/Market/MarketWorld/MarketWorld';
+import MarketServerSelector from '../../components/Market/MarketServerSelector/MarketServerSelector';
 
 interface MarketProps {
   hasSession: boolean;
@@ -179,31 +180,11 @@ const Market: NextPage<MarketProps> = ({ hasSession, lists, itemId, dcs }) => {
               </button>
             </div>
             <div className="item_nav">
-              <div className="item_nav_servers">
-                <button
-                  type="button"
-                  className={`btn-summary ${selectedWorld == null ? 'open' : ''}`}
-                  onClick={() => setSelectedWorld(null)}
-                >
-                  <i className="xiv-CrossWorld cw-summary"></i> <Trans>Cross-World</Trans>
-                </button>
-                {dc.worlds.map((world, i) => {
-                  const homeWorld = world.name === settings['mogboard_server'];
-                  const icon = homeWorld ? 'xiv-ItemShard cw-home' : '';
-                  const className = homeWorld ? 'home-world' : '';
-                  return (
-                    <button
-                      key={i}
-                      type="button"
-                      className={`${className} ${world.name === selectedWorld ? 'open' : ''}`}
-                      onClick={() => setSelectedWorld(world.name)}
-                    >
-                      {homeWorld && <i className={icon}></i>}
-                      {world.name}
-                    </button>
-                  );
-                })}
-              </div>
+              <MarketServerSelector
+                dc={dc}
+                selectedWorld={selectedWorld}
+                setSelectedWorld={setSelectedWorld}
+              />
             </div>
           </div>
           <div className="tab">
