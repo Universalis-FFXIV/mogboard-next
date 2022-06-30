@@ -1,21 +1,17 @@
 import { t, Trans } from '@lingui/macro';
-import RelativeTime from '@yaireo/relative-time';
 import { GetServerSidePropsContext, NextPage } from 'next';
 import { getServerSession } from 'next-auth';
 import Head from 'next/head';
 import { useState, useEffect, useRef, useMemo } from 'react';
 import { sprintf } from 'sprintf-js';
 import useSWR from 'swr';
-import GameItemIcon from '../../components/GameItemIcon/GameItemIcon';
-import ItemHeader from '../../components/ItemHeader/ItemHeader';
-import ListingsTable from '../../components/ListingsTable/ListingsTable';
-import SalesTable from '../../components/SalesTable/SalesTable';
-import Tooltip from '../../components/Tooltip/Tooltip';
+import ListHeader from '../../components/List/ListHeader/ListHeader';
+import ListItem from '../../components/List/ListItem/ListItem';
+import ListRenameModal from '../../components/List/ListRenameModal/ListRenameModal';
 import { useModalCover } from '../../components/UniversalisLayout/components/ModalCover/ModalCover';
 import { usePopup } from '../../components/UniversalisLayout/components/Popup/Popup';
 import { getRepositoryUrl } from '../../data/game/repository';
 import { acquireConn, releaseConn } from '../../db/connect';
-import { DoctrineArray } from '../../db/DoctrineArray';
 import * as userDb from '../../db/user';
 import * as listDb from '../../db/user-list';
 import useSettings from '../../hooks/useSettings';
@@ -29,68 +25,6 @@ interface ListProps {
   list: UserList;
   reqIsOwner: boolean;
   ownerName: string;
-}
-
-interface ListItemMarketProps {
-  item?: Item;
-  market: any;
-  showHomeWorld: boolean;
-}
-
-function ListItemMarket({ item, market, showHomeWorld }: ListItemMarketProps) {
-  if (item == null) {
-    return <div />;
-  }
-
-  const marketFailed = t`Market info could not be fetched for: %s at this time.`;
-  if (market == null) {
-    return <div className="alert-light">{sprintf(marketFailed, item.name)}</div>;
-  }
-
-  const relativeTime = new RelativeTime();
-  return (
-    <div className="flex">
-      <div className="flex_50 pl_mt_p">
-        <div className="pl-mt">
-          <h3>
-            <Trans>Top 5 cheapest</Trans>
-          </h3>
-          <div>
-            <ListingsTable
-              listings={market.listings}
-              averageHq={market.currentAveragePriceHQ}
-              averageNq={market.currentAveragePriceNQ}
-              crossWorld={!showHomeWorld}
-              includeDiff={false}
-              start={0}
-              end={5}
-            />
-          </div>
-        </div>
-      </div>
-      <div className="flex_50 pl_mt_h">
-        <div className="pl-mt">
-          <h3>
-            <Trans>Last 5 sales</Trans>
-          </h3>
-          <div>
-            <SalesTable
-              sales={market.recentHistory}
-              averageHq={market.averagePriceHQ}
-              averageNq={market.averagePriceNQ}
-              crossWorld={!showHomeWorld}
-              includeDiff={false}
-              start={0}
-              end={5}
-            />
-          </div>
-          <small>
-            <Trans>Last updated:</Trans> {relativeTime.from(new Date(market.lastUploadTime))}
-          </small>
-        </div>
-      </div>
-    </div>
-  );
 }
 
 const List: NextPage<ListProps> = ({ dcs, list, reqIsOwner, ownerName }) => {
@@ -254,78 +188,27 @@ const List: NextPage<ListProps> = ({ dcs, list, reqIsOwner, ownerName }) => {
     return <ListHead />;
   }
 
-  const nOfMItems = sprintf(t`%d / %d items`, list.items.length, 100);
-
   return (
     <>
       <ListHead />
-
       <div className="pl">
-        <small>
-          <Trans>LIST</Trans>
-        </small>
-        <h1>
-          {list.name}
-          <span>
-            {reqIsOwner && (
-              <>
-                <a className="link_rename_list" onClick={() => openRenameModal()}>
-                  <Trans>Rename</Trans>
-                </a>
-                &nbsp;&nbsp;|&nbsp;&nbsp;
-              </>
-            )}
-            {nOfMItems}
-            &nbsp;&nbsp;|&nbsp;&nbsp;
-            {showHomeWorld ? (
-              <a onClick={() => setShowHomeWorld(false)}>
-                <Trans>Show Cross-World</Trans>
-              </a>
-            ) : (
-              <a onClick={() => setShowHomeWorld(true)}>
-                <Trans>Show Home Server Only</Trans>
-              </a>
-            )}
-          </span>
-        </h1>
+        <ListHeader
+          list={list}
+          reqIsOwner={reqIsOwner}
+          openRenameModal={openRenameModal}
+          showHomeWorld={showHomeWorld}
+          setShowHomeWorld={setShowHomeWorld}
+        />
         {listItemIds.map((itemId) => (
-          <div key={itemId} className="pl_i">
-            <div>
-              <GameItemIcon id={itemId} height={100} width={100} />
-            </div>
-            <div>
-              <h2>
-                <ItemHeader item={items[itemId]} />
-                {reqIsOwner && (
-                  <Tooltip
-                    label={
-                      <div style={{ textAlign: 'center', width: 140 }}>
-                        <Trans>Remove item from list</Trans>
-                      </div>
-                    }
-                  >
-                    <a
-                      className="pl_remove"
-                      onClick={() => {
-                        const newListItemIds = listItemIds;
-                        newListItemIds.splice(newListItemIds.indexOf(itemId), 1);
-                        const x = new DoctrineArray();
-                        x.push(...newListItemIds);
-                        updateList({ items: x });
-                      }}
-                    >
-                      <i className="xiv-NavigationClose"></i>
-                    </a>
-                  </Tooltip>
-                )}
-              </h2>
-              <ListItemMarket
-                item={items[itemId]}
-                market={market.data.items[itemId]}
-                showHomeWorld={showHomeWorld}
-              />
-            </div>
-          </div>
+          <ListItem
+            key={itemId}
+            item={items[itemId]}
+            listItemIds={listItemIds}
+            market={market}
+            reqIsOwner={reqIsOwner}
+            showHomeWorld={showHomeWorld}
+            updateList={updateList}
+          />
         ))}
         {listItemIds.length === 0 && (
           <div className="alert-dark">
@@ -333,59 +216,16 @@ const List: NextPage<ListProps> = ({ dcs, list, reqIsOwner, ownerName }) => {
           </div>
         )}
       </div>
-      <div className={`modal list_rename_modal ${renameModalOpen ? 'open' : ''}`}>
-        <button type="button" className="modal_close_button" onClick={() => closeRenameModal()}>
-          <i className="xiv-NavigationClose"></i>
-        </button>
-        <div className="modal_row">
-          <div className="modal_form_row_1">
-            <h1>
-              <Trans>Rename List</Trans>
-            </h1>
-          </div>
-          <form method="post" className="modal_form rename_list_form">
-            <div>
-              <input
-                name="list_name"
-                id="list_name"
-                type="text"
-                placeholder="Name"
-                className="full"
-                value={newName}
-                onChange={(e) => setNewName(e.target.value)}
-              />
-            </div>
-            <br />
-            <br />
-            <div className="modal_form_end">
-              <button
-                ref={submitRef}
-                type="submit"
-                disabled={updating}
-                className={`btn-green btn_rename_list ${updating ? 'loading_interaction' : ''}`}
-                style={
-                  updating
-                    ? {
-                        minWidth: submitRef.current?.offsetWidth,
-                        minHeight: submitRef.current?.offsetHeight,
-                        display: 'inline-block',
-                      }
-                    : undefined
-                }
-                onClick={(e) => {
-                  e.preventDefault();
-                  if (newName != null) {
-                    setUpdating(true);
-                    updateList({ name: newName });
-                  }
-                }}
-              >
-                {updating ? <>&nbsp;</> : <Trans>Rename List</Trans>}
-              </button>
-            </div>
-          </form>
-        </div>
-      </div>
+      <ListRenameModal
+        renameModalOpen={renameModalOpen}
+        closeRenameModal={closeRenameModal}
+        name={newName}
+        setName={setNewName}
+        submitRef={submitRef}
+        updating={updating}
+        setUpdating={setUpdating}
+        updateList={updateList}
+      />
     </>
   );
 };
