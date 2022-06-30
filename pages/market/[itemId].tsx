@@ -27,6 +27,7 @@ import MarketNav, { ListsDispatchAction } from '../../components/Market/MarketNa
 import MarketDataCenter from '../../components/Market/MarketDataCenter/MarketDataCenter';
 import MarketWorld from '../../components/Market/MarketWorld/MarketWorld';
 import MarketServerSelector from '../../components/Market/MarketServerSelector/MarketServerSelector';
+import MarketItemHeader from '../../components/Market/MarketItemHeader/MarketItemHeader';
 
 interface MarketProps {
   hasSession: boolean;
@@ -133,47 +134,12 @@ const Market: NextPage<MarketProps> = ({ hasSession, lists, itemId, dcs }) => {
       <div className="product">
         <div>
           <div className="item_top">
-            <div className="item_header">
-              <MarketNav
-                hasSession={hasSession}
-                lists={stateLists}
-                dispatch={dispatch}
-                itemId={item.id}
-              />
-              <div>
-                <GameItemIcon id={item.id} width={100} height={100} />
-              </div>
-              <div>
-                <div className="item_info">
-                  <h1 className={`rarity-${item.rarity}`}>
-                    <span>{item.levelItem}</span>
-                    &nbsp;{item.name}
-                  </h1>
-                </div>
-                <div className="item_info2">
-                  <div>
-                    {item.itemSearchCategory.id && (
-                      <>
-                        <i className={`xiv-${getSearchIcon(item.itemSearchCategory.id)}`}></i>{' '}
-                        {item.itemKind}
-                        &nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;
-                        {item.itemUiCategory.name}
-                        &nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;
-                      </>
-                    )}
-                    <Trans>Stack:</Trans> {item.stackSize?.toLocaleString()}
-                    {item.classJobCategory && (
-                      <>
-                        &nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;
-                        <span className="text-green">{item.levelEquip}</span>{' '}
-                        {item.classJobCategory.name}
-                      </>
-                    )}
-                  </div>
-                  <div dangerouslySetInnerHTML={{ __html: item.description ?? '' }}></div>
-                </div>
-              </div>
-            </div>
+            <MarketItemHeader
+              hasSession={hasSession}
+              item={item}
+              stateLists={stateLists}
+              dispatch={dispatch}
+            />
             <div className="item_nav_mobile_toggle">
               <button type="button">
                 <Trans>Menu</Trans>
