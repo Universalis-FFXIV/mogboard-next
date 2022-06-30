@@ -333,8 +333,6 @@ function MarketLists({ hasSession, lists, dispatch, itemId }: MarketListsProps) 
     setListsModalOpen(false);
   };
 
-  const listsModalRef = useClickOutside<HTMLDivElement>(null, closeListsModal);
-
   const standardLists = lists.filter((list) => list.customType === UserListCustomType.Default);
 
   const [faves, setFaves] = useState(
@@ -427,6 +425,40 @@ function MarketLists({ hasSession, lists, dispatch, itemId }: MarketListsProps) 
       .finally(() => setUpdatingList(false));
   };
 
+  const [addListName, setAddListName] = useState('');
+  const [addingList, setAddingList] = useState(false);
+  const addList = (name: string, itemId: number) => {
+    if (addingList) {
+      return;
+    }
+
+    setAddingList(true);
+    fetch('/api/web/lists', {
+      method: 'POST',
+      body: JSON.stringify({ name, items: [itemId] }),
+      headers: { 'Content-Type': 'application/json' },
+    })
+      .then(async (res) => {
+        if (!res.ok) {
+          const body = res.headers.get('Content-Type')?.includes('application/json')
+            ? (await res.json()).message
+            : await res.text();
+          throw new Error(body);
+        }
+
+        dispatch({ type: 'createList', list: await res.json() });
+      })
+      .catch((err) =>
+        setPopup({
+          type: 'error',
+          title: 'Error',
+          message: err instanceof Error ? err.message : `${err}`,
+          isOpen: true,
+        })
+      )
+      .finally(() => setAddingList(false));
+  };
+
   return (
     <div className="box box_lists">
       <div className="box_form">
@@ -484,7 +516,7 @@ function MarketLists({ hasSession, lists, dispatch, itemId }: MarketListsProps) 
         </div>
       </div>
       <LoggedIn hasSession={hasSession}>
-        <div ref={listsModalRef} className={`modal list_modal ${listsModalOpen ? 'open' : ''}`}>
+        <div className={`modal list_modal ${listsModalOpen ? 'open' : ''}`}>
           <button type="button" className="modal_close_button" onClick={closeListsModal}>
             <i className="xiv-NavigationClose"></i>
           </button>
@@ -506,6 +538,8 @@ function MarketLists({ hasSession, lists, dispatch, itemId }: MarketListsProps) 
                     type="text"
                     placeholder="Name"
                     className="full"
+                    value={addListName}
+                    onChange={(e) => setAddListName(e.target.value)}
                   />
                   <br />
                   <br />
@@ -515,6 +549,7 @@ function MarketLists({ hasSession, lists, dispatch, itemId }: MarketListsProps) 
                       className="btn-green btn_create_list"
                       onClick={(e) => {
                         e.preventDefault();
+                        addList(addListName, itemId);
                       }}
                     >
                       <Trans>Add to list</Trans>
@@ -1005,10 +1040,11 @@ const Market: NextPage<MarketProps> = ({ hasSession, lists, itemId, dcs }) => {
   );
 
   const [stateLists, dispatch] = useReducer((state: UserList[], action: ListsDispatchAction) => {
-    console.log(action);
     switch (action.type) {
       case 'createList':
-        state.push(action.list);
+        if (!state.find((list) => list.id === action.list.id)) {
+          state.push(action.list);
+        }
         return state;
       case 'addItem':
         const targetAdd = state.find((list) => list.id === action.listId);
