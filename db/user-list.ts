@@ -1,7 +1,26 @@
-import { UserList } from '../types/universalis/user';
+import { UserList, UserListCustomType } from '../types/universalis/user';
 import mariadb from 'mariadb';
 import { DoctrineArray } from './DoctrineArray';
 import { unix } from './util';
+
+export const USER_LIST_MAX_ITEMS = 100;
+export const USER_LIST_MAX = 12;
+
+export function createUserList(list: UserList, conn: mariadb.Connection) {
+  return conn.execute(
+    'INSERT INTO users_lists (id, user_id, added, updated, name, custom, custom_type, items) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
+    [
+      list.id,
+      list.userId,
+      list.added,
+      list.updated,
+      list.name,
+      list.custom,
+      list.customType,
+      list.items.serialize(),
+    ]
+  );
+}
 
 export async function getUserListOwnerId(
   listId: string,
@@ -35,6 +54,23 @@ export async function getUserList(
   return rowToUserList(rows[0]);
 }
 
+export async function getUserListCustom(
+  userId: string,
+  customType: Exclude<UserListCustomType, UserListCustomType.Default>,
+  conn: mariadb.Connection
+): Promise<UserList | null> {
+  const rows: Record<string, any>[] = await conn.query(
+    'SELECT id, user_id, added, updated, name, custom, custom_type, items FROM users_lists WHERE user_id = ? AND custom AND custom_type = ?',
+    [userId, customType]
+  );
+
+  if (rows.length === 0) {
+    return null;
+  }
+
+  return rowToUserList(rows[0]);
+}
+
 export function updateUserListName(
   userId: string,
   listId: string,
@@ -52,12 +88,12 @@ export function updateUserListName(
 export function updateUserListItems(
   userId: string,
   listId: string,
-  items: number[],
+  items: DoctrineArray,
   conn: mariadb.Connection
 ) {
   return conn.execute(
     'UPDATE users_lists SET items = ?, updated = ? WHERE id = ? AND user_id = ?',
-    [new DoctrineArray(...items).serialize(), unix(), listId, userId]
+    [items.serialize(), unix(), listId, userId]
   );
 }
 

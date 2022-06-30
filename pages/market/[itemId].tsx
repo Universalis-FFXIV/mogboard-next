@@ -15,12 +15,21 @@ import SalesTable from '../../components/SalesTable/SalesTable';
 import { getRepositoryUrl } from '../../data/game/repository';
 import { getSearchIcon } from '../../data/game/xiv-font';
 import { acquireConn, releaseConn } from '../../db/connect';
-import { getUserLists } from '../../db/user-list';
+import {
+  createUserList,
+  getUserListCustom,
+  getUserLists,
+  updateUserListItems,
+  USER_LIST_MAX_ITEMS,
+} from '../../db/user-list';
 import useSettings from '../../hooks/useSettings';
 import { DataCenter } from '../../types/game/DataCenter';
 import { Item } from '../../types/game/Item';
-import { UserList } from '../../types/universalis/user';
+import { UserList, UserListCustomType } from '../../types/universalis/user';
 import { authOptions } from '../api/auth/[...nextauth]';
+import { v4 as uuidv4 } from 'uuid';
+import { unix } from '../../db/util';
+import { DoctrineArray } from '../../db/DoctrineArray';
 
 interface StackSizeHistogramProps {
   item: Item;
@@ -1015,6 +1024,41 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   if (session && session.user.id) {
     const conn = await acquireConn();
     try {
+      // Add this item to the user's recently-viewed list, creating it if it doesn't exist.
+      const recents = await getUserListCustom(
+        session.user.id,
+        UserListCustomType.RecentlyViewed,
+        conn
+      );
+
+      if (recents) {
+        const items = new DoctrineArray();
+        items.push(...recents.items.filter((item) => item !== itemIdNumber));
+        items.unshift(itemIdNumber);
+        while (items.length > USER_LIST_MAX_ITEMS) {
+          items.pop();
+        }
+
+        await updateUserListItems(session.user.id, recents.id, items, conn);
+      } else {
+        const items = new DoctrineArray();
+        items.push(itemIdNumber);
+
+        await createUserList(
+          {
+            id: uuidv4(),
+            userId: session.user.id,
+            added: unix(),
+            updated: unix(),
+            name: 'Recently Viewed',
+            custom: true,
+            customType: UserListCustomType.RecentlyViewed,
+            items,
+          },
+          conn
+        );
+      }
+
       lists = await getUserLists(session.user.id, conn);
     } catch (err) {
       console.error(err);

@@ -27,6 +27,12 @@ export interface User {
   apiRateLimit: number;
 }
 
+export enum UserListCustomType {
+  Default = 0,
+  Favourites = 10,
+  RecentlyViewed = 20,
+}
+
 export interface UserList {
   id: string;
   userId: string | null;
@@ -34,8 +40,8 @@ export interface UserList {
   updated: number;
   name: string;
   custom: boolean;
-  customType: number | null;
-  items: number[] | DoctrineArray;
+  customType: UserListCustomType | null;
+  items: DoctrineArray;
 }
 
 export interface UserCharacter {
