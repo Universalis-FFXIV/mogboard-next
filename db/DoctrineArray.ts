@@ -19,6 +19,10 @@ class ArrayWithEnd<T> extends Array<T> {
 }
 
 export class DoctrineArray extends ArrayWithEnd<any> {
+  public constructor(..._errorProne: never) {
+    super();
+  }
+
   public serialize(): string {
     const fragments = [`a:${this.length}:{`];
     for (let i = 0; i < this.length; i++) {

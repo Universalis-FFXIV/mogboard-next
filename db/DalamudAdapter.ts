@@ -1,9 +1,11 @@
 import { Adapter, AdapterUser } from 'next-auth/adapters';
-import { User } from '../types/universalis/user';
+import { User, UserListCustomType } from '../types/universalis/user';
 import { acquireConn, releaseConn } from './connect';
 import { v4 as uuidv4 } from 'uuid';
 import * as db from './user';
+import * as listsDb from './user-list';
 import { unix } from './util';
+import { DoctrineArray } from './DoctrineArray';
 
 export default function DalamudAdapter(): Adapter {
   return {
@@ -41,6 +43,13 @@ export default function DalamudAdapter(): Adapter {
         };
 
         await db.createUser(mogUser, conn);
+
+        // Create the user's custom lists
+        const recentlyViewed = listsDb.RecentlyViewedList(uuidv4(), id, new DoctrineArray());
+        await listsDb.createUserList(recentlyViewed, conn);
+
+        const faves = listsDb.FavouritesList(uuidv4(), id, new DoctrineArray());
+        await listsDb.createUserList(faves, conn);
 
         return {
           id,

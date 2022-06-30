@@ -19,6 +19,7 @@ import {
   createUserList,
   getUserListCustom,
   getUserLists,
+  RecentlyViewedList,
   updateUserListItems,
   USER_LIST_MAX_ITEMS,
 } from '../../db/user-list';
@@ -30,6 +31,7 @@ import { authOptions } from '../api/auth/[...nextauth]';
 import { v4 as uuidv4 } from 'uuid';
 import { unix } from '../../db/util';
 import { DoctrineArray } from '../../db/DoctrineArray';
+import { usePopup } from '../../components/UniversalisLayout/components/Popup/Popup';
 
 interface StackSizeHistogramProps {
   item: Item;
@@ -44,7 +46,6 @@ interface SalesChartProps {
 interface MarketListsProps {
   hasSession: boolean;
   lists: UserList[];
-  favourite: boolean;
   itemId: number;
 }
 
@@ -308,7 +309,52 @@ function StackSizeHistogram({ data, item }: StackSizeHistogramProps) {
   );
 }
 
-function MarketLists({ hasSession, lists, favourite, itemId }: MarketListsProps) {
+function MarketLists({ hasSession, lists, itemId }: MarketListsProps) {
+  const { setPopup } = usePopup();
+
+  const [faves, setFaves] = useState(
+    lists.find((list) => list.customType === UserListCustomType.Favourites)?.items
+  );
+  const favourite = faves != null && faves.includes(itemId);
+
+  const updatingFavesRef = useRef<HTMLButtonElement>(null);
+  const [updatingFaves, setUpdatingFaves] = useState(false);
+  const toggleFave = () => {
+    const items = new DoctrineArray();
+    items.push(...(faves ?? []));
+    if (favourite) {
+      items.splice(items.indexOf(itemId), 1);
+    } else {
+      items.unshift(itemId);
+    }
+
+    setUpdatingFaves(true);
+    fetch('/api/web/lists/faves', {
+      method: 'PUT',
+      body: JSON.stringify({ items }),
+      headers: { 'Content-Type': 'application/json' },
+    })
+      .then(async (res) => {
+        if (!res.ok) {
+          const body = res.headers.get('Content-Type')?.includes('application/json')
+            ? (await res.json()).message
+            : await res.text();
+          throw new Error(body);
+        }
+
+        setFaves(items);
+      })
+      .catch((err) =>
+        setPopup({
+          type: 'error',
+          title: 'Error',
+          message: err instanceof Error ? err.message : `${err}`,
+          isOpen: true,
+        })
+      )
+      .finally(() => setUpdatingFaves(false));
+  };
+
   return (
     <div className="box box_lists">
       <div className="box_form">
@@ -335,8 +381,31 @@ function MarketLists({ hasSession, lists, favourite, itemId }: MarketListsProps)
             <button className="btn_addto_list" style={{ marginRight: 4 }}>
               <Trans>Lists</Trans>
             </button>
-            <button className={`btn_addto_fave ${favourite ? 'on' : ''}`}>
-              <span>{favourite ? <Trans>Faved</Trans> : <Trans>Favourite</Trans>}</span>
+            <button
+              ref={updatingFavesRef}
+              className={`btn_addto_fave ${updatingFaves ? 'loading_interaction' : ''} ${
+                favourite ? 'on' : ''
+              }`}
+              style={
+                updatingFaves
+                  ? {
+                      minWidth: updatingFavesRef.current?.offsetWidth,
+                      minHeight: updatingFavesRef.current?.offsetHeight,
+                      display: 'inline-block',
+                    }
+                  : undefined
+              }
+              onClick={toggleFave}
+            >
+              <span>
+                {updatingFaves ? (
+                  <>&nbsp;</>
+                ) : favourite ? (
+                  <Trans>Faved</Trans>
+                ) : (
+                  <Trans>Favourite</Trans>
+                )}
+              </span>
             </button>
           </LoggedIn>
         </div>
@@ -889,12 +958,7 @@ const Market: NextPage<MarketProps> = ({ hasSession, lists, itemId, dcs }) => {
         <div>
           <div className="item_top">
             <div className="item_header">
-              <MarketLists
-                hasSession={hasSession}
-                lists={lists}
-                favourite={false}
-                itemId={item.id}
-              />
+              <MarketLists hasSession={hasSession} lists={lists} itemId={item.id} />
               <div>
                 <GameItemIcon id={item.id} width={100} height={100} />
               </div>
@@ -1043,20 +1107,7 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
       } else {
         const items = new DoctrineArray();
         items.push(itemIdNumber);
-
-        await createUserList(
-          {
-            id: uuidv4(),
-            userId: session.user.id,
-            added: unix(),
-            updated: unix(),
-            name: 'Recently Viewed',
-            custom: true,
-            customType: UserListCustomType.RecentlyViewed,
-            items,
-          },
-          conn
-        );
+        await createUserList(RecentlyViewedList(uuidv4(), session.user.id, items), conn);
       }
 
       lists = await getUserLists(session.user.id, conn);

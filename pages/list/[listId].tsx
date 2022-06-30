@@ -309,7 +309,9 @@ const List: NextPage<ListProps> = ({ dcs, list, reqIsOwner, ownerName }) => {
                       onClick={() => {
                         const newListItemIds = listItemIds;
                         newListItemIds.splice(newListItemIds.indexOf(itemId), 1);
-                        updateList({ items: new DoctrineArray(...newListItemIds) });
+                        const x = new DoctrineArray();
+                        x.push(...newListItemIds);
+                        updateList({ items: x });
                       }}
                     >
                       <i className="xiv-NavigationClose"></i>
