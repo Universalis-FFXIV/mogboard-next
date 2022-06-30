@@ -3,8 +3,6 @@ import RelativeTime from '@yaireo/relative-time';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { sprintf } from 'sprintf-js';
-import useSWR from 'swr';
-import useSWRImmutable from 'swr/immutable';
 import { getItems } from '../../../data/game/items';
 import useSettings from '../../../hooks/useSettings';
 import { CategoryItem } from '../../../types/game/CategoryItem';
@@ -53,20 +51,28 @@ export default function HomeUserList({ dcs, list }: HomeUserListProps) {
   const lang = settings['mogboard_language'] ?? 'en';
 
   const itemIdsStr = `0,${list.items.join()}`;
-  const marketNq = useSWR(
-    `https://universalis.app/api/v2/${dc?.name ?? 'Chaos'}/${itemIdsStr}?listings=1&entries=0&hq=0`,
-    async (path) => {
-      const res = await fetch(path).then((res) => res.json());
-      return res;
-    }
-  );
-  const marketHq = useSWR(
-    `https://universalis.app/api/v2/${dc?.name ?? 'Chaos'}/${itemIdsStr}?listings=1&entries=0&hq=1`,
-    async (path) => {
-      const res = await fetch(path).then((res) => res.json());
-      return res;
-    }
-  );
+
+  const [marketNq, setMarketNq] = useState<any>(null);
+  useEffect(() => {
+    fetch(
+      `https://universalis.app/api/v2/${
+        dc?.name ?? 'Chaos'
+      }/${itemIdsStr}?listings=1&entries=0&hq=0`
+    )
+      .then((res) => res.json())
+      .then(setMarketNq);
+  }, [dc?.name, itemIdsStr]);
+
+  const [marketHq, setMarketHq] = useState<any>(null);
+  useEffect(() => {
+    fetch(
+      `https://universalis.app/api/v2/${
+        dc?.name ?? 'Chaos'
+      }/${itemIdsStr}?listings=1&entries=0&hq=1`
+    )
+      .then((res) => res.json())
+      .then(setMarketHq);
+  }, [dc?.name, itemIdsStr]);
 
   const [categoriesIndex, setCategoriesIndex] = useState<ItemSearchCategory[]>([]);
   useEffect(() => {

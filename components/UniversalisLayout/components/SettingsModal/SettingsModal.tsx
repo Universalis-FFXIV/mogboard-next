@@ -1,6 +1,5 @@
 import { t, Trans } from '@lingui/macro';
-import { useState } from 'react';
-import useSWRImmutable from 'swr';
+import { useEffect, useState } from 'react';
 import useClickOutside from '../../../../hooks/useClickOutside';
 import useSettings from '../../../../hooks/useSettings';
 
@@ -26,40 +25,31 @@ export default function SettingsModal({ isOpen, closeModal, onSave }: SettingsMo
   const [showLeftNav, setShowLeftNav] = useState(settings['mogboard_leftnav']);
   const [showDefaultHomeWorld, setShowDefaultHomeWorld] = useState(settings['mogboard_homeworld']);
 
-  const tzData = useSWRImmutable('https://universalis.app/api/v3/misc/time-zones', async (path) => {
-    const tzs: { id: string; offset: number; name: string }[] = await fetch(path).then((res) =>
-      res.json()
-    );
-    return tzs;
-  });
+  const [timezones, setTimezones] = useState<{ id: string; offset: number; name: string }[]>([]);
+  useEffect(() => {
+    fetch('https://universalis.app/api/v3/misc/time-zones')
+      .then((res) => res.json())
+      .then(setTimezones)
+      .catch(console.error);
+  }, []);
 
-  const dcData = useSWRImmutable(
-    'https://universalis.app/api/v3/game/data-centers',
-    async (path) => {
-      const dataCenters: { name: string; worlds: number[] }[] = await fetch(path).then((res) =>
-        res.json()
-      );
-      return dataCenters;
-    }
-  );
-  const worldData = useSWRImmutable('https://universalis.app/api/v3/game/worlds', async (path) => {
-    const worlds: { id: number; name: string }[] = await fetch(path).then((res) => res.json());
-    return worlds;
-  });
+  const [dcData, setDcData] = useState<{ name: string; worlds: number[] }[]>([]);
+  useEffect(() => {
+    fetch('https://universalis.app/api/v3/game/data-centers')
+      .then((res) => res.json())
+      .then(setDcData)
+      .catch(console.error);
+  }, []);
 
-  if (tzData.error) {
-    console.log(tzData.error);
-  }
+  const [worldData, setWorldData] = useState<{ id: number; name: string }[]>([]);
+  useEffect(() => {
+    fetch('https://universalis.app/api/v3/game/worlds')
+      .then((res) => res.json())
+      .then(setWorldData)
+      .catch(console.error);
+  }, []);
 
-  if (dcData.error) {
-    console.log(dcData.error);
-  }
-
-  if (worldData.error) {
-    console.log(worldData.error);
-  }
-
-  const worlds = (worldData.data ?? []).reduce<Record<number, string>>((agg, next) => {
+  const worlds = worldData.reduce<Record<number, string>>((agg, next) => {
     agg[next.id] = next.name;
     return agg;
   }, {});
@@ -70,7 +60,7 @@ export default function SettingsModal({ isOpen, closeModal, onSave }: SettingsMo
     oceania: ['Materia'],
     china: ['陆行鸟', '莫古力', '猫小胖', '豆豆柴'],
   };
-  const dcs = (dcData.data ?? [])
+  const dcs = dcData
     .map((dc) => ({
       name: dc.name,
       region: dcRegions.europe.includes(dc.name)
@@ -87,8 +77,6 @@ export default function SettingsModal({ isOpen, closeModal, onSave }: SettingsMo
       worlds: dc.worlds.map((worldId) => worlds[worldId]),
     }))
     .sort((a, b) => a.region.localeCompare(b.region));
-
-  const timezones = tzData.data ?? [];
 
   return (
     <div ref={modalRef} className={`modal modal_settings ${isOpen ? 'open' : ''}`}>

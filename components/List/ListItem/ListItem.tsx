@@ -8,6 +8,7 @@ import Tooltip from '../../Tooltip/Tooltip';
 import ListItemMarket from '../ListItemMarket/ListItemMarket';
 
 interface ListItemProps {
+  itemId: number;
   item: Item;
   listItemIds: number[];
   market: any;
@@ -17,6 +18,7 @@ interface ListItemProps {
 }
 
 export default function ListItem({
+  itemId,
   item,
   listItemIds,
   market,
@@ -27,7 +29,7 @@ export default function ListItem({
   return (
     <div className="pl_i">
       <div>
-        <GameItemIcon id={item.id} height={100} width={100} />
+        <GameItemIcon id={itemId} height={100} width={100} />
       </div>
       <div>
         <h2>
@@ -44,7 +46,7 @@ export default function ListItem({
                 className="pl_remove"
                 onClick={() => {
                   const newListItemIds = listItemIds;
-                  newListItemIds.splice(newListItemIds.indexOf(item.id), 1);
+                  newListItemIds.splice(newListItemIds.indexOf(itemId), 1);
                   const x = new DoctrineArray();
                   x.push(...newListItemIds);
                   updateList({ items: x });
@@ -55,11 +57,7 @@ export default function ListItem({
             </Tooltip>
           )}
         </h2>
-        <ListItemMarket
-          item={item}
-          market={market.data.items[item.id]}
-          showHomeWorld={showHomeWorld}
-        />
+        <ListItemMarket item={item} market={market.items[itemId]} showHomeWorld={showHomeWorld} />
       </div>
     </div>
   );

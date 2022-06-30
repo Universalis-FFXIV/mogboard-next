@@ -1,8 +1,9 @@
 import { Trans } from '@lingui/macro';
-import useSWRImmutable from 'swr/immutable';
+import { useEffect, useState } from 'react';
 import { filterItemSearchCategories } from '../../../../data/game/isc';
 import { getSearchIcon } from '../../../../data/game/xiv-font';
 import useClickOutside from '../../../../hooks/useClickOutside';
+import useSettings from '../../../../hooks/useSettings';
 import { CategoryItem } from '../../../../types/game/CategoryItem';
 import { ItemSearchCategory } from '../../../../types/game/ItemSearchCategory';
 import { XIVAPIItemSearchCategoryIndex } from '../../../../types/xivapi/XIVAPIItemSearchCategoryIndex';
@@ -40,25 +41,36 @@ export default function SearchCategories({
   onCategoryOpen,
 }: SearchCategoriesProps) {
   const boxRef = useClickOutside<HTMLDivElement>(null, closeBox);
+  const [settings] = useSettings();
 
-  const isc = useSWRImmutable<ItemSearchCategory[]>(
-    'https://xivapi.com/ItemSearchCategory?columns=ID,Name,Category,Order',
-    async (path) => {
-      const isc: XIVAPIItemSearchCategoryIndex = await fetch(path).then((res) => res.json());
-      return isc.Results.map((r) => ({
-        id: r.ID,
-        name: r.Name,
-        category: r.Category,
-        order: r.Order,
-      }));
-    }
-  );
+  const lang = settings['mogboard_language'] ?? 'en';
 
-  const catItems = useSWRImmutable('/data/categories_en.js', async (path) => {
-    const categories: Record<number, [string, string, string, string, string, string][]> =
-      await fetch(path).then((res) => res.json());
-    return categories;
-  });
+  const [isc, setIsc] = useState<ItemSearchCategory[]>([]);
+  useEffect(() => {
+    fetch(`https://xivapi.com/ItemSearchCategory?columns=ID,Name,Category,Order&language=${lang}`)
+      .then((res) => res.json())
+      .then((isc: XIVAPIItemSearchCategoryIndex) =>
+        setIsc(
+          isc.Results.map((r) => ({
+            id: r.ID,
+            name: r.Name,
+            category: r.Category,
+            order: r.Order,
+          }))
+        )
+      )
+      .catch(console.error);
+  }, [lang]);
+
+  const [categoryItems, setCategoryItems] = useState<
+    Record<number, [string, string, string, string, string, string][]>
+  >({});
+  useEffect(() => {
+    fetch(`/data/categories_${lang}.js`)
+      .then((res) => res.json())
+      .then(setCategoryItems)
+      .catch(console.error);
+  }, [lang]);
 
   const parseItem = (item: [string, string, string, string, string, string]): CategoryItem => {
     return {
@@ -71,15 +83,7 @@ export default function SearchCategories({
     };
   };
 
-  if (catItems.error) {
-    console.error(catItems.error);
-  }
-
-  if (isc.error) {
-    console.error(isc.error);
-  }
-
-  if (!isc.data || !catItems.data) {
+  if (!isc || !categoryItems) {
     return (
       <div ref={boxRef} className={`market-board-container ${isOpen ? 'open' : ''}`}>
         <div className="market-board"></div>
@@ -87,13 +91,10 @@ export default function SearchCategories({
     );
   }
 
-  const iscData = isc.data;
-  const catItemsData = catItems.data;
-
-  const weapons = filterItemSearchCategories(iscData, 1);
-  const armor = filterItemSearchCategories(iscData, 2);
-  const items = filterItemSearchCategories(iscData, 3);
-  const housing = filterItemSearchCategories(iscData, 4);
+  const weapons = filterItemSearchCategories(isc, 1);
+  const armor = filterItemSearchCategories(isc, 2);
+  const items = filterItemSearchCategories(isc, 3);
+  const housing = filterItemSearchCategories(isc, 4);
 
   return (
     <div ref={boxRef} className={`market-board-container ${isOpen ? 'open' : ''}`}>
@@ -107,7 +108,7 @@ export default function SearchCategories({
               <SearchCategoryButton
                 key={cat.id}
                 category={cat}
-                categoryItems={catItemsData[cat.id].map<CategoryItem>(parseItem)}
+                categoryItems={categoryItems[cat.id].map<CategoryItem>(parseItem)}
                 onCategoryOpen={onCategoryOpen}
               />
             ))}
@@ -122,7 +123,7 @@ export default function SearchCategories({
               <SearchCategoryButton
                 key={cat.id}
                 category={cat}
-                categoryItems={catItemsData[cat.id].map<CategoryItem>(parseItem)}
+                categoryItems={categoryItems[cat.id].map<CategoryItem>(parseItem)}
                 onCategoryOpen={onCategoryOpen}
               />
             ))}
@@ -137,7 +138,7 @@ export default function SearchCategories({
               <SearchCategoryButton
                 key={cat.id}
                 category={cat}
-                categoryItems={catItemsData[cat.id].map<CategoryItem>(parseItem)}
+                categoryItems={categoryItems[cat.id].map<CategoryItem>(parseItem)}
                 onCategoryOpen={onCategoryOpen}
               />
             ))}
@@ -152,7 +153,7 @@ export default function SearchCategories({
               <SearchCategoryButton
                 key={cat.id}
                 category={cat}
-                categoryItems={catItemsData[cat.id].map<CategoryItem>(parseItem)}
+                categoryItems={categoryItems[cat.id].map<CategoryItem>(parseItem)}
                 onCategoryOpen={onCategoryOpen}
               />
             ))}

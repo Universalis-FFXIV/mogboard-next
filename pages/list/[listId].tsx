@@ -2,9 +2,8 @@ import { t, Trans } from '@lingui/macro';
 import { GetServerSidePropsContext, NextPage } from 'next';
 import { getServerSession } from 'next-auth';
 import Head from 'next/head';
-import { useState, useEffect, useRef, useMemo } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { sprintf } from 'sprintf-js';
-import useSWR from 'swr';
 import ListHeader from '../../components/List/ListHeader/ListHeader';
 import ListItem from '../../components/List/ListItem/ListItem';
 import ListRenameModal from '../../components/List/ListRenameModal/ListRenameModal';
@@ -98,21 +97,21 @@ const List: NextPage<ListProps> = ({ dcs, list, reqIsOwner, ownerName }) => {
   const dc = dcs.find((x) => x.worlds.some((y) => y.name === world));
   const server = showHomeWorld ? world : dc?.name ?? 'Chaos';
 
-  const listItemIds = useMemo<number[]>(() => list.items, [list.items]);
   const itemIds = `0,${list.items.join()}`;
 
-  const market = useSWR(
-    `https://universalis.app/api/v2/${server}/${itemIds}?listings=5&entries=5`,
-    async (path) => {
-      if (listItemIds.length === 0) {
-        return null;
-      }
-
-      const data = await fetch(path).then((res) => res.json());
-      return data;
+  const [market, setMarket] = useState<any>(null);
+  useEffect(() => {
+    if (list.items.length === 0 || market) {
+      return;
     }
-  );
 
+    fetch(`https://universalis.app/api/v2/${server}/${itemIds}?listings=5&entries=5`)
+      .then((res) => res.json())
+      .then(setMarket)
+      .catch(console.error);
+  }, [list.items, itemIds, market, server]);
+
+  const [resolvedItemIds, setResolvedItemIds] = useState<number[]>([]);
   const [items, setItems] = useState<Record<number, Item>>({});
   useEffect(() => {
     (async () => {
@@ -121,7 +120,7 @@ const List: NextPage<ListProps> = ({ dcs, list, reqIsOwner, ownerName }) => {
       }
 
       const baseUrl = getRepositoryUrl(lang);
-      for (const itemId of listItemIds) {
+      for (const itemId of list.items) {
         if (items[itemId]) {
           continue;
         }
@@ -137,6 +136,10 @@ const List: NextPage<ListProps> = ({ dcs, list, reqIsOwner, ownerName }) => {
         } while (data == null);
 
         setItems((last) => {
+          if (last[itemId]) {
+            return last;
+          }
+
           return {
             ...last,
             ...{
@@ -165,13 +168,17 @@ const List: NextPage<ListProps> = ({ dcs, list, reqIsOwner, ownerName }) => {
             },
           };
         });
+        setResolvedItemIds((last) => {
+          if (last.includes(itemId)) {
+            return last;
+          }
+
+          last.push(itemId);
+          return last;
+        });
       }
     })();
-  }, [lang, items, listItemIds]);
-
-  if (market.error) {
-    console.error(market.error);
-  }
+  }, [lang, items, list.items]);
 
   const title = list.name + ' - ' + t`List` + ' - Universalis';
   const description = sprintf(t`Custom Universalis list by %s`, ownerName);
@@ -184,7 +191,7 @@ const List: NextPage<ListProps> = ({ dcs, list, reqIsOwner, ownerName }) => {
     </Head>
   );
 
-  if (listItemIds.length > 0 && !market.data) {
+  if (list.items.length > 0 && !market) {
     return <ListHead />;
   }
 
@@ -199,18 +206,19 @@ const List: NextPage<ListProps> = ({ dcs, list, reqIsOwner, ownerName }) => {
           showHomeWorld={showHomeWorld}
           setShowHomeWorld={setShowHomeWorld}
         />
-        {listItemIds.map((itemId) => (
+        {resolvedItemIds.map((itemId) => (
           <ListItem
             key={itemId}
+            itemId={itemId}
             item={items[itemId]}
-            listItemIds={listItemIds}
+            listItemIds={list.items}
             market={market}
             reqIsOwner={reqIsOwner}
             showHomeWorld={showHomeWorld}
             updateList={updateList}
           />
         ))}
-        {listItemIds.length === 0 && (
+        {list.items.length === 0 && (
           <div className="alert-dark">
             <Trans>You have no items in this list.</Trans>
           </div>

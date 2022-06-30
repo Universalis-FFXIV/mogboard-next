@@ -1,6 +1,5 @@
 import { t } from '@lingui/macro';
 import { useState, useEffect } from 'react';
-import useSWRImmutable from 'swr';
 import { filterItemSearchCategories } from '../../../../data/game/isc';
 import { getRepositoryUrl } from '../../../../data/game/repository';
 import { getSearchIcon } from '../../../../data/game/xiv-font';
@@ -108,18 +107,15 @@ export default function CategoriesNavbar({ onCategoryOpen }: CategoriesNavbarPro
     })();
   }, [lang]);
 
-  const categoryItems = useSWRImmutable(`/data/categories_${lang}.js`, async (path) => {
-    const categories: Record<number, [string, string, string, string, string, string][]> =
-      await fetch(path).then((res) => res.json());
-    return categories;
-  });
-
-  if (categoryItems.error) {
-    console.error(categoryItems.error);
-    return <div />;
-  }
-
-  const catItemsData = categoryItems.data ?? {};
+  const [categoryItems, setCategoryItems] = useState<
+    Record<number, [string, string, string, string, string, string][]>
+  >({});
+  useEffect(() => {
+    fetch(`/data/categories_${lang}.js`)
+      .then((res) => res.json())
+      .then(setCategoryItems)
+      .catch(console.error);
+  }, [lang]);
 
   const weapons = filterItemSearchCategories(categoriesIndex, 1);
   const armor = filterItemSearchCategories(categoriesIndex, 2);
@@ -133,7 +129,7 @@ export default function CategoriesNavbar({ onCategoryOpen }: CategoriesNavbarPro
         type="weapons"
         onCategoryOpen={onCategoryOpen}
         categories={weapons}
-        categoryItems={catItemsData}
+        categoryItems={categoryItems}
         breakCategories={[14, 19, 27]}
       />
       <NavCategoryGroup
@@ -141,21 +137,21 @@ export default function CategoriesNavbar({ onCategoryOpen }: CategoriesNavbarPro
         type="armor"
         onCategoryOpen={onCategoryOpen}
         categories={armor}
-        categoryItems={catItemsData}
+        categoryItems={categoryItems}
       />
       <NavCategoryGroup
         sectionName={t`ITEMS`}
         type="items"
         onCategoryOpen={onCategoryOpen}
         categories={items}
-        categoryItems={catItemsData}
+        categoryItems={categoryItems}
       />
       <NavCategoryGroup
         sectionName={t`HOUSING`}
         type="housing"
         onCategoryOpen={onCategoryOpen}
         categories={housing}
-        categoryItems={catItemsData}
+        categoryItems={categoryItems}
       />
       <div className="nav-gap" />
     </div>
