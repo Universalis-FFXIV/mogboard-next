@@ -1012,13 +1012,13 @@ const Market: NextPage<MarketProps> = ({ hasSession, lists, itemId, dcs }) => {
         return state;
       case 'addItem':
         const targetAdd = state.find((list) => list.id === action.listId);
-        if (targetAdd != null) {
+        if (targetAdd != null && !targetAdd.items.includes(action.itemId)) {
           targetAdd.items.push(action.itemId);
         }
         return state;
       case 'removeItem':
         const targetRemove = state.find((list) => list.id === action.listId);
-        if (targetRemove != null) {
+        if (targetRemove != null && targetRemove.items.includes(action.itemId)) {
           targetRemove.items.splice(targetRemove.items.indexOf(action.itemId), 1);
         }
         return state;
