@@ -1,4 +1,6 @@
 import { CategoryItem } from '../../types/game/CategoryItem';
+import { Item } from '../../types/game/Item';
+import { getRepositoryUrl } from './repository';
 
 export async function getItems(
   lang: 'en' | 'ja' | 'de' | 'fr' | 'chs'
@@ -21,4 +23,38 @@ export async function getItems(
     }
     return agg;
   }, {});
+}
+
+export async function getItem(
+  itemId: number,
+  lang: 'en' | 'ja' | 'de' | 'fr' | 'chs'
+): Promise<Item> {
+  const baseUrl = getRepositoryUrl(lang);
+  const itemData = await fetch(`${baseUrl}/Item/${itemId}`).then(async (res) => res.json());
+  return {
+    id: itemData.ID,
+    name: itemData[`Name_${lang}`],
+    description: itemData[`Description_${lang}`],
+    icon: `https://xivapi.com${itemData.Icon}`,
+    levelItem: itemData.LevelItem,
+    levelEquip: itemData.LevelEquip,
+    stackSize: itemData.StackSize,
+    rarity: itemData.Rarity,
+    canBeHq: itemData.CanBeHq === 1,
+    itemKind: itemData.ItemKind[`Name_${lang}`],
+    itemSearchCategory: {
+      id: itemData.ItemSearchCategory.ID,
+      name: itemData.ItemSearchCategory[`Name_${lang}`],
+    },
+    itemUiCategory: {
+      id: itemData.ItemUICategory.ID,
+      name: itemData.ItemUICategory[`Name_${lang}`],
+    },
+    classJobCategory: itemData.ClassJobCategory
+      ? {
+          id: itemData.ClassJobCategory.ID,
+          name: itemData.ClassJobCategory[`Name_${lang}`],
+        }
+      : undefined,
+  };
 }

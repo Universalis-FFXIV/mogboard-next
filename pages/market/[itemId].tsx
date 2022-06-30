@@ -4,9 +4,7 @@ import { getServerSession } from 'next-auth';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useEffect, useReducer, useState } from 'react';
-import GameItemIcon from '../../components/GameItemIcon/GameItemIcon';
 import { getRepositoryUrl } from '../../data/game/repository';
-import { getSearchIcon } from '../../data/game/xiv-font';
 import { acquireConn, releaseConn } from '../../db/connect';
 import {
   createUserList,
@@ -23,11 +21,12 @@ import { UserList, UserListCustomType } from '../../types/universalis/user';
 import { authOptions } from '../api/auth/[...nextauth]';
 import { v4 as uuidv4 } from 'uuid';
 import { DoctrineArray } from '../../db/DoctrineArray';
-import MarketNav, { ListsDispatchAction } from '../../components/Market/MarketNav/MarketNav';
+import { ListsDispatchAction } from '../../components/Market/MarketNav/MarketNav';
 import MarketDataCenter from '../../components/Market/MarketDataCenter/MarketDataCenter';
 import MarketWorld from '../../components/Market/MarketWorld/MarketWorld';
 import MarketServerSelector from '../../components/Market/MarketServerSelector/MarketServerSelector';
 import MarketItemHeader from '../../components/Market/MarketItemHeader/MarketItemHeader';
+import { getItem } from '../../data/game/items';
 
 interface MarketProps {
   hasSession: boolean;
@@ -77,38 +76,7 @@ const Market: NextPage<MarketProps> = ({ hasSession, lists, itemId, dcs }) => {
 
   const [item, setItem] = useState<Item | null>(null);
   useEffect(() => {
-    const baseUrl = getRepositoryUrl(lang);
-    fetch(`${baseUrl}/Item/${itemId}`)
-      .then(async (res) => {
-        const itemData = await res.json();
-        setItem({
-          id: itemData.ID,
-          name: itemData[`Name_${lang}`],
-          description: itemData[`Description_${lang}`],
-          icon: `https://xivapi.com${itemData.Icon}`,
-          levelItem: itemData.LevelItem,
-          levelEquip: itemData.LevelEquip,
-          stackSize: itemData.StackSize,
-          rarity: itemData.Rarity,
-          canBeHq: itemData.CanBeHq === 1,
-          itemKind: itemData.ItemKind[`Name_${lang}`],
-          itemSearchCategory: {
-            id: itemData.ItemSearchCategory.ID,
-            name: itemData.ItemSearchCategory[`Name_${lang}`],
-          },
-          itemUiCategory: {
-            id: itemData.ItemUICategory.ID,
-            name: itemData.ItemUICategory[`Name_${lang}`],
-          },
-          classJobCategory: itemData.ClassJobCategory
-            ? {
-                id: itemData.ClassJobCategory.ID,
-                name: itemData.ClassJobCategory[`Name_${lang}`],
-              }
-            : undefined,
-        });
-      })
-      .catch(console.error);
+    getItem(itemId, lang).then(setItem).catch(console.error);
   }, [lang, itemId]);
 
   const title = `${item?.name ?? ''} - Universalis`;
