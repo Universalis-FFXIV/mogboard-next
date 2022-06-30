@@ -73,7 +73,7 @@ const Home: NextPage<HomeProps> = ({
       <div className="home">
         <HomeNavbar
           hasSession={hasSession}
-          lists={lists}
+          lists={lists.sort((a, b) => b.updated - a.updated)}
           onListSelected={(id) => {
             const list = lists.find((list) => list.id === id);
             if (!selectedList || list?.id !== selectedList?.id) {
