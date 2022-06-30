@@ -6,7 +6,7 @@ import { GetServerSidePropsContext, NextPage } from 'next';
 import { getServerSession } from 'next-auth';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useReducer, useRef, useState } from 'react';
 import { sprintf } from 'sprintf-js';
 import GameItemIcon from '../../components/GameItemIcon/GameItemIcon';
 import ListingsTable from '../../components/ListingsTable/ListingsTable';
@@ -45,9 +45,15 @@ interface SalesChartProps {
   itemId: number;
 }
 
+type ListsDispatchAction =
+  | { type: 'createList'; list: UserList }
+  | { type: 'addItem'; listId: string; itemId: number }
+  | { type: 'removeItem'; listId: string; itemId: number };
+
 interface MarketListsProps {
   hasSession: boolean;
   lists: UserList[];
+  dispatch: (action: ListsDispatchAction) => void;
   itemId: number;
 }
 
@@ -311,7 +317,7 @@ function StackSizeHistogram({ data, item }: StackSizeHistogramProps) {
   );
 }
 
-function MarketLists({ hasSession, lists, itemId }: MarketListsProps) {
+function MarketLists({ hasSession, lists, dispatch, itemId }: MarketListsProps) {
   const { setPopup } = usePopup();
   const { setModalCover } = useModalCover();
 
@@ -379,9 +385,19 @@ function MarketLists({ hasSession, lists, itemId }: MarketListsProps) {
   };
 
   const [updatingList, setUpdatingList] = useState(false);
-  const toggleList = (listId: string, { items }: Pick<UserList, 'items'>) => {
+  const toggleList = (listId: string, itemId: number) => {
     if (updatingList) {
       return;
+    }
+
+    const list = lists.find((list) => list.id === listId)!;
+    const addingItem = !list.items.includes(itemId);
+    const items = new DoctrineArray();
+    items.push(...list.items);
+    if (addingItem) {
+      items.unshift(itemId);
+    } else {
+      items.splice(items.indexOf(itemId), 1);
     }
 
     setUpdatingList(true);
@@ -398,7 +414,7 @@ function MarketLists({ hasSession, lists, itemId }: MarketListsProps) {
           throw new Error(body);
         }
 
-        location.reload();
+        dispatch({ type: addingItem ? 'addItem' : 'removeItem', listId, itemId });
       })
       .catch((err) =>
         setPopup({
@@ -524,17 +540,7 @@ function MarketLists({ hasSession, lists, itemId }: MarketListsProps) {
                     className={`user_list_existing_button ${
                       list.items.includes(itemId) ? 'user_list_inlist' : ''
                     }`}
-                    onClick={() => {
-                      const items = new DoctrineArray();
-                      items.push(...list.items);
-                      if (list.items.includes(itemId)) {
-                        items.splice(items.indexOf(itemId), 1);
-                      } else {
-                        items.unshift(itemId);
-                      }
-
-                      toggleList(list.id, { items });
-                    }}
+                    onClick={() => toggleList(list.id, itemId)}
                   >
                     <strong>
                       <Trans>Items:</Trans> {list.items.length}
@@ -998,6 +1004,27 @@ const Market: NextPage<MarketProps> = ({ hasSession, lists, itemId, dcs }) => {
     queryServer ?? (showHomeWorld ? homeWorld : null)
   );
 
+  const [stateLists, dispatch] = useReducer((state: UserList[], action: ListsDispatchAction) => {
+    console.log(action);
+    switch (action.type) {
+      case 'createList':
+        state.push(action.list);
+        return state;
+      case 'addItem':
+        const targetAdd = state.find((list) => list.id === action.listId);
+        if (targetAdd != null) {
+          targetAdd.items.push(action.itemId);
+        }
+        return state;
+      case 'removeItem':
+        const targetRemove = state.find((list) => list.id === action.listId);
+        if (targetRemove != null) {
+          targetRemove.items.splice(targetRemove.items.indexOf(action.itemId), 1);
+        }
+        return state;
+    }
+  }, lists);
+
   const [item, setItem] = useState<Item | null>(null);
   useEffect(() => {
     const baseUrl = getRepositoryUrl(lang);
@@ -1058,7 +1085,12 @@ const Market: NextPage<MarketProps> = ({ hasSession, lists, itemId, dcs }) => {
         <div>
           <div className="item_top">
             <div className="item_header">
-              <MarketLists hasSession={hasSession} lists={lists} itemId={item.id} />
+              <MarketLists
+                hasSession={hasSession}
+                lists={stateLists}
+                dispatch={dispatch}
+                itemId={item.id}
+              />
               <div>
                 <GameItemIcon id={item.id} width={100} height={100} />
               </div>
