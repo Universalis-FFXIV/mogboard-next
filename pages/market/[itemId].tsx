@@ -32,6 +32,8 @@ import { v4 as uuidv4 } from 'uuid';
 import { unix } from '../../db/util';
 import { DoctrineArray } from '../../db/DoctrineArray';
 import { usePopup } from '../../components/UniversalisLayout/components/Popup/Popup';
+import { useModalCover } from '../../components/UniversalisLayout/components/ModalCover/ModalCover';
+import useClickOutside from '../../hooks/useClickOutside';
 
 interface StackSizeHistogramProps {
   item: Item;
@@ -311,6 +313,23 @@ function StackSizeHistogram({ data, item }: StackSizeHistogramProps) {
 
 function MarketLists({ hasSession, lists, itemId }: MarketListsProps) {
   const { setPopup } = usePopup();
+  const { setModalCover } = useModalCover();
+
+  const [listsModalOpen, setListsModalOpen] = useState(false);
+
+  const openListsModal = () => {
+    setModalCover({ isOpen: true });
+    setListsModalOpen(true);
+  };
+
+  const closeListsModal = () => {
+    setModalCover({ isOpen: false });
+    setListsModalOpen(false);
+  };
+
+  const listsModalRef = useClickOutside<HTMLDivElement>(null, closeListsModal);
+
+  const standardLists = lists.filter((list) => list.customType === UserListCustomType.Default);
 
   const [faves, setFaves] = useState(
     lists.find((list) => list.customType === UserListCustomType.Favourites)?.items
@@ -320,6 +339,10 @@ function MarketLists({ hasSession, lists, itemId }: MarketListsProps) {
   const updatingFavesRef = useRef<HTMLButtonElement>(null);
   const [updatingFaves, setUpdatingFaves] = useState(false);
   const toggleFave = () => {
+    if (updatingFaves) {
+      return;
+    }
+
     const items = new DoctrineArray();
     items.push(...(faves ?? []));
     if (favourite) {
@@ -355,6 +378,39 @@ function MarketLists({ hasSession, lists, itemId }: MarketListsProps) {
       .finally(() => setUpdatingFaves(false));
   };
 
+  const [updatingList, setUpdatingList] = useState(false);
+  const toggleList = (listId: string, { items }: Pick<UserList, 'items'>) => {
+    if (updatingList) {
+      return;
+    }
+
+    setUpdatingList(true);
+    fetch(`/api/web/lists/${listId}`, {
+      method: 'PUT',
+      body: JSON.stringify({ items }),
+      headers: { 'Content-Type': 'application/json' },
+    })
+      .then(async (res) => {
+        if (!res.ok) {
+          const body = res.headers.get('Content-Type')?.includes('application/json')
+            ? (await res.json()).message
+            : await res.text();
+          throw new Error(body);
+        }
+
+        location.reload();
+      })
+      .catch((err) =>
+        setPopup({
+          type: 'error',
+          title: 'Error',
+          message: err instanceof Error ? err.message : `${err}`,
+          isOpen: true,
+        })
+      )
+      .finally(() => setUpdatingList(false));
+  };
+
   return (
     <div className="box box_lists">
       <div className="box_form">
@@ -378,7 +434,7 @@ function MarketLists({ hasSession, lists, itemId }: MarketListsProps) {
             </button>
           </a>
           <LoggedIn hasSession={hasSession}>
-            <button className="btn_addto_list" style={{ marginRight: 4 }}>
+            <button className="btn_addto_list" style={{ marginRight: 4 }} onClick={openListsModal}>
               <Trans>Lists</Trans>
             </button>
             <button
@@ -395,6 +451,7 @@ function MarketLists({ hasSession, lists, itemId }: MarketListsProps) {
                     }
                   : undefined
               }
+              disabled={updatingFaves}
               onClick={toggleFave}
             >
               <span>
@@ -411,8 +468,8 @@ function MarketLists({ hasSession, lists, itemId }: MarketListsProps) {
         </div>
       </div>
       <LoggedIn hasSession={hasSession}>
-        <div className="modal list_modal">
-          <button type="button" className="modal_close_button">
+        <div ref={listsModalRef} className={`modal list_modal ${listsModalOpen ? 'open' : ''}`}>
+          <button type="button" className="modal_close_button" onClick={closeListsModal}>
             <i className="xiv-NavigationClose"></i>
           </button>
           <div className="modal_row">
@@ -425,7 +482,7 @@ function MarketLists({ hasSession, lists, itemId }: MarketListsProps) {
               <p>
                 <Trans>Option 1) Create a new list:</Trans>
               </p>
-              {lists.length < 12 ? (
+              {standardLists.length < 12 ? (
                 <div>
                   <input
                     name="list_name"
@@ -434,6 +491,19 @@ function MarketLists({ hasSession, lists, itemId }: MarketListsProps) {
                     placeholder="Name"
                     className="full"
                   />
+                  <br />
+                  <br />
+                  <div className="modal_form_end">
+                    <button
+                      type="submit"
+                      className="btn-green btn_create_list"
+                      onClick={(e) => {
+                        e.preventDefault();
+                      }}
+                    >
+                      <Trans>Add to list</Trans>
+                    </button>
+                  </div>
                 </div>
               ) : (
                 <p>
@@ -447,16 +517,46 @@ function MarketLists({ hasSession, lists, itemId }: MarketListsProps) {
                 <Trans>Option 2) Use an existing list:</Trans>
               </p>
               <div className="user_lists">
-                <div className="user_lists_loading">
-                  <Trans>Loading your item lists</Trans>
-                </div>
-              </div>
-              <br />
-              <br />
-              <div className="modal_form_end">
-                <button type="submit" className="btn-green btn_create_list">
-                  <Trans>Add to list</Trans>
-                </button>
+                {standardLists.map((list) => (
+                  <button
+                    key={list.id}
+                    type="button"
+                    className={`user_list_existing_button ${
+                      list.items.includes(itemId) ? 'user_list_inlist' : ''
+                    }`}
+                    onClick={() => {
+                      const items = new DoctrineArray();
+                      items.push(...list.items);
+                      if (list.items.includes(itemId)) {
+                        items.splice(items.indexOf(itemId), 1);
+                      } else {
+                        items.unshift(itemId);
+                      }
+
+                      toggleList(list.id, { items });
+                    }}
+                  >
+                    <strong>
+                      <Trans>Items:</Trans> {list.items.length}
+                    </strong>{' '}
+                    {list.name}
+                    <span
+                      dangerouslySetInnerHTML={{
+                        __html: list.items.includes(itemId)
+                          ? sprintf(t`<span>%s</span>`, t`REMOVE`)
+                          : '',
+                      }}
+                    ></span>
+                  </button>
+                ))}
+                {standardLists.length === 0 && (
+                  <div
+                    className="user_no_lists"
+                    dangerouslySetInnerHTML={{
+                      __html: t`You have no lists! <br> Create one by entering in a new name above.`,
+                    }}
+                  ></div>
+                )}
               </div>
             </form>
           </div>

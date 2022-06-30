@@ -115,8 +115,8 @@ async function put(req: NextApiRequest, res: NextApiResponse) {
       await db.updateUserListName(session.user.id, listId, name, conn);
     }
 
-    if (items != null) {
-      await db.updateUserListItems(session.user.id, listId, items, conn);
+    if (itemsProcessed != null) {
+      await db.updateUserListItems(session.user.id, listId, itemsProcessed, conn);
     }
   } catch (err) {
     console.error(err);
