@@ -4,6 +4,7 @@ const nextConfig = {
   images: {
     domains: ['xivapi.com', 'universalis-ffxiv.github.io'],
   },
+  output: 'standalone',
 };
 
 module.exports = nextConfig;
