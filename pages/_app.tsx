@@ -28,6 +28,18 @@ import {
 } from '../components/UniversalisLayout/components/ModalCover/ModalCover';
 import MogboardHighchartsTheme from '../theme/highcharts';
 
+function parseLang(lang: any): string {
+  if (typeof lang !== 'string') {
+    return 'en';
+  }
+
+  if (lang === 'chs') {
+    return 'zh-HANS';
+  }
+
+  return lang;
+}
+
 i18n.load({
   en: messagesEn,
   ja: messagesJa,
@@ -65,7 +77,10 @@ export default function MyApp({
   cookies,
   pageProps: { session, ...pageProps },
 }: AppProps & { cookies: Record<string, string> }) {
-  i18n.activate(parseLang(new Cookies(cookies).get('mogboard_language')));
+  const cookiesObj = new Cookies(cookies);
+
+  i18n.activate(parseLang(cookiesObj.get('mogboard_language')));
+
   const [popup, setPopup] = useState<PopupData>({ isOpen: false });
   const [modalCover, setModalCover] = useState<ModalCoverData>({ isOpen: false });
   return (
@@ -74,7 +89,7 @@ export default function MyApp({
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
       <SessionProvider session={session}>
-        <CookiesProvider cookies={new Cookies(cookies)}>
+        <CookiesProvider cookies={cookiesObj}>
           <I18nProvider i18n={i18n} forceRenderOnLocaleChange={false}>
             <PopupProvider popup={popup} setPopup={setPopup}>
               <ModalCoverProvider modalCover={modalCover} setModalCover={setModalCover}>
@@ -94,15 +109,3 @@ MyApp.getInitialProps = async (appCtx: AppContext) => {
   const appProps = await App.getInitialProps(appCtx);
   return { ...appProps, cookies: appCtx.ctx.req?.headers?.cookie };
 };
-
-function parseLang(lang: any): string {
-  if (typeof lang !== 'string') {
-    return 'en';
-  }
-
-  if (lang === 'chs') {
-    return 'zh-HANS';
-  }
-
-  return lang;
-}
