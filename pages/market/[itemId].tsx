@@ -2,7 +2,6 @@ import { Trans } from '@lingui/macro';
 import { GetServerSidePropsContext, NextPage } from 'next';
 import { getServerSession } from 'next-auth';
 import Head from 'next/head';
-import { useRouter } from 'next/router';
 import { useReducer, useState } from 'react';
 import { acquireConn, releaseConn } from '../../db/connect';
 import {
@@ -34,16 +33,11 @@ interface MarketProps {
   markets: Record<number, any>;
   itemId: number;
   dc: DataCenter;
+  queryServer: string | null;
 }
 
-const Market: NextPage<MarketProps> = ({ hasSession, lists, markets, itemId, dc }) => {
+const Market: NextPage<MarketProps> = ({ hasSession, lists, markets, itemId, dc, queryServer }) => {
   const [settings] = useSettings();
-
-  const router = useRouter();
-  const queryServer =
-    typeof router.query.server === 'string' && router.query.server.length > 0
-      ? router.query.server
-      : null;
 
   const lang = settings['mogboard_language'] ?? 'en';
   const showHomeWorld = settings['mogboard_homeworld'] === 'yes';
@@ -250,7 +244,7 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   await Promise.all(marketFetches);
 
   return {
-    props: { hasSession, lists, markets, itemId: itemIdNumber, dc },
+    props: { hasSession, lists, markets, itemId: itemIdNumber, dc, queryServer },
   };
 }
 
