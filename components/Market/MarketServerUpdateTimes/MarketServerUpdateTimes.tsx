@@ -10,6 +10,7 @@ export default function MarketServerUpdateTimes({
   worlds,
   uploadTimes,
 }: MarketServerUpdateTimesProps) {
+  // TODO: This can desync with the server easily, since it's based on the current time
   const relativeTime = new RelativeTime();
   return (
     <div className="market_update_times">

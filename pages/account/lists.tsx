@@ -3,6 +3,7 @@ import { GetServerSidePropsContext, NextPage } from 'next';
 import { getServerSession } from 'next-auth';
 import Head from 'next/head';
 import Link from 'next/link';
+import { useReducer } from 'react';
 import { Cookies } from 'react-cookie';
 import AccountLayout from '../../components/AccountLayout/AccountLayout';
 import GameIcon from '../../components/GameIcon/GameIcon';
@@ -21,7 +22,15 @@ interface ListsProps {
   items: Record<number, Item>;
 }
 
-const Lists: NextPage<ListsProps> = ({ hasSession, lists, items }) => {
+type ListsAction = { type: 'deleteList'; listId: string };
+
+interface ListOverviewProps {
+  list: UserList;
+  items: Record<number, Item>;
+  dispatch: (action: ListsAction) => void;
+}
+
+function ListOverview({ list, items, dispatch }: ListOverviewProps) {
   const [settings] = useSettings();
   const lang = settings['mogboard_language'] ?? 'en';
 
@@ -51,10 +60,61 @@ const Lists: NextPage<ListsProps> = ({ hasSession, lists, items }) => {
     })
       .then(async (res) => {
         await handleErr(res);
-        location.reload();
+        dispatch({ type: 'deleteList', listId: id });
       })
       .catch(popupErr);
   };
+
+  return (
+    <div className="lists">
+      <h3>
+        <Trans>Items:</Trans> {list.items.length} -{' '}
+        <Link href="/list/[listId]" as={`/list/${list.id}`}>
+          <a>{list.name}</a>
+        </Link>
+      </h3>
+      <ul>
+        {(list.items as number[])
+          .filter((itemId) => items[itemId] != null)
+          .map((itemId) => {
+            const item = items[itemId];
+            return (
+              <li key={itemId}>
+                <GameIcon id={item.iconId} ext="png" size="1x" width={36} height={36} />
+                {item.levelItem > 1 && <em className="ilv">{item.levelItem}</em>}
+                <Link href={`/market/${itemId}`}>
+                  <a className={`rarity-${item.rarity}`}>{item.name}</a>
+                </Link>
+                <small>
+                  {getItemKind(item.itemKind, lang)?.name} -{' '}
+                  {getItemSearchCategory(item.itemSearchCategory, lang)?.name}
+                </small>
+              </li>
+            );
+          })}
+      </ul>
+      {!list.custom && (
+        <div className="delete-list-block">
+          <a className="text-red fr" onClick={() => deleteList(list.id)}>
+            <Trans>Delete List</Trans>
+          </a>
+        </div>
+      )}
+    </div>
+  );
+}
+
+const Lists: NextPage<ListsProps> = ({ hasSession, lists, items }) => {
+  const [listsState, dispatch] = useReducer((state: UserList[], action: ListsAction) => {
+    const listIdx = state.findIndex((list) => list.id === action.listId);
+    if (listIdx === -1) {
+      return state;
+    }
+
+    const next = state.slice(0);
+    next.splice(listIdx, 1);
+    return next;
+  }, lists);
 
   const title = 'Lists - Universalis';
   const description =
@@ -72,44 +132,12 @@ const Lists: NextPage<ListsProps> = ({ hasSession, lists, items }) => {
           <Trans>Lists</Trans>
         </h5>
         <div className="account-panel">
-          {lists.map((list) => (
-            <div key={list.id} className="lists">
-              <h3>
-                <Trans>Items:</Trans> {list.items.length} -{' '}
-                <Link href="/list/[listId]" as={`/list/${list.id}`}>
-                  <a>{list.name}</a>
-                </Link>
-              </h3>
-              <ul>
-                {(list.items as number[])
-                  .filter((itemId) => items[itemId] != null)
-                  .map((itemId) => {
-                    const item = items[itemId];
-                    return (
-                      <li key={itemId}>
-                        <GameIcon id={item.iconId} ext="png" size="1x" width={36} height={36} />
-                        {item.levelItem > 1 && <em className="ilv">{item.levelItem}</em>}
-                        <Link href={`/market/${itemId}`}>
-                          <a className={`rarity-${item.rarity}`}>{item.name}</a>
-                        </Link>
-                        <small>
-                          {getItemKind(item.itemKind, lang)?.name} -{' '}
-                          {getItemSearchCategory(item.itemSearchCategory, lang)?.name}
-                        </small>
-                      </li>
-                    );
-                  })}
-              </ul>
-              {!list.custom && (
-                <div className="delete-list-block">
-                  <a className="text-red fr" onClick={() => deleteList(list.id)}>
-                    <Trans>Delete List</Trans>
-                  </a>
-                </div>
-              )}
-            </div>
-          ))}
-          {lists.length === 0 && (
+          {listsState
+            .sort((a, b) => b.updated - a.updated)
+            .map((list) => (
+              <ListOverview key={list.id} list={list} items={items} dispatch={dispatch} />
+            ))}
+          {listsState.length === 0 && (
             <div>
               <Trans>You have no lists, visit some items and create some!</Trans>
             </div>
