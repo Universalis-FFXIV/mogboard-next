@@ -35,7 +35,7 @@ export default function MarketItemHeader({
     <div className="item_header">
       <MarketNav hasSession={hasSession} lists={stateLists} dispatch={dispatch} itemId={item.id} />
       <div>
-        <GameItemIcon id={item.id} width={100} height={100} />
+        <GameItemIcon id={item.id} width={100} height={100} className="item-icon" />
       </div>
       <div>
         <div className="item_info">
