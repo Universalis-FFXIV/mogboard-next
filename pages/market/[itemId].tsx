@@ -25,15 +25,18 @@ import MarketWorld from '../../components/Market/MarketWorld/MarketWorld';
 import MarketServerSelector from '../../components/Market/MarketServerSelector/MarketServerSelector';
 import MarketItemHeader from '../../components/Market/MarketItemHeader/MarketItemHeader';
 import { getItem } from '../../data/game';
+import { Cookies } from 'react-cookie';
+import { World } from '../../types/game/World';
 
 interface MarketProps {
   hasSession: boolean;
   lists: UserList[];
+  markets: Record<number, any>;
   itemId: number;
-  dcs: DataCenter[];
+  dc: DataCenter;
 }
 
-const Market: NextPage<MarketProps> = ({ hasSession, lists, itemId, dcs }) => {
+const Market: NextPage<MarketProps> = ({ hasSession, lists, markets, itemId, dc }) => {
   const [settings] = useSettings();
 
   const router = useRouter();
@@ -45,9 +48,8 @@ const Market: NextPage<MarketProps> = ({ hasSession, lists, itemId, dcs }) => {
   const lang = settings['mogboard_language'] ?? 'en';
   const showHomeWorld = settings['mogboard_homeworld'] === 'yes';
   const homeWorld = settings['mogboard_server'] ?? 'Phoenix';
-  const dc = dcs.find((x) => x.worlds.some((y) => y.name === (queryServer ?? homeWorld)));
-  const [selectedWorld, setSelectedWorld] = useState<string | null>(
-    queryServer ?? (showHomeWorld ? homeWorld : null)
+  const [selectedWorld, setSelectedWorld] = useState<World | undefined>(
+    dc.worlds.find((world) => world.name === queryServer ?? (showHomeWorld ? homeWorld : null))
   );
 
   const [stateLists, dispatch] = useReducer((state: UserList[], action: ListsDispatchAction) => {
@@ -87,7 +89,7 @@ const Market: NextPage<MarketProps> = ({ hasSession, lists, itemId, dcs }) => {
     </Head>
   );
 
-  if (!dc || !item) {
+  if (!item) {
     return <MarketHead />;
   }
 
@@ -118,11 +120,11 @@ const Market: NextPage<MarketProps> = ({ hasSession, lists, itemId, dcs }) => {
           </div>
           <div className="tab">
             <div className={`tab-page tab-summary ${selectedWorld == null ? 'open' : ''}`}>
-              <MarketDataCenter item={item} dc={dc} />
+              <MarketDataCenter item={item} dc={dc} markets={markets} />
             </div>
             {selectedWorld && (
               <div className="tab-page tab-cw open">
-                <MarketWorld item={item} worldName={selectedWorld} />
+                <MarketWorld item={item} world={selectedWorld} market={markets[selectedWorld.id]} />
               </div>
             )}
           </div>
@@ -145,6 +147,8 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
 
   const session = await getServerSession(ctx, authOptions);
   const hasSession = !!session;
+
+  const cookies = new Cookies(ctx.req.headers.cookie);
 
   let dcs: DataCenter[] = [];
   try {
@@ -222,8 +226,31 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
     }
   }
 
+  const queryServer =
+    typeof ctx.query.server === 'string' && ctx.query.server.length > 0 ? ctx.query.server : null;
+  const homeWorld = cookies.get<string | undefined>('mogboard_server') ?? 'Phoenix';
+  const dc = dcs.find((x) => x.worlds.some((y) => y.name === (queryServer ?? homeWorld)));
+  if (!dc) {
+    throw new Error('Data center not found.');
+  }
+
+  const markets: Record<number, any> = {};
+  const marketFetches: Promise<void>[] = [];
+  for (const world of dc.worlds) {
+    marketFetches.push(
+      (async () => {
+        const market = await fetch(
+          `https://universalis.app/api/v2/${world.id}/${itemIdNumber}`
+        ).then((res) => res.json());
+        markets[world.id] = market;
+      })()
+    );
+  }
+
+  await Promise.all(marketFetches);
+
   return {
-    props: { hasSession, lists, itemId: itemIdNumber, dcs },
+    props: { hasSession, lists, markets, itemId: itemIdNumber, dc },
   };
 }
 

@@ -1,5 +1,4 @@
 import { t, Trans } from '@lingui/macro';
-import { useState, useEffect } from 'react';
 import { sprintf } from 'sprintf-js';
 import { DataCenter } from '../../../types/game/DataCenter';
 import { Item } from '../../../types/game/Item';
@@ -14,34 +13,14 @@ import MarketStackSizeHistogram from '../MarketStackSizeHistogram/MarketStackSiz
 interface MarketDataCenterProps {
   item: Item;
   dc: DataCenter;
+  markets: Record<number, any>;
 }
 
 function entriesToShow(entries: {}[]) {
   return Math.max(Math.floor(entries.length * 0.1), 10);
 }
 
-export default function MarketDataCenter({ item, dc }: MarketDataCenterProps) {
-  const [markets, setMarkets] = useState<Record<number, any>>({});
-  useEffect(() => {
-    (async () => {
-      setMarkets({});
-
-      const fetches: Promise<void>[] = [];
-      for (const world of dc.worlds) {
-        fetches.push(
-          (async () => {
-            const market = await fetch(
-              `https://universalis.app/api/v2/${world.id}/${item.id}`
-            ).then((res) => res.json());
-            setMarkets((last) => ({ ...last, ...{ [world.id]: market } }));
-          })()
-        );
-      }
-
-      await Promise.all(fetches);
-    })();
-  }, [dc.worlds, item.id]);
-
+export default function MarketDataCenter({ item, dc, markets }: MarketDataCenterProps) {
   const worldsSorted = dc.worlds.sort((a, b) => a.name.localeCompare(b.name));
 
   if (Object.keys(markets).length !== dc.worlds.length) {

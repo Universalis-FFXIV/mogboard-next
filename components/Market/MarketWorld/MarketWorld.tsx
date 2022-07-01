@@ -2,6 +2,7 @@ import { t, Trans } from '@lingui/macro';
 import RelativeTime from '@yaireo/relative-time';
 import { useState, useEffect } from 'react';
 import { Item } from '../../../types/game/Item';
+import { World } from '../../../types/game/World';
 import ListingsTable from '../../ListingsTable/ListingsTable';
 import SalesTable from '../../SalesTable/SalesTable';
 import MarketHistoryGraph from '../MarketHistoryGraph/MarketHistoryGraph';
@@ -10,26 +11,15 @@ import NoMarketData from '../NoMarketData/NoMarketData';
 
 interface MarketWorldProps {
   item: Item;
-  worldName: string;
+  world: World;
+  market: any;
 }
 
 function entriesToShow(entries: {}[]) {
   return Math.max(Math.floor(entries.length * 0.1), 10);
 }
 
-export default function MarketWorld({ item, worldName }: MarketWorldProps) {
-  const [market, setMarket] = useState<any>(null);
-  useEffect(() => {
-    (async () => {
-      setMarket(null);
-
-      const market = await fetch(`https://universalis.app/api/v2/${worldName}/${item.id}`).then(
-        (res) => res.json()
-      );
-      setMarket(market);
-    })();
-  }, [worldName, item.id]);
-
+export default function MarketWorld({ item, world, market }: MarketWorldProps) {
   const relativeTime = new RelativeTime();
 
   if (market == null) {
@@ -37,12 +27,12 @@ export default function MarketWorld({ item, worldName }: MarketWorldProps) {
   }
 
   if (!market.lastUploadTime) {
-    return <NoMarketData worldName={worldName} />;
+    return <NoMarketData worldName={world.name} />;
   }
 
   return (
     <>
-      <MarketHistoryGraph server={worldName} itemId={item.id} />
+      <MarketHistoryGraph server={world.name} itemId={item.id} />
       {item.stackSize > 1 && market.stackSizeHistogram && (
         <div>
           <h4

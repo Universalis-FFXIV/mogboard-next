@@ -1,11 +1,12 @@
 import { Trans } from '@lingui/macro';
 import useSettings from '../../../hooks/useSettings';
 import { DataCenter } from '../../../types/game/DataCenter';
+import { World } from '../../../types/game/World';
 
 interface MarketServerSelectorProps {
   dc: DataCenter;
-  selectedWorld: string | null;
-  setSelectedWorld: (world: string | null) => void;
+  selectedWorld?: World;
+  setSelectedWorld: (world?: World) => void;
 }
 
 export default function MarketServerSelector({
@@ -20,7 +21,7 @@ export default function MarketServerSelector({
       <button
         type="button"
         className={`btn-summary ${selectedWorld == null ? 'open' : ''}`}
-        onClick={() => setSelectedWorld(null)}
+        onClick={() => setSelectedWorld(undefined)}
       >
         <i className="xiv-CrossWorld cw-summary"></i> <Trans>Cross-World</Trans>
       </button>
@@ -32,8 +33,8 @@ export default function MarketServerSelector({
           <button
             key={i}
             type="button"
-            className={`${className} ${world.name === selectedWorld ? 'open' : ''}`}
-            onClick={() => setSelectedWorld(world.name)}
+            className={`${className} ${world.name === selectedWorld?.name ? 'open' : ''}`}
+            onClick={() => setSelectedWorld(world)}
           >
             {homeWorld && <i className={icon}></i>}
             {world.name}

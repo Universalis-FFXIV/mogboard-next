@@ -1,7 +1,6 @@
+import { World } from './World';
+
 export interface DataCenter {
   name: string;
-  worlds: {
-    id: number;
-    name: string;
-  }[];
+  worlds: World[];
 }
