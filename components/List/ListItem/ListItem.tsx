@@ -14,7 +14,7 @@ interface ListItemProps {
   market: any;
   reqIsOwner: boolean;
   showHomeWorld: boolean;
-  updateList: (args: Pick<UserList, 'items'>) => void;
+  removeItem: (itemId: number) => void;
 }
 
 export default function ListItem({
@@ -24,7 +24,7 @@ export default function ListItem({
   market,
   reqIsOwner,
   showHomeWorld,
-  updateList,
+  removeItem,
 }: ListItemProps) {
   return (
     <div className="pl_i">
@@ -42,16 +42,7 @@ export default function ListItem({
                 </div>
               }
             >
-              <a
-                className="pl_remove"
-                onClick={() => {
-                  const newListItemIds = listItemIds;
-                  newListItemIds.splice(newListItemIds.indexOf(itemId), 1);
-                  const x = new DoctrineArray();
-                  x.push(...newListItemIds);
-                  updateList({ items: x });
-                }}
-              >
+              <a className="pl_remove" onClick={() => removeItem(itemId)}>
                 <i className="xiv-NavigationClose"></i>
               </a>
             </Tooltip>

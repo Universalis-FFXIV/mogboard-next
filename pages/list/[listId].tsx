@@ -2,7 +2,7 @@ import { t, Trans } from '@lingui/macro';
 import { GetServerSidePropsContext, NextPage } from 'next';
 import { getServerSession } from 'next-auth';
 import Head from 'next/head';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useReducer } from 'react';
 import { Cookies } from 'react-cookie';
 import { sprintf } from 'sprintf-js';
 import ListHeader from '../../components/List/ListHeader/ListHeader';
@@ -12,6 +12,7 @@ import { useModalCover } from '../../components/UniversalisLayout/components/Mod
 import { usePopup } from '../../components/UniversalisLayout/components/Popup/Popup';
 import { getItem } from '../../data/game';
 import { acquireConn, releaseConn } from '../../db/connect';
+import { DoctrineArray } from '../../db/DoctrineArray';
 import * as userDb from '../../db/user';
 import * as listDb from '../../db/user-list';
 import useSettings from '../../hooks/useSettings';
@@ -21,12 +22,14 @@ import { UserList } from '../../types/universalis/user';
 import { authOptions } from '../api/auth/[...nextauth]';
 
 interface ListProps {
-  items: Item[];
+  items: Record<number, Item>;
   dcs: DataCenter[];
   list: UserList;
   reqIsOwner: boolean;
   ownerName: string;
 }
+
+type ListsAction = { type: 'removeItem'; itemId: number } | { type: 'renameList'; name: string };
 
 const List: NextPage<ListProps> = ({ items, dcs, list, reqIsOwner, ownerName }) => {
   const [settings] = useSettings();
@@ -46,15 +49,27 @@ const List: NextPage<ListProps> = ({ items, dcs, list, reqIsOwner, ownerName }) 
   };
 
   const closeRenameModal = () => {
-    setRenameModalOpen(true);
-    setModalCover({ isOpen: true });
+    setRenameModalOpen(false);
+    setModalCover({ isOpen: false });
   };
 
-  const updateList = (
-    data: Partial<Pick<UserList, 'name' | 'items'>>,
-    options?: { reload?: boolean }
-  ) => {
-    fetch(`/api/web/lists/${list.id}`, {
+  const [stateList, dispatch] = useReducer((state: UserList, action: ListsAction) => {
+    switch (action.type) {
+      case 'removeItem':
+        if (state.items.includes(action.itemId)) {
+          state.items.splice(state.items.indexOf(action.itemId), 1);
+        }
+        return { ...state };
+      case 'renameList':
+        if (state.name !== action.name) {
+          state.name = action.name;
+        }
+        return state;
+    }
+  }, list);
+
+  const updateList = (data: Partial<Pick<UserList, 'name' | 'items'>>) => {
+    fetch(`/api/web/lists/${stateList.id}`, {
       method: 'PUT',
       body: JSON.stringify(data),
       headers: { 'Content-Type': 'application/json' },
@@ -67,19 +82,20 @@ const List: NextPage<ListProps> = ({ items, dcs, list, reqIsOwner, ownerName }) 
           throw new Error(body);
         }
 
-        if (renameModalOpen) {
+        if (data.name != null) {
           closeRenameModal();
+          dispatch({ type: 'renameList', name: data.name });
           setPopup({
             type: 'success',
             title: 'Renamed list',
             message: 'You have renamed your list!',
             isOpen: true,
-            forceOpen: true,
           });
         }
 
-        if (options?.reload == null || options.reload) {
-          location.reload();
+        if (data.items != null) {
+          const itemId = stateList.items.filter((item) => !data.items?.includes(item))[0];
+          dispatch({ type: 'removeItem', itemId });
         }
       })
       .catch((err) =>
@@ -102,7 +118,7 @@ const List: NextPage<ListProps> = ({ items, dcs, list, reqIsOwner, ownerName }) 
 
   const [market, setMarket] = useState<any>(null);
   useEffect(() => {
-    if (list.items.length === 0 || market) {
+    if (stateList.items.length === 0 || market) {
       return;
     }
 
@@ -110,9 +126,9 @@ const List: NextPage<ListProps> = ({ items, dcs, list, reqIsOwner, ownerName }) 
       .then((res) => res.json())
       .then(setMarket)
       .catch(console.error);
-  }, [list.items, itemIds, market, server]);
+  }, [stateList.items, itemIds, market, server]);
 
-  const title = list.name + ' - ' + t`List` + ' - Universalis';
+  const title = stateList.name + ' - ' + t`List` + ' - Universalis';
   const description = sprintf(t`Custom Universalis list by %s`, ownerName);
   const ListHead = () => (
     <Head>
@@ -132,25 +148,30 @@ const List: NextPage<ListProps> = ({ items, dcs, list, reqIsOwner, ownerName }) 
       <ListHead />
       <div className="pl">
         <ListHeader
-          list={list}
+          list={stateList}
           reqIsOwner={reqIsOwner}
           openRenameModal={openRenameModal}
           showHomeWorld={showHomeWorld}
           setShowHomeWorld={setShowHomeWorld}
         />
-        {items.map((item) => (
+        {stateList.items.map((itemId) => (
           <ListItem
-            key={item.id}
-            itemId={item.id}
-            item={item}
-            listItemIds={list.items}
+            key={itemId}
+            itemId={itemId}
+            item={items[itemId]}
+            listItemIds={stateList.items}
             market={market}
             reqIsOwner={reqIsOwner}
             showHomeWorld={showHomeWorld}
-            updateList={updateList}
+            removeItem={(x) => {
+              const items = stateList.items;
+              items.splice(items.indexOf(x), 1);
+              updateList({ items });
+              dispatch({ type: 'removeItem', itemId: x });
+            }}
           />
         ))}
-        {list.items.length === 0 && (
+        {stateList.items.length === 0 && (
           <div className="alert-dark">
             <Trans>You have no items in this list.</Trans>
           </div>
@@ -177,6 +198,7 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   }
 
   const cookies = new Cookies(ctx.req.cookies);
+  const lang = cookies.get('mogboard_language') ?? 'en';
 
   let dcs: DataCenter[] = [];
   try {
@@ -233,9 +255,13 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
     }
   }
 
-  const items = list?.items
-    .map((itemId) => getItem(itemId, cookies.get('mogboard_language') ?? 'en'))
-    .filter((item) => item != null);
+  const items: Record<number, Item> = {};
+  for (const itemId of list?.items ?? []) {
+    const item = getItem(itemId, lang);
+    if (item) {
+      items[itemId] = item;
+    }
+  }
 
   return {
     props: { list, items, reqIsOwner, ownerName, dcs },
