@@ -2,13 +2,13 @@ import { Trans } from '@lingui/macro';
 import Image from 'next/image';
 import Link from 'next/link';
 import SimpleBar from 'simplebar-react';
+import { SearchItem } from '../../../../data/game/search';
 import useClickOutside from '../../../../hooks/useClickOutside';
-import { Item } from '../../../../types/game/Item';
 
 interface SearchResultsProps {
   isOpen: boolean;
   closeResults: () => void;
-  results: Item[];
+  results: SearchItem[];
   totalResults: number;
   searchTerm: string;
 }

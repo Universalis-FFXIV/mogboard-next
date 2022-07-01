@@ -1,6 +1,6 @@
 import { PropsWithChildren, useState } from 'react';
+import { SearchItem } from '../../data/game/search';
 import useSettings from '../../hooks/useSettings';
-import { CategoryItem } from '../../types/game/CategoryItem';
 import { Item } from '../../types/game/Item';
 import { ItemSearchCategory } from '../../types/game/ItemSearchCategory';
 import CategoryView from './components/CategoryView/CategoryView';
@@ -18,18 +18,18 @@ export default function UniversalisLayout({ children }: PropsWithChildren) {
   const [settings] = useSettings();
 
   const [navCategoryItemsOpen, setNavCategoryItemsOpen] = useState(false);
-  const [navCategoryItems, setNavCategoryItems] = useState<CategoryItem[]>([]);
+  const [navCategoryItems, setNavCategoryItems] = useState<Item[]>([]);
 
   const [settingsModalOpen, setSettingsModalOpen] = useState(settings['mogboard_server'] == null);
 
   const [searchResultsOpen, setSearchResultsOpen] = useState(false);
-  const [searchResults, setSearchResults] = useState<Item[]>([]);
+  const [searchResults, setSearchResults] = useState<SearchItem[]>([]);
   const [searchTotal, setSearchTotal] = useState(0);
   const [searchTerm, setSearchTerm] = useState('');
 
   const [searchCategoriesOpen, setSearchCategoriesOpen] = useState(false);
   const [searchCategoryResultsOpen, setSearchCategoryResultsOpen] = useState(false);
-  const [searchCategoryItems, setSearchCategoryItems] = useState<CategoryItem[]>([]);
+  const [searchCategoryItems, setSearchCategoryItems] = useState<Item[]>([]);
   const [searchCategory, setSearchCategory] = useState<ItemSearchCategory | undefined>(undefined);
 
   const { popup, setPopup } = usePopup();

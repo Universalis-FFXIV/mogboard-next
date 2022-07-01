@@ -1,14 +1,14 @@
 import Link from 'next/link';
-import { Item } from '../../../../types/game/Item';
 import SearchBar from '../SearchBar/SearchBar';
 import Tooltip from '../../../Tooltip/Tooltip';
 import { useSession, signIn } from 'next-auth/react';
 import LoggedOut from '../../../LoggedOut/LoggedOut';
 import LoggedIn from '../../../LoggedIn/LoggedIn';
 import { Trans } from '@lingui/macro';
+import { SearchItem } from '../../../../data/game/search';
 
 interface UniversalisHeaderProps {
-  onResults: (results: Item[], totalResults: number, searchTerm: string) => void;
+  onResults: (results: SearchItem[], totalResults: number, searchTerm: string) => void;
   onSettingsClicked: () => void;
   onMarketClicked: () => void;
 }

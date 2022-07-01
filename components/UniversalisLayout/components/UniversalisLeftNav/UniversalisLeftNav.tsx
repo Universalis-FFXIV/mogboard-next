@@ -1,10 +1,10 @@
 import Link from 'next/link';
 import SimpleBar from 'simplebar-react';
-import { CategoryItem } from '../../../../types/game/CategoryItem';
+import { Item } from '../../../../types/game/Item';
 import CategoriesNavbar from '../CategoriesNavbar/CategoriesNavbar';
 
 interface UniversalisLeftNavProps {
-  onCategoryOpen: (cat: CategoryItem[]) => void;
+  onCategoryOpen: (cat: Item[]) => void;
 }
 
 export default function UniversalisLeftNav({ onCategoryOpen }: UniversalisLeftNavProps) {

@@ -22,18 +22,20 @@ interface XIVAPISearchResults {
 export interface ItemSearchResults {
   resultsReturned: number;
   resultsTotal: number;
-  results: {
+  results: SearchItem[];
+}
+
+export interface SearchItem {
+  id: number;
+  icon: string;
+  itemKind: string;
+  itemSearchCategory: {
     id: number;
-    icon: string;
-    itemKind: string;
-    itemSearchCategory: {
-      id: number;
-      name: string;
-    };
-    levelItem: number;
     name: string;
-    rarity: number;
-  }[];
+  };
+  levelItem: number;
+  name: string;
+  rarity: number;
 }
 
 function getRepositoryUrl(lang: string) {

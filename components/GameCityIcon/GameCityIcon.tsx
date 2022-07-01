@@ -3,32 +3,25 @@ import GameIcon from '../GameIcon/GameIcon';
 
 const icons = {
   [City.LimsaLominsa]: {
-    bin: '060000',
-    id: '060881',
+    id: 60881,
   },
   [City.Gridania]: {
-    bin: '060000',
-    id: '060882',
+    id: 60882,
   },
   [City.Uldah]: {
-    bin: '060000',
-    id: '060883',
+    id: 60883,
   },
   [City.Ishgard]: {
-    bin: '060000',
-    id: '060884',
+    id: 60884,
   },
   [City.Kugane]: {
-    bin: '060000',
-    id: '060885',
+    id: 60885,
   },
   [City.Crystarium]: {
-    bin: '060000',
-    id: '060886',
+    id: 60886,
   },
   [City.OldSharlayan]: {
-    bin: '060000',
-    id: '060887',
+    id: 60887,
   },
 };
 

@@ -2,12 +2,15 @@ import { Trans } from '@lingui/macro';
 import Image from 'next/image';
 import Link from 'next/link';
 import SimpleBar from 'simplebar-react';
+import { getClassJobCategory } from '../../../../data/game';
 import useClickOutside from '../../../../hooks/useClickOutside';
-import { CategoryItem } from '../../../../types/game/CategoryItem';
+import useSettings from '../../../../hooks/useSettings';
+import { Item } from '../../../../types/game/Item';
 import { ItemSearchCategory } from '../../../../types/game/ItemSearchCategory';
+import GameIcon from '../../../GameIcon/GameIcon';
 
 interface SearchCategoryResultsProps {
-  items: CategoryItem[];
+  items: Item[];
   category?: ItemSearchCategory;
   isOpen: boolean;
   closeResults: () => void;
@@ -19,6 +22,9 @@ export default function SearchCategoryResults({
   isOpen,
   closeResults,
 }: SearchCategoryResultsProps) {
+  const [settings] = useSettings();
+  const lang = settings['mogboard_language'] ?? 'en';
+
   const resultsRef = useClickOutside<HTMLDivElement>(null, closeResults);
   return (
     <div ref={resultsRef} className={`market-category-container ${isOpen ? 'open' : ''}`}>
@@ -33,21 +39,24 @@ export default function SearchCategoryResults({
         </div>
         <SimpleBar style={{ height: '73vh' }}>
           <div className="gap" />
-          {items.map((item) => (
-            <Link key={item.id} href={`/market/${item.id}`}>
-              <a className={`rarity-${item.rarity}`}>
-                <span>
-                  <Image src={item.icon} alt="" width={40} height={40} />
-                </span>
-                <span>
-                  <div>
-                    <span className="item-level">{item.levelItem}</span> {item.name}
-                  </div>
-                  <small>{item.classJobs}</small>
-                </span>
-              </a>
-            </Link>
-          ))}
+          {items.map((item) => {
+            const classJobCategory = getClassJobCategory(item.classJobCategory, lang);
+            return (
+              <Link key={item.id} href={`/market/${item.id}`}>
+                <a className={`rarity-${item.rarity}`}>
+                  <span>
+                    <GameIcon id={item.iconId} ext="png" size="1x" width={40} height={40} />
+                  </span>
+                  <span>
+                    <div>
+                      <span className="item-level">{item.levelItem}</span> {item.name}
+                    </div>
+                    <small>{classJobCategory?.name}</small>
+                  </span>
+                </a>
+              </Link>
+            );
+          })}
           <div className="gap" />
           <div className="gap" />
         </SimpleBar>

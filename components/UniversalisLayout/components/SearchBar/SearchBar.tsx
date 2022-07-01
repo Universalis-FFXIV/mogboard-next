@@ -1,12 +1,11 @@
 import { t, Trans } from '@lingui/macro';
 import { useState } from 'react';
-import { searchItems } from '../../../../data/game/search';
+import { SearchItem, searchItems } from '../../../../data/game/search';
 import useClickOutside from '../../../../hooks/useClickOutside';
 import useSettings from '../../../../hooks/useSettings';
-import { Item } from '../../../../types/game/Item';
 
 interface SearchBarProps {
-  onResults: (results: Item[], totalResults: number, searchTerm: string) => void;
+  onResults: (results: SearchItem[], totalResults: number, searchTerm: string) => void;
   onMarketClicked: () => void;
 }
 
