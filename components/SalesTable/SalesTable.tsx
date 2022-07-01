@@ -1,6 +1,6 @@
 import { Trans } from '@lingui/macro';
 import RelativeTime from '@yaireo/relative-time';
-import { PropsWithChildren } from 'react';
+import { PropsWithChildren, Suspense } from 'react';
 import SortTable from '../SortTable/SortTable';
 import Tooltip from '../Tooltip/Tooltip';
 
@@ -88,7 +88,9 @@ function SalesTableRow({ sale }: { sale: SaleRow }) {
         </td>
       )}
       <td className="price-buyer">{sale.buyerName}</td>
-      <td className="price-date">{relativeTime.from(new Date(sale.timestamp * 1000))}</td>
+      <td className="price-date">
+        <Suspense>{relativeTime.from(new Date(sale.timestamp * 1000))}</Suspense>
+      </td>
     </tr>
   );
 }
