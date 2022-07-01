@@ -1,4 +1,5 @@
 import { Trans } from '@lingui/macro';
+import Image from 'next/image';
 import Link from 'next/link';
 
 export default function HomeAction() {
@@ -11,21 +12,12 @@ export default function HomeAction() {
         </span>
       </a>
       <Link href="/contribute">
-        <a className="patreon">
-          <span>
-            <img
-              src="/i/brand/contribute/logo_name.png"
-              alt="Contribute"
-              height={60}
-              width={124.117}
-            />
-          </span>
+        <a className="contrib">
+          <Image src="/i/brand/contribute/logo_name.png" alt="Contribute" layout="fill" />
         </a>
       </Link>
       <a href="https://patreon.com/universalis" className="patreon">
-        <span>
-          <img src="/i/brand/patreon/logo_name.jpg" alt="Patreon" height={60} width={124.117} />
-        </span>
+        <Image src="/i/brand/patreon/logo_name.jpg" alt="Patreon" layout="fill" />
       </a>
     </div>
   );
