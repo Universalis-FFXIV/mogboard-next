@@ -31,24 +31,26 @@ export default function CategoryView({ isOpen, closeView, items }: CategoryViewP
     <div ref={viewRef} className="market-category-view open">
       <SimpleBar className="item-category-list2" id="item-category-list2">
         <div className="gap" />
-        {items.map((item) => {
-          const classJobCategory = getClassJobCategory(item.classJobCategory, lang);
-          return (
-            <Link key={item.id} href={`/market/${item.id}`}>
-              <a className={`rarity-${item.rarity}`}>
-                <span>
-                  <GameIcon id={item.iconId} ext="png" size="1x" width={32} height={32} />
-                </span>
-                <span>
-                  <div>
-                    <span className="item-level">{item.levelItem}</span> {item.name}
-                  </div>
-                  <small>{classJobCategory?.name}</small>
-                </span>
-              </a>
-            </Link>
-          );
-        })}
+        {items
+          .sort((a, b) => b.levelItem - a.levelItem)
+          .map((item) => {
+            const classJobCategory = getClassJobCategory(item.classJobCategory, lang);
+            return (
+              <Link key={item.id} href={`/market/${item.id}`}>
+                <a className={`rarity-${item.rarity}`}>
+                  <span>
+                    <GameIcon id={item.iconId} ext="png" size="1x" width={32} height={32} />
+                  </span>
+                  <span>
+                    <div>
+                      <span className="item-level">{item.levelItem}</span> {item.name}
+                    </div>
+                    <small>{classJobCategory?.name}</small>
+                  </span>
+                </a>
+              </Link>
+            );
+          })}
         <div className="gap" />
         <div className="gap" />
       </SimpleBar>
