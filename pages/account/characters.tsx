@@ -2,7 +2,7 @@ import { t, Trans } from '@lingui/macro';
 import { GetServerSidePropsContext, NextPage } from 'next';
 import { getServerSession } from 'next-auth';
 import Head from 'next/head';
-import { useRef, useState } from 'react';
+import { useReducer, useRef, useState } from 'react';
 import { sprintf } from 'sprintf-js';
 import AccountLayout from '../../components/AccountLayout/AccountLayout';
 import { usePopup } from '../../components/UniversalisLayout/components/Popup/Popup';
@@ -13,14 +13,21 @@ import { DataCenter } from '../../types/game/DataCenter';
 import { UserCharacter } from '../../types/universalis/user';
 import { authOptions } from '../api/auth/[...nextauth]';
 
+type CharacterSimple = Omit<UserCharacter, 'id' | 'userId'>;
+
 interface AccountProps {
   hasSession: boolean;
-  characters: UserCharacter[];
+  characters: CharacterSimple[];
   verification: string;
   dcs: DataCenter[];
 }
 
 type LodestoneParams = { lodestoneId: number } | { world: string; name: string };
+
+type CharactersAction =
+  | { type: 'addCharacter'; character: CharacterSimple }
+  | { type: 'deleteCharacter'; characterId: number; main?: number }
+  | { type: 'setMain'; characterId: number };
 
 const Account: NextPage<AccountProps> = ({ hasSession, characters, verification, dcs }) => {
   const [settings] = useSettings();
@@ -28,6 +35,35 @@ const Account: NextPage<AccountProps> = ({ hasSession, characters, verification,
   const { setPopup } = usePopup();
 
   const submitRef = useRef<HTMLButtonElement>(null);
+
+  const [stateCharacters, dispatch] = useReducer(
+    (state: CharacterSimple[], action: CharactersAction) => {
+      switch (action.type) {
+        case 'addCharacter':
+          if (!state.find((character) => character.lodestoneId === action.character.lodestoneId)) {
+            state.push(action.character);
+          }
+          return state.slice(0);
+        case 'deleteCharacter':
+          const idx = state.findIndex((character) => character.lodestoneId === action.characterId);
+          if (idx !== -1) {
+            state.splice(idx, 1);
+            if (action.main != null) {
+              for (const character of state) {
+                character.main = character.lodestoneId === action.main;
+              }
+            }
+          }
+          return state.slice(0);
+        case 'setMain':
+          for (const character of state) {
+            character.main = character.lodestoneId === action.characterId;
+          }
+          return state.slice(0);
+      }
+    },
+    characters
+  );
 
   const [searching, setSearching] = useState(false);
   const [progressText, setProgressText] = useState('');
@@ -84,14 +120,14 @@ const Account: NextPage<AccountProps> = ({ hasSession, characters, verification,
     })
       .then(async (res) => {
         await handleErr(res);
+        const character = await res.json();
         setPopup({
           type: 'success',
           title: 'Character Added!',
-          message: 'Your character has been added, the page will refresh in 3 seconds.',
+          message: 'Your character has been added.',
           isOpen: true,
-          forceOpen: true,
         });
-        setTimeout(() => location.reload(), 3000);
+        dispatch({ type: 'addCharacter', character });
       })
       .catch(popupErr)
       .finally(() => {
@@ -100,7 +136,7 @@ const Account: NextPage<AccountProps> = ({ hasSession, characters, verification,
       });
   };
 
-  const updateCharacter = async (data: Pick<UserCharacter, 'id' | 'main'>) => {
+  const updateCharacter = async (data: Pick<UserCharacter, 'lodestoneId' | 'main'>) => {
     fetch('/api/web/lodestone', {
       method: 'PUT',
       body: JSON.stringify(data),
@@ -110,12 +146,12 @@ const Account: NextPage<AccountProps> = ({ hasSession, characters, verification,
     })
       .then(async (res) => {
         await handleErr(res);
-        location.reload();
+        dispatch({ type: 'setMain', characterId: data.lodestoneId });
       })
       .catch(popupErr);
   };
 
-  const unlinkCharacter = async (data: Pick<UserCharacter, 'id'>) => {
+  const unlinkCharacter = async (data: Pick<UserCharacter, 'lodestoneId'>) => {
     fetch('/api/web/lodestone', {
       method: 'DELETE',
       body: JSON.stringify(data),
@@ -125,7 +161,11 @@ const Account: NextPage<AccountProps> = ({ hasSession, characters, verification,
     })
       .then(async (res) => {
         await handleErr(res);
-        location.reload();
+        dispatch({
+          type: 'deleteCharacter',
+          characterId: data.lodestoneId,
+          main: (await res.json()).main,
+        });
       })
       .catch(popupErr);
   };
@@ -147,8 +187,8 @@ const Account: NextPage<AccountProps> = ({ hasSession, characters, verification,
             <Trans>Characters</Trans>
           </h1>
           <div className="account-panel">
-            {characters.map((character) => (
-              <div key={character.id} className="flex">
+            {stateCharacters.map((character) => (
+              <div key={character.lodestoneId} className="flex">
                 <div className="flex_10">
                   <img
                     src={character.avatar ?? ''}
@@ -161,7 +201,7 @@ const Account: NextPage<AccountProps> = ({ hasSession, characters, verification,
                 <div className="flex_90 character_info">
                   <a
                     className="character_remove"
-                    onClick={() => unlinkCharacter({ id: character.id })}
+                    onClick={() => unlinkCharacter({ lodestoneId: character.lodestoneId })}
                   >
                     <Trans>REMOVE</Trans>
                   </a>
@@ -172,13 +212,17 @@ const Account: NextPage<AccountProps> = ({ hasSession, characters, verification,
                     {character.server} - <Trans>Updated:</Trans>{' '}
                     {new Date(character.updated * 1000).toLocaleString()}
                   </p>
-                  <a onClick={() => updateCharacter({ id: character.id, main: true })}>
+                  <a
+                    onClick={() =>
+                      updateCharacter({ lodestoneId: character.lodestoneId, main: true })
+                    }
+                  >
                     <Trans>Set character as MAIN.</Trans>
                   </a>
                 </div>
               </div>
             ))}
-            {characters.length === 0 && (
+            {stateCharacters.length === 0 && (
               <div className="account-none">
                 <Trans>You have no characters, why not add one below!</Trans>
               </div>
@@ -276,6 +320,7 @@ const Account: NextPage<AccountProps> = ({ hasSession, characters, verification,
                           }
                         : undefined
                     }
+                    disabled={searching}
                     onClick={(e) => {
                       e.preventDefault();
                       const params = parseCharSearch();
@@ -303,12 +348,17 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   const session = await getServerSession(ctx, authOptions);
   const hasSession = !!session;
 
-  let characters: UserCharacter[] = [];
+  let characters: Partial<UserCharacter>[] = [];
   let verification = '';
   if (session && session.user.id) {
     const conn = await acquireConn();
     try {
-      characters = await getUserCharacters(session.user.id, conn);
+      characters = (await getUserCharacters(session.user.id, conn)).map((character) => {
+        const x: Partial<UserCharacter> = character;
+        delete x.id;
+        delete x.userId;
+        return x;
+      });
     } catch (err) {
       console.error(err);
     } finally {

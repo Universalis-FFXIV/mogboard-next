@@ -15,6 +15,7 @@ import {
 import { authOptions } from '../../auth/[...nextauth]';
 import { v4 as uuidv4 } from 'uuid';
 import { unix } from '../../../../db/util';
+import { UserCharacter } from '../../../../types/universalis/user';
 
 async function post(req: NextApiRequest, res: NextApiResponse) {
   const session = await getServerSession({ req, res }, authOptions);
@@ -57,6 +58,7 @@ async function post(req: NextApiRequest, res: NextApiResponse) {
     return res.status(403).json({ message: 'Auth code not found in character bio.' });
   }
 
+  let userCharacter: Partial<UserCharacter>;
   const conn = await acquireConn();
   try {
     const userCharacters = await getUserCharacters(session.user.id, conn);
@@ -73,27 +75,28 @@ async function post(req: NextApiRequest, res: NextApiResponse) {
       } else {
         finalId = existing.id;
         await linkUserCharacter(session.user.id, existing.id, conn);
+        userCharacter = existing;
+        delete userCharacter.id;
+        delete userCharacter.userId;
       }
     } else {
       finalId = uuidv4();
-      await createUserCharacter(
-        {
-          id: finalId,
-          userId: session.user.id,
-          lodestoneId: lId,
-          name: character.name,
-          server: character.world,
-          avatar: character.avatar,
-          main: false,
-          confirmed: true,
-          updated: unix(),
-        },
-        conn
-      );
+      const data = {
+        lodestoneId: lId,
+        name: character.name,
+        server: character.world,
+        avatar: character.avatar,
+        main: false,
+        confirmed: true,
+        updated: unix(),
+      };
+      await createUserCharacter({ ...data, ...{ id: finalId, userId: session.user.id } }, conn);
+      userCharacter = data;
     }
 
     if (initialCharacterCount === 0) {
       await updateMainUserCharacter(session.user.id, finalId, true, conn);
+      userCharacter.main = true;
     }
   } catch (err) {
     console.error(err);
@@ -102,25 +105,25 @@ async function post(req: NextApiRequest, res: NextApiResponse) {
     await releaseConn(conn);
   }
 
-  return res.json({ message: 'Success' });
+  return res.json(userCharacter);
 }
 
 async function put(req: NextApiRequest, res: NextApiResponse) {
   const session = await getServerSession({ req, res }, authOptions);
-  const { id, main } = req.body;
+  const { lodestoneId, main } = req.body;
 
   if (!session || !session.user.id) {
     return res.status(401).json({ message: 'You must be logged in to perform this action.' });
   }
 
-  if (typeof id !== 'string') {
+  if (typeof lodestoneId !== 'number') {
     return res.status(400).json({ message: 'Invalid character ID.' });
   }
 
   if (typeof main === 'boolean') {
     const conn = await acquireConn();
     try {
-      const target = await getUserCharacter(id, conn);
+      const target = await getUserCharacterByLodestoneId(lodestoneId, conn);
       if (target == null) {
         return res.status(404).json({ message: 'Character not found.' });
       }
@@ -150,30 +153,32 @@ async function put(req: NextApiRequest, res: NextApiResponse) {
 
 async function del(req: NextApiRequest, res: NextApiResponse) {
   const session = await getServerSession({ req, res }, authOptions);
-  const { id } = req.body;
+  const { lodestoneId } = req.body;
 
   if (!session || !session.user.id) {
     return res.status(401).json({ message: 'You must be logged in to perform this action.' });
   }
 
-  if (typeof id !== 'string') {
+  if (typeof lodestoneId !== 'number') {
     return res.status(400).json({ message: 'Invalid character ID.' });
   }
 
+  let newMain: number | null = null;
   const conn = await acquireConn();
   try {
-    const target = await getUserCharacter(id, conn);
+    const target = await getUserCharacterByLodestoneId(lodestoneId, conn);
     if (target == null) {
       return res.status(404).json({ message: 'Character not found.' });
     }
 
-    await unlinkUserCharacter(session.user.id, id, conn);
+    await unlinkUserCharacter(session.user.id, target.id, conn);
 
     if (target.main) {
       const characters = (await getUserCharacters(session.user.id, conn)).filter(
         (c) => c.id !== target.id
       );
       if (characters.length > 0) {
+        newMain = characters[0].lodestoneId;
         await updateMainUserCharacter(session.user.id, characters[0].id, true, conn);
       }
     }
@@ -184,7 +189,7 @@ async function del(req: NextApiRequest, res: NextApiResponse) {
     await releaseConn(conn);
   }
 
-  return res.json({ message: 'Success' });
+  return res.json({ main: newMain });
 }
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
