@@ -3,11 +3,11 @@ import { GetServerSidePropsContext, NextPage } from 'next';
 import { getServerSession } from 'next-auth';
 import Head from 'next/head';
 import Link from 'next/link';
-import { useEffect, useMemo, useState } from 'react';
+import { Cookies } from 'react-cookie';
 import AccountLayout from '../../components/AccountLayout/AccountLayout';
 import GameIcon from '../../components/GameIcon/GameIcon';
 import { usePopup } from '../../components/UniversalisLayout/components/Popup/Popup';
-import { getItemSearchCategory } from '../../data/game';
+import { getItem, getItemSearchCategory } from '../../data/game';
 import { acquireConn, releaseConn } from '../../db/connect';
 import { getUserLists } from '../../db/user-list';
 import useSettings from '../../hooks/useSettings';
@@ -124,6 +124,10 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   const session = await getServerSession(ctx, authOptions);
   const hasSession = !!session;
 
+  const cookies = new Cookies(ctx.req.cookies);
+  const lang =
+    cookies.get<'en' | 'ja' | 'de' | 'fr' | 'chs' | undefined>('mogboard_language') ?? 'en';
+
   let lists: UserList[] = [];
   if (session && session.user.id) {
     const conn = await acquireConn();
@@ -136,10 +140,27 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
     }
   }
 
+  const items = lists
+    .map((list) => list.items)
+    .flat()
+    .reduce<Record<number, Item>>((agg, next) => {
+      if (agg[next]) {
+        return agg;
+      }
+
+      const item = getItem(next, lang);
+      if (item == null) {
+        return agg;
+      }
+
+      return { ...agg, ...{ [next]: item } };
+    }, {});
+
   return {
     props: {
       hasSession,
       lists,
+      items,
     },
   };
 }
