@@ -68,9 +68,9 @@ const Market: NextPage<MarketProps> = ({ hasSession, lists, markets, itemId, dc,
     }
   }, lists);
 
-  const item = getItem(itemId, lang);
+  const item = getItem(itemId, lang)!;
 
-  const title = `${item?.name ?? ''} - Universalis`;
+  const title = `${item.name ?? ''} - Universalis`;
   const description =
     'Final Fantasy XIV Online: Market Board aggregator. Find Prices, track Item History and create Price Alerts. Anywhere, anytime.';
 
@@ -135,7 +135,7 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   }
 
   let itemIdNumber = parseInt(itemId);
-  if (isNaN(itemIdNumber)) {
+  if (isNaN(itemIdNumber) || !getItem(itemIdNumber, 'en')) {
     return { notFound: true };
   }
 
