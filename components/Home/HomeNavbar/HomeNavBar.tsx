@@ -1,4 +1,5 @@
 import { Trans } from '@lingui/macro';
+import Image from 'next/image';
 import { UserList } from '../../../types/universalis/user';
 import LoggedIn from '../../LoggedIn/LoggedIn';
 import LoggedOut from '../../LoggedOut/LoggedOut';
@@ -27,7 +28,9 @@ export default function HomeNavbar({ hasSession, lists, onListSelected }: HomeNa
       </LoggedOut>
       <LoggedIn hasSession={hasSession}>
         <h3>
-          <img src="/i/svg/th-list-light.svg" alt="" />
+          <span className="list-icon">
+            <Image src="/i/svg/th-list-light.svg" alt="" height={16} width={16} />
+          </span>
           <Trans>Lists</Trans>
         </h3>
         <div>
