@@ -3,6 +3,8 @@ using CommandLine;
 using Lumina;
 using Lumina.Data;
 using Lumina.Excel.GeneratedSheets;
+using Lumina.Text;
+using Lumina.Text.Payloads;
 using MogboardExporter.Data;
 
 namespace MogboardExporter;
@@ -122,10 +124,51 @@ public class Program
                         {
                             Id = item.RowId,
                             Name = item.Name.RawString,
-                            Description = item.Description.Payloads.Aggregate((agg, next) =>
+                            Description = item.Description.Payloads.Aggregate("", (text, payload) =>
                             {
-                                return agg;
-                            }, ""),
+                                var raw = payload.Data.ToArray();
+                                if (raw.Length < 3)
+                                {
+                                    return text + payload.RawString;
+                                }
+                                
+                                using var ms = new MemoryStream(raw);
+                                var bytes = new BinaryReader(ms);
+                                bytes.ReadByte(); // start byte
+                                
+                                var chunkType = bytes.ReadByte();
+                                GetInteger(bytes); // chunk length
+
+                                string next;
+                                switch (chunkType)
+                                {
+                                    case 0x48:
+                                    {
+                                        var uiColorId = GetInteger(bytes);
+                                        if (uiColorId == 0)
+                                        {
+                                            return text + "</span>";
+                                        }
+                                
+                                        var uiColor = gameData.GetExcelSheet<UIColor>()!.GetRow(uiColorId)!;
+                                        var html = $"<span style=\"color:#{uiColor.UIForeground >> 8:X6}\">";
+                                        next = html;
+                                    }
+                                        break;
+                                    case 0x49:
+                                        next = "";
+                                        break;
+                                    case 0x10:
+                                        next = "\n";
+                                        break;
+                                    default:
+                                        next = payload.RawString;
+                                        break;
+                                }
+
+                                ms.Seek(0, SeekOrigin.End);
+                                return text + next;
+                            }),
                             IconId = item.Icon,
                             LevelItem = item.LevelItem.Row,
                             LevelEquip = item.LevelEquip,
@@ -142,5 +185,23 @@ public class Program
                     File.WriteAllText(Path.Combine(o.Output, langStr, "items.json"), JsonSerializer.Serialize(items));
                 }
             });
+    }
+    
+    // ripped from Dalamud
+    private static uint GetInteger(BinaryReader input)
+    {
+        uint marker = input.ReadByte();
+        if (marker < 0xD0)
+            return marker - 1;
+
+        marker = (marker + 1) & 0b1111;
+
+        var ret = new byte[4];
+        for (var i = 3; i >= 0; i--)
+        {
+            ret[i] = (marker & (1 << i)) == 0 ? (byte)0 : input.ReadByte();
+        }
+
+        return BitConverter.ToUInt32(ret, 0);
     }
 }
