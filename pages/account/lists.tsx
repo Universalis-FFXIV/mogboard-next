@@ -7,7 +7,7 @@ import { Cookies } from 'react-cookie';
 import AccountLayout from '../../components/AccountLayout/AccountLayout';
 import GameIcon from '../../components/GameIcon/GameIcon';
 import { usePopup } from '../../components/UniversalisLayout/components/Popup/Popup';
-import { getItem, getItemSearchCategory } from '../../data/game';
+import { getItem, getItemKind, getItemSearchCategory } from '../../data/game';
 import { acquireConn, releaseConn } from '../../db/connect';
 import { getUserLists } from '../../db/user-list';
 import useSettings from '../../hooks/useSettings';
@@ -93,7 +93,7 @@ const Lists: NextPage<ListsProps> = ({ hasSession, lists, items }) => {
                           <a className={`rarity-${item.rarity}`}>{item.name}</a>
                         </Link>
                         <small>
-                          {item.itemKind} -{' '}
+                          {getItemKind(item.itemKind, lang)?.name} -{' '}
                           {getItemSearchCategory(item.itemSearchCategory, lang)?.name}
                         </small>
                       </li>
