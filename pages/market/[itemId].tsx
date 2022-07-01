@@ -3,7 +3,7 @@ import { GetServerSidePropsContext, NextPage } from 'next';
 import { getServerSession } from 'next-auth';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import { useEffect, useReducer, useState } from 'react';
+import { useReducer, useState } from 'react';
 import { acquireConn, releaseConn } from '../../db/connect';
 import {
   createUserList,
@@ -15,7 +15,6 @@ import {
 } from '../../db/user-list';
 import useSettings from '../../hooks/useSettings';
 import { DataCenter } from '../../types/game/DataCenter';
-import { Item } from '../../types/game/Item';
 import { UserList, UserListCustomType } from '../../types/universalis/user';
 import { authOptions } from '../api/auth/[...nextauth]';
 import { v4 as uuidv4 } from 'uuid';
@@ -149,22 +148,31 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
 
   let dcs: DataCenter[] = [];
   try {
-    const dataCenters: { name: string; worlds: number[] }[] = await fetch(
-      'https://universalis.app/api/v3/game/data-centers'
-    ).then((res) => res.json());
-    const worlds = await fetch('https://universalis.app/api/v3/game/worlds')
-      .then((res) => res.json())
-      .then((json) =>
-        (json as { id: number; name: string }[]).reduce<
-          Record<number, { id: number; name: string }>
-        >((agg, next) => {
-          agg[next.id] = {
-            id: next.id,
-            name: next.name,
-          };
-          return agg;
-        }, {})
-      );
+    const [dataCenters, worlds] = await Promise.all([
+      (async () => {
+        const dataCenters: { name: string; worlds: number[] }[] = await fetch(
+          'https://universalis.app/api/v3/game/data-centers'
+        ).then((res) => res.json());
+        return dataCenters;
+      })(),
+      (async () => {
+        const worlds = await fetch('https://universalis.app/api/v3/game/worlds')
+          .then((res) => res.json())
+          .then((json) =>
+            (json as { id: number; name: string }[]).reduce<
+              Record<number, { id: number; name: string }>
+            >((agg, next) => {
+              agg[next.id] = {
+                id: next.id,
+                name: next.name,
+              };
+              return agg;
+            }, {})
+          );
+        return worlds;
+      })(),
+    ]);
+
     dcs = (dataCenters ?? []).map((dc) => ({
       name: dc.name,
       worlds: dc.worlds
@@ -179,29 +187,34 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   if (session && session.user.id) {
     const conn = await acquireConn();
     try {
-      // Add this item to the user's recently-viewed list, creating it if it doesn't exist.
-      const recents = await getUserListCustom(
-        session.user.id,
-        UserListCustomType.RecentlyViewed,
-        conn
-      );
+      await Promise.all([
+        (async () => {
+          // Add this item to the user's recently-viewed list, creating it if it doesn't exist.
+          const recents = await getUserListCustom(
+            session.user.id!,
+            UserListCustomType.RecentlyViewed,
+            conn
+          );
 
-      if (recents) {
-        const items = new DoctrineArray();
-        items.push(...recents.items.filter((item) => item !== itemIdNumber));
-        items.unshift(itemIdNumber);
-        while (items.length > USER_LIST_MAX_ITEMS) {
-          items.pop();
-        }
+          if (recents) {
+            const items = new DoctrineArray();
+            items.push(...recents.items.filter((item) => item !== itemIdNumber));
+            items.unshift(itemIdNumber);
+            while (items.length > USER_LIST_MAX_ITEMS) {
+              items.pop();
+            }
 
-        await updateUserListItems(session.user.id, recents.id, items, conn);
-      } else {
-        const items = new DoctrineArray();
-        items.push(itemIdNumber);
-        await createUserList(RecentlyViewedList(uuidv4(), session.user.id, items), conn);
-      }
-
-      lists = await getUserLists(session.user.id, conn);
+            await updateUserListItems(session.user.id!, recents.id, items, conn);
+          } else {
+            const items = new DoctrineArray();
+            items.push(itemIdNumber);
+            await createUserList(RecentlyViewedList(uuidv4(), session.user.id!, items), conn);
+          }
+        })(),
+        (async () => {
+          lists = await getUserLists(session.user.id!, conn);
+        })(),
+      ]);
     } catch (err) {
       console.error(err);
     } finally {

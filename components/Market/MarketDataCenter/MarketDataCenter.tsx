@@ -26,12 +26,19 @@ export default function MarketDataCenter({ item, dc }: MarketDataCenterProps) {
     (async () => {
       setMarkets({});
 
+      const fetches: Promise<void>[] = [];
       for (const world of dc.worlds) {
-        const market = await fetch(`https://universalis.app/api/v2/${world.id}/${item.id}`).then(
-          (res) => res.json()
+        fetches.push(
+          (async () => {
+            const market = await fetch(
+              `https://universalis.app/api/v2/${world.id}/${item.id}`
+            ).then((res) => res.json());
+            setMarkets((last) => ({ ...last, ...{ [world.id]: market } }));
+          })()
         );
-        setMarkets((last) => ({ ...last, ...{ [world.id]: market } }));
       }
+
+      await Promise.all(fetches);
     })();
   }, [dc.worlds, item.id]);
 
