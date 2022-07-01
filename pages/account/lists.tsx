@@ -5,8 +5,9 @@ import Head from 'next/head';
 import Link from 'next/link';
 import { useEffect, useMemo, useState } from 'react';
 import AccountLayout from '../../components/AccountLayout/AccountLayout';
+import GameIcon from '../../components/GameIcon/GameIcon';
 import { usePopup } from '../../components/UniversalisLayout/components/Popup/Popup';
-import { getRepositoryUrl } from '../../data/game/repository';
+import { getItemSearchCategory } from '../../data/game';
 import { acquireConn, releaseConn } from '../../db/connect';
 import { getUserLists } from '../../db/user-list';
 import useSettings from '../../hooks/useSettings';
@@ -17,78 +18,14 @@ import { authOptions } from '../api/auth/[...nextauth]';
 interface ListsProps {
   hasSession: boolean;
   lists: UserList[];
+  items: Record<number, Item>;
 }
 
-const Lists: NextPage<ListsProps> = ({ hasSession, lists }) => {
+const Lists: NextPage<ListsProps> = ({ hasSession, lists, items }) => {
   const [settings] = useSettings();
-
-  const { setPopup } = usePopup();
-
   const lang = settings['mogboard_language'] ?? 'en';
 
-  const listItemIds = useMemo<number[]>(
-    () =>
-      lists
-        .map((l) => l.items as number[])
-        .flat()
-        .filter((itemId, i, arr) => i === arr.lastIndexOf(itemId)) ?? [],
-    [lists]
-  );
-  const [items, setItems] = useState<Record<number, Item>>({});
-  useEffect(() => {
-    (async () => {
-      if (listItemIds == null || Object.keys(items).length > 0) {
-        return;
-      }
-
-      const baseUrl = getRepositoryUrl(lang);
-      for (const itemId of listItemIds) {
-        if (items[itemId]) {
-          continue;
-        }
-
-        let data: any = null;
-        do {
-          const res = await fetch(`${baseUrl}/Item/${itemId}`);
-          if (res.status === 429) {
-            await new Promise((resolve) => setTimeout(resolve, 3000));
-          } else {
-            data = await res.json();
-          }
-        } while (data == null);
-
-        setItems((last) => {
-          return {
-            ...last,
-            ...{
-              [itemId]: {
-                id: data.ID,
-                name: data[`Name_${lang}`],
-                icon: `https://xivapi.com${data.Icon}`,
-                levelItem: data.LevelItem,
-                rarity: data.Rarity,
-                itemKind: data.ItemKind[`Name_${lang}`],
-                itemSearchCategory: {
-                  id: data.ItemSearchCategory.ID,
-                  name: data.ItemSearchCategory[`Name_${lang}`],
-                },
-                itemUiCategory: {
-                  id: data.ItemUICategory.ID,
-                  name: data.ItemUICategory[`Name_${lang}`],
-                },
-                classJobCategory: data.ClassJobCategory
-                  ? {
-                      id: data.ClassJobCategory.ID,
-                      name: data.ClassJobCategory[`Name_${lang}`],
-                    }
-                  : undefined,
-              },
-            },
-          };
-        });
-      }
-    })();
-  }, [lang, items, listItemIds]);
+  const { setPopup } = usePopup();
 
   const handleErr = async (res: Response) => {
     if (!res.ok) {
@@ -150,13 +87,14 @@ const Lists: NextPage<ListsProps> = ({ hasSession, lists }) => {
                     const item = items[itemId];
                     return (
                       <li key={itemId}>
-                        <img src={item.icon} alt="" width={36} height={36} />
+                        <GameIcon id={item.iconId} ext="png" size="1x" width={36} height={36} />
                         {item.levelItem > 1 && <em className="ilv">{item.levelItem}</em>}
                         <Link href={`/market/${itemId}`}>
                           <a className={`rarity-${item.rarity}`}>{item.name}</a>
                         </Link>
                         <small>
-                          {item.itemKind} - {item.itemSearchCategory.name}
+                          {item.itemKind} -{' '}
+                          {getItemSearchCategory(item.itemSearchCategory, lang)?.name}
                         </small>
                       </li>
                     );

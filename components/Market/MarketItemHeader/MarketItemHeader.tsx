@@ -1,5 +1,12 @@
 import { Trans } from '@lingui/macro';
+import {
+  getClassJobCategory,
+  getItemKind,
+  getItemSearchCategory,
+  getItemUICategory,
+} from '../../../data/game';
 import { getSearchIcon } from '../../../data/game/xiv-font';
+import useSettings from '../../../hooks/useSettings';
 import { Item } from '../../../types/game/Item';
 import { UserList } from '../../../types/universalis/user';
 import GameItemIcon from '../../GameItemIcon/GameItemIcon';
@@ -18,6 +25,12 @@ export default function MarketItemHeader({
   stateLists,
   dispatch,
 }: MarketItemHeaderProps) {
+  const [settings] = useSettings();
+  const lang = settings['mogboard_language'] ?? 'en';
+  const classJobCategory = getClassJobCategory(item.classJobCategory, lang);
+  const itemSearchCategory = getItemSearchCategory(item.itemSearchCategory, lang);
+  const itemUiCategory = getItemUICategory(item.itemUiCategory, lang);
+  const itemKind = getItemKind(item.itemKind, lang);
   return (
     <div className="item_header">
       <MarketNav hasSession={hasSession} lists={stateLists} dispatch={dispatch} itemId={item.id} />
@@ -33,20 +46,19 @@ export default function MarketItemHeader({
         </div>
         <div className="item_info2">
           <div>
-            {item.itemSearchCategory.id && (
+            {itemSearchCategory != null && (
               <>
-                <i className={`xiv-${getSearchIcon(item.itemSearchCategory.id)}`}></i>{' '}
-                {item.itemKind}
+                <i className={`xiv-${getSearchIcon(itemSearchCategory.id)}`}></i> {itemKind?.name}
                 &nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;
-                {item.itemUiCategory.name}
+                {itemUiCategory?.name}
                 &nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;
               </>
             )}
-            <Trans>Stack:</Trans> {item.stackSize?.toLocaleString()}
-            {item.classJobCategory && (
+            <Trans>Stack:</Trans> {item.stackSize.toLocaleString()}
+            {classJobCategory != null && (
               <>
                 &nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;
-                <span className="text-green">{item.levelEquip}</span> {item.classJobCategory.name}
+                <span className="text-green">{item.levelEquip}</span> {classJobCategory.name}
               </>
             )}
           </div>

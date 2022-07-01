@@ -1,5 +1,3 @@
-import { getRepositoryUrl } from './repository';
-
 interface XIVAPISearchResults {
   Pagination: {
     Results: number;
@@ -36,6 +34,10 @@ export interface ItemSearchResults {
     name: string;
     rarity: number;
   }[];
+}
+
+function getRepositoryUrl(lang: string) {
+  return lang === 'chs' ? 'https://cafemaker.wakingsands.com' : 'https://xivapi.com';
 }
 
 export async function searchItems(

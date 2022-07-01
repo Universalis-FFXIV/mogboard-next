@@ -3,13 +3,14 @@ import { GetServerSidePropsContext, NextPage } from 'next';
 import { getServerSession } from 'next-auth';
 import Head from 'next/head';
 import { useState, useEffect, useRef } from 'react';
+import { Cookies } from 'react-cookie';
 import { sprintf } from 'sprintf-js';
 import ListHeader from '../../components/List/ListHeader/ListHeader';
 import ListItem from '../../components/List/ListItem/ListItem';
 import ListRenameModal from '../../components/List/ListRenameModal/ListRenameModal';
 import { useModalCover } from '../../components/UniversalisLayout/components/ModalCover/ModalCover';
 import { usePopup } from '../../components/UniversalisLayout/components/Popup/Popup';
-import { getRepositoryUrl } from '../../data/game/repository';
+import { getItem } from '../../data/game';
 import { acquireConn, releaseConn } from '../../db/connect';
 import * as userDb from '../../db/user';
 import * as listDb from '../../db/user-list';
@@ -20,13 +21,14 @@ import { UserList } from '../../types/universalis/user';
 import { authOptions } from '../api/auth/[...nextauth]';
 
 interface ListProps {
+  items: Item[];
   dcs: DataCenter[];
   list: UserList;
   reqIsOwner: boolean;
   ownerName: string;
 }
 
-const List: NextPage<ListProps> = ({ dcs, list, reqIsOwner, ownerName }) => {
+const List: NextPage<ListProps> = ({ items, dcs, list, reqIsOwner, ownerName }) => {
   const [settings] = useSettings();
 
   const [newName, setNewName] = useState(list.name);
@@ -91,7 +93,6 @@ const List: NextPage<ListProps> = ({ dcs, list, reqIsOwner, ownerName }) => {
       .finally(() => setUpdating(false));
   };
 
-  const lang = settings['mogboard_language'] ?? 'en';
   const [showHomeWorld, setShowHomeWorld] = useState(settings['mogboard_homeworld'] === 'yes');
   const world = settings['mogboard_server'] ?? 'Phoenix';
   const dc = dcs.find((x) => x.worlds.some((y) => y.name === world));
@@ -110,75 +111,6 @@ const List: NextPage<ListProps> = ({ dcs, list, reqIsOwner, ownerName }) => {
       .then(setMarket)
       .catch(console.error);
   }, [list.items, itemIds, market, server]);
-
-  const [resolvedItemIds, setResolvedItemIds] = useState<number[]>([]);
-  const [items, setItems] = useState<Record<number, Item>>({});
-  useEffect(() => {
-    (async () => {
-      if (Object.keys(items).length > 0) {
-        return;
-      }
-
-      const baseUrl = getRepositoryUrl(lang);
-      for (const itemId of list.items) {
-        if (items[itemId]) {
-          continue;
-        }
-
-        let data: any = null;
-        do {
-          const res = await fetch(`${baseUrl}/Item/${itemId}`);
-          if (res.status === 429) {
-            await new Promise((resolve) => setTimeout(resolve, 3000));
-          } else {
-            data = await res.json();
-          }
-        } while (data == null);
-
-        setItems((last) => {
-          if (last[itemId]) {
-            return last;
-          }
-
-          return {
-            ...last,
-            ...{
-              [itemId]: {
-                id: data.ID,
-                name: data[`Name_${lang}`],
-                icon: `https://xivapi.com${data.Icon}`,
-                levelItem: data.LevelItem,
-                rarity: data.Rarity,
-                itemKind: data.ItemKind[`Name_${lang}`],
-                itemSearchCategory: {
-                  id: data.ItemSearchCategory.ID,
-                  name: data.ItemSearchCategory[`Name_${lang}`],
-                },
-                itemUiCategory: {
-                  id: data.ItemUICategory.ID,
-                  name: data.ItemUICategory[`Name_${lang}`],
-                },
-                classJobCategory: data.ClassJobCategory
-                  ? {
-                      id: data.ClassJobCategory.ID,
-                      name: data.ClassJobCategory[`Name_${lang}`],
-                    }
-                  : undefined,
-              },
-            },
-          };
-        });
-        setResolvedItemIds((last) => {
-          if (last.includes(itemId)) {
-            return last;
-          }
-
-          last.push(itemId);
-          return last;
-        });
-      }
-    })();
-  }, [lang, items, list.items]);
 
   const title = list.name + ' - ' + t`List` + ' - Universalis';
   const description = sprintf(t`Custom Universalis list by %s`, ownerName);
@@ -206,11 +138,11 @@ const List: NextPage<ListProps> = ({ dcs, list, reqIsOwner, ownerName }) => {
           showHomeWorld={showHomeWorld}
           setShowHomeWorld={setShowHomeWorld}
         />
-        {resolvedItemIds.map((itemId) => (
+        {items.map((item) => (
           <ListItem
-            key={itemId}
-            itemId={itemId}
-            item={items[itemId]}
+            key={item.id}
+            itemId={item.id}
+            item={item}
             listItemIds={list.items}
             market={market}
             reqIsOwner={reqIsOwner}
@@ -243,6 +175,8 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   if (typeof listId !== 'string') {
     return { notFound: true };
   }
+
+  const cookies = new Cookies(ctx.req.cookies);
 
   let dcs: DataCenter[] = [];
   try {
@@ -299,8 +233,12 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
     }
   }
 
+  const items = list?.items
+    .map((itemId) => getItem(itemId, cookies.get('mogboard_language') ?? 'en'))
+    .filter((item) => item != null);
+
   return {
-    props: { list, reqIsOwner, ownerName, dcs },
+    props: { list, items, reqIsOwner, ownerName, dcs },
   };
 }
 

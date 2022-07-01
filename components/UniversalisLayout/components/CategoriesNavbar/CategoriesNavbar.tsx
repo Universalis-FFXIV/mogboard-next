@@ -1,32 +1,32 @@
 import { t } from '@lingui/macro';
 import { useState, useEffect } from 'react';
+import { getItems, getItemSearchCategories } from '../../../../data/game';
 import { filterItemSearchCategories } from '../../../../data/game/isc';
-import { getRepositoryUrl } from '../../../../data/game/repository';
 import { getSearchIcon } from '../../../../data/game/xiv-font';
 import useSettings from '../../../../hooks/useSettings';
-import { CategoryItem } from '../../../../types/game/CategoryItem';
+import { Item } from '../../../../types/game/Item';
 import { ItemSearchCategory } from '../../../../types/game/ItemSearchCategory';
 import { XIVAPIItemSearchCategoryIndex } from '../../../../types/xivapi/XIVAPIItemSearchCategoryIndex';
 
 interface NavCategoryProps {
   type: string;
-  onOpen: (categoryItems: CategoryItem[]) => void;
+  onOpen: (items: Item[]) => void;
   category: ItemSearchCategory;
-  categoryItems: [string, string, string, string, string, string][];
+  categoryItems: Item[];
   divider?: boolean;
 }
 
 interface NavCategoryGroupProps {
   sectionName: string;
   type: string;
-  onCategoryOpen: (categoryItems: CategoryItem[]) => void;
+  onCategoryOpen: (items: Item[]) => void;
   categories: ItemSearchCategory[];
-  categoryItems: Record<number, [string, string, string, string, string, string][]>;
+  categoryItems: Item[];
   breakCategories?: number[];
 }
 
 interface CategoriesNavbarProps {
-  onCategoryOpen: (categoryItems: CategoryItem[]) => void;
+  onCategoryOpen: (items: Item[]) => void;
 }
 
 function NavCategory({ type, onOpen, category, categoryItems, divider }: NavCategoryProps) {
@@ -37,16 +37,7 @@ function NavCategory({ type, onOpen, category, categoryItems, divider }: NavCate
         id={category.id.toString()}
         className={`type-${type}`}
         onClick={() => {
-          onOpen(
-            categoryItems.map<CategoryItem>((item) => ({
-              id: parseInt(item[0]),
-              name: item[1],
-              icon: `https://xivapi.com${item[2]}`,
-              levelItem: parseInt(item[3]),
-              rarity: parseInt(item[4]),
-              classJobs: item[5],
-            }))
-          );
+          onOpen(categoryItems);
         }}
       >
         <i className={`xiv-${getSearchIcon(category.id)}`} />
@@ -76,7 +67,7 @@ function NavCategoryGroup({
             type={type}
             onOpen={onCategoryOpen}
             category={cat}
-            categoryItems={categoryItems[cat.id] ?? []}
+            categoryItems={categoryItems.filter((item) => item.itemSearchCategory === cat.id)}
             divider={breakCategories?.includes(cat.id)}
           />
         ))}
@@ -87,40 +78,16 @@ function NavCategoryGroup({
 
 export default function CategoriesNavbar({ onCategoryOpen }: CategoriesNavbarProps) {
   const [settings] = useSettings();
-  const lang: string = settings['mogboard_language'] ?? 'en';
+  const lang = settings['mogboard_language'] ?? 'en';
 
-  const [categoriesIndex, setCategoriesIndex] = useState<ItemSearchCategory[]>([]);
-  useEffect(() => {
-    (async () => {
-      const baseUrl = getRepositoryUrl(lang);
-      const isc: XIVAPIItemSearchCategoryIndex = await fetch(
-        `${baseUrl}/ItemSearchCategory?columns=ID,Name,Category,Order&language=${lang}`
-      ).then((res) => res.json());
-      setCategoriesIndex(
-        isc.Results.map((r) => ({
-          id: r.ID,
-          name: r.Name,
-          category: r.Category,
-          order: r.Order,
-        }))
-      );
-    })();
-  }, [lang]);
-
-  const [categoryItems, setCategoryItems] = useState<
-    Record<number, [string, string, string, string, string, string][]>
-  >({});
-  useEffect(() => {
-    fetch(`/data/categories_${lang}.js`)
-      .then((res) => res.json())
-      .then(setCategoryItems)
-      .catch(console.error);
-  }, [lang]);
+  const categoriesIndex = getItemSearchCategories(lang);
 
   const weapons = filterItemSearchCategories(categoriesIndex, 1);
   const armor = filterItemSearchCategories(categoriesIndex, 2);
   const items = filterItemSearchCategories(categoriesIndex, 3);
   const housing = filterItemSearchCategories(categoriesIndex, 4);
+
+  const categoryItems = getItems(lang).filter((item) => item.itemSearchCategory > 0);
 
   return (
     <div>

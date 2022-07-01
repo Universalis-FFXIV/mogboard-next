@@ -1,5 +1,4 @@
-import { useEffect, useState } from 'react';
-import { getRepositoryUrl } from '../../data/game/repository';
+import { getItem, getMateria } from '../../data/game';
 import useSettings from '../../hooks/useSettings';
 
 interface GameMateriaProps {
@@ -11,13 +10,15 @@ export default function GameMateria({ materiaId, slotId }: GameMateriaProps) {
   const [settings] = useSettings();
   const lang = settings['mogboard_language'] ?? 'en';
 
-  const [name, setName] = useState('');
-  useEffect(() => {
-    (async () => {
-      const baseUrl = getRepositoryUrl(lang);
-      const data = await fetch(`${baseUrl}/Materia/${materiaId}`).then((res) => res.json());
-      setName(data[`Item${slotId}`][`Name_${lang}`]);
-    })();
-  }, [lang, materiaId, slotId]);
-  return <>{name}</>;
+  const materia = getMateria(materiaId, lang);
+  if (materia == null) {
+    return <></>;
+  }
+
+  const item = getItem(materia.items[materia.slots.findIndex((s) => s === slotId)], lang);
+  if (item == null) {
+    return <></>;
+  }
+
+  return <>{item.name}</>;
 }

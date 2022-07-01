@@ -18,23 +18,16 @@ import { DataCenter } from '../types/game/DataCenter';
 import HomeUserList from '../components/Home/HomeUserList/HomeUserList';
 import { useState } from 'react';
 import { Trans } from '@lingui/macro';
-import { getRepositoryUrl } from '../data/game/repository';
 import { getServerSession } from 'next-auth';
 import { authOptions } from './api/auth/[...nextauth]';
-
-interface RecentItem {
-  id: number;
-  levelItem: number;
-  rarity: number;
-  name: string;
-  category?: string;
-}
+import { getItem } from '../data/game';
+import { Item } from '../types/game/Item';
 
 interface HomeProps {
   dcs: DataCenter[];
   world: string;
   taxes: Record<City, number>;
-  recent: RecentItem[];
+  recent: (Item | null)[];
   dailyUploads: number[];
   worldUploads: { world: string; count: number }[];
   hasSession: boolean;
@@ -111,7 +104,8 @@ const Home: NextPage<HomeProps> = ({
 export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   const cookies = new Cookies(ctx.req?.headers.cookie);
   const world = cookies.get<string | undefined>('mogboard_server') ?? 'Phoenix';
-  const lang = cookies.get<string | undefined>('mogboard_language') ?? 'en';
+  const lang =
+    cookies.get<'ja' | 'en' | 'de' | 'fr' | 'chs' | undefined>('mogboard_language') ?? 'en';
 
   let taxes: Record<City, number>;
   try {
@@ -140,30 +134,18 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
     };
   }
 
-  const recent: RecentItem[] = [];
+  const recent: (Item | null)[] = [];
   try {
     const recentlyUpdated = await fetch(
       'https://universalis.app/api/extra/stats/recently-updated'
     ).then((res) => res.json());
     const shown = recentlyUpdated.items.slice(0, 6);
     for (const s of shown) {
-      try {
-        const baseUrl = getRepositoryUrl(lang);
-        const itemData = await fetch(`${baseUrl}/Item/${s}`).then((res) => res.json());
-        recent.push({
-          id: s,
-          levelItem: itemData.LevelItem,
-          rarity: itemData.Rarity,
-          name: itemData[`Name_${lang}`],
-          category: itemData.ItemSearchCategory[`Name_${lang}`],
-        });
-      } catch (err) {
-        recent.push({
-          id: s,
-          levelItem: 0,
-          rarity: 0,
-          name: '',
-        });
+      const item = getItem(s, lang);
+      if (item) {
+        recent.push(item);
+      } else {
+        recent.push(null);
       }
     }
   } catch (err) {

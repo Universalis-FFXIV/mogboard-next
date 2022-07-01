@@ -25,7 +25,7 @@ import MarketDataCenter from '../../components/Market/MarketDataCenter/MarketDat
 import MarketWorld from '../../components/Market/MarketWorld/MarketWorld';
 import MarketServerSelector from '../../components/Market/MarketServerSelector/MarketServerSelector';
 import MarketItemHeader from '../../components/Market/MarketItemHeader/MarketItemHeader';
-import { getItem } from '../../data/game/items';
+import { getItem } from '../../data/game';
 
 interface MarketProps {
   hasSession: boolean;
@@ -73,10 +73,7 @@ const Market: NextPage<MarketProps> = ({ hasSession, lists, itemId, dcs }) => {
     }
   }, lists);
 
-  const [item, setItem] = useState<Item | null>(null);
-  useEffect(() => {
-    getItem(itemId, lang).then(setItem).catch(console.error);
-  }, [lang, itemId]);
+  const item = getItem(itemId, lang);
 
   const title = `${item?.name ?? ''} - Universalis`;
   const description =

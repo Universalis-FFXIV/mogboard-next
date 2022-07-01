@@ -43,7 +43,7 @@ export default function MarketWorld({ item, worldName }: MarketWorldProps) {
   return (
     <>
       <MarketHistoryGraph server={worldName} itemId={item.id} />
-      {item.stackSize && item.stackSize > 1 && market.stackSizeHistogram && (
+      {item.stackSize > 1 && market.stackSizeHistogram && (
         <div>
           <h4
             dangerouslySetInnerHTML={{

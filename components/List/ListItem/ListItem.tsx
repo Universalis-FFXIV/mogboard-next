@@ -29,7 +29,7 @@ export default function ListItem({
   return (
     <div className="pl_i">
       <div>
-        <GameItemIcon id={itemId} height={100} width={100} />
+        <GameItemIcon id={item.id} height={100} width={100} />
       </div>
       <div>
         <h2>

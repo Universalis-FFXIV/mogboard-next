@@ -2,8 +2,7 @@ type GameIconSize = '1x' | '2x';
 type GameIconExt = 'png';
 
 interface GameIconProps {
-  bin: string;
-  id: string;
+  id: number;
   ext: GameIconExt;
   size: GameIconSize;
   width: number;
@@ -11,19 +10,21 @@ interface GameIconProps {
   className?: string;
 }
 
-const getIconUrl = (bin: string, id: string, ext: GameIconExt, size: GameIconSize) => {
+const getIconUrl = (id: number, ext: GameIconExt, size: GameIconSize) => {
+  const idPadded = id.toString().padStart(6, '0');
+  const bin = idPadded.slice(0, 3) + '000';
   switch (size) {
     case '1x':
-      return `https://xivapi.com/i/${bin}/${id}.${ext}`;
+      return `https://xivapi.com/i/${bin}/${idPadded}.${ext}`;
     case '2x':
-      return `https://xivapi.com/i2/ls2/${bin}/${id}.${ext}`;
+      return `https://xivapi.com/i2/ls2/${bin}/${idPadded}.${ext}`;
   }
 };
 
-const GameIcon = ({ bin, id, ext, size, width, height, className }: GameIconProps) => {
+const GameIcon = ({ id, ext, size, width, height, className }: GameIconProps) => {
   return (
     <img
-      src={getIconUrl(bin, id, ext, size)}
+      src={getIconUrl(id, ext, size)}
       width={width}
       height={height}
       alt=""

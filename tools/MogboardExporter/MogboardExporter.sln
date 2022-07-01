@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MogboardExporter.CafeMaker", "MogboardExporter.CafeMaker\MogboardExporter.CafeMaker.csproj", "{F5B425B1-8648-468D-B950-32AC7203C1E9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MogboardExporter", "MogboardExporter\MogboardExporter.csproj", "{01377B2E-576E-42F8-80AF-D9F416E5B0B6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MogboardExporter.Data", "MogboardExporter.Data\MogboardExporter.Data.csproj", "{89848DF9-3D30-42F0-8C08-B5BD48DF7E08}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F5B425B1-8648-468D-B950-32AC7203C1E9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F5B425B1-8648-468D-B950-32AC7203C1E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F5B425B1-8648-468D-B950-32AC7203C1E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F5B425B1-8648-468D-B950-32AC7203C1E9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{01377B2E-576E-42F8-80AF-D9F416E5B0B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{01377B2E-576E-42F8-80AF-D9F416E5B0B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{01377B2E-576E-42F8-80AF-D9F416E5B0B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{01377B2E-576E-42F8-80AF-D9F416E5B0B6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{89848DF9-3D30-42F0-8C08-B5BD48DF7E08}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{89848DF9-3D30-42F0-8C08-B5BD48DF7E08}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{89848DF9-3D30-42F0-8C08-B5BD48DF7E08}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{89848DF9-3D30-42F0-8C08-B5BD48DF7E08}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

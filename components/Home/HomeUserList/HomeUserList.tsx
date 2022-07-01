@@ -3,9 +3,8 @@ import RelativeTime from '@yaireo/relative-time';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { sprintf } from 'sprintf-js';
-import { getItems } from '../../../data/game/items';
+import { getItems, getItemSearchCategories } from '../../../data/game';
 import useSettings from '../../../hooks/useSettings';
-import { CategoryItem } from '../../../types/game/CategoryItem';
 import { DataCenter } from '../../../types/game/DataCenter';
 import { ItemSearchCategory } from '../../../types/game/ItemSearchCategory';
 import { UserList } from '../../../types/universalis/user';
@@ -74,48 +73,12 @@ export default function HomeUserList({ dcs, list }: HomeUserListProps) {
       .then(setMarketHq);
   }, [dc?.name, itemIdsStr]);
 
-  const [categoriesIndex, setCategoriesIndex] = useState<ItemSearchCategory[]>([]);
-  useEffect(() => {
-    (async () => {
-      const isc: XIVAPIItemSearchCategoryIndex = await fetch(
-        `https://xivapi.com/ItemSearchCategory?columns=ID,Name,Category,Order&language=${
-          lang as string
-        }`
-      ).then((res) => res.json());
-      setCategoriesIndex(
-        isc.Results.map((r) => ({
-          id: r.ID,
-          name: r.Name,
-          category: r.Category,
-          order: r.Order,
-        }))
-      );
-    })();
-  }, [lang]);
+  const itemSearchCategories = getItemSearchCategories(lang);
+  const items = getItems(lang);
 
-  const [items, setItems] = useState<
-    Record<number, { categoryId: number | null } & Omit<CategoryItem, 'id'>>
-  >({});
-  useEffect(() => {
-    (async () => {
-      const data = await getItems(lang);
-      setItems(data);
-    })();
-  }, [lang]);
-
-  if (marketNq.error) {
-    console.error(marketNq.error);
-    return <div />;
-  }
-
-  if (marketHq.error) {
-    console.error(marketHq.error);
-    return <div />;
-  }
-
-  const marketNqData = marketNq.data?.items ?? {};
-  const marketHqData = marketHq.data?.items ?? {};
-  const categoryIndexData = (categoriesIndex ?? []).reduce<
+  const marketNqData = marketNq?.items ?? {};
+  const marketHqData = marketHq?.items ?? {};
+  const categoryIndexData = itemSearchCategories.reduce<
     Record<number, Omit<ItemSearchCategory, 'id'>>
   >((agg, next) => {
     agg[next.id] = {
@@ -153,7 +116,9 @@ export default function HomeUserList({ dcs, list }: HomeUserListProps) {
               const itemCheapestNq = marketNqData[item]?.listings.find(() => true);
               const itemCheapestHq = marketHqData[item]?.listings.find(() => true);
               const itemInfo = items[item];
-              const itemCat = itemInfo.categoryId ? categoryIndexData[itemInfo.categoryId] : null;
+              const itemCat = itemInfo.itemSearchCategory
+                ? categoryIndexData[itemInfo.itemSearchCategory]
+                : null;
               return (
                 <li key={item} style={{ display: 'flex' }}>
                   <div style={{ flex: '0 0 50%' }}>
@@ -162,7 +127,9 @@ export default function HomeUserList({ dcs, list }: HomeUserListProps) {
                     <Link href={`/market/${item}`}>
                       <a className={`rarity-${itemInfo.rarity}`}>{itemInfo.name}</a>
                     </Link>
-                    <small>{itemInfo.categoryId ? itemCat?.name : `(${t`Not Sellable`})`}</small>
+                    <small>
+                      {itemInfo.itemSearchCategory ? itemCat?.name : `(${t`Not Sellable`})`}
+                    </small>
                   </div>
                   <div style={{ flex: '0 0 50%' }}>
                     <CheapestListing listing={itemCheapestHq} hq={true} />

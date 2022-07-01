@@ -1,24 +1,15 @@
 export interface Item {
   id: number;
   name: string;
-  description?: string;
-  icon: string;
+  description: string;
+  iconId: number;
   levelItem: number;
-  levelEquip?: number;
+  levelEquip: number;
   rarity: number;
-  itemKind: string;
-  stackSize?: number;
-  canBeHq?: boolean;
-  itemSearchCategory: {
-    id: number;
-    name: string;
-  };
-  itemUiCategory: {
-    id: number;
-    name: string;
-  };
-  classJobCategory?: {
-    id: number;
-    name: string;
-  };
+  itemKind: number;
+  stackSize: number;
+  canBeHq: boolean;
+  itemSearchCategory: number;
+  itemUiCategory: number;
+  classJobCategory: number;
 }

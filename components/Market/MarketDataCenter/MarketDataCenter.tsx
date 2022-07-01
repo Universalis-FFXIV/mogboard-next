@@ -107,7 +107,7 @@ export default function MarketDataCenter({ item, dc }: MarketDataCenterProps) {
         <Trans>Cross-World Purchase history (500 sales)</Trans>
       </h6>
       <MarketHistoryGraph server={dc.name} itemId={item.id} />
-      {item.stackSize && item.stackSize > 1 && (
+      {item.stackSize > 1 && (
         <div>
           <h6>
             <Trans>STACK SIZE HISTOGRAM</Trans>
