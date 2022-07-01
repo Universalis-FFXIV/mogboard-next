@@ -2,6 +2,7 @@ import { t, Trans } from '@lingui/macro';
 import { GetServerSidePropsContext, NextPage } from 'next';
 import { getServerSession } from 'next-auth';
 import Head from 'next/head';
+import Image from 'next/image';
 import { useReducer, useRef, useState } from 'react';
 import { sprintf } from 'sprintf-js';
 import AccountLayout from '../../components/AccountLayout/AccountLayout';
@@ -190,13 +191,15 @@ const Account: NextPage<AccountProps> = ({ hasSession, characters, verification,
             {stateCharacters.map((character) => (
               <div key={character.lodestoneId} className="flex">
                 <div className="flex_10">
-                  <img
-                    src={character.avatar ?? ''}
-                    alt={character.name ?? ''}
-                    className="character_avatar"
-                    height={72}
-                    width={72}
-                  />
+                  <div className="character_avatar">
+                    <Image
+                      src={character.avatar ?? ''}
+                      alt={character.name ?? ''}
+                      className="character_avatar"
+                      height={72}
+                      width={72}
+                    />
+                  </div>
                 </div>
                 <div className="flex_90 character_info">
                   <a

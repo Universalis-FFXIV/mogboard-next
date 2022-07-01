@@ -1,4 +1,5 @@
 import { t, Trans } from '@lingui/macro';
+import Image from 'next/image';
 import { sprintf } from 'sprintf-js';
 import { DataCenter } from '../../../types/game/DataCenter';
 import { Item } from '../../../types/game/Item';
@@ -51,34 +52,42 @@ export default function MarketDataCenter({ item, dc, markets }: MarketDataCenter
   const hqSales = allSales.filter((sale) => sale.hq);
   const nqSales = allSales.filter((sale) => !sale.hq);
 
-  const hqListingsAveragePpu = Math.ceil(
-    hqListings.map((listing) => listing.pricePerUnit).reduce((agg, next) => agg + next, 0) /
-      hqListings.length
-  );
-  const nqListingsAveragePpu = Math.ceil(
-    nqListings.map((listing) => listing.pricePerUnit).reduce((agg, next) => agg + next, 0) /
-      nqListings.length
-  );
-  const hqListingsAverageTotal = Math.ceil(
-    hqListings.map((listing) => listing.total).reduce((agg, next) => agg + next, 0) /
-      hqListings.length
-  );
-  const nqListingsAverageTotal = Math.ceil(
-    nqListings.map((listing) => listing.total).reduce((agg, next) => agg + next, 0) /
-      nqListings.length
-  );
-  const hqSalesAveragePpu = Math.ceil(
-    hqSales.map((sale) => sale.pricePerUnit).reduce((agg, next) => agg + next, 0) / hqSales.length
-  );
-  const nqSalesAveragePpu = Math.ceil(
-    nqSales.map((sale) => sale.pricePerUnit).reduce((agg, next) => agg + next, 0) / nqSales.length
-  );
-  const hqSalesAverageTotal = Math.ceil(
-    hqSales.map((sale) => sale.total).reduce((agg, next) => agg + next, 0) / hqSales.length
-  );
-  const nqSalesAverageTotal = Math.ceil(
-    nqSales.map((sale) => sale.total).reduce((agg, next) => agg + next, 0) / nqSales.length
-  );
+  const hqListingsAveragePpu =
+    Math.ceil(
+      hqListings.map((listing) => listing.pricePerUnit).reduce((agg, next) => agg + next, 0) /
+        hqListings.length
+    ) || 0;
+  const nqListingsAveragePpu =
+    Math.ceil(
+      nqListings.map((listing) => listing.pricePerUnit).reduce((agg, next) => agg + next, 0) /
+        nqListings.length
+    ) || 0;
+  const hqListingsAverageTotal =
+    Math.ceil(
+      hqListings.map((listing) => listing.total).reduce((agg, next) => agg + next, 0) /
+        hqListings.length
+    ) || 0;
+  const nqListingsAverageTotal =
+    Math.ceil(
+      nqListings.map((listing) => listing.total).reduce((agg, next) => agg + next, 0) /
+        nqListings.length
+    ) || 0;
+  const hqSalesAveragePpu =
+    Math.ceil(
+      hqSales.map((sale) => sale.pricePerUnit).reduce((agg, next) => agg + next, 0) / hqSales.length
+    ) || 0;
+  const nqSalesAveragePpu =
+    Math.ceil(
+      nqSales.map((sale) => sale.pricePerUnit).reduce((agg, next) => agg + next, 0) / nqSales.length
+    ) || 0;
+  const hqSalesAverageTotal =
+    Math.ceil(
+      hqSales.map((sale) => sale.total).reduce((agg, next) => agg + next, 0) / hqSales.length
+    ) || 0;
+  const nqSalesAverageTotal =
+    Math.ceil(
+      nqSales.map((sale) => sale.total).reduce((agg, next) => agg + next, 0) / nqSales.length
+    ) || 0;
 
   return (
     <>
@@ -106,7 +115,7 @@ export default function MarketDataCenter({ item, dc, markets }: MarketDataCenter
           {item.canBeHq && (
             <>
               <h6>
-                <img src="/i/game/hq.png" alt="High Quality" height={15} width={15} />{' '}
+                <Image src="/i/game/hq.png" alt="High Quality" height={15} width={15} />{' '}
                 {sprintf(t`%s Prices`, 'HQ')} {t`(Includes 5% GST)`}
               </h6>
               <ListingsTable
@@ -138,7 +147,7 @@ export default function MarketDataCenter({ item, dc, markets }: MarketDataCenter
           {item.canBeHq && (
             <>
               <h6>
-                <img src="/i/game/hq.png" alt="High Quality" height={15} width={15} />{' '}
+                <Image src="/i/game/hq.png" alt="High Quality" height={15} width={15} />{' '}
                 {sprintf(t`%s Purchase History`, 'HQ')}
               </h6>
               <SalesTable

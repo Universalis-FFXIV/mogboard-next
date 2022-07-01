@@ -1,6 +1,7 @@
 import { t, Trans } from '@lingui/macro';
 import { NextPage } from 'next';
 import Head from 'next/head';
+import Image from 'next/image';
 import { sprintf } from 'sprintf-js';
 import MoreQuestions from '../components/MoreQuestions/MoreQuestions';
 
@@ -21,6 +22,7 @@ function Contributor({ name, kind, description, intlUrl, cnUrl }: ContributorPro
         </h5>
         <p>
           {description}
+          <br />
           <br />
           <br />
           <div style={{ width: '100%', overflow: 'hidden' }}>
@@ -68,7 +70,12 @@ const Contribute: NextPage = () => {
       </Head>
       <div className="page">
         <div className="mogboard-header">
-          <img src="/i/brand/universalis/universalis_bodge.png" alt="" />
+          <Image
+            src="/i/brand/universalis/universalis_bodge.png"
+            alt=""
+            height={64}
+            width={362.65}
+          />
         </div>
         <div className="page-block">
           <br />

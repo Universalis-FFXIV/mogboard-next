@@ -1,6 +1,7 @@
 import { t, Trans } from '@lingui/macro';
 import { NextPage } from 'next';
 import Head from 'next/head';
+import Image from 'next/image';
 import { sprintf } from 'sprintf-js';
 import MoreQuestions from '../components/MoreQuestions/MoreQuestions';
 
@@ -18,7 +19,12 @@ const About: NextPage = () => {
       </Head>
       <div className="page">
         <div className="mogboard-header">
-          <img src="/i/brand/universalis/universalis_bodge.png" alt="" />
+          <Image
+            src="/i/brand/universalis/universalis_bodge.png"
+            alt=""
+            height={64}
+            width={362.65}
+          />
         </div>
         <div className="page-block">
           <br />
@@ -82,7 +88,7 @@ const About: NextPage = () => {
           <br />
         </div>
         <div className="page-banner">
-          <img src="/i/bg/about.png" alt="" />
+          <Image src="/i/bg/about.png" alt="" width={849.6} height={395.833} />
         </div>
         <div className="page-block">
           <div className="page-short">
@@ -115,7 +121,15 @@ const About: NextPage = () => {
             <p>
               <div className="flex">
                 <div className="flex_10">
-                  <img src="/i/brand/universalis/kara.jpg" alt="" className="mog-avatar" />
+                  <div style={{ width: 100, height: 100 }}>
+                    <Image
+                      src="/i/brand/universalis/kara.jpg"
+                      alt=""
+                      className="mog-avatar"
+                      width={100}
+                      height={100}
+                    />
+                  </div>
                 </div>
                 <div className="flex_90 mog-credits">
                   <h2>karashiiro</h2>
@@ -127,7 +141,15 @@ const About: NextPage = () => {
             <p>
               <div className="flex">
                 <div className="flex_10">
-                  <img src="/i/brand/universalis/goat.jpg" alt="" className="mog-avatar" />
+                  <div style={{ width: 100, height: 100 }}>
+                    <Image
+                      src="/i/brand/universalis/goat.jpg"
+                      alt=""
+                      className="mog-avatar"
+                      width={100}
+                      height={100}
+                    />
+                  </div>
                 </div>
                 <div className="flex_90 mog-credits">
                   <h2>goat</h2>

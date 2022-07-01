@@ -1,4 +1,5 @@
 import { Trans } from '@lingui/macro';
+import Image from 'next/image';
 import { Item } from '../../../types/game/Item';
 
 interface MarketAveragesProps {
@@ -26,7 +27,7 @@ export default function MarketAverages({
         <div className="flex avg_prices">
           {item.canBeHq && (
             <div className="flex_50 price-hq">
-              <img src="/i/game/hq.png" alt="High Quality" height={16} width={16} />{' '}
+              <Image src="/i/game/hq.png" alt="High Quality" height={16} width={16} />{' '}
               {averagePpuHq.toLocaleString()}
             </div>
           )}
@@ -43,7 +44,7 @@ export default function MarketAverages({
         <div className="flex avg_prices">
           {item.canBeHq && (
             <div className="flex_50 price-hq">
-              <img src="/i/game/hq.png" alt="High Quality" height={16} width={16} />{' '}
+              <Image src="/i/game/hq.png" alt="High Quality" height={16} width={16} />{' '}
               {averageTotalHq.toLocaleString()}
             </div>
           )}

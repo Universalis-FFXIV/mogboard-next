@@ -1,4 +1,5 @@
 import { Trans } from '@lingui/macro';
+import Image from 'next/image';
 import { Fragment, PropsWithChildren } from 'react';
 import GameCityIcon from '../GameCityIcon/GameCityIcon';
 import GameMateria from '../GameMateria/GameMateria';
@@ -55,7 +56,7 @@ function ListingsTableRow({ listing }: { listing: ListingRow }) {
         </td>
       )}
       <td className="price-hq">
-        {listing.hq && <img src="/i/game/hq.png" alt="High-Quality" height={14} width={14} />}
+        {listing.hq && <Image src="/i/game/hq.png" alt="High-Quality" height={14} width={14} />}
       </td>
       <td className="materia">
         {listing.materia.length > 0 && (

@@ -3,6 +3,7 @@ import RelativeTime from '@yaireo/relative-time';
 import { PropsWithChildren, Suspense } from 'react';
 import SortTable from '../SortTable/SortTable';
 import Tooltip from '../Tooltip/Tooltip';
+import Image from 'next/image';
 
 interface SalesTableProps {
   sales: any[];
@@ -53,7 +54,7 @@ function SalesTableRow({ sale }: { sale: SaleRow }) {
         </td>
       )}
       <td className="price-hq">
-        {sale.hq && <img src="/i/game/hq.png" alt="High-Quality" height={14} width={14} />}
+        {sale.hq && <Image src="/i/game/hq.png" alt="High-Quality" height={14} width={14} />}
       </td>
       <td className="price-current">{sale.pricePerUnit.toLocaleString()}</td>
       <td className="price-qty">{sale.quantity.toLocaleString()}</td>

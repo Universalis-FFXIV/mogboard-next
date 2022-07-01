@@ -2,6 +2,7 @@ import { Trans } from '@lingui/macro';
 import { GetServerSidePropsContext, NextPage } from 'next';
 import { getServerSession } from 'next-auth';
 import Head from 'next/head';
+import Image from 'next/image';
 import AccountLayout from '../../components/AccountLayout/AccountLayout';
 import useSettings from '../../hooks/useSettings';
 import { authOptions } from '../api/auth/[...nextauth]';
@@ -39,13 +40,17 @@ const Account: NextPage<AccountProps> = ({ hasSession, user }) => {
           <tbody>
             <tr>
               <td width="10%">
-                <img
-                  src={user.avatar}
-                  className="user_avatar"
-                  alt="Profile Image"
-                  height={64}
-                  width={64}
-                />
+                {user.avatar && (
+                  <div className="user_avatar">
+                    <Image
+                      src={user.avatar}
+                      alt="Profile Image"
+                      className="user_avatar"
+                      height={64}
+                      width={64}
+                    />
+                  </div>
+                )}
               </td>
               <td>
                 <h3>{user.name}</h3>
