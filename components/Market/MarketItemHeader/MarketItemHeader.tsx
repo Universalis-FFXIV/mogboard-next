@@ -46,7 +46,7 @@ export default function MarketItemHeader({
         </div>
         <div className="item_info2">
           <div>
-            {itemSearchCategory != null && (
+            {itemSearchCategory != null && itemSearchCategory.id > 0 && (
               <>
                 <i className={`xiv-${getSearchIcon(itemSearchCategory.id)}`}></i> {itemKind?.name}
                 &nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;
@@ -55,7 +55,7 @@ export default function MarketItemHeader({
               </>
             )}
             <Trans>Stack:</Trans> {item.stackSize.toLocaleString()}
-            {classJobCategory != null && (
+            {classJobCategory != null && classJobCategory.id > 0 && (
               <>
                 &nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;
                 <span className="text-green">{item.levelEquip}</span> {classJobCategory.name}
