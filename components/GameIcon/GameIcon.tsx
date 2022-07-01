@@ -1,3 +1,5 @@
+import Image from 'next/image';
+
 type GameIconSize = '1x' | '2x';
 type GameIconExt = 'png';
 
@@ -21,16 +23,16 @@ const getIconUrl = (id: number, ext: GameIconExt, size: GameIconSize) => {
   }
 };
 
-const GameIcon = ({ id, ext, size, width, height, className }: GameIconProps) => {
+export default function GameIcon({ id, ext, size, width, height, className }: GameIconProps) {
   return (
-    <img
-      src={getIconUrl(id, ext, size)}
-      width={width}
-      height={height}
-      alt=""
-      className={className}
-    />
+    <div className={className}>
+      <Image
+        src={getIconUrl(id, ext, size)}
+        width={width}
+        height={height}
+        alt=""
+        className={className}
+      />
+    </div>
   );
-};
-
-export default GameIcon;
+}

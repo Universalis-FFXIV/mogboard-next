@@ -26,7 +26,12 @@ export default function RecentUpdatesPanel({ items }: RecentUpdatesPanelProps) {
             <div>
               <Link href={`/market/${item.id}`}>
                 <a>
-                  <GameItemIcon id={item.id} width={55} height={55} />
+                  <GameItemIcon
+                    id={item.id}
+                    width={55}
+                    height={55}
+                    className="home-trending-item"
+                  />
                 </a>
               </Link>
             </div>

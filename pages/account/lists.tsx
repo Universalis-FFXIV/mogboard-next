@@ -80,15 +80,24 @@ function ListOverview({ list, items, dispatch }: ListOverviewProps) {
             const item = items[itemId];
             return (
               <li key={itemId}>
-                <GameIcon id={item.iconId} ext="png" size="1x" width={36} height={36} />
-                {item.levelItem > 1 && <em className="ilv">{item.levelItem}</em>}
-                <Link href={`/market/${itemId}`}>
-                  <a className={`rarity-${item.rarity}`}>{item.name}</a>
-                </Link>
-                <small>
-                  {getItemKind(item.itemKind, lang)?.name} -{' '}
-                  {getItemSearchCategory(item.itemSearchCategory, lang)?.name}
-                </small>
+                <GameIcon
+                  id={item.iconId}
+                  ext="png"
+                  size="1x"
+                  width={36}
+                  height={36}
+                  className="list-item"
+                />
+                <span>
+                  {item.levelItem > 1 && <em className="ilv">{item.levelItem}</em>}
+                  <Link href={`/market/${itemId}`}>
+                    <a className={`rarity-${item.rarity}`}>{item.name}</a>
+                  </Link>
+                  <small>
+                    {getItemKind(item.itemKind, lang)?.name} -{' '}
+                    {getItemSearchCategory(item.itemSearchCategory, lang)?.name}
+                  </small>
+                </span>
               </li>
             );
           })}

@@ -483,19 +483,22 @@
         background-color: rgba(20, 20, 20, 0.3);
       }
 
+      span {
+        margin-left: 60px;
+      }
+
       small {
-        display: inline-block;
         float: right;
         opacity: 0.6;
       }
 
-      img {
+      .list-item {
         width: 36px;
         height: 36px;
         border-radius: 6px;
         vertical-align: middle;
-        display: inline-table;
         margin-right: 20px;
+        position: absolute;
       }
     }
   }
