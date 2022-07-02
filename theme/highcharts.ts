@@ -81,7 +81,7 @@ const MogboardHighchartsTheme: any = {
   },
   plotOptions: {
     series: {
-      animation: false,
+      animation: true,
       showInNavigator: true,
       dataLabels: {
         color: '#F0F0F3',

@@ -137,26 +137,19 @@ function createSalesOptions(data: any[]): Highcharts.Options {
 export default function MarketHistoryGraph({ server, itemId }: MarketHistoryGraphProps) {
   const chartComponentRef = useRef<HighchartsReact.RefObject>(null);
 
-  const [data, setData] = useState<any[]>([]);
+  const [options, setOptions] = useState<Highcharts.Options | null>(null);
   useEffect(() => {
     (async () => {
       const sales = await fetch(`https://universalis.app/api/history/${server}/${itemId}`)
         .then((res) => res.json())
         .then((market) => market.entries.sort((a: any, b: any) => a.timestamp - b.timestamp));
-      setData(sales);
+      setOptions(createSalesOptions(sales));
+      chartComponentRef.current?.chart.redraw();
     })();
   }, [itemId, server]);
 
-  const options = useMemo<Highcharts.Options>(() => {
-    if (typeof Highcharts === 'object') {
-      return createSalesOptions(data);
-    }
-
-    return {};
-  }, [data]);
-
   return (
-    <div className="highchart" style={{ width: '100%' }}>
+    <div className="highchart" style={{ width: '100%', height: 320 }}>
       <HighchartsReact
         highcharts={Highcharts}
         options={options}
