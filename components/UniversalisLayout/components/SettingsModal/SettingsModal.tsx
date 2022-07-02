@@ -1,5 +1,7 @@
 import { t, Trans } from '@lingui/macro';
 import { useEffect, useState } from 'react';
+import { getServers, Servers } from '../../../../data/game/servers';
+import { getTimeZones, TimeZone } from '../../../../data/game/timezones';
 import useClickOutside from '../../../../hooks/useClickOutside';
 import useSettings from '../../../../hooks/useSettings';
 
@@ -25,58 +27,25 @@ export default function SettingsModal({ isOpen, closeModal, onSave }: SettingsMo
   const [showLeftNav, setShowLeftNav] = useState(settings['mogboard_leftnav']);
   const [showDefaultHomeWorld, setShowDefaultHomeWorld] = useState(settings['mogboard_homeworld']);
 
-  const [timezones, setTimezones] = useState<{ id: string; offset: number; name: string }[]>([]);
+  const [settingsData, setSettingsData] = useState<Servers & { timezones: TimeZone[] }>({
+    dcs: [],
+    worlds: [],
+    timezones: [],
+  });
   useEffect(() => {
-    fetch('https://universalis.app/api/v3/misc/time-zones')
-      .then((res) => res.json())
-      .then(setTimezones)
-      .catch(console.error);
+    (async () => {
+      const timezones = await getTimeZones();
+      const servers = await getServers({
+        europe: t`Europe`,
+        japan: t`Japan`,
+        america: t`America`,
+        oceania: t`Oceania`,
+        china: t`中国`,
+        unknown: t`(Unknown)`,
+      });
+      setSettingsData({ ...servers, ...{ timezones } });
+    })();
   }, []);
-
-  const [dcData, setDcData] = useState<{ name: string; worlds: number[] }[]>([]);
-  useEffect(() => {
-    fetch('https://universalis.app/api/v3/game/data-centers')
-      .then((res) => res.json())
-      .then(setDcData)
-      .catch(console.error);
-  }, []);
-
-  const [worldData, setWorldData] = useState<{ id: number; name: string }[]>([]);
-  useEffect(() => {
-    fetch('https://universalis.app/api/v3/game/worlds')
-      .then((res) => res.json())
-      .then(setWorldData)
-      .catch(console.error);
-  }, []);
-
-  const worlds = worldData.reduce<Record<number, string>>((agg, next) => {
-    agg[next.id] = next.name;
-    return agg;
-  }, {});
-  const dcRegions = {
-    europe: ['Chaos', 'Light'],
-    japan: ['Elemental', 'Gaia', 'Mana'],
-    america: ['Crystal', 'Primal', 'Aether'],
-    oceania: ['Materia'],
-    china: ['陆行鸟', '莫古力', '猫小胖', '豆豆柴'],
-  };
-  const dcs = dcData
-    .map((dc) => ({
-      name: dc.name,
-      region: dcRegions.europe.includes(dc.name)
-        ? t`Europe`
-        : dcRegions.japan.includes(dc.name)
-        ? t`Japan`
-        : dcRegions.america.includes(dc.name)
-        ? t`America`
-        : dcRegions.oceania.includes(dc.name)
-        ? t`Oceania`
-        : dcRegions.china.includes(dc.name)
-        ? t`中国`
-        : t`(Unknown)`,
-      worlds: dc.worlds.map((worldId) => worlds[worldId]),
-    }))
-    .sort((a, b) => a.region.localeCompare(b.region));
 
   return (
     <div ref={modalRef} className={`modal modal_settings ${isOpen ? 'open' : ''}`}>
@@ -104,11 +73,11 @@ export default function SettingsModal({ isOpen, closeModal, onSave }: SettingsMo
                 <option disabled>
                   <Trans>- Please Choose a Server -</Trans>
                 </option>
-                {dcs.map(({ name, region, worlds }) => (
+                {settingsData.dcs.map(({ name, region, worlds }) => (
                   <optgroup key={name} label={`${name} - ${region}`}>
                     {worlds.map((world) => (
-                      <option key={world} value={world}>
-                        {world}
+                      <option key={world.id} value={world.name}>
+                        {world.name}
                       </option>
                     ))}
                   </optgroup>
@@ -169,7 +138,7 @@ export default function SettingsModal({ isOpen, closeModal, onSave }: SettingsMo
             <option disabled>
               <Trans>- Choose your timezone -</Trans>
             </option>
-            {timezones
+            {settingsData.timezones
               .sort((a, b) => a.offset - b.offset)
               .map(({ id, name }) => (
                 <option key={id} value={id}>
