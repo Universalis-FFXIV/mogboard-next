@@ -144,7 +144,7 @@ export default function MarketHistoryGraph({ server, itemId }: MarketHistoryGrap
         .then((res) => res.json())
         .then((market) => market.entries.sort((a: any, b: any) => a.timestamp - b.timestamp));
       setOptions(createSalesOptions(sales));
-      chartComponentRef.current?.chart.redraw();
+      chartComponentRef.current?.chart?.redraw();
     })();
   }, [itemId, server]);
 
