@@ -37,7 +37,7 @@ export default function CategoryView({ isOpen, closeView, items }: CategoryViewP
             const classJobCategory = getClassJobCategory(item.classJobCategory, lang);
             return (
               <Link key={item.id} href={`/market/${item.id}`}>
-                <a className={`rarity-${item.rarity}`}>
+                <a className={`rarity-${item.rarity}`} onClick={closeView}>
                   <span>
                     <GameIcon id={item.iconId} ext="png" size="1x" width={32} height={32} />
                   </span>
