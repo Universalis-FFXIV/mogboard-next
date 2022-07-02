@@ -3,7 +3,7 @@ import RelativeTime from '@yaireo/relative-time';
 import Link from 'next/link';
 import { Suspense, useEffect, useState } from 'react';
 import { sprintf } from 'sprintf-js';
-import { getItem, getItems, getItemSearchCategories } from '../../../data/game';
+import { getItem, getItemKind, getItems, getItemSearchCategories } from '../../../data/game';
 import useSettings from '../../../hooks/useSettings';
 import { DataCenter } from '../../../types/game/DataCenter';
 import { ItemSearchCategory } from '../../../types/game/ItemSearchCategory';
@@ -30,8 +30,7 @@ function CheapestListing({ listing, hq }: CheapestListingProps) {
       <h2 style={{ margin: 0 }}>{header}</h2>
       {listing && (
         <div className="cheapest_price">
-          <i className="xiv-Gil"></i>
-          <em>{listing.quantity.toLocaleString()} x </em>
+          <i className="xiv-Gil"></i> <em>{listing.quantity.toLocaleString()} x </em>
           <span className="cheapest_value">{listing.pricePerUnit.toLocaleString()} </span>
           <span className="cheapest_price_info">
             <Trans>Server:</Trans> <strong>{listing.worldName}</strong> - <Trans>Total:</Trans>{' '}
@@ -122,17 +121,18 @@ export default function HomeUserList({ dcs, list }: HomeUserListProps) {
               return (
                 <li key={item} style={{ display: 'flex' }}>
                   <div style={{ flex: '0 0 50%' }}>
-                    <GameItemIcon id={item} width={32} height={32} />
-                    {itemInfo.levelItem > 1 && <em className="ilv">{itemInfo.levelItem}</em>}
+                    <GameItemIcon id={item} width={32} height={32} className="item-icon" />{' '}
+                    {itemInfo.levelItem > 1 && <em className="ilv">{itemInfo.levelItem}</em>}{' '}
                     <Link href="/market/[itemId]" as={`/market/${item}`}>
                       <a className={`rarity-${itemInfo.rarity}`}>{itemInfo.name}</a>
-                    </Link>
+                    </Link>{' '}
                     <small>
+                      {getItemKind(itemInfo.itemKind, lang)?.name} -{' '}
                       {itemInfo.itemSearchCategory ? itemCat?.name : `(${t`Not Sellable`})`}
                     </small>
                   </div>
                   <div style={{ flex: '0 0 50%' }}>
-                    <CheapestListing listing={itemCheapestHq} hq={true} />
+                    {itemInfo.canBeHq && <CheapestListing listing={itemCheapestHq} hq={true} />}
                     <CheapestListing listing={itemCheapestNq} hq={false} />
                     <div>
                       <small>

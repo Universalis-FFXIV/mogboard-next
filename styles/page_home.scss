@@ -479,12 +479,13 @@
     list-style: none;
 
     li {
-      img {
+      .item-icon {
         height: 32px;
         vertical-align: middle;
         border-radius: 3px;
         display: inline-table;
         margin: 0 10px 0 0;
+        padding-top: 4px;
       }
 
       small {
