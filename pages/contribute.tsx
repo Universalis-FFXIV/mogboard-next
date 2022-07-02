@@ -20,35 +20,33 @@ function Contributor({ name, kind, description, intlUrl, cnUrl }: ContributorPro
         <h5>
           <strong>{name}</strong> {kind}
         </h5>
-        <p>
-          {description}
-          <br />
-          <br />
-          <br />
-          <div style={{ width: '100%', overflow: 'hidden' }}>
-            <div
-              style={{
-                textAlign: 'center',
-                ...(cnUrl ? { float: 'left', marginLeft: '19%' } : {}),
-              }}
-            >
-              <a href={intlUrl} target="_blank" rel="noreferrer">
+        <p>{description}</p>
+        <br />
+        <br />
+        <br />
+        <div style={{ width: '100%', overflow: 'hidden' }}>
+          <div
+            style={{
+              textAlign: 'center',
+              ...(cnUrl ? { float: 'left', marginLeft: '19%' } : {}),
+            }}
+          >
+            <a href={intlUrl} target="_blank" rel="noreferrer">
+              <button type="button" className="btn btn-green btn-download">
+                <span className="icon-heart" /> <Trans>Download</Trans>
+              </button>
+            </a>
+          </div>
+          {cnUrl && (
+            <div style={{ textAlign: 'center', float: 'right', marginRight: '19%' }}>
+              <a href={cnUrl} target="_blank" rel="noreferrer">
                 <button type="button" className="btn btn-green btn-download">
-                  <span className="icon-heart" /> <Trans>Download</Trans>
+                  <span className="icon-heart" /> 下载
                 </button>
               </a>
             </div>
-            {cnUrl && (
-              <div style={{ textAlign: 'center', float: 'right', marginRight: '19%' }}>
-                <a href={cnUrl} target="_blank" rel="noreferrer">
-                  <button type="button" className="btn btn-green btn-download">
-                    <span className="icon-heart" /> 下载
-                  </button>
-                </a>
-              </div>
-            )}
-          </div>
-        </p>
+          )}
+        </div>
       </div>
       <br />
       <br />

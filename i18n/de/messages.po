@@ -14,12 +14,12 @@ msgstr ""
 "Plural-Forms: \n"
 
 #: components/ListingsTable/ListingsTable.tsx:161
-#: components/SalesTable/SalesTable.tsx:137
+#: components/SalesTable/SalesTable.tsx:141
 msgid "#"
 msgstr "#"
 
 #: components/ListingsTable/ListingsTable.tsx:185
-#: components/SalesTable/SalesTable.tsx:158
+#: components/SalesTable/SalesTable.tsx:162
 msgid "%Diff"
 msgstr "%Diff"
 
@@ -72,7 +72,7 @@ msgstr "(%s) Pro Stück STÜCKZAHL"
 
 #: components/Market/MarketDataCenter/MarketDataCenter.tsx:119
 #: components/Market/MarketDataCenter/MarketDataCenter.tsx:134
-#: components/Market/MarketWorld/MarketWorld.tsx:52
+#: components/Market/MarketWorld/MarketWorld.tsx:56
 msgid "(Includes 5% GST)"
 msgstr ""
 
@@ -157,7 +157,7 @@ msgstr ""
 #~ msgid "<strong>Triggers</strong>, these are conditions you can set on the alert to be checked at interval times and if any market entry meets the criteria of the condition then your alert will be \"Triggered\" and you'll receive a notification either via Discord or Email."
 #~ msgstr "<strong>Auslöser</strong>, diese Bedingungen kannst du unter Alarme einstellen und benachrichtigt dich sobald ein Markteintrag diese erfüllt. Du kannst dich via Discord oder per Email darüber informieren lassen."
 
-#: pages/about.tsx:100
+#: pages/about.tsx:101
 msgid "<strong>Universalis</strong> runs a REST API that applications can post market board data to, after they collect the data from a running game instance by multiple users, anonymously."
 msgstr ""
 "<strong>Universalis</strong> hat eine API, die mit Marktdaten von vielen \n"
@@ -168,8 +168,8 @@ msgstr ""
 #~ msgid "A goat has been made aware of this problem and will be looking into it for you!"
 #~ msgstr "Ein Entwickler wurde über dieses Problem benachrichtigt und wird es überprüfen."
 
-#: pages/contribute.tsx:112
-#: pages/contribute.tsx:127
+#: pages/contribute.tsx:110
+#: pages/contribute.tsx:125
 msgid "ACT plugin"
 msgstr "ACT Plugin"
 
@@ -258,7 +258,7 @@ msgstr "Der Liste hinzufügen"
 msgid "All market information is available: Prices, Materia, Retainer, Crafters and even Buyers. Everything that you see in-game is available. Additional data-views have been added such as graphs, extended history and cross-world summary is also included."
 msgstr "Alle Marktinformationen sind verfügbar: Preise, Materia, Gehilfen, Handwerker und sogar Käufer. Alles was du im Spielst siehst ist hier. Zusätzliche Datenansichten wurden erstellt, zum Beispiel Diagramme, erweiterte Kaufhistorie und weltenübergreifende Zusammenfassungen."
 
-#: pages/about.tsx:161
+#: pages/about.tsx:162
 msgid "Also thanks to: Vekien, Miu, Mino and all of our uploaders!"
 msgstr "Vielen Dank an: Vekien, Miu, Mino und an alle fleißigen Unterstützer."
 
@@ -267,7 +267,7 @@ msgstr "Vielen Dank an: Vekien, Miu, Mino und an alle fleißigen Unterstützer."
 msgid "America"
 msgstr ""
 
-#: pages/contribute.tsx:133
+#: pages/contribute.tsx:131
 msgid "Are you making your own application?"
 msgstr "Machst du eine eigene Anwendung?"
 
@@ -293,7 +293,7 @@ msgstr "Durchschnitt Gesamt"
 msgid "Become a member!"
 msgstr "Werde Mitglied!"
 
-#: components/SalesTable/SalesTable.tsx:162
+#: components/SalesTable/SalesTable.tsx:166
 msgid "Buyer"
 msgstr "Käufer"
 
@@ -329,7 +329,7 @@ msgstr "Billigste %s"
 msgid "Click on the list title to view market information for this list."
 msgstr "Klicke auf den Listennamen um Marktinformationen für diese Liste abzurufen."
 
-#: pages/contribute.tsx:120
+#: pages/contribute.tsx:118
 msgid "Collaborative crafting tool"
 msgstr "Gemeinschaftliches Handwerkstool"
 
@@ -359,7 +359,7 @@ msgstr "Füge deine Gehilfen hinzu, erstelle Alarme, Listen und deine eigene Mar
 msgid "Creator"
 msgstr "Ersteller"
 
-#: pages/about.tsx:119
+#: pages/about.tsx:120
 msgid "Credits"
 msgstr "Impressum"
 
@@ -398,11 +398,11 @@ msgstr "DISCORD"
 #~ msgid "Data Center"
 #~ msgstr "Datenzentrum"
 
-#: pages/about.tsx:136
+#: pages/about.tsx:137
 msgid "Database API, server maintenance"
 msgstr "Datenkbank API, Serverwartung"
 
-#: components/SalesTable/SalesTable.tsx:165
+#: components/SalesTable/SalesTable.tsx:169
 msgid "Date"
 msgstr "Datum"
 
@@ -428,7 +428,7 @@ msgstr "Lösche Liste"
 msgid "Discord"
 msgstr "Discord"
 
-#: pages/contribute.tsx:37
+#: pages/contribute.tsx:36
 msgid "Download"
 msgstr "Herunterladen"
 
@@ -452,7 +452,7 @@ msgstr ""
 #~ msgid "Events"
 #~ msgstr "Events"
 
-#: pages/contribute.tsx:96
+#: pages/contribute.tsx:94
 msgid "Every contribution helps to make the data on <strong>Universalis</strong> better, more accurate and more helpful. Thank you very much for helping out!"
 msgstr "Jeder Beitrags hilft uns die Daten auf <strong>Universalis</strong> beser, genauer und hilfreicher zu gestalten. Vielen Dank für deine Mithilfe!"
 
@@ -461,7 +461,7 @@ msgstr "Jeder Beitrags hilft uns die Daten auf <strong>Universalis</strong> bese
 #~ msgid "Expires:"
 #~ msgstr "Läuft aus:"
 
-#: pages/contribute.tsx:121
+#: pages/contribute.tsx:119
 msgid "FFXIV Teamcraft is a tool for Final Fantasy XIV players that helps with crafting lists organization and crafting/gathering in general. It has a lot of features to make it a one stop shop, with things like integrated alarms, custom items, permissions system, realtime sharing, etc."
 msgstr "FFXIV Teamcraft ist nein nützliches Tool für FF14, dass Spielern bei Handwerksberufen und "
 
@@ -470,7 +470,7 @@ msgstr "FFXIV Teamcraft ist nein nützliches Tool für FF14, dass Spielern bei H
 #~ msgid "FFXIVQuickLauncher is a faster launcher for FFXIV  aims to fix the slowness and tediousness of the regular launcher and adds a lot of QoL features to the game."
 #~ msgstr "FFXIVQuickLauncher ist ein schnellerer Launcher für FFXIV. Er zielt darauf ab die Trägheit und Umständlichkeit des normalen Launchers zu beheben, und bringt zusätzlich noch viele praktische Features mit."
 
-#: pages/contribute.tsx:105
+#: pages/contribute.tsx:103
 msgid "FFXIVQuickLauncher is a faster launcher for FFXIV aims to fix the slowness and tediousness of the regular launcher and adds a lot of QoL features to the game. A Universalis uploader that can be disabled is built into the launcher."
 msgstr ""
 
@@ -500,11 +500,11 @@ msgstr "Favoriten"
 msgid "Found {0} / {totalResults} for <0>{searchTerm}</0>"
 msgstr ""
 
-#: pages/about.tsx:167
+#: pages/about.tsx:168
 msgid "Game data sourced from <a href=\"%s\">XIVAPI</a> and <a href=\"%s\">FFCafe</a>"
 msgstr "Die Spieldaten kommen von <a href=\"%s\">XIVAPI</a> und <a href=\"%s\">FFCafe</a> "
 
-#: pages/about.tsx:156
+#: pages/about.tsx:157
 msgid "Game stuff, stealing mogboard"
 msgstr "Spielbezogenes, Umsetzung von MogBoard"
 
@@ -531,7 +531,7 @@ msgstr "GitHub"
 msgid "Go to Lodestone and Login with your character. Then <a href=\"%s\">click here to edit your profile</a>."
 msgstr "Gehe zum Lodestone und Logge dich mit deinem Charakter ein. Dann <a href=\"%s\">Klicke hier um dein Profil zu bearbeiten</a>."
 
-#: components/Market/MarketWorld/MarketWorld.tsx:67
+#: components/Market/MarketWorld/MarketWorld.tsx:71
 msgid "HISTORY"
 msgstr ""
 
@@ -541,7 +541,7 @@ msgid "HOUSING"
 msgstr "Häuserbau"
 
 #: components/ListingsTable/ListingsTable.tsx:169
-#: components/SalesTable/SalesTable.tsx:145
+#: components/SalesTable/SalesTable.tsx:149
 msgid "HQ"
 msgstr "HQ"
 
@@ -580,7 +580,7 @@ msgstr ""
 #~ msgid "How do you want to be notified?"
 #~ msgstr "Wie willst du benachrichtigt werden?"
 
-#: pages/contribute.tsx:86
+#: pages/contribute.tsx:84
 msgid "How to contribute to <strong>Universalis</strong>"
 msgstr "Wie du bei <strong>Universalis</strong> mithelfen kannst."
 
@@ -602,7 +602,7 @@ msgstr "Wenn es das letzte ist, schau doch auf unserem <a href=\"%s\">Discord</a
 #~ msgid "If logged in and character verified, show if any friends have purchased this item."
 #~ msgstr "Zeigt Freunde die das Item gekauft haben an, wenn du eingeloggt bist und deinen Charakter verifiziert hast."
 
-#: pages/contribute.tsx:128
+#: pages/contribute.tsx:126
 msgid "If you are playing on chinese server(other servers are not supported), you can use Matcha plugin provided by FFCAFE which have built-in Universalis integration. Matcha also provides a overlay to show price information from Universalis."
 msgstr "Wenn du auf einer chinesischen Welt spielst (andere Welten werden nicht unterstützt), kannst du das Matcha plugin von FFCAFE mit Universalis Integration nutzen."
 
@@ -610,7 +610,7 @@ msgstr "Wenn du auf einer chinesischen Welt spielst (andere Welten werden nicht 
 msgid "If you continue to run into this issue, please jump on the discord for help!"
 msgstr "Wenn dieses Problem weiterhin auftritt, melde dich bitte auf unserem Discord-Server."
 
-#: pages/contribute.tsx:138
+#: pages/contribute.tsx:136
 msgid "If you wish to contribute to <strong>Universalis</strong> with your own application, please contact us on our <a href=\"%s\">Discord</a>. Let\\'s work together!"
 msgstr "Wenn du bei <strong>Universalis</strong> mit deiner eigenen Anwendung mit machen möchtest, kontaktiere uns doch bitte auf unserem <a href=\"%s\">Discord</a. Lass uns zusammen arbeiten!"
 
@@ -618,7 +618,7 @@ msgstr "Wenn du bei <strong>Universalis</strong> mit deiner eigenen Anwendung mi
 msgid "In the text box, enter in your <strong>AUTH CODE</strong>, then click on Confirm (twice)."
 msgstr "Trage deinen <strong>AUTH CODE</strong> in der Textbox ein, und bestätige (zwei mal)."
 
-#: pages/contribute.tsx:104
+#: pages/contribute.tsx:102
 msgid "In-Game addon"
 msgstr "In-Game Addon"
 
@@ -627,7 +627,7 @@ msgstr "In-Game Addon"
 #~ msgid "Information"
 #~ msgstr "Informationen"
 
-#: pages/about.tsx:104
+#: pages/about.tsx:105
 msgid "It stores this data, and reports it back to anyone that requests its endpoints - including this frontend, which visualizes the stored data and notifies you about changes."
 msgstr "Es speichert die Daten und sendet sie and jeden der sie abfragt - auch an diese Seite hier, die Daten visualisiert und dich über Änderungen benachrichtigt."
 
@@ -663,7 +663,7 @@ msgstr "LISTE"
 msgid "Language"
 msgstr "Sprache"
 
-#: components/List/ListItemMarket/ListItemMarket.tsx:48
+#: components/List/ListItemMarket/ListItemMarket.tsx:52
 msgid "Last 5 sales"
 msgstr "Letzte 5 Verkäufe:"
 
@@ -678,7 +678,7 @@ msgstr "Letzte 5 Verkäufe:"
 #~ msgstr "Letzter ausgelöster Alarm: %s"
 
 #: components/Home/HomeUserList/HomeUserList.tsx:139
-#: components/List/ListItemMarket/ListItemMarket.tsx:62
+#: components/List/ListItemMarket/ListItemMarket.tsx:66
 msgid "Last updated:"
 msgstr "Zuletzt aktualisiert:"
 
@@ -745,7 +745,7 @@ msgstr "Marktbrett"
 #~ msgid "Market Activity"
 #~ msgstr "Markt-Aktivität"
 
-#: components/List/ListItemMarket/ListItemMarket.tsx:19
+#: components/List/ListItemMarket/ListItemMarket.tsx:23
 msgid "Market info could not be fetched for: %s at this time."
 msgstr "Marktinformationen für: %s konnten gerade nicht abgerufen werden."
 
@@ -815,7 +815,7 @@ msgid "No Listings"
 msgstr "Keine Einträge"
 
 #: components/Home/HomeUserList/HomeUserList.tsx:143
-#: components/Market/MarketServerUpdateTimes/MarketServerUpdateTimes.tsx:24
+#: components/Market/MarketServerUpdateTimes/MarketServerUpdateTimes.tsx:28
 msgid "No data"
 msgstr "Keine Informationen"
 
@@ -859,7 +859,7 @@ msgstr "Option 1) Erstelle eine neue Liste:"
 msgid "Option 2) Use an existing list:"
 msgstr "Option 2) Nutze eine vorhandene Liste:"
 
-#: components/Market/MarketWorld/MarketWorld.tsx:49
+#: components/Market/MarketWorld/MarketWorld.tsx:53
 msgid "PRICES"
 msgstr "PREISE"
 
@@ -869,7 +869,7 @@ msgstr "PREISE"
 #~ msgstr "Position unbekannt, finde sie!"
 
 #: components/ListingsTable/ListingsTable.tsx:175
-#: components/SalesTable/SalesTable.tsx:148
+#: components/SalesTable/SalesTable.tsx:152
 msgid "Price"
 msgstr "Preis"
 
@@ -889,7 +889,7 @@ msgstr "Preis"
 #~ msgstr "Von NPC Verkäufern erhältlich"
 
 #: components/ListingsTable/ListingsTable.tsx:178
-#: components/SalesTable/SalesTable.tsx:151
+#: components/SalesTable/SalesTable.tsx:155
 msgid "QTY"
 msgstr "STK"
 
@@ -908,7 +908,7 @@ msgstr "STK"
 msgid "REMOVE"
 msgstr "ENTFERNEN"
 
-#: components/SalesTable/SalesTable.tsx:170
+#: components/SalesTable/SalesTable.tsx:174
 msgid "Really rare!?"
 msgstr "Sehr selten!?"
 
@@ -957,7 +957,7 @@ msgstr "Gehilfe"
 msgid "STACK SIZE HISTOGRAM"
 msgstr ""
 
-#: components/Market/MarketWorld/MarketWorld.tsx:40
+#: components/Market/MarketWorld/MarketWorld.tsx:44
 msgid "STACK SIZE HISTOGRAM <small>Last 20 Sales</small>"
 msgstr "Stapelgrößen-Verteilung <small>Letzte 20 Verkäufe</small>"
 
@@ -1000,7 +1000,7 @@ msgstr "Suche"
 #~ msgstr "Heute gesendet"
 
 #: components/ListingsTable/ListingsTable.tsx:165
-#: components/SalesTable/SalesTable.tsx:141
+#: components/SalesTable/SalesTable.tsx:145
 #: pages/account/characters.tsx:291
 msgid "Server"
 msgstr "Welt"
@@ -1040,7 +1040,7 @@ msgstr "Zeige auf GarlandTools"
 msgid "Show on Teamcraft"
 msgstr "Zeige auf Teamcraft"
 
-#: pages/about.tsx:96
+#: pages/about.tsx:97
 msgid "So, how does it actually work? Get Technical."
 msgstr "Also, wie funktioniert das eigentlich?"
 
@@ -1091,7 +1091,7 @@ msgstr "Danke, genieß deinen Aufenthalt!"
 msgid "The site allows you to view in-game market for multiple servers at anytime, anywhere. It uses crowd-sourced data from multiple sources to provide the most up-to-date prices possible."
 msgstr "Diese Seite erlaube es dir das Marktbrett verschiedener Sever jederzeit und überall einzusehen. XXX Missin grest"
 
-#: pages/contribute.tsx:91
+#: pages/contribute.tsx:89
 msgid "There are multiple ways to contribute to <strong>Universalis</strong>. All of your contributions are anonymous - no one will be able to refer back to your character or account to know that you have uploaded any data. The applications below are tested by us to make sure that they don't endanger your account or your characters."
 msgstr "Es gibt viele Möglichkeiten wie du bei <strong>Universalis</strong> mitmachen kannst. Alle Daten werden anonym ausgewertet. Es kann also keiner Rückschlüsse auf deine Charaktere oder deinen Account ziehen. Die Anwendungen unten sind alle getestet, um sicher zu stellen, dass sie deine Charaktere und deinen Account nicht gefährden."
 
@@ -1103,7 +1103,7 @@ msgstr "Es gibt keine Einträge für diesen Gegenstand. Schau später noch einma
 msgid "There can be a few reasons for this, here are some:"
 msgstr "Dafür kann es einige Gründe geben, zum Beispiel:"
 
-#: components/SalesTable/SalesTable.tsx:177
+#: components/SalesTable/SalesTable.tsx:181
 msgid "There is currently no recorded history for this item on Universalis."
 msgstr "Es gibt im moment noch keine Daten für dieses Item auf Universalis."
 
@@ -1116,7 +1116,7 @@ msgstr "Es gibt im moment noch keine Daten für dieses Item auf Universalis."
 msgid "This enables a quick-access left-navigation of all market categories."
 msgstr "Dies aktiviert eine Navigationsleiste für alle Markt-Kategorien."
 
-#: pages/contribute.tsx:113
+#: pages/contribute.tsx:111
 msgid "This is a regular ACT plugin that runs next to the always-used FFXIV_ACT_PLUGIN - just drop it into your ACT plugins folder, add it to ACT and you\\'re good to go! No configuration needed."
 msgstr "Dieses Plugin ist ein normales ACT Plugin, das normal neben dem FFXIV_ACT_PLUGIN läuft. Installiere es einfach in deinem Plugin Ordner und füge es ACT hinzu. Du brauchst keine weiteren Einstellungen!"
 
@@ -1136,7 +1136,7 @@ msgstr ""
 msgid "To add a new character, you must first add your verification code. <strong>Please add your MAIN character first</strong>."
 msgstr "Um einen neuen Charakter hinzuzufügen, musst du zuerst deinen Bestätigungscode hinzufügen. <strong>Bitte füge zuerst deinen Hauptcharakter hinzu!</strong>"
 
-#: components/List/ListItemMarket/ListItemMarket.tsx:30
+#: components/List/ListItemMarket/ListItemMarket.tsx:34
 msgid "Top 5 cheapest"
 msgstr ""
 
@@ -1146,7 +1146,7 @@ msgstr ""
 #~ msgstr "Top 5 Billigste - Gesamt angeboten: %d"
 
 #: components/ListingsTable/ListingsTable.tsx:181
-#: components/SalesTable/SalesTable.tsx:154
+#: components/SalesTable/SalesTable.tsx:158
 msgid "Total"
 msgstr "Gesamt"
 
@@ -1188,7 +1188,7 @@ msgstr "Universalis konnte keine Marktinformationen für diesen Gegenstand auf d
 msgid "Universalis is a market board data site with crowd sourced information, based on mogboard. It can aggregate market board information from multiple sources, so if you want to help out, please check out our contributing page."
 msgstr "Universalis ist eine auf Nutzerdaten und Mogboard basierende Marktinformationsseite. Es werden Daten aus unterschiedlichen Quellen genutzt. Um mitzuhelfen, schau gerne auf der Seite \"Mitmachen\" vorbei."
 
-#: components/Market/MarketWorld/MarketWorld.tsx:51
+#: components/Market/MarketWorld/MarketWorld.tsx:55
 #: pages/account/characters.tsx:215
 msgid "Updated:"
 msgstr "letzte Aktualisierung:"

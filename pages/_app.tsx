@@ -20,7 +20,7 @@ import { messages as messagesDe } from '../i18n/de/messages';
 import { messages as messagesFr } from '../i18n/fr/messages';
 import { messages as messagesZhHans } from '../i18n/zh-HANS/messages';
 import App from 'next/app';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { PopupData, PopupProvider } from '../components/UniversalisLayout/components/Popup/Popup';
 import {
   ModalCoverData,
@@ -28,7 +28,7 @@ import {
 } from '../components/UniversalisLayout/components/ModalCover/ModalCover';
 import MogboardHighchartsTheme from '../theme/highcharts';
 
-function parseLang(lang: any): string {
+function parseLang(lang: any): 'ja' | 'en' | 'de' | 'fr' | 'zh-HANS' {
   if (typeof lang !== 'string') {
     return 'en';
   }
@@ -37,7 +37,15 @@ function parseLang(lang: any): string {
     return 'zh-HANS';
   }
 
-  return lang;
+  if (lang === 'ja') {
+    return 'ja';
+  } else if (lang === 'fr') {
+    return 'fr';
+  } else if (lang === 'de') {
+    return 'de';
+  } else {
+    return 'en';
+  }
 }
 
 i18n.load({
@@ -79,7 +87,8 @@ export default function MyApp({
 }: AppProps & { cookies: Record<string, string> }) {
   const cookiesObj = new Cookies(cookies);
 
-  i18n.activate(parseLang(cookiesObj.get('mogboard_language')));
+  const lang = parseLang(cookiesObj.get('mogboard_language'));
+  i18n.activate(lang);
 
   const [popup, setPopup] = useState<PopupData>({ isOpen: false });
   const [modalCover, setModalCover] = useState<ModalCoverData>({ isOpen: false });

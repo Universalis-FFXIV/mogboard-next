@@ -92,9 +92,10 @@ const About: NextPage = () => {
         </div>
         <div className="page-block">
           <div className="page-short">
-            <h3 id="technical">
-              <Trans>So, how does it actually work? Get Technical.</Trans>
-            </h3>
+            <h3
+              id="technical"
+              dangerouslySetInnerHTML={{ __html: t`So, how does it actually work? Get Technical.` }}
+            ></h3>
             <p
               dangerouslySetInnerHTML={{
                 __html: t`<strong>Universalis</strong> runs a REST API that applications can post market board data to, after they collect the data from a running game instance by multiple users, anonymously.`,
