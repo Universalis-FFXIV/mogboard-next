@@ -22,7 +22,6 @@ const nextConfig = {
       'cdn.discordapp.com',
     ],
   },
-  output: 'standalone',
   compress: false,
   poweredByHeader: false,
 };
