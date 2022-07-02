@@ -3,6 +3,7 @@
 .vscode/
 node_modules/
 devenv/
+tools/
 .env*.local
 .gitignore
 README.md
