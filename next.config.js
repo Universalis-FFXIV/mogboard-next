@@ -14,6 +14,7 @@ const nextConfig = {
     ],
   },
   output: 'standalone',
+  poweredByHeader: false,
 };
 
 module.exports = withBundleAnalyzer(nextConfig);
