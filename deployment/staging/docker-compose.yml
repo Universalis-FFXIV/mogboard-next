@@ -1,0 +1,27 @@
+version: "3.1"
+services:
+  mogboard:
+    image: ghcr.io/universalis-ffxiv/mogboard-next-staging:main
+    restart: always
+    environment:
+      DISCORD_CLIENT_SECRET: "${MOGBOARD_DISCORD_SECRET}"
+      NEXTAUTH_SECRET: "${MOGBOARD_SECRET}"
+    depends_on:
+      - mariadb
+      - lodestone
+    ports:
+      - "7020:3000"
+  mariadb:
+    image: mariadb:10.3.32
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: "${MOGBOARD_DB_SECRET}"
+      MYSQL_DATABASE: "dalamud"
+      MYSQL_USER: "dalamud"
+      MYSQL_PASSWORD: "dalamud"
+    volumes:
+      - "${HOME}/mogboard-mariadb-staging:/var/lib/mysql"
+      - "${HOME}/mogboard-mariadb-staging-import:/import"
+  lodestone:
+    image: ghcr.io/universalis-ffxiv/lodestone:latest
+    restart: always
