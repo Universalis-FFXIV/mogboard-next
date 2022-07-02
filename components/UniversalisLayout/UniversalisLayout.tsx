@@ -1,4 +1,4 @@
-import { PropsWithChildren, useState } from 'react';
+import { PropsWithChildren, useEffect, useMemo, useState } from 'react';
 import { SearchItem } from '../../data/game/search';
 import useSettings from '../../hooks/useSettings';
 import { Item } from '../../types/game/Item';
@@ -20,7 +20,7 @@ export default function UniversalisLayout({ children }: PropsWithChildren) {
   const [navCategoryItemsOpen, setNavCategoryItemsOpen] = useState(false);
   const [navCategoryItems, setNavCategoryItems] = useState<Item[]>([]);
 
-  const [settingsModalOpen, setSettingsModalOpen] = useState(settings['mogboard_server'] == null);
+  const [settingsModalOpen, setSettingsModalOpen] = useState(false);
 
   const [searchResultsOpen, setSearchResultsOpen] = useState(false);
   const [searchResults, setSearchResults] = useState<SearchItem[]>([]);
@@ -35,15 +35,24 @@ export default function UniversalisLayout({ children }: PropsWithChildren) {
   const { popup, setPopup } = usePopup();
   const { modalCover, setModalCover } = useModalCover();
 
-  const openSettingsModal = () => {
-    setModalCover({ isOpen: true });
-    setSettingsModalOpen(true);
-  };
+  const openSettingsModal = useMemo(
+    () => () => {
+      setModalCover({ isOpen: true });
+      setSettingsModalOpen(true);
+    },
+    [setModalCover]
+  );
 
   const closeSettingsModal = () => {
     setModalCover({ isOpen: false });
     setSettingsModalOpen(false);
   };
+
+  useEffect(() => {
+    if (settings['mogboard_server'] == null) {
+      openSettingsModal();
+    }
+  }, [settings, openSettingsModal]);
 
   const leftNav = settings['mogboard_leftnav'] === 'on';
   return (

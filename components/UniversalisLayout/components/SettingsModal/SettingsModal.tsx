@@ -14,18 +14,14 @@ interface SettingsModalProps {
 export default function SettingsModal({ isOpen, closeModal, onSave }: SettingsModalProps) {
   const modalRef = useClickOutside<HTMLDivElement>(null, closeModal);
 
-  const [settings, setSetting] = useSettings({
-    mogboard_server: 'Phoenix',
-    mogboard_language: 'en',
-    mogboard_timezone: Intl.DateTimeFormat().resolvedOptions().timeZone ?? 'Europe/London',
-    mogboard_leftnav: 'on',
-    mogboard_homeworld: 'no',
-  });
-  const [server, setServer] = useState(settings['mogboard_server']);
-  const [lang, setLang] = useState(settings['mogboard_language']);
-  const [timezone, setTimezone] = useState(settings['mogboard_timezone']);
-  const [showLeftNav, setShowLeftNav] = useState(settings['mogboard_leftnav']);
-  const [showDefaultHomeWorld, setShowDefaultHomeWorld] = useState(settings['mogboard_homeworld']);
+  const [settings, setSetting] = useSettings();
+  const [server, setServer] = useState(settings['mogboard_server'] ?? '');
+  const [lang, setLang] = useState(settings['mogboard_language'] ?? '');
+  const [timezone, setTimezone] = useState(settings['mogboard_timezone'] ?? '');
+  const [showLeftNav, setShowLeftNav] = useState(settings['mogboard_leftnav'] ?? 'off');
+  const [showDefaultHomeWorld, setShowDefaultHomeWorld] = useState(
+    settings['mogboard_homeworld'] ?? 'no'
+  );
 
   const [settingsData, setSettingsData] = useState<Servers & { timezones: TimeZone[] }>({
     dcs: [],
@@ -70,7 +66,7 @@ export default function SettingsModal({ isOpen, closeModal, onSave }: SettingsMo
                   }
                 }}
               >
-                <option disabled>
+                <option disabled value="">
                   <Trans>- Please Choose a Server -</Trans>
                 </option>
                 {settingsData.dcs.map(({ name, region, worlds }) => (
@@ -105,7 +101,7 @@ export default function SettingsModal({ isOpen, closeModal, onSave }: SettingsMo
                   }
                 }}
               >
-                <option disabled>
+                <option disabled value="">
                   <Trans>- Choose your language -</Trans>
                 </option>
                 <option value="en">English</option>
@@ -135,7 +131,7 @@ export default function SettingsModal({ isOpen, closeModal, onSave }: SettingsMo
               }
             }}
           >
-            <option disabled>
+            <option disabled value="">
               <Trans>- Choose your timezone -</Trans>
             </option>
             {settingsData.timezones

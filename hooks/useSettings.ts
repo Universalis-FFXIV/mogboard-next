@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useCookies } from 'react-cookie';
 
 type Settings = {
@@ -8,9 +9,10 @@ type Settings = {
   mogboard_homeworld: 'yes' | 'no';
 };
 
-export default function useSettings(
-  defaultValues: Partial<Settings> = {}
-): [Partial<Settings>, (name: keyof Settings, value: any) => void] {
+export default function useSettings(): [
+  Partial<Settings>,
+  (name: keyof Settings, value: any) => void
+] {
   const keys: (keyof Settings)[] = [
     'mogboard_server',
     'mogboard_language',
@@ -36,25 +38,14 @@ export default function useSettings(
     });
   };
 
-  for (const key of keys) {
-    if (typeof window !== 'undefined') {
+  useEffect(() => {
+    for (const key of keys) {
       const localValue = localStorage.getItem(key);
       if (localValue != null) {
         setSetting(key, localValue);
       }
     }
-
-    if (cookies[key] == null && defaultValues[key] != null) {
-      const date = new Date();
-      date.setDate(date.getDate() + 365);
-      setCookie(key, defaultValues[key], {
-        expires: date,
-        path: '/',
-        sameSite: 'none',
-        secure: true,
-      });
-    }
-  }
+  });
 
   return [cookies, setSetting];
 }

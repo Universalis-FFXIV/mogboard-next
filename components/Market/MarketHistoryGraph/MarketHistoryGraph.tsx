@@ -150,12 +150,14 @@ export default function MarketHistoryGraph({ server, itemId }: MarketHistoryGrap
 
   return (
     <div className="highchart" style={{ width: '100%', height: 320 }}>
-      <HighchartsReact
-        highcharts={Highcharts}
-        options={options}
-        constructorType="stockChart"
-        ref={chartComponentRef}
-      />
+      {options != null && (
+        <HighchartsReact
+          highcharts={Highcharts}
+          options={options}
+          constructorType="stockChart"
+          ref={chartComponentRef}
+        />
+      )}
     </div>
   );
 }
