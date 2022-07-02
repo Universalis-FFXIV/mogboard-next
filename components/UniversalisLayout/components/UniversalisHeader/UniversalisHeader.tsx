@@ -49,6 +49,7 @@ const UniversalisHeader = ({
                 <Trans>My Account</Trans>
               </a>
             </Link>
+            &nbsp;
             <span className="username">{session?.user?.name}</span>
           </div>
         </LoggedIn>
