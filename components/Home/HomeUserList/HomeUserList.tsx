@@ -1,9 +1,9 @@
 import { t, Trans } from '@lingui/macro';
 import RelativeTime from '@yaireo/relative-time';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import { sprintf } from 'sprintf-js';
-import { getItems, getItemSearchCategories } from '../../../data/game';
+import { getItem, getItems, getItemSearchCategories } from '../../../data/game';
 import useSettings from '../../../hooks/useSettings';
 import { DataCenter } from '../../../types/game/DataCenter';
 import { ItemSearchCategory } from '../../../types/game/ItemSearchCategory';
@@ -49,7 +49,7 @@ export default function HomeUserList({ dcs, list }: HomeUserListProps) {
   const dc = dcs.find((x) => x.worlds.some((y) => y.name === settings['mogboard_server']));
   const lang = settings['mogboard_language'] ?? 'en';
 
-  const itemIdsStr = `0,${list.items.join()}`;
+  const itemIdsStr = list.items.length === 1 ? `0,${list.items[0]}` : list.items.join();
 
   const [marketNq, setMarketNq] = useState<any>(null);
   useEffect(() => {
@@ -74,7 +74,6 @@ export default function HomeUserList({ dcs, list }: HomeUserListProps) {
   }, [dc?.name, itemIdsStr]);
 
   const itemSearchCategories = getItemSearchCategories(lang);
-  const items = getItems(lang);
 
   const marketNqData = marketNq?.items ?? {};
   const marketHqData = marketHq?.items ?? {};
@@ -109,13 +108,14 @@ export default function HomeUserList({ dcs, list }: HomeUserListProps) {
           {list.items
             .filter(
               (item: number) =>
-                (marketNqData[item] != null || marketHqData[item] != null) && items[item] != null
+                (marketNqData[item] != null || marketHqData[item] != null) &&
+                getItem(item, lang) != null
             )
             .map((item: number) => {
               const itemMarketUpdated = marketNqData[item]?.lastUploadTime ?? 0;
               const itemCheapestNq = marketNqData[item]?.listings.find(() => true);
               const itemCheapestHq = marketHqData[item]?.listings.find(() => true);
-              const itemInfo = items[item];
+              const itemInfo = getItem(item, lang)!;
               const itemCat = itemInfo.itemSearchCategory
                 ? categoryIndexData[itemInfo.itemSearchCategory]
                 : null;
@@ -137,9 +137,11 @@ export default function HomeUserList({ dcs, list }: HomeUserListProps) {
                     <div>
                       <small>
                         <Trans>Last updated:</Trans>{' '}
-                        {itemMarketUpdated > 0
-                          ? relativeTime.from(new Date(itemMarketUpdated))
-                          : 'No data'}
+                        <Suspense>
+                          {itemMarketUpdated > 0
+                            ? relativeTime.from(new Date(itemMarketUpdated))
+                            : t`No data`}
+                        </Suspense>
                       </small>
                     </div>
                   </div>
