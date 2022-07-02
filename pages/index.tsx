@@ -21,13 +21,13 @@ import { Trans } from '@lingui/macro';
 import { getServerSession } from 'next-auth';
 import { authOptions } from './api/auth/[...nextauth]';
 import { getItem } from '../data/game';
-import { Item } from '../types/game/Item';
+import useSettings from '../hooks/useSettings';
 
 interface HomeProps {
   dcs: DataCenter[];
   world: string;
   taxes: Record<City, number>;
-  recent: (Item | null)[];
+  recent: number[];
   dailyUploads: number[];
   worldUploads: { world: string; count: number }[];
   hasSession: boolean;
@@ -48,11 +48,14 @@ const Home: NextPage<HomeProps> = ({
   hasSession,
   lists,
 }: HomeProps) => {
+  const [settings] = useSettings();
+  const lang = settings['mogboard_language'] ?? 'en';
+
+  const [selectedList, setSelectedList] = useState<UserList | undefined>();
+
   const title = 'Universalis';
   const description =
     'Final Fantasy XIV Online: Market Board aggregator. Find Prices, track Item History and create Price Alerts. Anywhere, anytime.';
-
-  const [selectedList, setSelectedList] = useState<UserList | undefined>();
 
   return (
     <>
@@ -88,7 +91,7 @@ const Home: NextPage<HomeProps> = ({
           <h4>
             <Trans>Recent Updates</Trans>
           </h4>
-          <RecentUpdatesPanel items={recent} />
+          <RecentUpdatesPanel items={recent.map((itemId) => getItem(itemId, lang)!)} />
           <TaxRatesPanel data={taxes} world={world} />
           <WorldUploadCountsPanel data={worldUploads} world={world} />
           <UploadCountPanel today={sum(dailyUploads, 0, 1)} week={sum(dailyUploads, 0, 7)} />
@@ -134,20 +137,12 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
     };
   }
 
-  const recent: (Item | null)[] = [];
+  let recent: number[] = [];
   try {
     const recentlyUpdated = await fetch(
       'https://universalis.app/api/extra/stats/recently-updated'
     ).then((res) => res.json());
-    const shown = recentlyUpdated.items.slice(0, 6);
-    for (const s of shown) {
-      const item = getItem(s, lang);
-      if (item) {
-        recent.push(item);
-      } else {
-        recent.push(null);
-      }
-    }
+    recent = recentlyUpdated.items.slice(0, 6);
   } catch (err) {
     console.error(err);
   }

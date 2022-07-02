@@ -124,7 +124,7 @@ export default function HomeUserList({ dcs, list }: HomeUserListProps) {
                   <div style={{ flex: '0 0 50%' }}>
                     <GameItemIcon id={item} width={32} height={32} />
                     {itemInfo.levelItem > 1 && <em className="ilv">{itemInfo.levelItem}</em>}
-                    <Link href={`/market/${item}`}>
+                    <Link href="/market/[itemId]" as={`/market/${item}`}>
                       <a className={`rarity-${itemInfo.rarity}`}>{itemInfo.name}</a>
                     </Link>
                     <small>

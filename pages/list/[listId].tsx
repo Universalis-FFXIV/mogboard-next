@@ -12,7 +12,6 @@ import { useModalCover } from '../../components/UniversalisLayout/components/Mod
 import { usePopup } from '../../components/UniversalisLayout/components/Popup/Popup';
 import { getItem } from '../../data/game';
 import { acquireConn, releaseConn } from '../../db/connect';
-import { DoctrineArray } from '../../db/DoctrineArray';
 import * as userDb from '../../db/user';
 import * as listDb from '../../db/user-list';
 import useSettings from '../../hooks/useSettings';
@@ -22,7 +21,6 @@ import { UserList } from '../../types/universalis/user';
 import { authOptions } from '../api/auth/[...nextauth]';
 
 interface ListProps {
-  items: Record<number, Item>;
   dcs: DataCenter[];
   list: UserList;
   reqIsOwner: boolean;
@@ -31,8 +29,9 @@ interface ListProps {
 
 type ListsAction = { type: 'removeItem'; itemId: number } | { type: 'renameList'; name: string };
 
-const List: NextPage<ListProps> = ({ items, dcs, list, reqIsOwner, ownerName }) => {
+const List: NextPage<ListProps> = ({ dcs, list, reqIsOwner, ownerName }) => {
   const [settings] = useSettings();
+  const lang = settings['mogboard_language'] ?? 'en';
 
   const [newName, setNewName] = useState(list.name);
   const [updating, setUpdating] = useState(false);
@@ -127,6 +126,15 @@ const List: NextPage<ListProps> = ({ items, dcs, list, reqIsOwner, ownerName }) 
       .then(setMarket)
       .catch(console.error);
   }, [stateList.items, itemIds, market, server]);
+
+  const items = stateList.items.reduce<Record<number, Item>>((agg, next) => {
+    const item = getItem(next, lang);
+    if (item == null) {
+      return agg;
+    }
+
+    return { ...agg, ...{ [next]: item } };
+  }, {});
 
   const title = stateList.name + ' - ' + t`List` + ' - Universalis';
   const description = sprintf(t`Custom Universalis list by %s`, ownerName);
@@ -255,16 +263,8 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
     }
   }
 
-  const items: Record<number, Item> = {};
-  for (const itemId of list?.items ?? []) {
-    const item = getItem(itemId, lang);
-    if (item) {
-      items[itemId] = item;
-    }
-  }
-
   return {
-    props: { list, items, reqIsOwner, ownerName, dcs },
+    props: { list, reqIsOwner, ownerName, dcs },
   };
 }
 

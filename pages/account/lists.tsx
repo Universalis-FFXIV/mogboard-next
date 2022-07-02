@@ -19,7 +19,6 @@ import { authOptions } from '../api/auth/[...nextauth]';
 interface ListsProps {
   hasSession: boolean;
   lists: UserList[];
-  items: Record<number, Item>;
 }
 
 type ListsAction = { type: 'deleteList'; listId: string };
@@ -90,7 +89,7 @@ function ListOverview({ list, items, dispatch }: ListOverviewProps) {
                 />
                 <span>
                   {item.levelItem > 1 && <em className="ilv">{item.levelItem}</em>}
-                  <Link href={`/market/${itemId}`}>
+                  <Link href="/market/[itemId]" as={`/market/${item.id}`}>
                     <a className={`rarity-${item.rarity}`}>{item.name}</a>
                   </Link>
                   <small>
@@ -113,7 +112,10 @@ function ListOverview({ list, items, dispatch }: ListOverviewProps) {
   );
 }
 
-const Lists: NextPage<ListsProps> = ({ hasSession, lists, items }) => {
+const Lists: NextPage<ListsProps> = ({ hasSession, lists }) => {
+  const [settings] = useSettings();
+  const lang = settings['mogboard_language'] ?? 'en';
+
   const [listsState, dispatch] = useReducer((state: UserList[], action: ListsAction) => {
     const listIdx = state.findIndex((list) => list.id === action.listId);
     if (listIdx === -1) {
@@ -124,6 +126,22 @@ const Lists: NextPage<ListsProps> = ({ hasSession, lists, items }) => {
     next.splice(listIdx, 1);
     return next;
   }, lists);
+
+  const items = lists
+    .map((list) => list.items)
+    .flat()
+    .reduce<Record<number, Item>>((agg, next) => {
+      if (agg[next]) {
+        return agg;
+      }
+
+      const item = getItem(next, lang);
+      if (item == null) {
+        return agg;
+      }
+
+      return { ...agg, ...{ [next]: item } };
+    }, {});
 
   const title = 'Lists - Universalis';
   const description =
@@ -177,27 +195,10 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
     }
   }
 
-  const items = lists
-    .map((list) => list.items)
-    .flat()
-    .reduce<Record<number, Item>>((agg, next) => {
-      if (agg[next]) {
-        return agg;
-      }
-
-      const item = getItem(next, lang);
-      if (item == null) {
-        return agg;
-      }
-
-      return { ...agg, ...{ [next]: item } };
-    }, {});
-
   return {
     props: {
       hasSession,
       lists,
-      items,
     },
   };
 }

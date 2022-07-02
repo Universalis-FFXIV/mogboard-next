@@ -24,7 +24,7 @@ export default function RecentUpdatesPanel({ items }: RecentUpdatesPanelProps) {
         return (
           <div key={i}>
             <div>
-              <Link href={`/market/${item.id}`}>
+              <Link href="/market/[itemId]" as={`/market/${item.id}`}>
                 <a>
                   <GameItemIcon
                     id={item.id}
@@ -37,10 +37,12 @@ export default function RecentUpdatesPanel({ items }: RecentUpdatesPanelProps) {
             </div>
             <div>
               <div>
-                {item.levelItem > 1 && <em className="ilv">{item.levelItem}</em>}
-                <Link href={`/market/${item.id}`}>
-                  <a className={`rarity-${item.rarity}`}>{item.name}</a>
-                </Link>
+                <span>
+                  {item.levelItem > 1 && <em className="ilv">{item.levelItem}</em>}
+                  <Link href="/market/[itemId]" as={`/market/${item.id}`}>
+                    <a className={`rarity-${item.rarity}`}>{item.name}</a>
+                  </Link>
+                </span>
               </div>
               <small>
                 {item.itemSearchCategory > 0

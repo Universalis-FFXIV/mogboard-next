@@ -22,7 +22,7 @@ export default function ItemHeader({ item }: ItemHeaderProps) {
   return (
     <>
       {item.levelItem > 1 && <em className="ilv">{item.levelItem}</em>}
-      <Link href={`/market/${item.id}`}>
+      <Link href="/market/[itemId]" as={`/market/${item.id}`}>
         <a className={`rarity-${item.rarity}`}>{item.name}</a>
       </Link>
       {classJobCategory?.name && <span>{classJobCategory.name}</span>}

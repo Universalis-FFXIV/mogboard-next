@@ -92,20 +92,8 @@ const materia: Record<Language, DataIndex<Materia>> = {
   chs: materiaZhHans as DataIndex<Materia>,
 };
 
-export function getClassJobCategories(lang: Language): ClassJobCategory[] {
-  return Object.values(classJobCategories[lang]);
-}
-
-export function getItemUICategories(lang: Language): ItemUICategory[] {
-  return Object.values(itemUiCategories[lang]);
-}
-
 export function getItemSearchCategories(lang: Language): ItemSearchCategory[] {
   return Object.values(itemSearchCategories[lang]);
-}
-
-export function getItemKinds(lang: Language): ItemKind[] {
-  return Object.values(itemKinds[lang]);
 }
 
 export function getItems(lang: Language): Item[] {
@@ -113,25 +101,25 @@ export function getItems(lang: Language): Item[] {
 }
 
 export function getClassJobCategory(id: number, lang: Language): ClassJobCategory | undefined {
-  return classJobCategories[lang][id];
+  return classJobCategories[lang][id] ?? classJobCategories['en'][id];
 }
 
 export function getItemUICategory(id: number, lang: Language): ItemUICategory | undefined {
-  return itemUiCategories[lang][id];
+  return itemUiCategories[lang][id] ?? itemUiCategories['en'][id];
 }
 
 export function getItemSearchCategory(id: number, lang: Language): ItemSearchCategory | undefined {
-  return itemSearchCategories[lang][id];
+  return itemSearchCategories[lang][id] ?? itemSearchCategories['en'][id];
 }
 
 export function getItemKind(id: number, lang: Language): ItemKind | undefined {
-  return itemKinds[lang][id];
+  return itemKinds[lang][id] ?? itemKinds['en'][id];
 }
 
 export function getItem(id: number, lang: Language): Item | undefined {
-  return items[lang][id];
+  return items[lang][id] ?? items['en'][id];
 }
 
 export function getMateria(id: number, lang: Language): Materia | undefined {
-  return materia[lang][id];
+  return materia[lang][id] ?? materia['en'][id];
 }
