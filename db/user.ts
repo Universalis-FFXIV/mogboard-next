@@ -57,14 +57,14 @@ export function updateUserDiscord(
   conn: mariadb.Connection
 ) {
   return conn.execute(
-    'UPDATE users SET sso_discord_id = ?, sso_discord_token_expires = ?, sso_discord_token_access = ?, sso_discord_token_refresh = ? WHERE id = ?',
-    [discordId, discordTokenExpires, discordTokenAccess, discordTokenRefresh, id]
+    'UPDATE users SET sso = ?, sso_discord_id = ?, sso_discord_token_expires = ?, sso_discord_token_access = ?, sso_discord_token_refresh = ? WHERE id = ?',
+    ['discord', discordId, discordTokenExpires, discordTokenAccess, discordTokenRefresh, id]
   );
 }
 
 export function removeUserDiscord(discordId: string, conn: mariadb.Connection) {
   return conn.execute(
-    'UPDATE users SET sso_discord_id = NULL, sso_discord_token_expires = NULL, sso_discord_token_access = NULL, sso_discord_token_refresh = NULL WHERE sso_discord_id = ?',
+    "UPDATE users SET sso='' sso_discord_id = NULL, sso_discord_token_expires = NULL, sso_discord_token_access = NULL, sso_discord_token_refresh = NULL WHERE sso_discord_id = ?",
     [discordId]
   );
 }
