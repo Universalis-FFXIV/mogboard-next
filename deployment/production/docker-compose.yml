@@ -4,6 +4,7 @@ services:
     image: ghcr.io/universalis-ffxiv/mogboard-next:latest
     restart: always
     environment:
+      DISCORD_CLIENT_ID: "${MOGBOARD_DISCORD_ID}"
       DISCORD_CLIENT_SECRET: "${MOGBOARD_DISCORD_SECRET}"
       NEXTAUTH_SECRET: "${MOGBOARD_SECRET}"
     depends_on:
