@@ -1,10 +1,12 @@
 .next/
+.github/
 .git/
 .vscode/
+.idea/
 node_modules/
+docker/
 devenv/
 tools/
 .env*.local
 .gitignore
 README.md
-Dockerfile
