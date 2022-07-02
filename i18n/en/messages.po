@@ -13,10 +13,784 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
-#: components/HomeUserList/HomeUserList.tsx:143
+#: components/ListingsTable/ListingsTable.tsx:161
+#: components/SalesTable/SalesTable.tsx:137
+msgid "#"
+msgstr ""
+
+#: components/ListingsTable/ListingsTable.tsx:185
+#: components/SalesTable/SalesTable.tsx:158
+msgid "%Diff"
+msgstr ""
+
+#: components/List/ListHeader/ListHeader.tsx:20
+msgid "%d / %d items"
+msgstr ""
+
+#: components/Home/HomeUserList/HomeUserList.tsx:91
+msgid "%d items in this list"
+msgstr ""
+
+#: components/Market/MarketDataCenter/MarketDataCenter.tsx:119
+#: components/Market/MarketDataCenter/MarketDataCenter.tsx:134
+msgid "%s Prices"
+msgstr ""
+
+#: components/Market/MarketDataCenter/MarketDataCenter.tsx:151
+#: components/Market/MarketDataCenter/MarketDataCenter.tsx:165
+msgid "%s Purchase History"
+msgstr ""
+
+#: components/Market/NoMarketData/NoMarketData.tsx:23
+msgid "%s is a brand new server"
+msgstr ""
+
+#: components/Market/MarketHistoryGraph/MarketHistoryGraph.tsx:91
+#: components/Market/MarketHistoryGraph/MarketHistoryGraph.tsx:104
+msgid "(%s) PerUnit"
+msgstr ""
+
+#: components/Market/MarketHistoryGraph/MarketHistoryGraph.tsx:117
+#: components/Market/MarketHistoryGraph/MarketHistoryGraph.tsx:126
+msgid "(%s) PerUnit QUANTITY"
+msgstr ""
+
+#: components/Market/MarketDataCenter/MarketDataCenter.tsx:119
+#: components/Market/MarketDataCenter/MarketDataCenter.tsx:134
+#: components/Market/MarketWorld/MarketWorld.tsx:52
+msgid "(Includes 5% GST)"
+msgstr ""
+
+#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:44
+#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:44
+msgid "(Unknown)"
+msgstr ""
+
+#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:109
+msgid "- Choose your language -"
+msgstr ""
+
+#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:139
+msgid "- Choose your timezone -"
+msgstr ""
+
+#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:74
+msgid "- Please Choose a Server -"
+msgstr ""
+
+#: components/Market/MarketNav/MarketNav.tsx:289
+msgid "<span>%s</span>"
+msgstr ""
+
+#: pages/about.tsx:66
+msgid "<strong>Definitely!</strong><br /><br />Everything you see on Universalis is open for anyone to use, to learn more about how to access the data using a REST API Service, check out the %s documentation."
+msgstr ""
+
+#: pages/about.tsx:100
+msgid "<strong>Universalis</strong> runs a REST API that applications can post market board data to, after they collect the data from a running game instance by multiple users, anonymously."
+msgstr ""
+
+#: pages/contribute.tsx:112
+#: pages/contribute.tsx:127
+msgid "ACT plugin"
+msgstr ""
+
+#: components/UniversalisLayout/components/UniversalisFooter/UniversalisFooter.tsx:18
+msgid "API Documentation"
+msgstr ""
+
+#: components/UniversalisLayout/components/CategoriesNavbar/CategoriesNavbar.tsx:103
+#: components/UniversalisLayout/components/SearchCategories/SearchCategories.tsx:76
+msgid "ARMOR"
+msgstr ""
+
+#: pages/account/characters.tsx:241
+msgid "AUTH CODE: %s"
+msgstr ""
+
+#: components/UniversalisLayout/components/UniversalisFooter/UniversalisFooter.tsx:13
+msgid "About"
+msgstr ""
+
+#: components/AccountLayout/AccountLayout.tsx:25
+#: pages/account/index.tsx:37
+msgid "Account"
+msgstr ""
+
+#: pages/account/characters.tsx:239
+msgid "Add a new character"
+msgstr ""
+
+#: components/Market/MarketNav/MarketNav.tsx:228
+#: components/Market/MarketNav/MarketNav.tsx:257
+msgid "Add to list"
+msgstr ""
+
+#: pages/about.tsx:49
+msgid "All market information is available: Prices, Materia, Retainer, Crafters and even Buyers. Everything that you see in-game is available. Additional data-views have been added such as graphs, extended history and cross-world summary is also included."
+msgstr ""
+
+#: pages/about.tsx:161
+msgid "Also thanks to: Vekien, Miu, Mino and all of our uploaders!"
+msgstr ""
+
+#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:41
+#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:41
+msgid "America"
+msgstr ""
+
+#: pages/contribute.tsx:133
+msgid "Are you making your own application?"
+msgstr ""
+
+#: components/Market/MarketAverages/MarketAverages.tsx:24
+msgid "Avg. Per Unit"
+msgstr ""
+
+#: components/Market/MarketAverages/MarketAverages.tsx:41
+msgid "Avg. Total"
+msgstr ""
+
+#: components/Home/HomeLoggedOut/HomeLoggedOut.tsx:19
+msgid "Become a member!"
+msgstr ""
+
+#: components/SalesTable/SalesTable.tsx:162
+msgid "Buyer"
+msgstr ""
+
+#: pages/about.tsx:61
+msgid "Can I have access to the data?"
+msgstr ""
+
+#: components/RecentUpdatesPanel/RecentUpdatesPanel.tsx:16
+msgid "Cannot be sold"
+msgstr ""
+
+#: components/AccountLayout/AccountLayout.tsx:30
+#: pages/account/characters.tsx:188
+msgid "Characters"
+msgstr ""
+
+#: components/Home/HomeUserList/HomeUserList.tsx:26
+#: components/Market/MarketCheapest/MarketCheapest.tsx:14
+msgid "Cheapest %s"
+msgstr ""
+
+#: components/Home/HomeUserList/HomeUserList.tsx:102
 msgid "Click on the list title to view market information for this list."
+msgstr ""
+
+#: pages/contribute.tsx:120
+msgid "Collaborative crafting tool"
+msgstr ""
+
+#: components/Home/HomeNews/HomeNews.tsx:23
+msgid "Contribute to market board data"
+msgstr ""
+
+#: pages/404.tsx:12
+msgid "Could not find the page you were looking for kupo~!"
+msgstr ""
+
+#: components/Home/HomeLoggedOut/HomeLoggedOut.tsx:23
+msgid "Create alerts, make lists, add your retainers and get a personalised home page feed!"
+msgstr ""
+
+#: components/ListingsTable/ListingsTable.tsx:192
+msgid "Creator"
+msgstr ""
+
+#: pages/about.tsx:119
+msgid "Credits"
+msgstr ""
+
+#: components/Market/MarketServerSelector/MarketServerSelector.tsx:26
+msgid "Cross-World"
+msgstr ""
+
+#: components/Market/MarketDataCenter/MarketDataCenter.tsx:102
+msgid "Cross-World Purchase history (500 sales)"
+msgstr ""
+
+#: components/TaxRatesPanel/TaxRatesPanel.tsx:12
+msgid "Current Market Tax Rates on %s"
+msgstr ""
+
+#: pages/list/[listId].tsx:140
+msgid "Custom Universalis list by %s"
+msgstr ""
+
+#: components/Home/HomeAction/HomeAction.tsx:11
+msgid "DISCORD"
+msgstr ""
+
+#: pages/about.tsx:136
+msgid "Database API, server maintenance"
+msgstr ""
+
+#: components/SalesTable/SalesTable.tsx:165
+msgid "Date"
+msgstr ""
+
+#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:186
+msgid "Default Home World"
+msgstr ""
+
+#: pages/account/lists.tsx:107
+msgid "Delete List"
+msgstr ""
+
+#: components/UniversalisLayout/components/UniversalisFooter/UniversalisFooter.tsx:26
+msgid "Discord"
+msgstr ""
+
+#: pages/contribute.tsx:37
+msgid "Download"
+msgstr ""
+
+#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:39
+#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:39
+msgid "Europe"
+msgstr ""
+
+#: pages/contribute.tsx:96
+msgid "Every contribution helps to make the data on <strong>Universalis</strong> better, more accurate and more helpful. Thank you very much for helping out!"
+msgstr ""
+
+#: pages/contribute.tsx:121
+msgid "FFXIV Teamcraft is a tool for Final Fantasy XIV players that helps with crafting lists organization and crafting/gathering in general. It has a lot of features to make it a one stop shop, with things like integrated alarms, custom items, permissions system, realtime sharing, etc."
+msgstr ""
+
+#: pages/contribute.tsx:105
+msgid "FFXIVQuickLauncher is a faster launcher for FFXIV aims to fix the slowness and tediousness of the regular launcher and adds a lot of QoL features to the game. A Universalis uploader that can be disabled is built into the launcher."
+msgstr ""
+
+#: components/UniversalisLayout/components/UniversalisFooter/UniversalisFooter.tsx:30
+msgid "FINAL FANTASY XIV © 2010 - 2020 SQUARE ENIX CO., LTD. All Rights Reserved."
+msgstr ""
+
+#: components/Market/MarketNav/MarketNav.tsx:211
+msgid "Faved"
+msgstr ""
+
+#: components/Market/MarketNav/MarketNav.tsx:213
+msgid "Favourite"
+msgstr ""
+
+#: components/UniversalisLayout/components/SearchResults/SearchResults.tsx:30
+msgid "Found {0} / {totalResults} for <0>{searchTerm}</0>"
+msgstr ""
+
+#: pages/about.tsx:167
+msgid "Game data sourced from <a href=\"%s\">XIVAPI</a> and <a href=\"%s\">FFCafe</a>"
+msgstr ""
+
+#: pages/about.tsx:156
+msgid "Game stuff, stealing mogboard"
+msgstr ""
+
+#: components/UniversalisLayout/components/UniversalisFooter/UniversalisFooter.tsx:22
+msgid "GitHub"
+msgstr ""
+
+#: pages/account/characters.tsx:255
+msgid "Go to Lodestone and Login with your character. Then <a href=\"%s\">click here to edit your profile</a>."
+msgstr ""
+
+#: components/Market/MarketWorld/MarketWorld.tsx:67
+msgid "HISTORY"
+msgstr ""
+
+#: components/UniversalisLayout/components/CategoriesNavbar/CategoriesNavbar.tsx:117
+#: components/UniversalisLayout/components/SearchCategories/SearchCategories.tsx:106
+msgid "HOUSING"
+msgstr ""
+
+#: components/ListingsTable/ListingsTable.tsx:169
+#: components/SalesTable/SalesTable.tsx:145
+msgid "HQ"
+msgstr ""
+
+#: pages/account/characters.tsx:266
+msgid "Hop back to Universalis and fill in the form below. The site will search for your character and confirm your auth code."
+msgstr ""
+
+#: components/MoreQuestions/MoreQuestions.tsx:16
+msgid ""
+"Hop onto <a href=\"%s\">our Discord</a> and you can\n"
+"ask all your questions."
+msgstr ""
+
+#: pages/contribute.tsx:86
+msgid "How to contribute to <strong>Universalis</strong>"
+msgstr ""
+
+#: components/MoreQuestions/MoreQuestions.tsx:11
+msgid "I have more questions!"
+msgstr ""
+
+#: components/UniversalisLayout/components/CategoriesNavbar/CategoriesNavbar.tsx:110
+#: components/UniversalisLayout/components/SearchCategories/SearchCategories.tsx:91
+msgid "ITEMS"
+msgstr ""
+
+#: components/Market/NoMarketData/NoMarketData.tsx:35
+msgid "If it is that last one, be sure to jump on <a href=\"%s\">Discord</a> and let us know!"
+msgstr ""
+
+#: pages/contribute.tsx:128
+msgid "If you are playing on chinese server(other servers are not supported), you can use Matcha plugin provided by FFCAFE which have built-in Universalis integration. Matcha also provides a overlay to show price information from Universalis."
+msgstr ""
+
+#: pages/500.tsx:15
+msgid "If you continue to run into this issue, please jump on the discord for help!"
+msgstr ""
+
+#: pages/contribute.tsx:138
+msgid "If you wish to contribute to <strong>Universalis</strong> with your own application, please contact us on our <a href=\"%s\">Discord</a>. Let\\'s work together!"
+msgstr ""
+
+#: pages/account/characters.tsx:262
+msgid "In the text box, enter in your <strong>AUTH CODE</strong>, then click on Confirm (twice)."
+msgstr ""
+
+#: pages/contribute.tsx:104
+msgid "In-Game addon"
+msgstr ""
+
+#: pages/about.tsx:104
+msgid "It stores this data, and reports it back to anyone that requests its endpoints - including this frontend, which visualizes the stored data and notifies you about changes."
+msgstr ""
+
+#: components/Market/MarketCheapest/MarketCheapest.tsx:34
+msgid "Item has no HQ variant."
+msgstr ""
+
+#: components/Market/MarketNav/MarketNav.tsx:283
+#: pages/account/lists.tsx:70
+msgid "Items:"
+msgstr ""
+
+#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:40
+#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:40
+msgid "Japan"
+msgstr ""
+
+#: components/List/ListHeader/ListHeader.tsx:24
+msgid "LIST"
+msgstr ""
+
+#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:91
+msgid "Language"
+msgstr ""
+
+#: components/List/ListItemMarket/ListItemMarket.tsx:48
+msgid "Last 5 sales"
+msgstr ""
+
+#: components/Home/HomeUserList/HomeUserList.tsx:139
+#: components/List/ListItemMarket/ListItemMarket.tsx:62
+msgid "Last updated:"
+msgstr ""
+
+#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:156
+msgid "Left Navigation"
+msgstr ""
+
+#: pages/list/[listId].tsx:139
+msgid "List"
+msgstr ""
+
+#: components/Market/MarketDataCenter/MarketDataCenter.tsx:182
+msgid "Listings"
+msgstr ""
+
+#: components/AccountLayout/AccountLayout.tsx:35
+#: components/Home/HomeNavbar/HomeNavBar.tsx:34
+#: components/Market/MarketNav/MarketNav.tsx:188
+#: pages/account/lists.tsx:159
+msgid "Lists"
+msgstr ""
+
+#: components/Home/HomeNavbar/HomeNavBar.tsx:23
+msgid "Lists, Alerts, Market activity and retainer links will show here when you are logged into the site."
+msgstr ""
+
+#: components/Home/HomeNavbar/HomeNavBar.tsx:19
+msgid "Logged-out"
+msgstr ""
+
+#: components/Home/HomeLoggedOut/HomeLoggedOut.tsx:6
+msgid "Login via <strong>Discord</strong>"
+msgstr ""
+
+#: components/UniversalisLayout/components/UniversalisHeader/UniversalisHeader.tsx:42
+msgid "Login via Discord"
+msgstr ""
+
+#: components/AccountLayout/AccountLayout.tsx:40
+msgid "Logout"
+msgstr ""
+
+#: components/UniversalisLayout/components/SearchBar/SearchBar.tsx:88
+msgid "Market"
+msgstr ""
+
+#: components/List/ListItemMarket/ListItemMarket.tsx:19
+msgid "Market info could not be fetched for: %s at this time."
+msgstr ""
+
+#: components/ListingsTable/ListingsTable.tsx:172
+msgid "Mat"
+msgstr ""
+
+#: pages/market/[itemId].tsx:104
+msgid "Menu"
+msgstr ""
+
+#: components/UniversalisLayout/components/UniversalisHeader/UniversalisHeader.tsx:49
+msgid "My Account"
+msgstr ""
+
+#: pages/account/characters.tsx:277
+msgid "Name, ID, or Lodestone URL"
+msgstr ""
+
+#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:176
+#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:209
+msgid "No"
+msgstr ""
+
+#: components/Home/HomeUserList/HomeUserList.tsx:27
+#: components/Market/MarketCheapest/MarketCheapest.tsx:31
+msgid "No %s for sale."
+msgstr ""
+
+#: components/ListingsTable/ListingsTable.tsx:197
+msgid "No Listings"
+msgstr ""
+
+#: components/Home/HomeUserList/HomeUserList.tsx:143
+#: components/Market/MarketServerUpdateTimes/MarketServerUpdateTimes.tsx:24
+msgid "No data"
+msgstr ""
+
+#: components/Market/NoMarketData/NoMarketData.tsx:26
+msgid "No one has contributed any information about this item yet"
+msgstr ""
+
+#: components/Home/HomeUserList/HomeUserList.tsx:131
+msgid "Not Sellable"
+msgstr ""
+
+#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:42
+#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:42
+msgid "Oceania"
+msgstr ""
+
+#: components/AccountLayout/AccountLayout.tsx:50
+msgid "Oops!"
+msgstr ""
+
+#: components/Market/MarketNav/MarketNav.tsx:233
+msgid "Option 1) Create a new list:"
+msgstr ""
+
+#: components/Market/MarketNav/MarketNav.tsx:270
+msgid "Option 2) Use an existing list:"
+msgstr ""
+
+#: components/Market/MarketWorld/MarketWorld.tsx:49
+msgid "PRICES"
+msgstr ""
+
+#: components/ListingsTable/ListingsTable.tsx:175
+#: components/SalesTable/SalesTable.tsx:148
+msgid "Price"
+msgstr ""
+
+#: components/ListingsTable/ListingsTable.tsx:178
+#: components/SalesTable/SalesTable.tsx:151
+msgid "QTY"
+msgstr ""
+
+#: components/Market/MarketNav/MarketNav.tsx:289
+#: pages/account/characters.tsx:209
+msgid "REMOVE"
+msgstr ""
+
+#: components/SalesTable/SalesTable.tsx:170
+msgid "Really rare!?"
+msgstr ""
+
+#: pages/index.tsx:92
+msgid "Recent Updates"
+msgstr ""
+
+#: components/List/ListItem/ListItem.tsx:41
+msgid "Remove item from list"
+msgstr ""
+
+#: components/List/ListHeader/ListHeader.tsx:32
+msgid "Rename"
+msgstr ""
+
+#: components/List/ListRenameModal/ListRenameModal.tsx:34
+#: components/List/ListRenameModal/ListRenameModal.tsx:74
+msgid "Rename List"
+msgstr ""
+
+#: components/ListingsTable/ListingsTable.tsx:189
+msgid "Retainer"
+msgstr ""
+
+#: components/Market/MarketDataCenter/MarketDataCenter.tsx:108
+msgid "STACK SIZE HISTOGRAM"
+msgstr ""
+
+#: components/Market/MarketWorld/MarketWorld.tsx:40
+msgid "STACK SIZE HISTOGRAM <small>Last 20 Sales</small>"
+msgstr ""
+
+#: components/Market/MarketDataCenter/MarketDataCenter.tsx:194
+msgid "Sales"
+msgstr ""
+
+#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:233
+msgid "Save Settings"
+msgstr ""
+
+#: components/UniversalisLayout/components/SearchBar/SearchBar.tsx:66
+#: pages/account/characters.tsx:337
+msgid "Search"
+msgstr ""
+
+#: components/ListingsTable/ListingsTable.tsx:165
+#: components/SalesTable/SalesTable.tsx:141
+#: pages/account/characters.tsx:291
+msgid "Server"
+msgstr ""
+
+#: components/Home/HomeUserList/HomeUserList.tsx:36
+#: components/Market/MarketCheapest/MarketCheapest.tsx:26
+msgid "Server:"
+msgstr ""
+
+#: pages/account/characters.tsx:223
+msgid "Set character as MAIN."
+msgstr ""
+
+#: components/List/ListHeader/ListHeader.tsx:41
+msgid "Show Cross-World"
+msgstr ""
+
+#: components/List/ListHeader/ListHeader.tsx:45
+msgid "Show Home Server Only"
+msgstr ""
+
+#: components/Market/MarketNav/MarketNav.tsx:174
+msgid "Show on GarlandTools"
+msgstr ""
+
+#: components/Market/MarketNav/MarketNav.tsx:183
+msgid "Show on Teamcraft"
+msgstr ""
+
+#: pages/about.tsx:96
+msgid "So, how does it actually work? Get Technical."
+msgstr ""
+
+#: components/Market/NoMarketData/NoMarketData.tsx:29
+msgid "Something broke"
+msgstr ""
+
+#: pages/500.tsx:11
+msgid "Something went wrong!"
+msgstr ""
+
+#: components/Market/NoMarketData/NoMarketData.tsx:8
+msgid "Sorry, no market data!"
+msgstr ""
+
+#: pages/about.tsx:76
+msgid "Special thanks"
+msgstr ""
+
+#: components/Market/MarketItemHeader/MarketItemHeader.tsx:57
+msgid "Stack:"
+msgstr ""
+
+#: pages/index.tsx:99
+msgid "Thank you!"
+msgstr ""
+
+#: components/Home/HomeNews/HomeNews.tsx:18
+msgid "Thank you, and enjoy your stay!"
+msgstr ""
+
+#: pages/about.tsx:35
+msgid "The site allows you to view in-game market for multiple servers at anytime, anywhere. It uses crowd-sourced data from multiple sources to provide the most up-to-date prices possible."
+msgstr ""
+
+#: pages/contribute.tsx:91
+msgid "There are multiple ways to contribute to <strong>Universalis</strong>. All of your contributions are anonymous - no one will be able to refer back to your character or account to know that you have uploaded any data. The applications below are tested by us to make sure that they don't endanger your account or your characters."
+msgstr ""
+
+#: components/ListingsTable/ListingsTable.tsx:204
+msgid "There are no listings for this item, check back later!"
+msgstr ""
+
+#: components/Market/NoMarketData/NoMarketData.tsx:19
+msgid "There can be a few reasons for this, here are some:"
+msgstr ""
+
+#: components/SalesTable/SalesTable.tsx:177
+msgid "There is currently no recorded history for this item on Universalis."
+msgstr ""
+
+#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:160
+msgid "This enables a quick-access left-navigation of all market categories."
+msgstr ""
+
+#: pages/contribute.tsx:113
+msgid "This is a regular ACT plugin that runs next to the always-used FFXIV_ACT_PLUGIN - just drop it into your ACT plugins folder, add it to ACT and you\\'re good to go! No configuration needed."
+msgstr ""
+
+#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:190
+msgid "This will show prices/history on your home world by default instead of cross-world."
+msgstr ""
+
+#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:125
+msgid "Timezone"
+msgstr ""
+
+#: pages/account/index.tsx:58
+msgid "Timezone:"
+msgstr ""
+
+#: pages/account/characters.tsx:248
+msgid "To add a new character, you must first add your verification code. <strong>Please add your MAIN character first</strong>."
+msgstr ""
+
+#: components/List/ListItemMarket/ListItemMarket.tsx:30
+msgid "Top 5 cheapest"
+msgstr ""
+
+#: components/ListingsTable/ListingsTable.tsx:181
+#: components/SalesTable/SalesTable.tsx:154
+msgid "Total"
+msgstr ""
+
+#: components/Home/HomeUserList/HomeUserList.tsx:36
+#: components/Market/MarketCheapest/MarketCheapest.tsx:27
+msgid "Total:"
+msgstr ""
+
+#: components/Market/NoMarketData/NoMarketData.tsx:13
+msgid "Universalis could not find any market data for this item on the server <strong>%s</strong>."
+msgstr ""
+
+#: components/Home/HomeNews/HomeNews.tsx:11
+msgid "Universalis is a market board data site with crowd sourced information, based on mogboard. It can aggregate market board information from multiple sources, so if you want to help out, please check out our contributing page."
+msgstr ""
+
+#: components/Market/MarketWorld/MarketWorld.tsx:51
+#: pages/account/characters.tsx:215
+msgid "Updated:"
+msgstr ""
+
+#: components/WorldUploadCountsPanel/WorldUploadCountsPanel.tsx:101
+msgid "Upload Counts by World"
+msgstr ""
+
+#: components/UploadCountPanel/UploadCountPanel.tsx:24
+msgid "Uploads this week"
+msgstr ""
+
+#: components/UploadCountPanel/UploadCountPanel.tsx:15
+msgid "Uploads today"
+msgstr ""
+
+#: components/UniversalisLayout/components/CategoriesNavbar/CategoriesNavbar.tsx:95
+#: components/UniversalisLayout/components/SearchCategories/SearchCategories.tsx:61
+msgid "WEAPONS"
+msgstr ""
+
+#: pages/about.tsx:81
+msgid "We would like to thank Vekien and Miu from %s for their initial work on mogboard, which made this site, in its current state, possible."
+msgstr ""
+
+#: components/Home/HomeNews/HomeNews.tsx:8
+msgid "Welcome to Universalis!"
+msgstr ""
+
+#: pages/about.tsx:46
+msgid "What information can I get?"
+msgstr ""
+
+#: pages/about.tsx:33
+msgid "What is <strong>Universalis</strong>?"
+msgstr ""
+
+#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:179
+#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:212
+msgid "Yes"
+msgstr ""
+
+#: components/AccountLayout/AccountLayout.tsx:56
+msgid "You can <0>login via Discord</0> to get that juicy access!"
+msgstr ""
+
+#: components/MoreQuestions/MoreQuestions.tsx:25
+msgid "You can also PM me: <span class=\"text-yellow\">%s</span> if you prefer :)"
+msgstr ""
+
+#: pages/account/characters.tsx:230
+msgid "You have no characters, why not add one below!"
+msgstr ""
+
+#: pages/list/[listId].tsx:184
+msgid "You have no items in this list."
+msgstr ""
+
+#: components/Market/MarketNav/MarketNav.tsx:299
+msgid "You have no lists! <br> Create one by entering in a new name above."
+msgstr ""
+
+#: pages/account/lists.tsx:169
+msgid "You have no lists, visit some items and create some!"
+msgstr ""
+
+#: components/Home/HomeNavbar/HomeNavBar.tsx:40
+msgid "You have no lists."
+msgstr ""
+
+#: components/Market/MarketNav/MarketNav.tsx:263
+msgid "You have reached the maximum of 12 lists. You cannot create any more."
+msgstr ""
+
+#: components/AccountLayout/AccountLayout.tsx:53
+msgid "You must be logged in to view this area."
+msgstr ""
+
+#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:60
+msgid "Your Server"
+msgstr ""
+
+#: components/UniversalisLayout/components/UniversalisFooter/UniversalisFooter.tsx:9
+msgid "based on"
 msgstr ""
 
 #: components/HomeUserList/HomeUserList.tsx:143
 #~ msgid "list_guide"
 #~ msgstr ""
+
+#: components/UniversalisLayout/components/SearchCategoryResults/SearchCategoryResults.tsx:34
+msgid "{0} - {1} items"
+msgstr ""
+
+#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:43
+#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:43
+msgid "中国"
+msgstr ""

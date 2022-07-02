@@ -39,24 +39,26 @@ export default function SearchCategoryResults({
         </div>
         <SimpleBar style={{ height: '73vh' }}>
           <div className="gap" />
-          {items.map((item) => {
-            const classJobCategory = getClassJobCategory(item.classJobCategory, lang);
-            return (
-              <Link key={item.id} href={`/market/${item.id}`}>
-                <a className={`rarity-${item.rarity}`}>
-                  <span>
-                    <GameIcon id={item.iconId} ext="png" size="1x" width={40} height={40} />
-                  </span>
-                  <span>
-                    <div>
-                      <span className="item-level">{item.levelItem}</span> {item.name}
-                    </div>
-                    <small>{classJobCategory?.name}</small>
-                  </span>
-                </a>
-              </Link>
-            );
-          })}
+          {items
+            .sort((a, b) => b.levelItem - a.levelItem)
+            .map((item) => {
+              const classJobCategory = getClassJobCategory(item.classJobCategory, lang);
+              return (
+                <Link key={item.id} href={`/market/${item.id}`}>
+                  <a className={`rarity-${item.rarity}`}>
+                    <span>
+                      <GameIcon id={item.iconId} ext="png" size="1x" width={40} height={40} />
+                    </span>
+                    <span>
+                      <div>
+                        <span className="item-level">{item.levelItem}</span> {item.name}
+                      </div>
+                      <small>{classJobCategory?.name}</small>
+                    </span>
+                  </a>
+                </Link>
+              );
+            })}
           <div className="gap" />
           <div className="gap" />
         </SimpleBar>
