@@ -1,6 +1,7 @@
 import { t, Trans } from '@lingui/macro';
 import RelativeTime from '@yaireo/relative-time';
 import { useState, useEffect } from 'react';
+import useSettings from '../../../hooks/useSettings';
 import { Item } from '../../../types/game/Item';
 import { World } from '../../../types/game/World';
 import ListingsTable from '../../ListingsTable/ListingsTable';
@@ -20,7 +21,10 @@ function entriesToShow(entries: {}[]) {
 }
 
 export default function MarketWorld({ item, world, market }: MarketWorldProps) {
-  const relativeTime = new RelativeTime();
+  const [settings] = useSettings();
+  const lang = settings['mogboard_language'] ?? 'en';
+
+  const relativeTime = new RelativeTime({ locale: lang });
 
   if (market == null) {
     return <></>;

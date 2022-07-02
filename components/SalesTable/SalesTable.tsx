@@ -4,6 +4,7 @@ import { PropsWithChildren, Suspense } from 'react';
 import SortTable from '../SortTable/SortTable';
 import Tooltip from '../Tooltip/Tooltip';
 import Image from 'next/image';
+import useSettings from '../../hooks/useSettings';
 
 interface SalesTableProps {
   sales: any[];
@@ -44,7 +45,10 @@ function SalesTableHeader({
 }
 
 function SalesTableRow({ sale }: { sale: SaleRow }) {
-  const relativeTime = new RelativeTime();
+  const [settings] = useSettings();
+  const lang = settings['mogboard_language'] ?? 'en';
+
+  const relativeTime = new RelativeTime({ locale: lang });
   return (
     <tr>
       <td className="price-num tac">{sale.n}</td>

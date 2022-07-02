@@ -1,6 +1,7 @@
 import { t, Trans } from '@lingui/macro';
 import RelativeTime from '@yaireo/relative-time';
 import { sprintf } from 'sprintf-js';
+import useSettings from '../../../hooks/useSettings';
 import { Item } from '../../../types/game/Item';
 import ListingsTable from '../../ListingsTable/ListingsTable';
 import SalesTable from '../../SalesTable/SalesTable';
@@ -12,6 +13,9 @@ interface ListItemMarketProps {
 }
 
 export default function ListItemMarket({ item, market, showHomeWorld }: ListItemMarketProps) {
+  const [settings] = useSettings();
+  const lang = settings['mogboard_language'] ?? 'en';
+
   if (item == null) {
     return <div />;
   }
@@ -21,7 +25,7 @@ export default function ListItemMarket({ item, market, showHomeWorld }: ListItem
     return <div className="alert-light">{sprintf(marketFailed, item.name)}</div>;
   }
 
-  const relativeTime = new RelativeTime();
+  const relativeTime = new RelativeTime({ locale: lang });
   return (
     <div className="flex">
       <div className="flex_50 pl_mt_p">

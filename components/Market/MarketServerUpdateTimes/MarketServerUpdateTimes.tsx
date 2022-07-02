@@ -1,6 +1,7 @@
 import { t } from '@lingui/macro';
 import RelativeTime from '@yaireo/relative-time';
 import { Suspense } from 'react';
+import useSettings from '../../../hooks/useSettings';
 
 interface MarketServerUpdateTimesProps {
   worlds: { id: number; name: string }[];
@@ -11,7 +12,10 @@ export default function MarketServerUpdateTimes({
   worlds,
   uploadTimes,
 }: MarketServerUpdateTimesProps) {
-  const relativeTime = new RelativeTime();
+  const [settings] = useSettings();
+  const lang = settings['mogboard_language'] ?? 'en';
+
+  const relativeTime = new RelativeTime({ locale: lang });
   return (
     <div className="market_update_times">
       {worlds.map((world) => (

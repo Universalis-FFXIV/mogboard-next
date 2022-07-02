@@ -87,7 +87,7 @@ export default function HomeUserList({ dcs, list }: HomeUserListProps) {
     return agg;
   }, {});
 
-  const relativeTime = new RelativeTime();
+  const relativeTime = new RelativeTime({ locale: lang });
   const listDescription = sprintf(t`%d items in this list`, list.items.length);
 
   return (
