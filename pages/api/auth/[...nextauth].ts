@@ -1,19 +1,22 @@
 import NextAuth, { NextAuthOptions } from 'next-auth';
 import DiscordProvider from 'next-auth/providers/discord';
+import getConfig from 'next/config';
 import DalamudAdapter from '../../../db/DalamudAdapter';
+
+const { serverRuntimeConfig } = getConfig();
 
 export const authOptions: NextAuthOptions = {
   adapter: DalamudAdapter(),
   providers: [
     DiscordProvider({
-      clientId: process.env['DISCORD_CLIENT_ID'] ?? '',
-      clientSecret: process.env['DISCORD_CLIENT_SECRET'] ?? '',
+      clientId: serverRuntimeConfig.discordClientId ?? '',
+      clientSecret: serverRuntimeConfig.discordClientSecret ?? '',
     }),
   ],
   session: {
     strategy: 'jwt',
   },
-  secret: process.env['NEXTAUTH_SECRET'],
+  secret: serverRuntimeConfig.nextAuthSecret,
   callbacks: {
     async jwt({ token, account }) {
       if (account) {

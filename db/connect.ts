@@ -1,8 +1,11 @@
 import mariadb from 'mariadb';
+import getConfig from 'next/config';
 
-const port = parseInt(process.env['DATABASE_PORT'] ?? '');
+const { serverRuntimeConfig } = getConfig();
+
+const port = parseInt(serverRuntimeConfig.dbPort ?? '');
 const pool = mariadb.createPool({
-  host: process.env['DATABASE_HOST'] ?? '',
+  host: serverRuntimeConfig.dbHost ?? '',
   port: isNaN(port) ? 0 : port,
   user: process.env['DATABASE_USER'] ?? '',
   password: process.env['DATABASE_PASS'] ?? '',
