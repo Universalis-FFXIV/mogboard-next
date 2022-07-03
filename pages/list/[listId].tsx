@@ -113,7 +113,7 @@ const List: NextPage<ListProps> = ({ dcs, list, reqIsOwner, ownerName }) => {
   const dc = dcs.find((x) => x.worlds.some((y) => y.name === world));
   const server = showHomeWorld ? world : dc?.name ?? 'Chaos';
 
-  const itemIds = list.items.length === 1 ? `0,${list.items[0]}` : list.items.join();
+  const itemIds = list.items.length <= 1 ? `0,${list.items[0]}` : list.items.join();
 
   const [market, setMarket] = useState<any>(null);
   useEffect(() => {

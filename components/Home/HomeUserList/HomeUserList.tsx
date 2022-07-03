@@ -48,7 +48,7 @@ export default function HomeUserList({ dcs, list }: HomeUserListProps) {
   const dc = dcs.find((x) => x.worlds.some((y) => y.name === settings['mogboard_server']));
   const lang = settings['mogboard_language'] ?? 'en';
 
-  const itemIdsStr = list.items.length === 1 ? `0,${list.items[0]}` : list.items.join();
+  const itemIdsStr = list.items.length <= 1 ? `0,${list.items[0]}` : list.items.join();
 
   const [marketNq, setMarketNq] = useState<any>(null);
   useEffect(() => {
