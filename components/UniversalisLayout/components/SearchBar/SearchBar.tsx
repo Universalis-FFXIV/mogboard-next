@@ -22,6 +22,20 @@ export default function SearchBar({ onResults, onMarketClicked }: SearchBarProps
   });
 
   const search = async (q: string) => {
+    if (q.length === 0) {
+      setTyping(false);
+      setComplete(false);
+    }
+
+    if (q.trim().length === 0) {
+      setSearching(false);
+      return;
+    }
+
+    setTyping(true);
+    setSearching(true);
+    setComplete(false);
+
     try {
       const res1 = await searchItems(q, settings['mogboard_language'] ?? 'en');
       const res2 = await searchItems(q, settings['mogboard_language'] ?? 'en', 'fuzzy');
@@ -68,16 +82,10 @@ export default function SearchBar({ onResults, onMarketClicked }: SearchBarProps
         onChange={(e) => {
           const val = e.target.value;
           setQuery(val);
-          setTyping(val.length > 0);
-          setSearching(val.length > 0);
-          setComplete(false);
           search(val);
         }}
         onKeyDown={(e) => {
           if (e.key === 'Enter' || e.key === 'NumpadEnter') {
-            setTyping(query.length > 0);
-            setSearching(query.length > 0);
-            setComplete(false);
             search(query);
           }
         }}

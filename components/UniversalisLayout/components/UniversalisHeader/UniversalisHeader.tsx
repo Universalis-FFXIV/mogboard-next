@@ -1,23 +1,16 @@
 import Link from 'next/link';
-import SearchBar from '../SearchBar/SearchBar';
 import Tooltip from '../../../Tooltip/Tooltip';
 import { useSession, signIn } from 'next-auth/react';
 import LoggedOut from '../../../LoggedOut/LoggedOut';
 import LoggedIn from '../../../LoggedIn/LoggedIn';
 import { Trans } from '@lingui/macro';
-import { SearchItem } from '../../../../data/game/search';
 
 interface UniversalisHeaderProps {
-  onResults: (results: SearchItem[], totalResults: number, searchTerm: string) => void;
   onSettingsClicked: () => void;
-  onMarketClicked: () => void;
+  children: JSX.Element;
 }
 
-const UniversalisHeader = ({
-  onResults,
-  onSettingsClicked,
-  onMarketClicked,
-}: UniversalisHeaderProps) => {
+const UniversalisHeader = ({ onSettingsClicked, children }: UniversalisHeaderProps) => {
   const { data: session } = useSession();
   return (
     <header>
@@ -34,7 +27,7 @@ const UniversalisHeader = ({
             </a>
           </Link>
         </div>
-        <SearchBar onMarketClicked={onMarketClicked} onResults={onResults} />
+        {children}
       </div>
       <div>
         <LoggedOut hasSession={!!session}>

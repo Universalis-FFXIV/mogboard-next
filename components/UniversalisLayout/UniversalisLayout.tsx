@@ -6,6 +6,7 @@ import { ItemSearchCategory } from '../../types/game/ItemSearchCategory';
 import CategoryView from './components/CategoryView/CategoryView';
 import ModalCover, { useModalCover } from './components/ModalCover/ModalCover';
 import Popup, { usePopup } from './components/Popup/Popup';
+import SearchBar from './components/SearchBar/SearchBar';
 import SearchCategories from './components/SearchCategories/SearchCategories';
 import SearchCategoryResults from './components/SearchCategoryResults/SearchCategoryResults';
 import SearchResults from './components/SearchResults/SearchResults';
@@ -66,16 +67,42 @@ export default function UniversalisLayout({ children }: PropsWithChildren) {
         />
       )}
       <div className={`site left-nav-${leftNav ? 'on' : 'off'}`}>
-        <UniversalisHeader
-          onResults={(results, totalResults, query) => {
-            setSearchResults(results);
-            setSearchTotal(totalResults);
-            setSearchTerm(query);
-            setSearchResultsOpen(true);
-          }}
-          onSettingsClicked={() => openSettingsModal()}
-          onMarketClicked={() => setSearchCategoriesOpen(true)}
-        />
+        <UniversalisHeader onSettingsClicked={() => openSettingsModal()}>
+          <>
+            <SearchBar
+              onMarketClicked={() => setSearchCategoriesOpen(true)}
+              onResults={(results, totalResults, query) => {
+                setSearchResults(results);
+                setSearchTotal(totalResults);
+                setSearchTerm(query);
+                setSearchResultsOpen(true);
+              }}
+            />
+            <SearchResults
+              isOpen={searchResultsOpen}
+              closeResults={() => setSearchResultsOpen(false)}
+              results={searchResults}
+              totalResults={searchTotal}
+              searchTerm={searchTerm}
+            />
+            <SearchCategories
+              isOpen={searchCategoriesOpen}
+              closeBox={() => setSearchCategoriesOpen(false)}
+              onCategoryOpen={(cat, catItems) => {
+                setSearchCategoriesOpen(false);
+                setSearchCategory(cat);
+                setSearchCategoryItems(catItems);
+                setSearchCategoryResultsOpen(true);
+              }}
+            />
+            <SearchCategoryResults
+              isOpen={searchCategoryResultsOpen}
+              closeResults={() => setSearchCategoryResultsOpen(false)}
+              items={searchCategoryItems}
+              category={searchCategory}
+            />
+          </>
+        </UniversalisHeader>
         <nav className="site-menu"></nav>
         <CategoryView
           isOpen={navCategoryItemsOpen}
@@ -86,30 +113,6 @@ export default function UniversalisLayout({ children }: PropsWithChildren) {
         <main>{children}</main>
 
         <UniversalisFooter />
-
-        <SearchResults
-          isOpen={searchResultsOpen}
-          closeResults={() => setSearchResultsOpen(false)}
-          results={searchResults}
-          totalResults={searchTotal}
-          searchTerm={searchTerm}
-        />
-        <SearchCategories
-          isOpen={searchCategoriesOpen}
-          closeBox={() => setSearchCategoriesOpen(false)}
-          onCategoryOpen={(cat, catItems) => {
-            setSearchCategoriesOpen(false);
-            setSearchCategory(cat);
-            setSearchCategoryItems(catItems);
-            setSearchCategoryResultsOpen(true);
-          }}
-        />
-        <SearchCategoryResults
-          isOpen={searchCategoryResultsOpen}
-          closeResults={() => setSearchCategoryResultsOpen(false)}
-          items={searchCategoryItems}
-          category={searchCategory}
-        />
       </div>
 
       {settingsModalOpen && (
