@@ -44,8 +44,8 @@ export default function SearchCategoryResults({
             .map((item) => {
               const classJobCategory = getClassJobCategory(item.classJobCategory, lang);
               return (
-                <Link key={item.id} href={`/market/${item.id}`}>
-                  <a className={`rarity-${item.rarity}`}>
+                <Link key={item.id} href="/market/[itemId]" as={`/market/${item.id}`}>
+                  <a className={`rarity-${item.rarity}`} onClick={closeResults}>
                     <span>
                       <GameIcon id={item.iconId} ext="png" size="1x" width={40} height={40} />
                     </span>
