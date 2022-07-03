@@ -24,6 +24,8 @@ services:
       - "${HOME}/mogboard-mariadb:/var/lib/mysql"
       - "${HOME}/mogboard-mariadb-dump:/dump"
       - "${HOME}/mogboard-mariadb-import:/import"
+    ports:
+      - "7001:3306"
   lodestone:
     image: ghcr.io/universalis-ffxiv/lodestone:latest
     restart: always
