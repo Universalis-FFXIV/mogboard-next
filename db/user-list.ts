@@ -6,39 +6,29 @@ import { unix } from './util';
 export const USER_LIST_MAX_ITEMS = 100;
 export const USER_LIST_MAX = 12;
 
-type RecentlyViewedPrototype = Pick<UserList, 'name' | 'custom' | 'customType'>;
-const recentlyViewed = Object.freeze({
-  name: 'Recently Viewed',
-  custom: true,
-  customType: UserListCustomType.RecentlyViewed,
-} as RecentlyViewedPrototype);
 export const RecentlyViewedList = (id: string, userId: string, items: DoctrineArray): UserList => {
-  const base = Object.create(recentlyViewed) as RecentlyViewedPrototype;
   return {
-    ...base,
     id,
     userId,
-    items,
     added: unix(),
     updated: unix(),
+    name: 'Recently Viewed',
+    custom: true,
+    customType: UserListCustomType.RecentlyViewed,
+    items,
   };
 };
 
-type FavouritesPrototype = Pick<UserList, 'name' | 'custom' | 'customType'>;
-const favourites = Object.freeze({
-  name: 'Favourites',
-  custom: true,
-  customType: UserListCustomType.Favourites,
-} as FavouritesPrototype);
 export const FavouritesList = (id: string, userId: string, items: DoctrineArray): UserList => {
-  const base = Object.create(favourites) as FavouritesPrototype;
   return {
-    ...base,
     id,
     userId,
-    items,
     added: unix(),
     updated: unix(),
+    name: 'Favourites',
+    custom: true,
+    customType: UserListCustomType.Favourites,
+    items,
   };
 };
 
