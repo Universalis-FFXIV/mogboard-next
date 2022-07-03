@@ -36,7 +36,14 @@ export default function SearchResults({
         <SimpleBar className="item-search-list" id="item-search-list" style={{ height: '73vh' }}>
           {results.map((item) => (
             <Link key={item.id} href="/market/[itemId]" as={`/market/${item.id}`}>
-              <a className={`rarity-${item.rarity}`} onClick={closeResults}>
+              <a
+                className={`rarity-${item.rarity}`}
+                onClick={(e) => {
+                  if (!e.metaKey && !e.ctrlKey) {
+                    closeResults();
+                  }
+                }}
+              >
                 <span className="item-icon">
                   <Image src={item.icon} alt="" width={40} height={40} />
                 </span>
