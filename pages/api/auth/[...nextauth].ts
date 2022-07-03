@@ -20,7 +20,7 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     async jwt({ token, account }) {
       if (account) {
-        if (account.provider === 'discord' && account.access_token) {
+        if (!token.picture && account.provider === 'discord' && account.access_token) {
           const me = await fetch('https://discord.com/api/v9/users/@me', {
             headers: { Authorization: `Bearer ${account.access_token}` },
           }).then((res) => res.json());
