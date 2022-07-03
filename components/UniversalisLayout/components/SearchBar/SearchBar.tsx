@@ -66,7 +66,7 @@ export default function SearchBar({ onResults, onMarketClicked }: SearchBarProps
         placeholder={t`Search`}
         value={query}
         onChange={(e) => {
-          const val = e.target.value.trim();
+          const val = e.target.value;
           setQuery(val);
           setTyping(val.length > 0);
           setSearching(val.length > 0);
