@@ -1,6 +1,6 @@
 import { t, Trans } from '@lingui/macro';
 import { useState } from 'react';
-import { SearchItem, searchItems } from '../../../../util/search';
+import { SearchItem, searchItems } from '../../../../service/search';
 import useClickOutside from '../../../../hooks/useClickOutside';
 import useSettings from '../../../../hooks/useSettings';
 

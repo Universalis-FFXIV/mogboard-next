@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { getServerSession } from 'next-auth';
-import { getCharacter, LodestoneCharacter, searchCharacter } from '../../../../util/lodestone';
+import { getCharacter, LodestoneCharacter, searchCharacter } from '../../../../service/lodestone';
 import { acquireConn, releaseConn } from '../../../../db/connect';
 import {
   createUserCharacter,

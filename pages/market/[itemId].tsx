@@ -26,7 +26,8 @@ import MarketItemHeader from '../../components/Market/MarketItemHeader/MarketIte
 import { getItem } from '../../data/game';
 import { Cookies } from 'react-cookie';
 import { World } from '../../types/game/World';
-import { getServers } from '../../util/servers';
+import { getServers } from '../../service/servers';
+import { ParsedUrlQuery } from 'querystring';
 
 interface MarketProps {
   hasSession: boolean;
@@ -129,14 +130,17 @@ const Market: NextPage<MarketProps> = ({ hasSession, lists, markets, itemId, dc,
   );
 };
 
-export async function getServerSideProps(ctx: GetServerSidePropsContext) {
-  const { itemId } = ctx.query;
-  if (typeof itemId !== 'string') {
-    return { notFound: true };
+function getItemId(query: ParsedUrlQuery): number {
+  if (typeof query.itemId !== 'string') {
+    return NaN;
   }
 
-  let itemIdNumber = parseInt(itemId);
-  if (isNaN(itemIdNumber) || !getItem(itemIdNumber, 'en')) {
+  return parseInt(query.itemId);
+}
+
+export async function getServerSideProps(ctx: GetServerSidePropsContext) {
+  const itemId = getItemId(ctx.query);
+  if (isNaN(itemId) || !getItem(itemId, 'en')) {
     return { notFound: true };
   }
 
@@ -171,8 +175,8 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
 
           if (recents) {
             const items = new DoctrineArray();
-            items.push(...recents.items.filter((item) => item !== itemIdNumber));
-            items.unshift(itemIdNumber);
+            items.push(...recents.items.filter((item) => item !== itemId));
+            items.unshift(itemId);
             while (items.length > USER_LIST_MAX_ITEMS) {
               items.pop();
             }
@@ -180,7 +184,7 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
             await updateUserListItems(session.user.id!, recents.id, items, conn);
           } else {
             const items = new DoctrineArray();
-            items.push(itemIdNumber);
+            items.push(itemId);
             await createUserList(RecentlyViewedList(uuidv4(), session.user.id!, items), conn);
           }
         })(),
@@ -212,7 +216,7 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   for (const world of dc.worlds) {
     marketFetches.push(
       (async () => {
-        const market = await fetch(`https://universalis.app/api/v2/${world.id}/${itemIdNumber}`)
+        const market = await fetch(`https://universalis.app/api/v2/${world.id}/${itemId}`)
           .then((res) => res.json())
           .catch(console.error);
         markets[world.id] = market;
@@ -223,7 +227,7 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   await Promise.all(marketFetches);
 
   return {
-    props: { hasSession, lists, markets, itemId: itemIdNumber, dc, queryServer },
+    props: { hasSession, lists, markets, itemId: itemId, dc, queryServer },
   };
 }
 

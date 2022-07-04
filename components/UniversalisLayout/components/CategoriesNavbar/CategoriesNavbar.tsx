@@ -1,7 +1,7 @@
 import { t } from '@lingui/macro';
 import { useState, useEffect } from 'react';
 import { getItems, getItemSearchCategories } from '../../../../data/game';
-import { filterItemSearchCategories } from '../../../../util/isc';
+import { filterItemSearchCategories } from '../../../../service/isc';
 import { getSearchIcon } from '../../../../theme/xiv-font';
 import useSettings from '../../../../hooks/useSettings';
 import { Item } from '../../../../types/game/Item';

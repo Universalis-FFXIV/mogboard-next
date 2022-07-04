@@ -1,7 +1,7 @@
 import { Trans } from '@lingui/macro';
 import { useEffect, useState } from 'react';
 import { getItems, getItemSearchCategories } from '../../../../data/game';
-import { filterItemSearchCategories } from '../../../../util/isc';
+import { filterItemSearchCategories } from '../../../../service/isc';
 import { getSearchIcon } from '../../../../theme/xiv-font';
 import useClickOutside from '../../../../hooks/useClickOutside';
 import useSettings from '../../../../hooks/useSettings';
