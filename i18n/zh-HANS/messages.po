@@ -76,8 +76,8 @@ msgstr "(%s) 每个数量"
 msgid "(Includes 5% GST)"
 msgstr ""
 
-#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:44
-#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:44
+#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:41
+#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:41
 msgid "(Unknown)"
 msgstr ""
 
@@ -183,7 +183,7 @@ msgstr "API 文档"
 msgid "ARMOR"
 msgstr "装备"
 
-#: pages/account/characters.tsx:241
+#: pages/account/characters.tsx:242
 msgid "AUTH CODE: %s"
 msgstr "认证码：%s"
 
@@ -206,7 +206,7 @@ msgstr "账号"
 #~ msgid "Add"
 #~ msgstr "添加"
 
-#: pages/account/characters.tsx:239
+#: pages/account/characters.tsx:240
 msgid "Add a new character"
 msgstr "添加角色"
 
@@ -263,8 +263,8 @@ msgstr "所有市场交易板信息都可获得：价格，魔晶石，雇员，
 msgid "Also thanks to: Vekien, Miu, Mino and all of our uploaders!"
 msgstr "额外致谢：Vekien，Miu，Mino和所有的上传者小可爱们！"
 
-#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:41
-#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:41
+#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:38
+#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:38
 msgid "America"
 msgstr ""
 
@@ -312,7 +312,7 @@ msgid "Cannot be sold"
 msgstr "当前版本无法出售"
 
 #: components/AccountLayout/AccountLayout.tsx:30
-#: pages/account/characters.tsx:188
+#: pages/account/characters.tsx:189
 msgid "Characters"
 msgstr "角色"
 
@@ -386,7 +386,7 @@ msgstr "当前 %s 的市场税率"
 #~ msgid "Current alerts for: %s"
 #~ msgstr "当前的提醒：%s"
 
-#: pages/list/[listId].tsx:140
+#: pages/list/[listId].tsx:141
 msgid "Custom Universalis list by %s"
 msgstr "%s 的自定义 Universalis 清单"
 
@@ -443,8 +443,8 @@ msgstr "下载"
 #~ msgid "Email"
 #~ msgstr "Email"
 
-#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:39
-#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:39
+#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:36
+#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:36
 msgid "Europe"
 msgstr ""
 
@@ -528,7 +528,7 @@ msgstr "GitHub"
 #~ msgid "Give your alert a name (length: 4-100)"
 #~ msgstr "给您的提醒起个名字（长度：4-100）"
 
-#: pages/account/characters.tsx:255
+#: pages/account/characters.tsx:256
 msgid "Go to Lodestone and Login with your character. Then <a href=\"%s\">click here to edit your profile</a>."
 msgstr "转到 Lodestone 并使用您的角色登录。 然后<a href=\"%s\">单击此处编辑您的个人资料</a>。"
 
@@ -561,7 +561,7 @@ msgstr "HQ"
 #~ msgid "High-Quality"
 #~ msgstr "优质"
 
-#: pages/account/characters.tsx:266
+#: pages/account/characters.tsx:267
 msgid "Hop back to Universalis and fill in the form below. The site will search for your character and confirm your auth code."
 msgstr "跳回 Universalis 并填写以下表格。 该站点将搜索您的角色并确认您的身份认证码。"
 
@@ -612,10 +612,14 @@ msgid "If you continue to run into this issue, please jump on the discord for he
 msgstr "如果您依然遇到此问题，请加入 Discord 寻求帮助！"
 
 #: pages/contribute.tsx:136
-msgid "If you wish to contribute to <strong>Universalis</strong> with your own application, please contact us on our <a href=\"%s\">Discord</a>. Let\\'s work together!"
+msgid "If you wish to contribute to <strong>Universalis</strong> with your own application, please contact us on our <a href=\"%s\">Discord</a>. Let's work together!"
 msgstr "如果您希望使用自己的应用程序为 <strong>Universalis</strong> 做出贡献，请通过我们的 <a href=\"%s\">Discord</a> 与我们联系。一起搞事吧！"
 
-#: pages/account/characters.tsx:262
+#: pages/contribute.tsx:136
+#~ msgid "If you wish to contribute to <strong>Universalis</strong> with your own application, please contact us on our <a href=\"%s\">Discord</a>. Let\\'s work together!"
+#~ msgstr "如果您希望使用自己的应用程序为 <strong>Universalis</strong> 做出贡献，请通过我们的 <a href=\"%s\">Discord</a> 与我们联系。一起搞事吧！"
+
+#: pages/account/characters.tsx:263
 msgid "In the text box, enter in your <strong>AUTH CODE</strong>, then click on Confirm (twice)."
 msgstr "在文本框中，输入您的<strong>认证码</strong>，然后单击“确认”（两次）。"
 
@@ -646,8 +650,8 @@ msgstr "该物品没有HQ版本。"
 msgid "Items:"
 msgstr "物品："
 
-#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:40
-#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:40
+#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:37
+#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:37
 msgid "Japan"
 msgstr ""
 
@@ -687,7 +691,7 @@ msgstr "上次更新："
 msgid "Left Navigation"
 msgstr "左侧导航"
 
-#: pages/list/[listId].tsx:139
+#: pages/list/[listId].tsx:140
 msgid "List"
 msgstr "清单"
 
@@ -729,7 +733,7 @@ msgstr "尚未登录"
 msgid "Login via <strong>Discord</strong>"
 msgstr "通过 <strong>Discord</strong> 登录"
 
-#: components/UniversalisLayout/components/UniversalisHeader/UniversalisHeader.tsx:42
+#: components/UniversalisLayout/components/UniversalisHeader/UniversalisHeader.tsx:35
 msgid "Login via Discord"
 msgstr "通过 Discord 登录"
 
@@ -737,7 +741,7 @@ msgstr "通过 Discord 登录"
 msgid "Logout"
 msgstr "登出"
 
-#: components/UniversalisLayout/components/SearchBar/SearchBar.tsx:88
+#: components/UniversalisLayout/components/SearchBar/SearchBar.tsx:96
 msgid "Market"
 msgstr "市场"
 
@@ -764,11 +768,11 @@ msgstr "材料"
 #~ msgid "Max: %d"
 #~ msgstr "最大：%d"
 
-#: pages/market/[itemId].tsx:104
+#: pages/market/[itemId].tsx:107
 msgid "Menu"
 msgstr "菜单"
 
-#: components/UniversalisLayout/components/UniversalisHeader/UniversalisHeader.tsx:49
+#: components/UniversalisLayout/components/UniversalisHeader/UniversalisHeader.tsx:42
 msgid "My Account"
 msgstr "账号"
 
@@ -787,7 +791,7 @@ msgstr "账号"
 #~ msgid "Name"
 #~ msgstr "名称"
 
-#: pages/account/characters.tsx:277
+#: pages/account/characters.tsx:278
 msgid "Name, ID, or Lodestone URL"
 msgstr "姓名，ID，或 Lodestone 地址"
 
@@ -843,8 +847,8 @@ msgstr "不可出售"
 #~ msgid "Notification"
 #~ msgstr "提醒"
 
-#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:42
-#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:42
+#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:39
+#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:39
 msgid "Oceania"
 msgstr ""
 
@@ -905,7 +909,7 @@ msgstr "数量"
 #~ msgstr "数量"
 
 #: components/Market/MarketNav/MarketNav.tsx:289
-#: pages/account/characters.tsx:209
+#: pages/account/characters.tsx:210
 msgid "REMOVE"
 msgstr "删除"
 
@@ -913,7 +917,7 @@ msgstr "删除"
 msgid "Really rare!?"
 msgstr "十分稀有！？"
 
-#: pages/index.tsx:92
+#: pages/index.tsx:94
 msgid "Recent Updates"
 msgstr "最近更新"
 
@@ -975,8 +979,8 @@ msgstr ""
 msgid "Save Settings"
 msgstr "保存设置"
 
-#: components/UniversalisLayout/components/SearchBar/SearchBar.tsx:66
-#: pages/account/characters.tsx:337
+#: components/UniversalisLayout/components/SearchBar/SearchBar.tsx:80
+#: pages/account/characters.tsx:338
 msgid "Search"
 msgstr "搜索"
 
@@ -1002,7 +1006,7 @@ msgstr "搜索"
 
 #: components/ListingsTable/ListingsTable.tsx:165
 #: components/SalesTable/SalesTable.tsx:145
-#: pages/account/characters.tsx:291
+#: pages/account/characters.tsx:292
 msgid "Server"
 msgstr "服务器"
 
@@ -1011,7 +1015,7 @@ msgstr "服务器"
 msgid "Server:"
 msgstr "服务器："
 
-#: pages/account/characters.tsx:223
+#: pages/account/characters.tsx:224
 msgid "Set character as MAIN."
 msgstr "设定角色为主要角色。"
 
@@ -1080,7 +1084,7 @@ msgstr "特别感谢"
 msgid "Stack:"
 msgstr "每组个数："
 
-#: pages/index.tsx:99
+#: pages/index.tsx:101
 msgid "Thank you!"
 msgstr "感谢您！"
 
@@ -1118,8 +1122,12 @@ msgid "This enables a quick-access left-navigation of all market categories."
 msgstr "这将开启可以快速访问所有物品分类的左侧导航。"
 
 #: pages/contribute.tsx:111
-msgid "This is a regular ACT plugin that runs next to the always-used FFXIV_ACT_PLUGIN - just drop it into your ACT plugins folder, add it to ACT and you\\'re good to go! No configuration needed."
+msgid "This is a regular ACT plugin that runs next to the always-used FFXIV_ACT_PLUGIN - just drop it into your ACT plugins folder, add it to ACT and you're good to go! No configuration needed."
 msgstr "这是一个普通的 ACT 插件，可以和解析插件一起运行——只需将其放入 ACT 插件文件夹中，然后将其加载到 ACT 中就可以了！ 无需其他设置。"
+
+#: pages/contribute.tsx:111
+#~ msgid "This is a regular ACT plugin that runs next to the always-used FFXIV_ACT_PLUGIN - just drop it into your ACT plugins folder, add it to ACT and you\\'re good to go! No configuration needed."
+#~ msgstr "这是一个普通的 ACT 插件，可以和解析插件一起运行——只需将其放入 ACT 插件文件夹中，然后将其加载到 ACT 中就可以了！ 无需其他设置。"
 
 #: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:190
 msgid "This will show prices/history on your home world by default instead of cross-world."
@@ -1133,7 +1141,7 @@ msgstr "时区"
 msgid "Timezone:"
 msgstr ""
 
-#: pages/account/characters.tsx:248
+#: pages/account/characters.tsx:249
 msgid "To add a new character, you must first add your verification code. <strong>Please add your MAIN character first</strong>."
 msgstr "要添加新字符，您必须首先添加认证码。 <strong>请先添加您的主要角色</strong>。"
 
@@ -1190,7 +1198,7 @@ msgid "Universalis is a market board data site with crowd sourced information, b
 msgstr "Universalis 是一个市场布告板数据统计站，其中包含基于 mogboard 的众多来源的市场数据。 它可以汇总来自多个来源的市场交易板信息，因此，如果您想提供帮助，请查看我们的“贡献数据”页面。"
 
 #: components/Market/MarketWorld/MarketWorld.tsx:55
-#: pages/account/characters.tsx:215
+#: pages/account/characters.tsx:216
 msgid "Updated:"
 msgstr "更新于："
 
@@ -1310,11 +1318,11 @@ msgstr "您也可以私聊我： <span class=\"text-yellow\">%s</span> 如果您
 #~ msgid "You have no alerts set up."
 #~ msgstr "您没有设置任何提醒。"
 
-#: pages/account/characters.tsx:230
+#: pages/account/characters.tsx:231
 msgid "You have no characters, why not add one below!"
 msgstr "您没有声明角色，快来添加一个！"
 
-#: pages/list/[listId].tsx:184
+#: pages/list/[listId].tsx:185
 msgid "You have no items in this list."
 msgstr "此清单中没有物品"
 
@@ -1370,7 +1378,7 @@ msgstr "基于"
 msgid "{0} - {1} items"
 msgstr ""
 
-#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:43
-#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:43
+#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:40
+#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:40
 msgid "中国"
 msgstr ""

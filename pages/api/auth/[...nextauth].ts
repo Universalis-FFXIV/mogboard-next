@@ -21,10 +21,23 @@ export const authOptions: NextAuthOptions = {
     async jwt({ token, account }) {
       if (account) {
         if (!token.picture && account.provider === 'discord' && account.access_token) {
-          const me = await fetch('https://discord.com/api/v9/users/@me', {
-            headers: { Authorization: `Bearer ${account.access_token}` },
-          }).then((res) => res.json());
-          token.picture = `https://cdn.discordapp.com/avatars/${me.id}/${me.avatar}.webp?size=96`;
+          try {
+            const res = await fetch('https://discord.com/api/v9/users/@me', {
+              headers: { Authorization: `Bearer ${account.access_token}` },
+            });
+            if (!res.ok) {
+              const body = res.headers.get('Content-Type')?.includes('application/json')
+                ? (await res.json()).message
+                : await res.text();
+              throw new Error(body);
+            } else {
+              const me = await res.json();
+              console.log(me);
+              token.picture = `https://cdn.discordapp.com/avatars/${me.id}/${me.avatar}.webp?size=96`;
+            }
+          } catch (err) {
+            console.error(err);
+          }
         }
 
         token.sso = account.provider;

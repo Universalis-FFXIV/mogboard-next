@@ -76,8 +76,8 @@ msgstr "(%s) Pro Stück STÜCKZAHL"
 msgid "(Includes 5% GST)"
 msgstr ""
 
-#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:44
-#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:44
+#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:41
+#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:41
 msgid "(Unknown)"
 msgstr ""
 
@@ -182,7 +182,7 @@ msgstr "API Dokumentation"
 msgid "ARMOR"
 msgstr "RÜSTUNG"
 
-#: pages/account/characters.tsx:241
+#: pages/account/characters.tsx:242
 msgid "AUTH CODE: %s"
 msgstr "AUTH CODE: %s"
 
@@ -205,7 +205,7 @@ msgstr "Account"
 #~ msgid "Add"
 #~ msgstr "Hinzufügen"
 
-#: pages/account/characters.tsx:239
+#: pages/account/characters.tsx:240
 msgid "Add a new character"
 msgstr "Füge neuen Charakter hinzu"
 
@@ -262,8 +262,8 @@ msgstr "Alle Marktinformationen sind verfügbar: Preise, Materia, Gehilfen, Hand
 msgid "Also thanks to: Vekien, Miu, Mino and all of our uploaders!"
 msgstr "Vielen Dank an: Vekien, Miu, Mino und an alle fleißigen Unterstützer."
 
-#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:41
-#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:41
+#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:38
+#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:38
 msgid "America"
 msgstr ""
 
@@ -311,7 +311,7 @@ msgid "Cannot be sold"
 msgstr "Kann nicht verkauft werden"
 
 #: components/AccountLayout/AccountLayout.tsx:30
-#: pages/account/characters.tsx:188
+#: pages/account/characters.tsx:189
 msgid "Characters"
 msgstr "Charaktere"
 
@@ -385,7 +385,7 @@ msgstr "Aktuelle Marktsteuer in %s"
 #~ msgid "Current alerts for: %s"
 #~ msgstr "Neuer Alarm für: %s"
 
-#: pages/list/[listId].tsx:140
+#: pages/list/[listId].tsx:141
 msgid "Custom Universalis list by %s"
 msgstr "Eigene Universalis Liste von %s"
 
@@ -442,8 +442,8 @@ msgstr "Herunterladen"
 #~ msgid "Email"
 #~ msgstr "Email"
 
-#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:39
-#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:39
+#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:36
+#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:36
 msgid "Europe"
 msgstr ""
 
@@ -527,7 +527,7 @@ msgstr "GitHub"
 #~ msgid "Give your alert a name (length: 4-100)"
 #~ msgstr "Gib deinem Alarm einen Namen (Länge 4-100)"
 
-#: pages/account/characters.tsx:255
+#: pages/account/characters.tsx:256
 msgid "Go to Lodestone and Login with your character. Then <a href=\"%s\">click here to edit your profile</a>."
 msgstr "Gehe zum Lodestone und Logge dich mit deinem Charakter ein. Dann <a href=\"%s\">Klicke hier um dein Profil zu bearbeiten</a>."
 
@@ -560,7 +560,7 @@ msgstr "HQ"
 #~ msgid "High-Quality"
 #~ msgstr "Hohe Qualität"
 
-#: pages/account/characters.tsx:266
+#: pages/account/characters.tsx:267
 msgid "Hop back to Universalis and fill in the form below. The site will search for your character and confirm your auth code."
 msgstr "Gehe zu Universalis zurück und fülle den Antrag unten aus. Die Seite wird nach deinem Charakter suchen und deinen Authentifizierungscode bestätigen."
 
@@ -611,10 +611,14 @@ msgid "If you continue to run into this issue, please jump on the discord for he
 msgstr "Wenn dieses Problem weiterhin auftritt, melde dich bitte auf unserem Discord-Server."
 
 #: pages/contribute.tsx:136
-msgid "If you wish to contribute to <strong>Universalis</strong> with your own application, please contact us on our <a href=\"%s\">Discord</a>. Let\\'s work together!"
+msgid "If you wish to contribute to <strong>Universalis</strong> with your own application, please contact us on our <a href=\"%s\">Discord</a>. Let's work together!"
 msgstr "Wenn du bei <strong>Universalis</strong> mit deiner eigenen Anwendung mit machen möchtest, kontaktiere uns doch bitte auf unserem <a href=\"%s\">Discord</a. Lass uns zusammen arbeiten!"
 
-#: pages/account/characters.tsx:262
+#: pages/contribute.tsx:136
+#~ msgid "If you wish to contribute to <strong>Universalis</strong> with your own application, please contact us on our <a href=\"%s\">Discord</a>. Let\\'s work together!"
+#~ msgstr "Wenn du bei <strong>Universalis</strong> mit deiner eigenen Anwendung mit machen möchtest, kontaktiere uns doch bitte auf unserem <a href=\"%s\">Discord</a. Lass uns zusammen arbeiten!"
+
+#: pages/account/characters.tsx:263
 msgid "In the text box, enter in your <strong>AUTH CODE</strong>, then click on Confirm (twice)."
 msgstr "Trage deinen <strong>AUTH CODE</strong> in der Textbox ein, und bestätige (zwei mal)."
 
@@ -645,8 +649,8 @@ msgstr "Der Gegenstand hat keine HQ Variante."
 msgid "Items:"
 msgstr "Gegenstände:"
 
-#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:40
-#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:40
+#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:37
+#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:37
 msgid "Japan"
 msgstr ""
 
@@ -686,7 +690,7 @@ msgstr "Zuletzt aktualisiert:"
 msgid "Left Navigation"
 msgstr "Linke Navigationsleiste"
 
-#: pages/list/[listId].tsx:139
+#: pages/list/[listId].tsx:140
 msgid "List"
 msgstr "Liste"
 
@@ -728,7 +732,7 @@ msgstr "Ausgeloggt"
 msgid "Login via <strong>Discord</strong>"
 msgstr "Mit <strong>Discord</strong> einloggen "
 
-#: components/UniversalisLayout/components/UniversalisHeader/UniversalisHeader.tsx:42
+#: components/UniversalisLayout/components/UniversalisHeader/UniversalisHeader.tsx:35
 msgid "Login via Discord"
 msgstr "Mit Discord einloggen"
 
@@ -736,7 +740,7 @@ msgstr "Mit Discord einloggen"
 msgid "Logout"
 msgstr "Ausloggen"
 
-#: components/UniversalisLayout/components/SearchBar/SearchBar.tsx:88
+#: components/UniversalisLayout/components/SearchBar/SearchBar.tsx:96
 msgid "Market"
 msgstr "Marktbrett"
 
@@ -763,11 +767,11 @@ msgstr "Mat"
 #~ msgid "Max: %d"
 #~ msgstr "Max: %d"
 
-#: pages/market/[itemId].tsx:104
+#: pages/market/[itemId].tsx:107
 msgid "Menu"
 msgstr "Menü"
 
-#: components/UniversalisLayout/components/UniversalisHeader/UniversalisHeader.tsx:49
+#: components/UniversalisLayout/components/UniversalisHeader/UniversalisHeader.tsx:42
 msgid "My Account"
 msgstr "Mein Account"
 
@@ -786,7 +790,7 @@ msgstr "Mein Account"
 #~ msgid "Name"
 #~ msgstr "Name"
 
-#: pages/account/characters.tsx:277
+#: pages/account/characters.tsx:278
 msgid "Name, ID, or Lodestone URL"
 msgstr "Name, ID, oder Lodestone URL"
 
@@ -842,8 +846,8 @@ msgstr "Unverkäuflich"
 #~ msgid "Notification"
 #~ msgstr "Benachrichtigung"
 
-#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:42
-#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:42
+#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:39
+#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:39
 msgid "Oceania"
 msgstr ""
 
@@ -904,7 +908,7 @@ msgstr "STK"
 #~ msgstr "Anzahl"
 
 #: components/Market/MarketNav/MarketNav.tsx:289
-#: pages/account/characters.tsx:209
+#: pages/account/characters.tsx:210
 msgid "REMOVE"
 msgstr "ENTFERNEN"
 
@@ -912,7 +916,7 @@ msgstr "ENTFERNEN"
 msgid "Really rare!?"
 msgstr "Sehr selten!?"
 
-#: pages/index.tsx:92
+#: pages/index.tsx:94
 msgid "Recent Updates"
 msgstr "Letzte Updates"
 
@@ -974,8 +978,8 @@ msgstr ""
 msgid "Save Settings"
 msgstr "Speichere Einstellungen"
 
-#: components/UniversalisLayout/components/SearchBar/SearchBar.tsx:66
-#: pages/account/characters.tsx:337
+#: components/UniversalisLayout/components/SearchBar/SearchBar.tsx:80
+#: pages/account/characters.tsx:338
 msgid "Search"
 msgstr "Suche"
 
@@ -1001,7 +1005,7 @@ msgstr "Suche"
 
 #: components/ListingsTable/ListingsTable.tsx:165
 #: components/SalesTable/SalesTable.tsx:145
-#: pages/account/characters.tsx:291
+#: pages/account/characters.tsx:292
 msgid "Server"
 msgstr "Welt"
 
@@ -1010,7 +1014,7 @@ msgstr "Welt"
 msgid "Server:"
 msgstr "Server:"
 
-#: pages/account/characters.tsx:223
+#: pages/account/characters.tsx:224
 msgid "Set character as MAIN."
 msgstr "Markiere als Hauptcharakter."
 
@@ -1079,7 +1083,7 @@ msgstr "Besonderer Dank"
 msgid "Stack:"
 msgstr "Stapel:"
 
-#: pages/index.tsx:99
+#: pages/index.tsx:101
 msgid "Thank you!"
 msgstr "Danke!"
 
@@ -1117,8 +1121,12 @@ msgid "This enables a quick-access left-navigation of all market categories."
 msgstr "Dies aktiviert eine Navigationsleiste für alle Markt-Kategorien."
 
 #: pages/contribute.tsx:111
-msgid "This is a regular ACT plugin that runs next to the always-used FFXIV_ACT_PLUGIN - just drop it into your ACT plugins folder, add it to ACT and you\\'re good to go! No configuration needed."
+msgid "This is a regular ACT plugin that runs next to the always-used FFXIV_ACT_PLUGIN - just drop it into your ACT plugins folder, add it to ACT and you're good to go! No configuration needed."
 msgstr "Dieses Plugin ist ein normales ACT Plugin, das normal neben dem FFXIV_ACT_PLUGIN läuft. Installiere es einfach in deinem Plugin Ordner und füge es ACT hinzu. Du brauchst keine weiteren Einstellungen!"
+
+#: pages/contribute.tsx:111
+#~ msgid "This is a regular ACT plugin that runs next to the always-used FFXIV_ACT_PLUGIN - just drop it into your ACT plugins folder, add it to ACT and you\\'re good to go! No configuration needed."
+#~ msgstr "Dieses Plugin ist ein normales ACT Plugin, das normal neben dem FFXIV_ACT_PLUGIN läuft. Installiere es einfach in deinem Plugin Ordner und füge es ACT hinzu. Du brauchst keine weiteren Einstellungen!"
 
 #: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:190
 msgid "This will show prices/history on your home world by default instead of cross-world."
@@ -1132,7 +1140,7 @@ msgstr "Zeitzone"
 msgid "Timezone:"
 msgstr ""
 
-#: pages/account/characters.tsx:248
+#: pages/account/characters.tsx:249
 msgid "To add a new character, you must first add your verification code. <strong>Please add your MAIN character first</strong>."
 msgstr "Um einen neuen Charakter hinzuzufügen, musst du zuerst deinen Bestätigungscode hinzufügen. <strong>Bitte füge zuerst deinen Hauptcharakter hinzu!</strong>"
 
@@ -1189,7 +1197,7 @@ msgid "Universalis is a market board data site with crowd sourced information, b
 msgstr "Universalis ist eine auf Nutzerdaten und Mogboard basierende Marktinformationsseite. Es werden Daten aus unterschiedlichen Quellen genutzt. Um mitzuhelfen, schau gerne auf der Seite \"Mitmachen\" vorbei."
 
 #: components/Market/MarketWorld/MarketWorld.tsx:55
-#: pages/account/characters.tsx:215
+#: pages/account/characters.tsx:216
 msgid "Updated:"
 msgstr "letzte Aktualisierung:"
 
@@ -1310,11 +1318,11 @@ msgstr "Du kannst mir natürlich auch persönlich schreiben: <span class=\"text-
 #~ msgid "You have no alerts set up."
 #~ msgstr "Kein Alarm aktiviert."
 
-#: pages/account/characters.tsx:230
+#: pages/account/characters.tsx:231
 msgid "You have no characters, why not add one below!"
 msgstr "Du hast noch keine Charaktere. Füge doch welche unten hinzu!"
 
-#: pages/list/[listId].tsx:184
+#: pages/list/[listId].tsx:185
 msgid "You have no items in this list."
 msgstr "Du hast keine Gegenstände auf der Liste."
 
@@ -1370,7 +1378,7 @@ msgstr "basierend auf"
 msgid "{0} - {1} items"
 msgstr ""
 
-#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:43
-#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:43
+#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:40
+#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:40
 msgid "中国"
 msgstr ""
