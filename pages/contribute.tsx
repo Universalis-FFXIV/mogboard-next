@@ -108,7 +108,7 @@ const Contribute: NextPage = () => {
           <Contributor
             name="Universalis"
             kind={t`ACT plugin`}
-            description={t`This is a regular ACT plugin that runs next to the always-used FFXIV_ACT_PLUGIN - just drop it into your ACT plugins folder, add it to ACT and you\'re good to go! No configuration needed.`}
+            description={t`This is a regular ACT plugin that runs next to the always-used FFXIV_ACT_PLUGIN - just drop it into your ACT plugins folder, add it to ACT and you're good to go! No configuration needed.`}
             intlUrl="https://github.com/goaaats/universalis_act_plugin/releases/latest"
             cnUrl="https://gitee.com/bluefissure/universalis_act_plugin/releases/v1.1"
           />
@@ -133,7 +133,7 @@ const Contribute: NextPage = () => {
             <p
               dangerouslySetInnerHTML={{
                 __html: sprintf(
-                  t`If you wish to contribute to <strong>Universalis</strong> with your own application, please contact us on our <a href="%s">Discord</a>. Let\'s work together!`,
+                  t`If you wish to contribute to <strong>Universalis</strong> with your own application, please contact us on our <a href="%s">Discord</a>. Let's work together!`,
                   'https://discord.gg/JcMvMxD'
                 ),
               }}
