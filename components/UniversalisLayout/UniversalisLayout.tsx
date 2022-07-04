@@ -1,5 +1,5 @@
 import { PropsWithChildren, useEffect, useMemo, useState } from 'react';
-import { SearchItem } from '../../data/game/search';
+import { SearchItem } from '../../util/search';
 import useSettings from '../../hooks/useSettings';
 import { Item } from '../../types/game/Item';
 import { ItemSearchCategory } from '../../types/game/ItemSearchCategory';

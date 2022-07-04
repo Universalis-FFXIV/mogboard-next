@@ -1,8 +1,8 @@
 import { Trans } from '@lingui/macro';
 import { useEffect, useState } from 'react';
 import { getItems, getItemSearchCategories } from '../../../../data/game';
-import { filterItemSearchCategories } from '../../../../data/game/isc';
-import { getSearchIcon } from '../../../../data/game/xiv-font';
+import { filterItemSearchCategories } from '../../../../util/isc';
+import { getSearchIcon } from '../../../../theme/xiv-font';
 import useClickOutside from '../../../../hooks/useClickOutside';
 import useSettings from '../../../../hooks/useSettings';
 import { Item } from '../../../../types/game/Item';

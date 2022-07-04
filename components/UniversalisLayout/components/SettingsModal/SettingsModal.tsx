@@ -1,7 +1,7 @@
 import { t, Trans } from '@lingui/macro';
 import { useEffect, useState } from 'react';
-import { getServersWithRegions, ServersWithRegionNames } from '../../../../data/game/servers';
-import { getTimeZones, TimeZone } from '../../../../data/game/timezones';
+import { getServersWithRegions, ServersWithRegionNames } from '../../../../util/servers';
+import { getTimeZones, TimeZone } from '../../../../util/timezones';
 import useClickOutside from '../../../../hooks/useClickOutside';
 import useSettings from '../../../../hooks/useSettings';
 

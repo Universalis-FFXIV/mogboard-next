@@ -26,7 +26,7 @@ import MarketItemHeader from '../../components/Market/MarketItemHeader/MarketIte
 import { getItem } from '../../data/game';
 import { Cookies } from 'react-cookie';
 import { World } from '../../types/game/World';
-import { getServers } from '../../data/game/servers';
+import { getServers } from '../../util/servers';
 
 interface MarketProps {
   hasSession: boolean;
@@ -212,9 +212,9 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   for (const world of dc.worlds) {
     marketFetches.push(
       (async () => {
-        const market = await fetch(
-          `https://universalis.app/api/v2/${world.id}/${itemIdNumber}`
-        ).then((res) => res.json());
+        const market = await fetch(`https://universalis.app/api/v2/${world.id}/${itemIdNumber}`)
+          .then((res) => res.json())
+          .catch(console.error);
         markets[world.id] = market;
       })()
     );

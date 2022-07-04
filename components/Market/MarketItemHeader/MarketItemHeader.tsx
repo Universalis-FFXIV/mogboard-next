@@ -5,7 +5,7 @@ import {
   getItemSearchCategory,
   getItemUICategory,
 } from '../../../data/game';
-import { getSearchIcon } from '../../../data/game/xiv-font';
+import { getSearchIcon } from '../../../theme/xiv-font';
 import useSettings from '../../../hooks/useSettings';
 import { Item } from '../../../types/game/Item';
 import { UserList } from '../../../types/universalis/user';

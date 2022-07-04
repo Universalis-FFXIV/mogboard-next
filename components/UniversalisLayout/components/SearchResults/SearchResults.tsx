@@ -2,7 +2,7 @@ import { Trans } from '@lingui/macro';
 import Image from 'next/image';
 import Link from 'next/link';
 import SimpleBar from 'simplebar-react';
-import { SearchItem } from '../../../../data/game/search';
+import { SearchItem } from '../../../../util/search';
 import useClickOutside from '../../../../hooks/useClickOutside';
 
 interface SearchResultsProps {

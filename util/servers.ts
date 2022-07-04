@@ -1,5 +1,5 @@
-import { DataCenter } from '../../types/game/DataCenter';
-import { World } from '../../types/game/World';
+import { DataCenter } from '../types/game/DataCenter';
+import { World } from '../types/game/World';
 
 export interface Servers {
   dcs: DataCenter[];
