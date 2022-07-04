@@ -17,6 +17,21 @@ import { v4 as uuidv4 } from 'uuid';
 import { unix } from '../../../../db/util';
 import { UserCharacter } from '../../../../types/universalis/user';
 
+function toDbCharacter(
+  lodestoneId: number,
+  character: LodestoneCharacter
+): Omit<UserCharacter, 'id' | 'userId'> & Partial<Pick<UserCharacter, 'id' | 'userId'>> {
+  return {
+    lodestoneId,
+    name: character.name,
+    server: character.world,
+    avatar: character.avatar,
+    main: false,
+    confirmed: true,
+    updated: unix(),
+  };
+}
+
 async function post(req: NextApiRequest, res: NextApiResponse) {
   const session = await getServerSession({ req, res }, authOptions);
   const { world, name, lodestoneId } = req.body;
@@ -81,15 +96,7 @@ async function post(req: NextApiRequest, res: NextApiResponse) {
       }
     } else {
       finalId = uuidv4();
-      const data = {
-        lodestoneId: lId,
-        name: character.name,
-        server: character.world,
-        avatar: character.avatar,
-        main: false,
-        confirmed: true,
-        updated: unix(),
-      };
+      const data = toDbCharacter(lId, character);
       await createUserCharacter({ ...data, ...{ id: finalId, userId: session.user.id } }, conn);
       userCharacter = data;
     }

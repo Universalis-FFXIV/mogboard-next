@@ -179,10 +179,6 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   const session = await getServerSession(ctx, authOptions);
   const hasSession = !!session;
 
-  const cookies = new Cookies(ctx.req.cookies);
-  const lang =
-    cookies.get<'en' | 'ja' | 'de' | 'fr' | 'chs' | undefined>('mogboard_language') ?? 'en';
-
   let lists: UserList[] = [];
   if (session && session.user.id) {
     const conn = await acquireConn();

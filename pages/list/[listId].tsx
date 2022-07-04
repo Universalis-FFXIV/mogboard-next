@@ -15,6 +15,7 @@ import { acquireConn, releaseConn } from '../../db/connect';
 import * as userDb from '../../db/user';
 import * as listDb from '../../db/user-list';
 import useSettings from '../../hooks/useSettings';
+import { getServers } from '../../service/servers';
 import { DataCenter } from '../../types/game/DataCenter';
 import { Item } from '../../types/game/Item';
 import { UserList } from '../../types/universalis/user';
@@ -205,30 +206,12 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
     return { notFound: true };
   }
 
-  const cookies = new Cookies(ctx.req.cookies);
-  const lang = cookies.get('mogboard_language') ?? 'en';
-
   let dcs: DataCenter[] = [];
   try {
-    const dataCenters: { name: string; worlds: number[] }[] = await fetch(
-      'https://universalis.app/api/v3/game/data-centers'
-    ).then((res) => res.json());
-    const worlds = await fetch('https://universalis.app/api/v3/game/worlds')
-      .then((res) => res.json())
-      .then((json) =>
-        (json as { id: number; name: string }[]).reduce<
-          Record<number, { id: number; name: string }>
-        >((agg, next) => {
-          agg[next.id] = {
-            id: next.id,
-            name: next.name,
-          };
-          return agg;
-        }, {})
-      );
-    dcs = (dataCenters ?? []).map((dc) => ({
+    const servers = await getServers();
+    dcs = servers.dcs.map((dc) => ({
       name: dc.name,
-      worlds: dc.worlds.map((worldId) => worlds[worldId]),
+      worlds: dc.worlds.sort((a, b) => a.name.localeCompare(b.name)),
     }));
   } catch (err) {
     console.error(err);

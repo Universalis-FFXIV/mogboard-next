@@ -22,6 +22,8 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from './api/auth/[...nextauth]';
 import { getItem } from '../data/game';
 import useSettings from '../hooks/useSettings';
+import { getServers } from '../service/servers';
+import { TaxRates } from '../types/universalis/TaxRates';
 
 interface HomeProps {
   dcs: DataCenter[];
@@ -104,37 +106,43 @@ const Home: NextPage<HomeProps> = ({
   );
 };
 
+function convertTaxRates(taxRates: TaxRates): Record<City, number> {
+  return {
+    [City.LimsaLominsa]: taxRates['Limsa Lominsa'],
+    [City.Gridania]: taxRates['Gridania'],
+    [City.Uldah]: taxRates["Ul'dah"],
+    [City.Ishgard]: taxRates['Ishgard'],
+    [City.Kugane]: taxRates['Kugane'],
+    [City.Crystarium]: taxRates['Crystarium'],
+    [City.OldSharlayan]: taxRates['Old Sharlayan'],
+  };
+}
+
+function zeroTaxRates(): Record<City, number> {
+  return {
+    [City.LimsaLominsa]: 0,
+    [City.Gridania]: 0,
+    [City.Uldah]: 0,
+    [City.Ishgard]: 0,
+    [City.Kugane]: 0,
+    [City.Crystarium]: 0,
+    [City.OldSharlayan]: 0,
+  };
+}
+
 export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   const cookies = new Cookies(ctx.req?.headers.cookie);
   const world = cookies.get<string | undefined>('mogboard_server') ?? 'Phoenix';
-  const lang =
-    cookies.get<'ja' | 'en' | 'de' | 'fr' | 'chs' | undefined>('mogboard_language') ?? 'en';
 
   let taxes: Record<City, number>;
   try {
-    const taxRates = await fetch(`https://universalis.app/api/tax-rates?world=${world}`).then(
-      (res) => res.json()
-    );
-    taxes = {
-      [City.LimsaLominsa]: taxRates['Limsa Lominsa'],
-      [City.Gridania]: taxRates['Gridania'],
-      [City.Uldah]: taxRates["Ul'dah"],
-      [City.Ishgard]: taxRates['Ishgard'],
-      [City.Kugane]: taxRates['Kugane'],
-      [City.Crystarium]: taxRates['Crystarium'],
-      [City.OldSharlayan]: taxRates['Old Sharlayan'],
-    };
+    const taxRates: TaxRates = await fetch(
+      `https://universalis.app/api/tax-rates?world=${world}`
+    ).then((res) => res.json());
+    taxes = convertTaxRates(taxRates);
   } catch (err) {
     console.error(err);
-    taxes = {
-      [City.LimsaLominsa]: 0,
-      [City.Gridania]: 0,
-      [City.Uldah]: 0,
-      [City.Ishgard]: 0,
-      [City.Kugane]: 0,
-      [City.Crystarium]: 0,
-      [City.OldSharlayan]: 0,
-    };
+    taxes = zeroTaxRates();
   }
 
   let recent: number[] = [];
@@ -174,25 +182,10 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
 
   let dcs: DataCenter[] = [];
   try {
-    const dataCenters: { name: string; worlds: number[] }[] = await fetch(
-      'https://universalis.app/api/v3/game/data-centers'
-    ).then((res) => res.json());
-    const worlds = await fetch('https://universalis.app/api/v3/game/worlds')
-      .then((res) => res.json())
-      .then((json) =>
-        (json as { id: number; name: string }[]).reduce<
-          Record<number, { id: number; name: string }>
-        >((agg, next) => {
-          agg[next.id] = {
-            id: next.id,
-            name: next.name,
-          };
-          return agg;
-        }, {})
-      );
-    dcs = (dataCenters ?? []).map((dc) => ({
+    const servers = await getServers();
+    dcs = servers.dcs.map((dc) => ({
       name: dc.name,
-      worlds: dc.worlds.map((worldId) => worlds[worldId]),
+      worlds: dc.worlds.sort((a, b) => a.name.localeCompare(b.name)),
     }));
   } catch (err) {
     console.error(err);

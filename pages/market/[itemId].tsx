@@ -28,6 +28,7 @@ import { Cookies } from 'react-cookie';
 import { World } from '../../types/game/World';
 import { getServers } from '../../service/servers';
 import { ParsedUrlQuery } from 'querystring';
+import { Connection } from 'mariadb';
 
 interface MarketProps {
   hasSession: boolean;
@@ -138,6 +139,26 @@ function getItemId(query: ParsedUrlQuery): number {
   return parseInt(query.itemId);
 }
 
+async function addToRecentlyViewed(userId: string, itemId: number, conn: Connection) {
+  // Add this item to the user's recently-viewed list, creating it if it doesn't exist.
+  const recents = await getUserListCustom(userId, UserListCustomType.RecentlyViewed, conn);
+
+  if (recents) {
+    const items = new DoctrineArray();
+    items.push(...recents.items.filter((item) => item !== itemId));
+    items.unshift(itemId);
+    while (items.length > USER_LIST_MAX_ITEMS) {
+      items.pop();
+    }
+
+    await updateUserListItems(userId, recents.id, items, conn);
+  } else {
+    const items = new DoctrineArray();
+    items.push(itemId);
+    await createUserList(RecentlyViewedList(uuidv4(), userId, items), conn);
+  }
+}
+
 export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   const itemId = getItemId(ctx.query);
   if (isNaN(itemId) || !getItem(itemId, 'en')) {
@@ -165,29 +186,7 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
     const conn = await acquireConn();
     try {
       await Promise.all([
-        (async () => {
-          // Add this item to the user's recently-viewed list, creating it if it doesn't exist.
-          const recents = await getUserListCustom(
-            session.user.id!,
-            UserListCustomType.RecentlyViewed,
-            conn
-          );
-
-          if (recents) {
-            const items = new DoctrineArray();
-            items.push(...recents.items.filter((item) => item !== itemId));
-            items.unshift(itemId);
-            while (items.length > USER_LIST_MAX_ITEMS) {
-              items.pop();
-            }
-
-            await updateUserListItems(session.user.id!, recents.id, items, conn);
-          } else {
-            const items = new DoctrineArray();
-            items.push(itemId);
-            await createUserList(RecentlyViewedList(uuidv4(), session.user.id!, items), conn);
-          }
-        })(),
+        addToRecentlyViewed(session.user.id!, itemId, conn),
         (async () => {
           lists = await getUserLists(session.user.id!, conn);
         })(),
