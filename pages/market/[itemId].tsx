@@ -26,6 +26,7 @@ import MarketItemHeader from '../../components/Market/MarketItemHeader/MarketIte
 import { getItem } from '../../data/game';
 import { Cookies } from 'react-cookie';
 import { World } from '../../types/game/World';
+import { getServers } from '../../data/game/servers';
 
 interface MarketProps {
   hasSession: boolean;
@@ -146,36 +147,10 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
 
   let dcs: DataCenter[] = [];
   try {
-    const [dataCenters, worlds] = await Promise.all([
-      (async () => {
-        const dataCenters: { name: string; worlds: number[] }[] = await fetch(
-          'https://universalis.app/api/v3/game/data-centers'
-        ).then((res) => res.json());
-        return dataCenters;
-      })(),
-      (async () => {
-        const worlds = await fetch('https://universalis.app/api/v3/game/worlds')
-          .then((res) => res.json())
-          .then((json) =>
-            (json as { id: number; name: string }[]).reduce<
-              Record<number, { id: number; name: string }>
-            >((agg, next) => {
-              agg[next.id] = {
-                id: next.id,
-                name: next.name,
-              };
-              return agg;
-            }, {})
-          );
-        return worlds;
-      })(),
-    ]);
-
-    dcs = (dataCenters ?? []).map((dc) => ({
+    const servers = await getServers();
+    dcs = servers.dcs.map((dc) => ({
       name: dc.name,
-      worlds: dc.worlds
-        .map((worldId) => worlds[worldId])
-        .sort((a, b) => a.name.localeCompare(b.name)),
+      worlds: dc.worlds.sort((a, b) => a.name.localeCompare(b.name)),
     }));
   } catch (err) {
     console.error(err);
@@ -223,7 +198,11 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   const queryServer =
     typeof ctx.query.server === 'string' && ctx.query.server.length > 0 ? ctx.query.server : null;
   const homeWorld = cookies.get<string | undefined>('mogboard_server') ?? 'Phoenix';
-  const dc = dcs.find((x) => x.worlds.some((y) => y.name === (queryServer ?? homeWorld)));
+  const dc = dcs.find(
+    (x) =>
+      x.worlds.some((y) => y.name.toLowerCase() === (queryServer ?? homeWorld).toLowerCase()) ||
+      (queryServer && x.name.toLowerCase() === queryServer.toLowerCase())
+  );
   if (!dc) {
     throw new Error('Data center not found.');
   }

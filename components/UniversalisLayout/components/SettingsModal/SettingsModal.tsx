@@ -1,6 +1,6 @@
 import { t, Trans } from '@lingui/macro';
 import { useEffect, useState } from 'react';
-import { getServers, Servers } from '../../../../data/game/servers';
+import { getServersWithRegions, ServersWithRegionNames } from '../../../../data/game/servers';
 import { getTimeZones, TimeZone } from '../../../../data/game/timezones';
 import useClickOutside from '../../../../hooks/useClickOutside';
 import useSettings from '../../../../hooks/useSettings';
@@ -23,15 +23,16 @@ export default function SettingsModal({ isOpen, closeModal, onSave }: SettingsMo
     settings['mogboard_homeworld'] ?? 'no'
   );
 
-  const [settingsData, setSettingsData] = useState<Servers & { timezones: TimeZone[] }>({
+  const [settingsData, setSettingsData] = useState<
+    Omit<ServersWithRegionNames & { timezones: TimeZone[] }, 'worlds'>
+  >({
     dcs: [],
-    worlds: [],
     timezones: [],
   });
   useEffect(() => {
     (async () => {
       const timezones = await getTimeZones();
-      const servers = await getServers({
+      const { dcs } = await getServersWithRegions({
         europe: t`Europe`,
         japan: t`Japan`,
         america: t`America`,
@@ -39,7 +40,10 @@ export default function SettingsModal({ isOpen, closeModal, onSave }: SettingsMo
         china: t`中国`,
         unknown: t`(Unknown)`,
       });
-      setSettingsData({ ...servers, ...{ timezones } });
+      setSettingsData({
+        dcs: dcs.sort((a, b) => a.region.localeCompare(b.region)),
+        ...{ timezones },
+      });
     })();
   }, []);
 
