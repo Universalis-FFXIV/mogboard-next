@@ -1,4 +1,5 @@
 # mogboard-next
+Mogboard, the frontend for the [Universalis](https://github.com/Universalis-FFXIV/Universalis) crowdsourced market data API.
 
 ## Acknowledgements
 Mogboard was originally written by Vekien, and its original source code can be found [here](https://github.com/xivapi/mogboard). With his permission, we borrowed Mogboard as a frontend for Universalis after Mogboard became defunct in August 2019. We have since rewritten the website from the ground up to better suit our needs. The existing version of the website would not have been possible without Vekien's work on Mogboard.
