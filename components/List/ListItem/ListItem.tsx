@@ -1,5 +1,5 @@
 import { Trans } from '@lingui/macro';
-import { DoctrineArray } from '../../../db/DoctrineArray';
+import { PHPArray } from '../../../db/PHPArray';
 import { Item } from '../../../types/game/Item';
 import { UserList } from '../../../types/universalis/user';
 import GameItemIcon from '../../GameItemIcon/GameItemIcon';

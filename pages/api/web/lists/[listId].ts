@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { getServerSession } from 'next-auth';
 import { acquireConn, releaseConn } from '../../../../db/connect';
-import { DoctrineArray } from '../../../../db/DoctrineArray';
+import { PHPArray } from '../../../../db/PHPArray';
 import * as db from '../../../../db/user-list';
 import { authOptions } from '../../auth/[...nextauth]';
 
@@ -33,7 +33,7 @@ async function put(req: NextApiRequest, res: NextApiResponse) {
     return res.status(441).json({ message: 'List is at maximum capacity.' });
   }
 
-  const itemsProcessed = Array.isArray(items) ? new DoctrineArray() : null;
+  const itemsProcessed = Array.isArray(items) ? new PHPArray() : null;
   itemsProcessed?.push(...items);
 
   const conn = await acquireConn();

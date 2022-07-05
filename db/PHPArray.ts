@@ -18,7 +18,7 @@ class ArrayWithEnd<T> extends Array<T> {
   }
 }
 
-export class DoctrineArray extends ArrayWithEnd<any> {
+export class PHPArray extends ArrayWithEnd<any> {
   public constructor(..._errorProne: never) {
     super();
   }
@@ -66,7 +66,7 @@ export class DoctrineArray extends ArrayWithEnd<any> {
           }
 
           if (nextType === 'a') {
-            containers.push(new DoctrineArray());
+            containers.push(new PHPArray());
             states.push(
               DoctrineArrayParseState.ExpectingArrayEnd,
               DoctrineArrayParseState.ExpectingArrayStart,
@@ -171,7 +171,7 @@ export class DoctrineArray extends ArrayWithEnd<any> {
       ptr++;
     }
 
-    return containers[0] as DoctrineArray;
+    return containers[0] as PHPArray;
   }
 }
 

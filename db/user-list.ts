@@ -1,12 +1,12 @@
 import { UserList, UserListCustomType } from '../types/universalis/user';
 import mariadb from 'mariadb';
-import { DoctrineArray } from './DoctrineArray';
+import { PHPArray } from './PHPArray';
 import { unix } from './util';
 
 export const USER_LIST_MAX_ITEMS = 100;
 export const USER_LIST_MAX = 12;
 
-export const RecentlyViewedList = (id: string, userId: string, items: DoctrineArray): UserList => {
+export const RecentlyViewedList = (id: string, userId: string, items: PHPArray): UserList => {
   return {
     id,
     userId,
@@ -19,7 +19,7 @@ export const RecentlyViewedList = (id: string, userId: string, items: DoctrineAr
   };
 };
 
-export const FavouritesList = (id: string, userId: string, items: DoctrineArray): UserList => {
+export const FavouritesList = (id: string, userId: string, items: PHPArray): UserList => {
   return {
     id,
     userId,
@@ -114,7 +114,7 @@ export function updateUserListName(
 export function updateUserListItems(
   userId: string,
   listId: string,
-  items: DoctrineArray,
+  items: PHPArray,
   conn: mariadb.Connection
 ) {
   return conn.execute(
@@ -144,6 +144,6 @@ function rowToUserList(row: Record<string, any>): UserList {
     name: row['name'],
     custom: row['custom'],
     customType: row['custom_type'],
-    items: DoctrineArray.deserialize(row['items']),
+    items: PHPArray.deserialize(row['items']),
   };
 }

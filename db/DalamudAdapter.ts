@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from 'uuid';
 import * as db from './user';
 import * as listsDb from './user-list';
 import { unix } from './util';
-import { DoctrineArray } from './DoctrineArray';
+import { PHPArray } from './PHPArray';
 
 export default function DalamudAdapter(): Adapter {
   return {
@@ -45,10 +45,10 @@ export default function DalamudAdapter(): Adapter {
         await db.createUser(mogUser, conn);
 
         // Create the user's custom lists
-        const recentlyViewed = listsDb.RecentlyViewedList(uuidv4(), id, new DoctrineArray());
+        const recentlyViewed = listsDb.RecentlyViewedList(uuidv4(), id, new PHPArray());
         await listsDb.createUserList(recentlyViewed, conn);
 
-        const faves = listsDb.FavouritesList(uuidv4(), id, new DoctrineArray());
+        const faves = listsDb.FavouritesList(uuidv4(), id, new PHPArray());
         await listsDb.createUserList(faves, conn);
 
         return {
