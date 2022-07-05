@@ -1,7 +1,7 @@
 import NextAuth, { NextAuthOptions } from 'next-auth';
 import DiscordProvider from 'next-auth/providers/discord';
 import getConfig from 'next/config';
-import { acquireConn } from '../../../db/connect';
+import { acquireConn, releaseConn } from '../../../db/connect';
 import DalamudAdapter from '../../../db/DalamudAdapter';
 import { getUser } from '../../../db/user';
 
@@ -33,6 +33,8 @@ export const authOptions: NextAuthOptions = {
             token.picture = user?.ssoDiscordAvatar;
           } catch (err) {
             console.error(err);
+          } finally {
+            await releaseConn(conn);
           }
         }
 
