@@ -11,6 +11,7 @@ const nextConfig = {
     nextAuthSecret: process.env['NEXTAUTH_SECRET'],
     dbHost: process.env['DATABASE_HOST'],
     dbPort: process.env['DATABASE_PORT'],
+    dbConnections: process.env['DATABASE_CONNECTIONS'],
     lodestoneHost: process.env['LODESTONE_HOST'],
     lodestonePort: process.env['LODESTONE_PORT'],
   },
