@@ -1,15 +1,13 @@
 import { getItem, getMateria } from '../../data/game';
-import useSettings from '../../hooks/useSettings';
+import { Language } from '../../types/universalis/lang';
 
 interface GameMateriaProps {
   materiaId: number;
   slotId: number;
+  lang: Language;
 }
 
-export default function GameMateria({ materiaId, slotId }: GameMateriaProps) {
-  const [settings] = useSettings();
-  const lang = settings['mogboard_language'] ?? 'en';
-
+export default function GameMateria({ materiaId, slotId, lang }: GameMateriaProps) {
   const materia = getMateria(materiaId, lang);
   if (materia == null) {
     return <></>;

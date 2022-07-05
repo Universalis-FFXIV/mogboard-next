@@ -1,9 +1,8 @@
 import { t, Trans } from '@lingui/macro';
 import RelativeTime from '@yaireo/relative-time';
-import { useState, useEffect } from 'react';
-import useSettings from '../../../hooks/useSettings';
 import { Item } from '../../../types/game/Item';
 import { World } from '../../../types/game/World';
+import { Language } from '../../../types/universalis/lang';
 import ListingsTable from '../../ListingsTable/ListingsTable';
 import SalesTable from '../../SalesTable/SalesTable';
 import MarketHistoryGraph from '../MarketHistoryGraph/MarketHistoryGraph';
@@ -14,16 +13,14 @@ interface MarketWorldProps {
   item: Item;
   world: World;
   market: any;
+  lang: Language;
 }
 
 function entriesToShow(entries: {}[]) {
   return Math.max(Math.floor(entries.length * 0.1), 10);
 }
 
-export default function MarketWorld({ item, world, market }: MarketWorldProps) {
-  const [settings] = useSettings();
-  const lang = settings['mogboard_language'] ?? 'en';
-
+export default function MarketWorld({ item, world, market, lang }: MarketWorldProps) {
   const relativeTime = new RelativeTime({ locale: lang });
 
   if (market == null) {
@@ -62,6 +59,7 @@ export default function MarketWorld({ item, world, market }: MarketWorldProps) {
             averageNq={market.currentAveragePriceNQ}
             crossWorld={false}
             includeDiff={true}
+            lang={lang}
             start={0}
             end={entriesToShow(market.listings)}
           />
@@ -76,6 +74,7 @@ export default function MarketWorld({ item, world, market }: MarketWorldProps) {
             averageNq={market.averagePriceNQ}
             crossWorld={false}
             includeDiff={true}
+            lang={lang}
             start={0}
             end={entriesToShow(market.listings)}
           />

@@ -117,11 +117,16 @@ const Market: NextPage<MarketProps> = ({ hasSession, lists, markets, itemId, dc,
           </div>
           <div className="tab">
             <div className={`tab-page tab-summary ${selectedWorld == null ? 'open' : ''}`}>
-              <MarketDataCenter item={item} dc={dc} markets={markets} />
+              <MarketDataCenter item={item} dc={dc} markets={markets} lang={lang} />
             </div>
             {selectedWorld && (
               <div className="tab-page tab-cw open">
-                <MarketWorld item={item} world={selectedWorld} market={markets[selectedWorld.id]} />
+                <MarketWorld
+                  item={item}
+                  world={selectedWorld}
+                  market={markets[selectedWorld.id]}
+                  lang={lang}
+                />
               </div>
             )}
           </div>

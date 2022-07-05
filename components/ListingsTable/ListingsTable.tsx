@@ -1,6 +1,7 @@
 import { Trans } from '@lingui/macro';
 import Image from 'next/image';
 import { Fragment, PropsWithChildren } from 'react';
+import { Language } from '../../types/universalis/lang';
 import GameCityIcon from '../GameCityIcon/GameCityIcon';
 import GameMateria from '../GameMateria/GameMateria';
 import SortTable from '../SortTable/SortTable';
@@ -12,6 +13,7 @@ interface ListingsTableProps {
   averageHq: number;
   crossWorld: boolean;
   includeDiff: boolean;
+  lang: Language;
   start?: number;
   end?: number;
 }
@@ -119,6 +121,7 @@ export default function ListingsTable({
   averageHq,
   crossWorld,
   includeDiff,
+  lang,
   start,
   end,
 }: ListingsTableProps) {
@@ -131,7 +134,7 @@ export default function ListingsTable({
         hq: listing.hq,
         materia: listing.materia.map((m: { materiaID: number; slotID: number }, i: number) => (
           <Fragment key={i}>
-            <GameMateria materiaId={m.materiaID} slotId={m.slotID} />
+            <GameMateria materiaId={m.materiaID} slotId={m.slotID} lang={lang} />
             <br />
           </Fragment>
         )),

@@ -4,6 +4,7 @@ import GameItemIcon from '../../GameItemIcon/GameItemIcon';
 import ListItemHeader from '../ListItemHeader/ListItemHeader';
 import Tooltip from '../../Tooltip/Tooltip';
 import ListItemMarket from '../ListItemMarket/ListItemMarket';
+import { Language } from '../../../types/universalis/lang';
 
 interface ListItemProps {
   itemId: number;
@@ -12,6 +13,7 @@ interface ListItemProps {
   reqIsOwner: boolean;
   showHomeWorld: boolean;
   removeItem: (itemId: number) => void;
+  lang: Language;
 }
 
 export default function ListItem({
@@ -21,6 +23,7 @@ export default function ListItem({
   reqIsOwner,
   showHomeWorld,
   removeItem,
+  lang,
 }: ListItemProps) {
   return (
     <div className="pl_i">
@@ -29,7 +32,7 @@ export default function ListItem({
       </div>
       <div>
         <h2>
-          <ListItemHeader item={item} />
+          <ListItemHeader item={item} lang={lang} />
           {reqIsOwner && (
             <Tooltip
               label={
@@ -44,7 +47,12 @@ export default function ListItem({
             </Tooltip>
           )}
         </h2>
-        <ListItemMarket item={item} market={market.items[itemId]} showHomeWorld={showHomeWorld} />
+        <ListItemMarket
+          item={item}
+          market={market.items[itemId]}
+          showHomeWorld={showHomeWorld}
+          lang={lang}
+        />
       </div>
     </div>
   );

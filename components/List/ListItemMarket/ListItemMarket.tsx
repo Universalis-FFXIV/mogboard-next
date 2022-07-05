@@ -1,8 +1,8 @@
 import { t, Trans } from '@lingui/macro';
 import RelativeTime from '@yaireo/relative-time';
 import { sprintf } from 'sprintf-js';
-import useSettings from '../../../hooks/useSettings';
 import { Item } from '../../../types/game/Item';
+import { Language } from '../../../types/universalis/lang';
 import ListingsTable from '../../ListingsTable/ListingsTable';
 import SalesTable from '../../SalesTable/SalesTable';
 
@@ -10,12 +10,10 @@ interface ListItemMarketProps {
   item?: Item;
   market: any;
   showHomeWorld: boolean;
+  lang: Language;
 }
 
-export default function ListItemMarket({ item, market, showHomeWorld }: ListItemMarketProps) {
-  const [settings] = useSettings();
-  const lang = settings['mogboard_language'] ?? 'en';
-
+export default function ListItemMarket({ item, market, showHomeWorld, lang }: ListItemMarketProps) {
   if (item == null) {
     return <div />;
   }
@@ -40,6 +38,7 @@ export default function ListItemMarket({ item, market, showHomeWorld }: ListItem
               averageNq={market.currentAveragePriceNQ}
               crossWorld={!showHomeWorld}
               includeDiff={false}
+              lang={lang}
               start={0}
               end={5}
             />
@@ -58,6 +57,7 @@ export default function ListItemMarket({ item, market, showHomeWorld }: ListItem
               averageNq={market.averagePriceNQ}
               crossWorld={!showHomeWorld}
               includeDiff={false}
+              lang={lang}
               start={0}
               end={5}
             />

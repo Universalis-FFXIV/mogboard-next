@@ -1,14 +1,20 @@
 import { useEffect } from 'react';
 import { useCookies } from 'react-cookie';
+import { Language } from '../types/universalis/lang';
 
-type Settings = {
+interface Settings {
   mogboard_server: string;
-  mogboard_language: 'en' | 'fr' | 'de' | 'ja' | 'chs';
+  mogboard_language: Language;
   mogboard_timezone: string;
   mogboard_leftnav: 'on' | 'off';
   mogboard_homeworld: 'yes' | 'no';
-};
+}
 
+/**
+ * Retrieve the user's site settings.
+ * WARNING: This function refreshes the expiry of all settings cookies; this is a relatively *slow* operation!
+ * Try to pass specific values from this where possible, instead of calling it in a deeply-nested loop.
+ */
 export default function useSettings(): [
   Partial<Settings>,
   (name: keyof Settings, value: any) => void
