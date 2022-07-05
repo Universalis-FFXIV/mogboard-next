@@ -17,7 +17,7 @@ import { DataCenter } from '../../types/game/DataCenter';
 import { UserList, UserListCustomType } from '../../types/universalis/user';
 import { authOptions } from '../api/auth/[...nextauth]';
 import { v4 as uuidv4 } from 'uuid';
-import { PHPArray } from '../../db/PHPArray';
+import { PHPObject } from '../../db/PHPObject';
 import { ListsDispatchAction } from '../../components/Market/MarketNav/MarketNav';
 import MarketDataCenter from '../../components/Market/MarketDataCenter/MarketDataCenter';
 import MarketWorld from '../../components/Market/MarketWorld/MarketWorld';
@@ -144,7 +144,7 @@ async function addToRecentlyViewed(userId: string, itemId: number, conn: Connect
   const recents = await getUserListCustom(userId, UserListCustomType.RecentlyViewed, conn);
 
   if (recents) {
-    const items = new PHPArray();
+    const items = new PHPObject();
     items.push(...recents.items.filter((item) => item !== itemId));
     items.unshift(itemId);
     while (items.length > USER_LIST_MAX_ITEMS) {
@@ -153,7 +153,7 @@ async function addToRecentlyViewed(userId: string, itemId: number, conn: Connect
 
     await updateUserListItems(userId, recents.id, items, conn);
   } else {
-    const items = new PHPArray();
+    const items = new PHPObject();
     items.push(itemId);
     await createUserList(RecentlyViewedList(uuidv4(), userId, items), conn);
   }

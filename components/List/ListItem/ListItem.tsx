@@ -1,5 +1,5 @@
 import { Trans } from '@lingui/macro';
-import { PHPArray } from '../../../db/PHPArray';
+import { PHPObject } from '../../../db/PHPObject';
 import { Item } from '../../../types/game/Item';
 import { UserList } from '../../../types/universalis/user';
 import GameItemIcon from '../../GameItemIcon/GameItemIcon';
