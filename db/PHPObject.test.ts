@@ -51,10 +51,21 @@ test('PHPArray can serialize and deserialize an array with many numbers', () => 
   }
 });
 
-test('PHPArray can deserialize arrays that have had elements removed without being reindexed', () => {
+test('PHPArray fails to deserialize arrays that have had elements removed without being reindexed', () => {
+  expect(async () =>
+    PHPObject.deserialize(
+      'a:15:{i:0;i:36904;i:1;i:36906;i:2;i:36005;i:3;i:36003;i:4;i:33684;i:5;i:33674;i:6;i:33145;i:7;i:32846;i:8;i:30861;i:10;i:30862;i:11;i:30865;i:12;i:28125;i:13;i:28917;i:14;i:23023;i:15;i:16564;}'
+    )
+  ).rejects.toThrow();
+});
+
+test('PHPArray can optionally deserialize arrays that have had elements removed without being reindexed', () => {
   // It is impossible to know which element has been removed; instead, we just assume it was the last element.
   const php = PHPObject.deserialize(
-    'a:15:{i:0;i:36904;i:1;i:36906;i:2;i:36005;i:3;i:36003;i:4;i:33684;i:5;i:33674;i:6;i:33145;i:7;i:32846;i:8;i:30861;i:10;i:30862;i:11;i:30865;i:12;i:28125;i:13;i:28917;i:14;i:23023;i:15;i:16564;}'
+    'a:15:{i:0;i:36904;i:1;i:36906;i:2;i:36005;i:3;i:36003;i:4;i:33684;i:5;i:33674;i:6;i:33145;i:7;i:32846;i:8;i:30861;i:10;i:30862;i:11;i:30865;i:12;i:28125;i:13;i:28917;i:14;i:23023;i:15;i:16564;}',
+    { allowDirtyArrays: true }
   );
-  expect(php).toHaveLength(15);
+
+  // The result should not have lost any data.
+  expect(php).toHaveLength(16);
 });

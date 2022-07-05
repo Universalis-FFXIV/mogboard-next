@@ -144,6 +144,6 @@ function rowToUserList(row: Record<string, any>): UserList {
     name: row['name'],
     custom: row['custom'],
     customType: row['custom_type'],
-    items: PHPObject.deserialize(row['items']),
+    items: PHPObject.deserialize(row['items'], { allowDirtyArrays: true }),
   };
 }
