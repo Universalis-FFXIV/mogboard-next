@@ -15,7 +15,7 @@ COPY . .
 ENV NEXT_TELEMETRY_DISABLED 1
 
 COPY .env.staging .env.production
-RUN yarn build
+RUN yarn test && yarn build
 
 # Production image, copy all the files and run next
 FROM node:16-alpine AS runner
