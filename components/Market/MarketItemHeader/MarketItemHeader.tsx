@@ -11,6 +11,7 @@ import { Item } from '../../../types/game/Item';
 import { UserList } from '../../../types/universalis/user';
 import GameItemIcon from '../../GameItemIcon/GameItemIcon';
 import MarketNav, { ListsDispatchAction } from '../MarketNav/MarketNav';
+import CopyTextButton from '../../CopyTextButton/CopyTextButton';
 
 interface MarketItemHeaderProps {
   hasSession: boolean;
@@ -42,6 +43,7 @@ export default function MarketItemHeader({
           <h1 className={`rarity-${item.rarity}`}>
             <span>{item.levelItem}</span>
             &nbsp;{item.name}
+            <CopyTextButton text={item.name} />
           </h1>
         </div>
         <div className="item_info2">

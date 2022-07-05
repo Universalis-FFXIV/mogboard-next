@@ -3,7 +3,6 @@ import { GetServerSidePropsContext, NextPage } from 'next';
 import { getServerSession } from 'next-auth';
 import Head from 'next/head';
 import { useState, useEffect, useRef, useReducer } from 'react';
-import { Cookies } from 'react-cookie';
 import { sprintf } from 'sprintf-js';
 import ListHeader from '../../components/List/ListHeader/ListHeader';
 import ListItem from '../../components/List/ListItem/ListItem';
@@ -168,7 +167,6 @@ const List: NextPage<ListProps> = ({ dcs, list, reqIsOwner, ownerName }) => {
             key={itemId}
             itemId={itemId}
             item={items[itemId]}
-            listItemIds={stateList.items}
             market={market}
             reqIsOwner={reqIsOwner}
             showHomeWorld={showHomeWorld}

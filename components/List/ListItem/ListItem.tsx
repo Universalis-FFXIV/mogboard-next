@@ -1,16 +1,13 @@
 import { Trans } from '@lingui/macro';
-import { PHPObject } from '../../../db/PHPObject';
 import { Item } from '../../../types/game/Item';
-import { UserList } from '../../../types/universalis/user';
 import GameItemIcon from '../../GameItemIcon/GameItemIcon';
-import ItemHeader from '../../ItemHeader/ItemHeader';
+import ListItemHeader from '../ListItemHeader/ListItemHeader';
 import Tooltip from '../../Tooltip/Tooltip';
 import ListItemMarket from '../ListItemMarket/ListItemMarket';
 
 interface ListItemProps {
   itemId: number;
   item: Item;
-  listItemIds: number[];
   market: any;
   reqIsOwner: boolean;
   showHomeWorld: boolean;
@@ -20,7 +17,6 @@ interface ListItemProps {
 export default function ListItem({
   itemId,
   item,
-  listItemIds,
   market,
   reqIsOwner,
   showHomeWorld,
@@ -33,7 +29,7 @@ export default function ListItem({
       </div>
       <div>
         <h2>
-          <ItemHeader item={item} />
+          <ListItemHeader item={item} />
           {reqIsOwner && (
             <Tooltip
               label={
