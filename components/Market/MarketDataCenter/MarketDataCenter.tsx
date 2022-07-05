@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { sprintf } from 'sprintf-js';
 import { DataCenter } from '../../../types/game/DataCenter';
 import { Item } from '../../../types/game/Item';
+import { Language } from '../../../types/universalis/lang';
 import ListingsTable from '../../ListingsTable/ListingsTable';
 import SalesTable from '../../SalesTable/SalesTable';
 import MarketAverages from '../MarketAverages/MarketAverages';
@@ -15,13 +16,14 @@ interface MarketDataCenterProps {
   item: Item;
   dc: DataCenter;
   markets: Record<number, any>;
+  lang: Language;
 }
 
 function entriesToShow(entries: {}[]) {
   return Math.max(Math.floor(entries.length * 0.1), 10);
 }
 
-export default function MarketDataCenter({ item, dc, markets }: MarketDataCenterProps) {
+export default function MarketDataCenter({ item, dc, markets, lang }: MarketDataCenterProps) {
   const worldsSorted = dc.worlds.sort((a, b) => a.name.localeCompare(b.name));
 
   if (Object.keys(markets).length !== dc.worlds.length) {
@@ -124,6 +126,7 @@ export default function MarketDataCenter({ item, dc, markets }: MarketDataCenter
                 averageNq={nqListingsAveragePpu}
                 crossWorld={true}
                 includeDiff={true}
+                lang={lang}
                 start={0}
                 end={entriesToShow(hqListings)}
               />
@@ -139,6 +142,7 @@ export default function MarketDataCenter({ item, dc, markets }: MarketDataCenter
             averageNq={nqListingsAveragePpu}
             crossWorld={true}
             includeDiff={true}
+            lang={lang}
             start={0}
             end={entriesToShow(nqListings)}
           />
@@ -156,6 +160,7 @@ export default function MarketDataCenter({ item, dc, markets }: MarketDataCenter
                 averageNq={nqSalesAveragePpu}
                 crossWorld={true}
                 includeDiff={true}
+                lang={lang}
                 start={0}
                 end={entriesToShow(hqSales)}
               />
@@ -169,6 +174,7 @@ export default function MarketDataCenter({ item, dc, markets }: MarketDataCenter
             averageNq={nqSalesAveragePpu}
             crossWorld={true}
             includeDiff={true}
+            lang={lang}
             start={0}
             end={entriesToShow(nqSales)}
           />

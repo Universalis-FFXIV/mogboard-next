@@ -20,7 +20,7 @@ import { messages as messagesDe } from '../i18n/de/messages';
 import { messages as messagesFr } from '../i18n/fr/messages';
 import { messages as messagesZhHans } from '../i18n/zh-HANS/messages';
 import App from 'next/app';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { PopupData, PopupProvider } from '../components/UniversalisLayout/components/Popup/Popup';
 import {
   ModalCoverData,

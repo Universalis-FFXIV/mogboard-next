@@ -1,17 +1,15 @@
 import Link from 'next/link';
 import { getClassJobCategory, getItemKind, getItemSearchCategory } from '../../../data/game';
-import useSettings from '../../../hooks/useSettings';
 import { Item } from '../../../types/game/Item';
+import { Language } from '../../../types/universalis/lang';
 import CopyTextButton from '../../CopyTextButton/CopyTextButton';
 
 interface ListItemHeaderProps {
   item?: Item;
+  lang: Language;
 }
 
-export default function ListItemHeader({ item }: ListItemHeaderProps) {
-  const [settings] = useSettings();
-  const lang = settings['mogboard_language'] ?? 'en';
-
+export default function ListItemHeader({ item, lang }: ListItemHeaderProps) {
   if (item == null) {
     return <></>;
   }

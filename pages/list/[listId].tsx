@@ -176,6 +176,7 @@ const List: NextPage<ListProps> = ({ dcs, list, reqIsOwner, ownerName }) => {
               updateList({ items });
               dispatch({ type: 'removeItem', itemId: x });
             }}
+            lang={lang}
           />
         ))}
         {stateList.items.length === 0 && (

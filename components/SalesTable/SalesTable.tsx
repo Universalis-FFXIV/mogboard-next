@@ -4,7 +4,7 @@ import { PropsWithChildren, Suspense } from 'react';
 import SortTable from '../SortTable/SortTable';
 import Tooltip from '../Tooltip/Tooltip';
 import Image from 'next/image';
-import useSettings from '../../hooks/useSettings';
+import { Language } from '../../types/universalis/lang';
 
 interface SalesTableProps {
   sales: any[];
@@ -12,6 +12,7 @@ interface SalesTableProps {
   averageNq: number;
   crossWorld: boolean;
   includeDiff: boolean;
+  lang: Language;
   start?: number;
   end?: number;
 }
@@ -44,10 +45,7 @@ function SalesTableHeader({
   );
 }
 
-function SalesTableRow({ sale }: { sale: SaleRow }) {
-  const [settings] = useSettings();
-  const lang = settings['mogboard_language'] ?? 'en';
-
+function SalesTableRow({ sale, lang }: { sale: SaleRow; lang: Language }) {
   const relativeTime = new RelativeTime({ locale: lang });
   return (
     <tr>
@@ -106,6 +104,7 @@ export default function SalesTable({
   averageNq,
   crossWorld,
   includeDiff,
+  lang,
   start,
   end,
 }: SalesTableProps) {
@@ -183,7 +182,7 @@ export default function SalesTable({
           </tr>
         }
       >
-        {(sale) => <SalesTableRow sale={sale} />}
+        {(sale) => <SalesTableRow sale={sale} lang={lang} />}
       </SortTable>
     </div>
   );
