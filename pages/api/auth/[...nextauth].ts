@@ -1,7 +1,9 @@
 import NextAuth, { NextAuthOptions } from 'next-auth';
 import DiscordProvider from 'next-auth/providers/discord';
 import getConfig from 'next/config';
+import { acquireConn } from '../../../db/connect';
 import DalamudAdapter from '../../../db/DalamudAdapter';
+import { getUser } from '../../../db/user';
 
 const { serverRuntimeConfig } = getConfig();
 
@@ -20,6 +22,20 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     async jwt({ token, account }) {
       if (account) {
+        if (
+          token.sub &&
+          account.provider === 'discord' &&
+          !token.picture?.includes('cdn.discordapp.com')
+        ) {
+          const conn = await acquireConn();
+          try {
+            const user = await getUser(token.sub, conn);
+            token.picture = user?.ssoDiscordAvatar;
+          } catch (err) {
+            console.error(err);
+          }
+        }
+
         if (!token.picture && account.provider === 'discord' && account.access_token) {
           try {
             const res = await fetch('https://discord.com/api/v9/users/@me', {
