@@ -1,4 +1,4 @@
-import { DoctrineArray } from '../../db/DoctrineArray';
+import { PHPObject } from '../../db/PHPObject';
 
 export interface User {
   id: string;
@@ -41,7 +41,7 @@ export interface UserList {
   name: string;
   custom: boolean;
   customType: UserListCustomType | null;
-  items: DoctrineArray;
+  items: PHPObject;
 }
 
 export interface UserCharacter {

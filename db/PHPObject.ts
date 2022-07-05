@@ -12,13 +12,33 @@ enum DoctrineArrayParseState {
   ExpectingArrayInt,
 }
 
+export interface PHPDeserializationOptions {
+  /**
+   * Whether or not to fail when attempting to deserialize an array that
+   * has not been reindexed after modification. Defaults to `false`.
+   *
+   * References:
+   * https://www.php.net/manual/en/language.types.array.php#language.types.array.useful-funcs
+   */
+  allowDirtyArrays?: boolean;
+}
+
+type GetOption<
+  T extends PHPDeserializationOptions = PHPDeserializationOptions,
+  K extends keyof T = keyof T
+> = (k: K) => NonNullable<T[K]>;
+
+const defaultOptions: Required<PHPDeserializationOptions> = {
+  allowDirtyArrays: false,
+};
+
 class ArrayWithEnd<T> extends Array<T> {
   public end() {
     return this[this.length - 1];
   }
 }
 
-export class DoctrineArray extends ArrayWithEnd<any> {
+export class PHPObject extends ArrayWithEnd<any> {
   public constructor(..._errorProne: never) {
     super();
   }
@@ -36,7 +56,11 @@ export class DoctrineArray extends ArrayWithEnd<any> {
     return fragments.join('');
   }
 
-  public static deserialize(data: string) {
+  public static deserialize(data: string, options?: PHPDeserializationOptions) {
+    const getOption: GetOption = (k) => {
+      return (options && options[k]) ?? defaultOptions[k];
+    };
+
     // Preconditions
     if (data.length === 0) {
       throw new Error('Input string was empty.');
@@ -66,7 +90,7 @@ export class DoctrineArray extends ArrayWithEnd<any> {
           }
 
           if (nextType === 'a') {
-            containers.push(new DoctrineArray());
+            containers.push(new PHPObject());
             states.push(
               DoctrineArrayParseState.ExpectingArrayEnd,
               DoctrineArrayParseState.ExpectingArrayStart,
@@ -118,7 +142,7 @@ export class DoctrineArray extends ArrayWithEnd<any> {
           if (data[ptr] !== '}') {
             throw new Error(`Expected array end; got ${data[ptr]}.`);
           }
-          if (containers.end().length !== lengths.end()) {
+          if (!getOption('allowDirtyArrays') && containers.end().length !== lengths.end()) {
             throw new Error(`Expected ${lengths.end()} elements; got ${containers.end().length}.`);
           }
           break;
@@ -171,7 +195,7 @@ export class DoctrineArray extends ArrayWithEnd<any> {
       ptr++;
     }
 
-    return containers[0] as DoctrineArray;
+    return containers[0] as PHPObject;
   }
 }
 

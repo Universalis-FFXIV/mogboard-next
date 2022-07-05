@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { getServerSession } from 'next-auth';
 import { acquireConn, releaseConn } from '../../../../db/connect';
-import { DoctrineArray } from '../../../../db/DoctrineArray';
+import { PHPObject } from '../../../../db/PHPObject';
 import * as db from '../../../../db/user-list';
 import { unix } from '../../../../db/util';
 import { UserListCustomType } from '../../../../types/universalis/user';
@@ -31,7 +31,7 @@ async function put(req: NextApiRequest, res: NextApiResponse) {
       .json({ message: 'List is at maximum capacity; please remove some items first.' });
   }
 
-  const items = new DoctrineArray();
+  const items = new PHPObject();
   items.push(...itemsBody);
 
   const conn = await acquireConn();

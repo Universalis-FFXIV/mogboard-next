@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { getServerSession } from 'next-auth';
 import { acquireConn, releaseConn } from '../../../../db/connect';
-import { DoctrineArray } from '../../../../db/DoctrineArray';
+import { PHPObject } from '../../../../db/PHPObject';
 import { unix } from '../../../../db/util';
 import { UserList, UserListCustomType } from '../../../../types/universalis/user';
 import { authOptions } from '../../auth/[...nextauth]';
@@ -37,7 +37,7 @@ async function post(req: NextApiRequest, res: NextApiResponse) {
   }
   const name = nameBody;
 
-  const items = new DoctrineArray();
+  const items = new PHPObject();
   const itemsBody: unknown = req.body.items;
   if (
     !Array.isArray(itemsBody) ||

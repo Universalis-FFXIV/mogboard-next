@@ -1,7 +1,7 @@
 import { t, Trans } from '@lingui/macro';
 import { useState, useRef } from 'react';
 import { sprintf } from 'sprintf-js';
-import { DoctrineArray } from '../../../db/DoctrineArray';
+import { PHPObject } from '../../../db/PHPObject';
 import { UserList, UserListCustomType } from '../../../types/universalis/user';
 import LoggedIn from '../../LoggedIn/LoggedIn';
 import { useModalCover } from '../../UniversalisLayout/components/ModalCover/ModalCover';
@@ -49,7 +49,7 @@ export default function MarketNav({ hasSession, lists, dispatch, itemId }: Marke
       return;
     }
 
-    const items = new DoctrineArray();
+    const items = new PHPObject();
     items.push(...(faves ?? []));
     if (favourite) {
       items.splice(items.indexOf(itemId), 1);
@@ -92,7 +92,7 @@ export default function MarketNav({ hasSession, lists, dispatch, itemId }: Marke
 
     const list = lists.find((list) => list.id === listId)!;
     const addingItem = !list.items.includes(itemId);
-    const items = new DoctrineArray();
+    const items = new PHPObject();
     items.push(...list.items);
     if (addingItem) {
       items.unshift(itemId);
