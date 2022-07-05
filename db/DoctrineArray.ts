@@ -13,7 +13,7 @@ enum DoctrineArrayParseState {
 }
 
 class ArrayWithEnd<T> extends Array<T> {
-  end() {
+  public end() {
     return this[this.length - 1];
   }
 }
