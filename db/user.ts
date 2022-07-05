@@ -140,7 +140,7 @@ function rowToUser(user: Record<string, any>): User {
     alertsExpiry: user['alerts_expiry'],
     alertsUpdate: user['alerts_update'],
     ssoDiscordId: user['sso_discord_id'],
-    ssoDiscordAvatar: user['sso_discord_avatar'],
+    ssoDiscordAvatar: `https://cdn.discordapp.com/avatars/${user['sso_discord_id']}/${user['sso_discord_avatar']}.webp?size=96`,
     ssoDiscordTokenExpires: user['sso_discord_token_expires'],
     ssoDiscordTokenAccess: user['sso_discord_token_access'],
     ssoDiscordTokenRefresh: user['sso_discord_token_refresh'],
