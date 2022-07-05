@@ -36,7 +36,7 @@ export async function getServersWithRegions(regionStrings: {
   const { dcs, worlds } = await getServers();
   const dcRegions = {
     europe: ['Chaos', 'Light'],
-    japan: ['Elemental', 'Gaia', 'Mana'],
+    japan: ['Elemental', 'Gaia', 'Mana', 'Meteor'],
     america: ['Crystal', 'Primal', 'Aether'],
     oceania: ['Materia'],
     china: ['陆行鸟', '莫古力', '猫小胖', '豆豆柴'],
