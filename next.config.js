@@ -5,6 +5,7 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  productionBrowserSourceMaps: true,
   serverRuntimeConfig: {
     discordClientId: process.env['DISCORD_CLIENT_ID'],
     discordClientSecret: process.env['DISCORD_CLIENT_SECRET'],
