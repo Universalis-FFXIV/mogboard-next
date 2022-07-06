@@ -68,6 +68,8 @@ const Market: NextPage<MarketProps> = ({ hasSession, lists, markets, itemId, dc,
           targetRemove.items.splice(targetRemove.items.indexOf(action.itemId), 1);
         }
         return state;
+      case 'updateAllLists':
+        return action.lists;
     }
   }, lists);
 

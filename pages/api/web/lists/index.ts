@@ -13,6 +13,25 @@ import {
 } from '../../../../db/user-list';
 import { unstable_getServerSession } from 'next-auth';
 
+async function get(req: NextApiRequest, res: NextApiResponse) {
+  const session = await unstable_getServerSession(req, res, authOptions);
+  if (!session || !session.user.id) {
+    return res.status(401).json({ message: 'You must be logged in to perform this action.' });
+  }
+
+  const lists: UserList[] = [];
+  const conn = await acquireConn();
+  try {
+    const userLists = await getUserLists(session.user.id, conn);
+    lists.push(...userLists);
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ message: 'Unknown error' });
+  }
+
+  return res.json(lists);
+}
+
 async function post(req: NextApiRequest, res: NextApiResponse) {
   const session = await unstable_getServerSession(req, res, authOptions);
 
@@ -32,7 +51,7 @@ async function post(req: NextApiRequest, res: NextApiResponse) {
   }
 
   const nameBody = req.body.name;
-  if (typeof nameBody !== 'string') {
+  if (typeof nameBody !== 'string' || nameBody.length < 3) {
     return res.status(400).json({ message: 'Invalid name provided.' });
   }
   const name = nameBody;
@@ -72,10 +91,13 @@ async function post(req: NextApiRequest, res: NextApiResponse) {
 }
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  if (req.method === 'GET') {
+    return await get(req, res);
+  }
   if (req.method === 'POST') {
     return await post(req, res);
   } else {
-    res.setHeader('Allow', ['POST']);
+    res.setHeader('Allow', ['GET', 'POST']);
     return res.status(405).end(`Method ${req.method} not allowed`);
   }
 }

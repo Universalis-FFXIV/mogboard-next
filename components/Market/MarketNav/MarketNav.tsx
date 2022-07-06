@@ -8,6 +8,7 @@ import { useModalCover } from '../../UniversalisLayout/components/ModalCover/Mod
 import { usePopup } from '../../UniversalisLayout/components/Popup/Popup';
 
 export type ListsDispatchAction =
+  | { type: 'updateAllLists'; lists: UserList[] }
   | { type: 'createList'; list: UserList }
   | { type: 'addItem'; listId: string; itemId: number }
   | { type: 'removeItem'; listId: string; itemId: number };
@@ -26,6 +27,11 @@ export default function MarketNav({ hasSession, lists, dispatch, itemId }: Marke
   const [listsModalOpen, setListsModalOpen] = useState(false);
 
   const openListsModal = () => {
+    fetch(`/api/web/lists`)
+      .then((res) => res.json())
+      .then((lists: UserList[]) => dispatch({ type: 'updateAllLists', lists }))
+      .catch(console.error);
+
     setModalCover({ isOpen: true });
     setListsModalOpen(true);
   };
@@ -92,18 +98,11 @@ export default function MarketNav({ hasSession, lists, dispatch, itemId }: Marke
 
     const list = lists.find((list) => list.id === listId)!;
     const addingItem = !list.items.includes(itemId);
-    const items = new PHPObject();
-    items.push(...list.items);
-    if (addingItem) {
-      items.unshift(itemId);
-    } else {
-      items.splice(items.indexOf(itemId), 1);
-    }
 
     setUpdatingList(true);
     fetch(`/api/web/lists/${listId}`, {
       method: 'PUT',
-      body: JSON.stringify({ items }),
+      body: JSON.stringify({ item: { action: addingItem ? 'add' : 'remove', itemId } }),
       headers: { 'Content-Type': 'application/json' },
     })
       .then(async (res) => {
