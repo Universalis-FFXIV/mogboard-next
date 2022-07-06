@@ -15,7 +15,7 @@ COPY . .
 ENV NEXT_TELEMETRY_DISABLED 1
 
 COPY .env.development .env.production
-RUN yarn test && yarn build
+RUN yarn test && NODE_OPTIONS="--max-old-space-size=4096" yarn build
 
 # Production image, copy all the files and run next
 FROM node:16-alpine AS runner
