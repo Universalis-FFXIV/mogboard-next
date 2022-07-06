@@ -1,6 +1,6 @@
 import { t, Trans } from '@lingui/macro';
 import { GetServerSidePropsContext, NextPage } from 'next';
-import { getServerSession } from 'next-auth';
+import { unstable_getServerSession } from 'next-auth';
 import Head from 'next/head';
 import Image from 'next/image';
 import { useReducer, useRef, useState } from 'react';
@@ -349,7 +349,7 @@ const Account: NextPage<AccountProps> = ({ hasSession, characters, verification,
 };
 
 export async function getServerSideProps(ctx: GetServerSidePropsContext) {
-  const session = await getServerSession(ctx, authOptions);
+  const session = await unstable_getServerSession(ctx.req, ctx.res, authOptions);
   const hasSession = !!session;
 
   let characters: Partial<UserCharacter>[] = [];

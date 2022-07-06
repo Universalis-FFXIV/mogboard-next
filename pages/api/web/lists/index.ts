@@ -1,5 +1,4 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { getServerSession } from 'next-auth';
 import { acquireConn, releaseConn } from '../../../../db/connect';
 import { PHPObject } from '../../../../db/PHPObject';
 import { unix } from '../../../../db/util';
@@ -12,9 +11,10 @@ import {
   USER_LIST_MAX_ITEMS,
   createUserList,
 } from '../../../../db/user-list';
+import { unstable_getServerSession } from 'next-auth';
 
 async function post(req: NextApiRequest, res: NextApiResponse) {
-  const session = await getServerSession({ req, res }, authOptions);
+  const session = await unstable_getServerSession(req, res, authOptions);
 
   if (!session || !session.user.id) {
     return res.status(401).json({ message: 'You must be logged in to perform this action.' });

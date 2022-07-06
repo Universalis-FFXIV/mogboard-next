@@ -18,12 +18,12 @@ import { DataCenter } from '../types/game/DataCenter';
 import HomeUserList from '../components/Home/HomeUserList/HomeUserList';
 import { useState } from 'react';
 import { Trans } from '@lingui/macro';
-import { getServerSession } from 'next-auth';
 import { authOptions } from './api/auth/[...nextauth]';
 import { getItem } from '../data/game';
 import useSettings from '../hooks/useSettings';
 import { getServers } from '../service/servers';
 import { TaxRates } from '../types/universalis/TaxRates';
+import { unstable_getServerSession } from 'next-auth';
 
 interface HomeProps {
   dcs: DataCenter[];
@@ -191,7 +191,7 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
     console.error(err);
   }
 
-  const session = await getServerSession(ctx, authOptions);
+  const session = await unstable_getServerSession(ctx.req, ctx.res, authOptions);
   const hasSession = !!session;
 
   let lists: UserList[] = [];

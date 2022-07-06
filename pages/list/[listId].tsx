@@ -1,6 +1,6 @@
 import { t, Trans } from '@lingui/macro';
 import { GetServerSidePropsContext, NextPage } from 'next';
-import { getServerSession } from 'next-auth';
+import { unstable_getServerSession } from 'next-auth';
 import Head from 'next/head';
 import { useState, useEffect, useRef, useReducer } from 'react';
 import { sprintf } from 'sprintf-js';
@@ -216,7 +216,7 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
     console.error(err);
   }
 
-  const session = await getServerSession(ctx, authOptions);
+  const session = await unstable_getServerSession(ctx.req, ctx.res, authOptions);
 
   let list: UserList | null = null;
   let reqIsOwner = false;

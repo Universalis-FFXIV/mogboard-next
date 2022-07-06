@@ -1,12 +1,12 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { getServerSession } from 'next-auth';
+import { unstable_getServerSession } from 'next-auth';
 import { acquireConn, releaseConn } from '../../../../db/connect';
 import { PHPObject } from '../../../../db/PHPObject';
 import * as db from '../../../../db/user-list';
 import { authOptions } from '../../auth/[...nextauth]';
 
 async function put(req: NextApiRequest, res: NextApiResponse) {
-  const session = await getServerSession({ req, res }, authOptions);
+  const session = await unstable_getServerSession(req, res, authOptions);
   const { listId } = req.query;
   const { name, items } = req.body;
 
@@ -67,7 +67,7 @@ async function put(req: NextApiRequest, res: NextApiResponse) {
 }
 
 async function del(req: NextApiRequest, res: NextApiResponse) {
-  const session = await getServerSession({ req, res }, authOptions);
+  const session = await unstable_getServerSession(req, res, authOptions);
   const { listId } = req.query;
 
   if (!session || !session.user.id) {

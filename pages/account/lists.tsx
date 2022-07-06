@@ -1,6 +1,6 @@
 import { Trans } from '@lingui/macro';
 import { GetServerSidePropsContext, NextPage } from 'next';
-import { getServerSession } from 'next-auth';
+import { unstable_getServerSession } from 'next-auth';
 import Head from 'next/head';
 import Link from 'next/link';
 import { useReducer } from 'react';
@@ -176,7 +176,7 @@ const Lists: NextPage<ListsProps> = ({ hasSession, lists }) => {
 };
 
 export async function getServerSideProps(ctx: GetServerSidePropsContext) {
-  const session = await getServerSession(ctx, authOptions);
+  const session = await unstable_getServerSession(ctx.req, ctx.res, authOptions);
   const hasSession = !!session;
 
   let lists: UserList[] = [];
