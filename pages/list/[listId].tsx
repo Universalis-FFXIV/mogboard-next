@@ -67,10 +67,14 @@ const List: NextPage<ListProps> = ({ dcs, list, reqIsOwner, ownerName }) => {
     }
   }, list);
 
-  const updateList = (data: Partial<Pick<UserList, 'name' | 'items'>>) => {
+  const updateList = (data: ListsAction) => {
+    const payload =
+      data.type === 'removeItem'
+        ? { item: { action: 'remove', itemId: data.itemId } }
+        : { name: data.name };
     fetch(`/api/web/lists/${stateList.id}`, {
       method: 'PUT',
-      body: JSON.stringify(data),
+      body: JSON.stringify(payload),
       headers: { 'Content-Type': 'application/json' },
     })
       .then(async (res) => {
@@ -81,9 +85,9 @@ const List: NextPage<ListProps> = ({ dcs, list, reqIsOwner, ownerName }) => {
           throw new Error(body);
         }
 
-        if (data.name != null) {
+        if (data.type === 'renameList') {
           closeRenameModal();
-          dispatch({ type: 'renameList', name: data.name });
+          dispatch(data);
           setPopup({
             type: 'success',
             title: 'Renamed list',
@@ -92,9 +96,8 @@ const List: NextPage<ListProps> = ({ dcs, list, reqIsOwner, ownerName }) => {
           });
         }
 
-        if (data.items != null) {
-          const itemId = stateList.items.filter((item) => !data.items?.includes(item))[0];
-          dispatch({ type: 'removeItem', itemId });
+        if (data.type === 'removeItem') {
+          dispatch(data);
         }
       })
       .catch((err) =>
@@ -170,12 +173,7 @@ const List: NextPage<ListProps> = ({ dcs, list, reqIsOwner, ownerName }) => {
             market={market}
             reqIsOwner={reqIsOwner}
             showHomeWorld={showHomeWorld}
-            removeItem={(x) => {
-              const items = stateList.items;
-              items.splice(items.indexOf(x), 1);
-              updateList({ items });
-              dispatch({ type: 'removeItem', itemId: x });
-            }}
+            removeItem={(itemId) => updateList({ type: 'removeItem', itemId })}
             lang={lang}
           />
         ))}
@@ -193,7 +191,7 @@ const List: NextPage<ListProps> = ({ dcs, list, reqIsOwner, ownerName }) => {
         submitRef={submitRef}
         updating={updating}
         setUpdating={setUpdating}
-        updateList={updateList}
+        updateList={({ name }) => updateList({ type: 'renameList', name })}
       />
     </>
   );
