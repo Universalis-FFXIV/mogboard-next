@@ -56,11 +56,11 @@ export default function SearchCategoryResults({
                     <span>
                       <GameIcon id={item.iconId} ext="png" size="1x" width={40} height={40} />
                     </span>
-                    <span className={styles.extraInfo}>
+                    <span>
                       <div>
                         <span className="item-level">{item.levelItem}</span> {item.name}
                       </div>
-                      <small>{classJobCategory?.name}</small>
+                      <small className={styles.extraInfo}>{classJobCategory?.name}</small>
                     </span>
                   </a>
                 </Link>

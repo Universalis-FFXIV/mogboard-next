@@ -1413,7 +1413,7 @@ ol {
   }
 
   @include mq($until: desktop) {
-    top: calc(-73vh);
+    top: -73vh;
     left: 0;
     right: 0;
     padding: 0;
@@ -1421,7 +1421,7 @@ ol {
     z-index: -1;
 
     @media (max-height: 680px) {
-      top: calc(-63vh);
+      top: -63vh;
     }
   }
 }
