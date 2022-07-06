@@ -13,11 +13,16 @@ export default function HomeAction() {
       </a>
       <Link href="/contribute">
         <a className="contrib">
-          <Image src="/i/brand/contribute/logo_name.png" alt="Contribute" layout="fill" />
+          <Image
+            src="/i/brand/contribute/logo_name.png"
+            alt="Contribute"
+            layout="fill"
+            objectFit="cover"
+          />
         </a>
       </Link>
       <a href="https://patreon.com/universalis" className="patreon">
-        <Image src="/i/brand/patreon/logo_name.jpg" alt="Patreon" layout="fill" />
+        <Image src="/i/brand/patreon/logo_name.jpg" alt="Patreon" layout="fill" objectFit="cover" />
       </a>
     </div>
   );

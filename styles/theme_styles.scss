@@ -543,7 +543,7 @@ header {
           transition: 80ms;
         }
 
-        @include mq($until: tablet) {
+        @include mq($until: desktop) {
           display: none;
         }
       }
@@ -632,7 +632,7 @@ header {
           background-color: rgba(137, 255, 139, 0.15);
         }
 
-        @include mq($until: tablet) {
+        @include mq($until: desktop) {
           &.search {
             width: 100%;
             max-width: 150px;
@@ -666,7 +666,7 @@ header {
       flex: 0 1 auto;
     }
 
-    @include mq($until: tablet) {
+    @include mq($until: desktop) {
       flex: none;
       position: fixed;
       top: 0;
@@ -688,7 +688,7 @@ header {
         }
       }
 
-      @include mq($until: tablet) {
+      @include mq($until: desktop) {
         > div {
           text-align: left;
         }
@@ -707,7 +707,7 @@ header {
         color: #fff;
       }
 
-      @include mq($until: tablet) {
+      @include mq($until: desktop) {
         padding: 5px 0 0 5px;
       }
     }
@@ -719,7 +719,7 @@ header {
       font-weight: 400;
       padding: 15px 10px 0 0;
 
-      @include mq($until: tablet) {
+      @include mq($until: desktop) {
         display: none;
       }
     }
@@ -744,7 +744,7 @@ header {
       transition: 100ms;
       margin-top: 3px;
 
-      @include mq($until: tablet) {
+      @include mq($until: desktop) {
         height: 30px;
         line-height: 30px;
         font-size: 15px;
@@ -767,7 +767,7 @@ header {
       cursor: pointer;
       margin: 0 10px;
 
-      @include mq($until: tablet) {
+      @include mq($until: desktop) {
         padding: 0;
         line-height: 24px;
         height: 24px;
@@ -779,7 +779,7 @@ header {
         color: #444;
         transition: var(--transition-speed);
 
-        @include mq($until: tablet) {
+        @include mq($until: desktop) {
           font-size: 24px;
           color: #888;
           line-height: 24px;
@@ -1239,7 +1239,8 @@ ol {
   }
 }
 
-.search-results-container {
+.search-results-container,
+.market-category-container {
   position: absolute;
   top: 60px;
   left: 70px;
@@ -1252,10 +1253,11 @@ ol {
   }
 
   @include mq($until: desktop) {
-    top: 50px;
+    top: calc(-70vh - 66.5px);
     left: 0;
     right: 0;
     padding: 0;
+    z-index: -1;
   }
 }
 
@@ -1389,8 +1391,7 @@ ol {
   }
 }
 
-.market-board-container,
-.market-category-container {
+.market-board-container {
   position: absolute;
   top: 60px;
   left: 70px;
@@ -1407,10 +1408,11 @@ ol {
   }
 
   @include mq($until: tablet) {
-    top: 50px;
+    top: calc(-70vh - 46px);
     left: 0;
     right: 0;
     padding: 0;
+    z-index: -1;
   }
 }
 
