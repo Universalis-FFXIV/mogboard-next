@@ -54,7 +54,10 @@ async function post(req: NextApiRequest, res: NextApiResponse) {
     }
   } else if (typeof world === 'string' && typeof name === 'string') {
     try {
-      lId = await searchCharacter(world, name);
+      const worldClean = world.replaceAll(/[^\w]/g, '');
+      const nameClean = name.replaceAll(/[^\w\s]/g, '');
+
+      lId = await searchCharacter(worldClean, nameClean);
       character = await getCharacter(lId);
     } catch (err) {
       console.error(err);
