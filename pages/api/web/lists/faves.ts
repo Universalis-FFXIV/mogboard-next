@@ -1,15 +1,14 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { getServerSession } from 'next-auth';
 import { acquireConn, releaseConn } from '../../../../db/connect';
 import { PHPObject } from '../../../../db/PHPObject';
 import * as db from '../../../../db/user-list';
-import { unix } from '../../../../db/util';
 import { UserListCustomType } from '../../../../types/universalis/user';
 import { authOptions } from '../../auth/[...nextauth]';
 import { v4 as uuidv4 } from 'uuid';
+import { unstable_getServerSession } from 'next-auth';
 
 async function put(req: NextApiRequest, res: NextApiResponse) {
-  const session = await getServerSession({ req, res }, authOptions);
+  const session = await unstable_getServerSession(req, res, authOptions);
 
   if (!session || !session.user.id) {
     return res.status(401).json({ message: 'You must be logged in to perform this action.' });

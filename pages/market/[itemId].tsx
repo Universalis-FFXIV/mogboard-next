@@ -1,6 +1,6 @@
 import { Trans } from '@lingui/macro';
 import { GetServerSidePropsContext, NextPage } from 'next';
-import { getServerSession } from 'next-auth';
+import { unstable_getServerSession } from 'next-auth';
 import Head from 'next/head';
 import { useReducer, useState } from 'react';
 import { acquireConn, releaseConn } from '../../db/connect';
@@ -170,7 +170,7 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
     return { notFound: true };
   }
 
-  const session = await getServerSession(ctx, authOptions);
+  const session = await unstable_getServerSession(ctx.req, ctx.res, authOptions);
   const hasSession = !!session;
 
   const cookies = new Cookies(ctx.req.headers.cookie);

@@ -1,11 +1,9 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { getServerSession } from 'next-auth';
 import { getCharacter, LodestoneCharacter, searchCharacter } from '../../../../service/lodestone';
 import { acquireConn, releaseConn } from '../../../../db/connect';
 import {
   createUserCharacter,
   getUserAuthCode,
-  getUserCharacter,
   getUserCharacterByLodestoneId,
   getUserCharacters,
   linkUserCharacter,
@@ -16,6 +14,7 @@ import { authOptions } from '../../auth/[...nextauth]';
 import { v4 as uuidv4 } from 'uuid';
 import { unix } from '../../../../db/util';
 import { UserCharacter } from '../../../../types/universalis/user';
+import { unstable_getServerSession } from 'next-auth';
 
 function toDbCharacter(
   lodestoneId: number,
@@ -33,7 +32,7 @@ function toDbCharacter(
 }
 
 async function post(req: NextApiRequest, res: NextApiResponse) {
-  const session = await getServerSession({ req, res }, authOptions);
+  const session = await unstable_getServerSession(req, res, authOptions);
   const { world, name, lodestoneId } = req.body;
 
   if (!session || !session.user.id) {
@@ -116,7 +115,7 @@ async function post(req: NextApiRequest, res: NextApiResponse) {
 }
 
 async function put(req: NextApiRequest, res: NextApiResponse) {
-  const session = await getServerSession({ req, res }, authOptions);
+  const session = await unstable_getServerSession(req, res, authOptions);
   const { lodestoneId, main } = req.body;
 
   if (!session || !session.user.id) {
@@ -159,7 +158,7 @@ async function put(req: NextApiRequest, res: NextApiResponse) {
 }
 
 async function del(req: NextApiRequest, res: NextApiResponse) {
-  const session = await getServerSession({ req, res }, authOptions);
+  const session = await unstable_getServerSession(req, res, authOptions);
   const { lodestoneId } = req.body;
 
   if (!session || !session.user.id) {
