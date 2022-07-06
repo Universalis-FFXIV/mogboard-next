@@ -1,0 +1,15 @@
+@import '../../../../styles/mq.scss';
+
+.container {
+  height: 73vh;
+
+  @media (max-height: 680px) {
+    height: 63vh;
+  }
+}
+
+.extraInfo {
+  @include mq($until: desktop) {
+    display: none;
+  }
+}

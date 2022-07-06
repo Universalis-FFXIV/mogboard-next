@@ -1,5 +1,4 @@
 import { Trans } from '@lingui/macro';
-import Image from 'next/image';
 import Link from 'next/link';
 import SimpleBar from 'simplebar-react';
 import { getClassJobCategory } from '../../../../data/game';
@@ -8,6 +7,7 @@ import useSettings from '../../../../hooks/useSettings';
 import { Item } from '../../../../types/game/Item';
 import { ItemSearchCategory } from '../../../../types/game/ItemSearchCategory';
 import GameIcon from '../../../GameIcon/GameIcon';
+import styles from './SearchCategoryResults.module.scss';
 
 interface SearchCategoryResultsProps {
   items: Item[];
@@ -37,7 +37,7 @@ export default function SearchCategoryResults({
           </div>
           <div>&nbsp;</div>
         </div>
-        <SimpleBar style={{ height: '73vh' }}>
+        <SimpleBar className={styles.container}>
           <div className="gap" />
           {items
             .sort((a, b) => b.levelItem - a.levelItem)
@@ -56,7 +56,7 @@ export default function SearchCategoryResults({
                     <span>
                       <GameIcon id={item.iconId} ext="png" size="1x" width={40} height={40} />
                     </span>
-                    <span>
+                    <span className={styles.extraInfo}>
                       <div>
                         <span className="item-level">{item.levelItem}</span> {item.name}
                       </div>

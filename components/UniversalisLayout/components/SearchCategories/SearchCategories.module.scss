@@ -1,0 +1,13 @@
+@import '../../../../styles/mq.scss';
+
+.container {
+  height: inherit;
+
+  @include mq($until: desktop) {
+    height: 73vh;
+
+    @media (max-height: 680px) {
+      height: 63vh;
+    }
+  }
+}

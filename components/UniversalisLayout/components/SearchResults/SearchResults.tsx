@@ -4,6 +4,7 @@ import Link from 'next/link';
 import SimpleBar from 'simplebar-react';
 import { SearchItem } from '../../../../service/search';
 import useClickOutside from '../../../../hooks/useClickOutside';
+import styles from './SearchResults.module.scss';
 
 interface SearchResultsProps {
   isOpen: boolean;
@@ -33,7 +34,7 @@ export default function SearchResults({
           </div>
           <div></div>
         </div>
-        <SimpleBar className="item-search-list" id="item-search-list" style={{ height: '73vh' }}>
+        <SimpleBar className={`item-search-list ${styles.container}`} id="item-search-list">
           {results.map((item) => (
             <Link key={item.id} href="/market/[itemId]" as={`/market/${item.id}`}>
               <a
@@ -49,7 +50,9 @@ export default function SearchResults({
                 </span>
                 <span className="item-level">{item.levelItem}</span>
                 {item.name}
-                <span className="item-category">{item.itemSearchCategory.name}</span>
+                <span className={`item-category ${styles.extraInfo}`}>
+                  {item.itemSearchCategory.name}
+                </span>
               </a>
             </Link>
           ))}

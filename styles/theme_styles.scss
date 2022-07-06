@@ -1253,11 +1253,15 @@ ol {
   }
 
   @include mq($until: desktop) {
-    top: calc(-70vh - 66.5px);
+    top: calc(-73vh - 40px);
     left: 0;
     right: 0;
     padding: 0;
     z-index: -1;
+
+    @media (max-height: 680px) {
+      top: calc(-63vh - 40px);
+    }
   }
 }
 
@@ -1393,11 +1397,12 @@ ol {
 
 .market-board-container {
   position: absolute;
-  top: 60px;
-  left: 70px;
-  padding: 10px;
+  top: 70px;
+  left: 80px;
   display: none;
   z-index: 50;
+  width: 590px;
+  box-shadow: 0 1px 4px #000;
 
   &.open {
     display: block;
@@ -1407,12 +1412,17 @@ ol {
     left: 220px;
   }
 
-  @include mq($until: tablet) {
-    top: calc(-70vh - 46px);
+  @include mq($until: desktop) {
+    top: calc(-73vh);
     left: 0;
     right: 0;
     padding: 0;
+    width: 100%;
     z-index: -1;
+
+    @media (max-height: 680px) {
+      top: calc(-63vh);
+    }
   }
 }
 
@@ -1423,15 +1433,14 @@ ol {
   background: linear-gradient(to bottom, rgb(54, 63, 81) 0%, rgb(50, 60, 71) 100%);
 
   border-radius: 4px;
-  box-shadow: 0 1px 4px #000;
   overflow: hidden;
-  width: 590px;
   padding-bottom: 10px;
 
   @include mq($until: desktop) {
     width: 100%;
     border-radius: 0;
     box-shadow: 0 2px 20px 1px #000;
+    padding-bottom: 0;
   }
 
   h2 {
@@ -1447,6 +1456,7 @@ ol {
     padding: 10px 14px;
 
     @include mq($until: desktop) {
+      min-height: 180px;
       padding: 10px;
     }
   }
