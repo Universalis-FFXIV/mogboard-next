@@ -4,7 +4,6 @@ import { unstable_getServerSession } from 'next-auth';
 import Head from 'next/head';
 import Link from 'next/link';
 import { useReducer } from 'react';
-import { Cookies } from 'react-cookie';
 import AccountLayout from '../../components/AccountLayout/AccountLayout';
 import GameIcon from '../../components/GameIcon/GameIcon';
 import { usePopup } from '../../components/UniversalisLayout/components/Popup/Popup';
