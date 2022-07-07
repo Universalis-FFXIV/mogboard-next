@@ -74,6 +74,8 @@ const Market: NextPage<MarketProps> = ({
     return { type: 'dc', dc: homeDc };
   });
 
+  const [mobileNavOpen, setMobileNavOpen] = useState(false);
+
   const [stateLists, dispatch] = useReducer((state: UserList[], action: ListsDispatchAction) => {
     switch (action.type) {
       case 'createList':
@@ -130,11 +132,11 @@ const Market: NextPage<MarketProps> = ({
               dispatch={dispatch}
             />
             <div className="item_nav_mobile_toggle">
-              <button type="button">
+              <button type="button" onClick={() => setMobileNavOpen(!mobileNavOpen)}>
                 <Trans>Menu</Trans>
               </button>
             </div>
-            <div className="item_nav">
+            <div className={`item_nav ${mobileNavOpen ? 'open' : ''}`}>
               <MarketServerSelector
                 region={region}
                 homeDc={homeDc}

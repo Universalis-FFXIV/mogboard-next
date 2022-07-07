@@ -195,6 +195,7 @@
       border-radius: 5px;
       padding: 8px 5px;
       font-size: 16px;
+      cursor: pointer;
     }
 
     @include mq($until: desktop) {
