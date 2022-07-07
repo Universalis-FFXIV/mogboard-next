@@ -1,4 +1,7 @@
 # mogboard-next
+
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/53b13b8b712d4d76a556905d0097fe99)](https://app.codacy.com/gh/Universalis-FFXIV/mogboard-next?utm_source=github.com&utm_medium=referral&utm_content=Universalis-FFXIV/mogboard-next&utm_campaign=Badge_Grade_Settings)
+
 Mogboard, the frontend for the [Universalis](https://github.com/Universalis-FFXIV/Universalis) crowdsourced market data API.
 
 ## Acknowledgements
