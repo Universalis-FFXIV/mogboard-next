@@ -11,10 +11,11 @@ import MarketCheapest from '../MarketCheapest/MarketCheapest';
 import MarketHistoryGraph from '../MarketHistoryGraph/MarketHistoryGraph';
 import MarketStackSizeHistogram from '../MarketStackSizeHistogram/MarketStackSizeHistogram';
 
-interface MarketDataCenterProps {
+interface MarketRegionProps {
   item: Item;
-  dc: DataCenter;
-  market: any;
+  region: string;
+  dcs: DataCenter[];
+  dcMarkets: Record<string, any>;
   lang: Language;
 }
 
@@ -22,11 +23,14 @@ function entriesToShow(entries: {}[]) {
   return Math.max(Math.floor(entries.length * 0.1), 10);
 }
 
-export default function MarketDataCenter({ item, dc, market, lang }: MarketDataCenterProps) {
-  const hqListings = market.listings.filter((listing: any) => listing.hq);
-  const nqListings = market.listings.filter((listing: any) => !listing.hq);
-  const hqSales = market.recentHistory.filter((sale: any) => sale.hq);
-  const nqSales = market.recentHistory.filter((sale: any) => !sale.hq);
+export default function MarketRegion({ item, region, dcs, dcMarkets, lang }: MarketRegionProps) {
+  const allListings = dcs.map((dc) => dcMarkets[dc.name].listings).flat();
+  const allSales = dcs.map((dc) => dcMarkets[dc.name].recentHistory).flat();
+
+  const hqListings = allListings.filter((listing: any) => listing.hq);
+  const nqListings = allListings.filter((listing: any) => !listing.hq);
+  const hqSales = allSales.filter((sale: any) => sale.hq);
+  const nqSales = allSales.filter((sale: any) => !sale.hq);
 
   const hqListingsAveragePpu =
     Math.ceil(
@@ -84,13 +88,13 @@ export default function MarketDataCenter({ item, dc, market, lang }: MarketDataC
       <h6>
         <Trans>Cross-World Purchase history (500 sales)</Trans>
       </h6>
-      <MarketHistoryGraph server={dc.name} itemId={item.id} />
+      <MarketHistoryGraph server={region} itemId={item.id} entries={4800} />
       {item.stackSize > 1 && (
         <div>
           <h6>
             <Trans>STACK SIZE HISTOGRAM</Trans>
           </h6>
-          <MarketStackSizeHistogram item={item} data={market.recentHistory} />
+          <MarketStackSizeHistogram item={item} data={allSales} />
         </div>
       )}
       <div className="cross_world_markets">

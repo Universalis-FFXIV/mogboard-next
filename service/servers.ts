@@ -21,26 +21,18 @@ export async function getServers(): Promise<Servers> {
   return { dcs, worlds };
 }
 
-export async function getServersWithRegions(regionStrings: {
+export function getServerRegionNameMap(regionStrings: {
   europe: string;
   japan: string;
   america: string;
   oceania: string;
   china: string;
-  unknown: string;
-}): Promise<Servers> {
-  const { dcs, worlds } = await getServers();
-  const mapping = new Map<string, string>([
-    ['Japan', regionStrings.europe],
-    ['North-America', regionStrings.japan],
-    ['Europe', regionStrings.america],
+}) {
+  return new Map<string, string>([
+    ['Japan', regionStrings.japan],
+    ['North-America', regionStrings.america],
+    ['Europe', regionStrings.europe],
     ['Oceania', regionStrings.oceania],
     ['中国', regionStrings.china],
   ]);
-  const dcsWithRegions = dcs.map((dc) => ({
-    name: dc.name,
-    region: mapping.get(dc.region) ?? regionStrings.unknown,
-    worlds: dc.worlds.map((world) => worlds.find((w) => w.id === world.id)!),
-  }));
-  return { dcs: dcsWithRegions, worlds };
 }

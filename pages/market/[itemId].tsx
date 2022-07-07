@@ -30,12 +30,15 @@ import { getServers } from '../../service/servers';
 import { ParsedUrlQuery } from 'querystring';
 import { Connection } from 'mariadb';
 import MarketServerUpdateTimes from '../../components/Market/MarketServerUpdateTimes/MarketServerUpdateTimes';
+import MarketRegion from '../../components/Market/MarketRegion/MarketRegion';
+import MarketRegionUpdateTimes from '../../components/Market/MarketRegionUpdateTimes/MarketRegionUpdateTimes';
 
 interface MarketProps {
   hasSession: boolean;
   lists: UserList[];
   markets: Record<number | string, any>;
   itemId: number;
+  region: string;
   homeDc: DataCenter;
   dcs: DataCenter[];
   queryServer: string | null;
@@ -46,6 +49,7 @@ const Market: NextPage<MarketProps> = ({
   lists,
   markets,
   itemId,
+  region,
   homeDc,
   dcs,
   queryServer,
@@ -56,7 +60,9 @@ const Market: NextPage<MarketProps> = ({
   const showHomeWorld = settings['mogboard_homeworld'] === 'yes';
   const homeWorld = settings['mogboard_server'] ?? 'Phoenix';
   const [selectedServer, setSelectedServer] = useState<
-    { type: 'dc'; dc: DataCenter } | { type: 'world'; world: World }
+    | { type: 'region'; region: string }
+    | { type: 'dc'; dc: DataCenter }
+    | { type: 'world'; world: World }
   >(() => {
     const world = homeDc.worlds.find(
       (world) => world.name === queryServer ?? (showHomeWorld ? homeWorld : null)
@@ -130,6 +136,7 @@ const Market: NextPage<MarketProps> = ({
             </div>
             <div className="item_nav">
               <MarketServerSelector
+                region={region}
                 homeDc={homeDc}
                 dcs={dcs}
                 selectedServer={selectedServer}
@@ -138,8 +145,26 @@ const Market: NextPage<MarketProps> = ({
             </div>
           </div>
           <div className="tab">
+            {selectedServer.type === 'region' && selectedServer.region === region && (
+              <div className="tab-page tab-summary open">
+                <MarketRegionUpdateTimes
+                  dcs={dcs}
+                  dcWorldUploadTimes={dcs.reduce((agg, next) => {
+                    agg[next.name] = markets[next.name].worldUploadTimes;
+                    return agg;
+                  }, {} as Record<string, Record<number, number>>)}
+                />
+                <MarketRegion
+                  item={item}
+                  region={region}
+                  dcs={dcs}
+                  dcMarkets={markets}
+                  lang={lang}
+                />
+              </div>
+            )}
             {dcs.map((dc, i) => {
-              if (selectedServer.type === 'dc' && selectedServer.dc.name !== dc.name) {
+              if (selectedServer.type !== 'dc' || selectedServer.dc.name !== dc.name) {
                 return <div key={i} />;
               }
 
@@ -147,7 +172,7 @@ const Market: NextPage<MarketProps> = ({
                 <div
                   key={i}
                   className={`tab-page tab-summary ${
-                    selectedServer.type === 'dc' && selectedServer.dc.name === dc.name ? 'open' : ''
+                    selectedServer.dc.name === dc.name ? 'open' : ''
                   }`}
                 >
                   <MarketServerUpdateTimes
@@ -160,10 +185,6 @@ const Market: NextPage<MarketProps> = ({
             })}
             {selectedServer.type === 'world' && (
               <div className="tab-page tab-cw open">
-                <MarketServerUpdateTimes
-                  worlds={homeDc.worlds.sort((a, b) => a.name.localeCompare(b.name))}
-                  worldUploadTimes={markets[homeDc.name].worldUploadTimes}
-                />
                 <MarketWorld
                   item={item}
                   world={selectedServer.world}
@@ -298,6 +319,7 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
       lists,
       markets,
       itemId: itemId,
+      region: dc.region,
       homeDc: dc,
       dcs: regionDcs,
       queryServer,
