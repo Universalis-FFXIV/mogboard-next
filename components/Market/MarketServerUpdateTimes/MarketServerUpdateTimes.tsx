@@ -5,12 +5,12 @@ import useSettings from '../../../hooks/useSettings';
 
 interface MarketServerUpdateTimesProps {
   worlds: { id: number; name: string }[];
-  uploadTimes: Record<number, { lastUploadTime: number }>;
+  worldUploadTimes: Record<number, number>;
 }
 
 export default function MarketServerUpdateTimes({
   worlds,
-  uploadTimes,
+  worldUploadTimes,
 }: MarketServerUpdateTimesProps) {
   const [settings] = useSettings();
   const lang = settings['mogboard_language'] ?? 'en';
@@ -23,8 +23,8 @@ export default function MarketServerUpdateTimes({
           <h4>{world.name}</h4>
           <div>
             <Suspense>
-              {uploadTimes[world.id].lastUploadTime
-                ? relativeTime.from(new Date(uploadTimes[world.id].lastUploadTime))
+              {worldUploadTimes[world.id]
+                ? relativeTime.from(new Date(worldUploadTimes[world.id]))
                 : t`No data`}
             </Suspense>
           </div>

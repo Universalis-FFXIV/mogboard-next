@@ -3,29 +3,38 @@ import useSettings from '../../../hooks/useSettings';
 import { DataCenter } from '../../../types/game/DataCenter';
 import { World } from '../../../types/game/World';
 
+type Server = { type: 'dc'; dc: DataCenter } | { type: 'world'; world: World };
+
 interface MarketServerSelectorProps {
-  dc: DataCenter;
-  selectedWorld?: World;
-  setSelectedWorld: (world?: World) => void;
+  homeDc: DataCenter;
+  dcs: DataCenter[];
+  selectedServer: Server;
+  setSelectedServer: (server: Server) => void;
 }
 
 export default function MarketServerSelector({
-  dc,
-  selectedWorld,
-  setSelectedWorld,
+  homeDc,
+  dcs,
+  selectedServer,
+  setSelectedServer,
 }: MarketServerSelectorProps) {
   const [settings] = useSettings();
 
   return (
     <div className="item_nav_servers">
-      <button
-        type="button"
-        className={`btn-summary ${selectedWorld == null ? 'open' : ''}`}
-        onClick={() => setSelectedWorld(undefined)}
-      >
-        <i className="xiv-CrossWorld cw-summary"></i> <Trans>Cross-World</Trans>
-      </button>
-      {dc.worlds.map((world, i) => {
+      {dcs.map((dc, i) => (
+        <button
+          key={i}
+          type="button"
+          className={`btn-summary ${
+            selectedServer.type === 'dc' && dc.name === selectedServer.dc.name ? 'open' : ''
+          }`}
+          onClick={() => setSelectedServer({ type: 'dc', dc })}
+        >
+          <i className="xiv-CrossWorld cw-summary"></i> {dc.name}
+        </button>
+      ))}
+      {homeDc.worlds.map((world, i) => {
         const homeWorld = world.name === settings['mogboard_server'];
         const icon = homeWorld ? 'xiv-ItemShard cw-home' : '';
         const className = homeWorld ? 'home-world' : '';
@@ -33,8 +42,12 @@ export default function MarketServerSelector({
           <button
             key={i}
             type="button"
-            className={`${className} ${world.name === selectedWorld?.name ? 'open' : ''}`}
-            onClick={() => setSelectedWorld(world)}
+            className={`${className} ${
+              selectedServer.type === 'world' && world.name === selectedServer.world.name
+                ? 'open'
+                : ''
+            }`}
+            onClick={() => setSelectedServer({ type: 'world', world })}
           >
             {homeWorld && <i className={icon}></i>}
             {world.name}

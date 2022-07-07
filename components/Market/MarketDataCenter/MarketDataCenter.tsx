@@ -15,7 +15,7 @@ import MarketStackSizeHistogram from '../MarketStackSizeHistogram/MarketStackSiz
 interface MarketDataCenterProps {
   item: Item;
   dc: DataCenter;
-  markets: Record<number, any>;
+  market: any;
   lang: Language;
 }
 
@@ -23,77 +23,61 @@ function entriesToShow(entries: {}[]) {
   return Math.max(Math.floor(entries.length * 0.1), 10);
 }
 
-export default function MarketDataCenter({ item, dc, markets, lang }: MarketDataCenterProps) {
+export default function MarketDataCenter({ item, dc, market, lang }: MarketDataCenterProps) {
   const worldsSorted = dc.worlds.sort((a, b) => a.name.localeCompare(b.name));
 
-  if (Object.keys(markets).length !== dc.worlds.length) {
-    return <></>;
-  }
-
-  const allListings = Object.values(markets)
-    .map((market) =>
-      market.listings.map((listing: any) => {
-        listing.worldName = market.worldName;
-        return listing;
-      })
-    )
-    .flat()
-    .sort((a, b) => a.pricePerUnit - b.pricePerUnit);
-  const allSales = Object.values(markets)
-    .map((market) =>
-      market.recentHistory.map((listing: any) => {
-        listing.worldName = market.worldName;
-        return listing;
-      })
-    )
-    .flat()
-    .sort((a, b) => a.pricePerUnit - b.pricePerUnit);
-
-  const hqListings = allListings.filter((listing) => listing.hq);
-  const nqListings = allListings.filter((listing) => !listing.hq);
-  const hqSales = allSales.filter((sale) => sale.hq);
-  const nqSales = allSales.filter((sale) => !sale.hq);
+  const hqListings = market.listings.filter((listing: any) => listing.hq);
+  const nqListings = market.listings.filter((listing: any) => !listing.hq);
+  const hqSales = market.recentHistory.filter((sale: any) => sale.hq);
+  const nqSales = market.recentHistory.filter((sale: any) => !sale.hq);
 
   const hqListingsAveragePpu =
     Math.ceil(
-      hqListings.map((listing) => listing.pricePerUnit).reduce((agg, next) => agg + next, 0) /
-        hqListings.length
+      hqListings
+        .map((listing: any) => listing.pricePerUnit)
+        .reduce((agg: any, next: any) => agg + next, 0) / hqListings.length
     ) || 0;
   const nqListingsAveragePpu =
     Math.ceil(
-      nqListings.map((listing) => listing.pricePerUnit).reduce((agg, next) => agg + next, 0) /
-        nqListings.length
+      nqListings
+        .map((listing: any) => listing.pricePerUnit)
+        .reduce((agg: any, next: any) => agg + next, 0) / nqListings.length
     ) || 0;
   const hqListingsAverageTotal =
     Math.ceil(
-      hqListings.map((listing) => listing.total).reduce((agg, next) => agg + next, 0) /
-        hqListings.length
+      hqListings
+        .map((listing: any) => listing.total)
+        .reduce((agg: any, next: any) => agg + next, 0) / hqListings.length
     ) || 0;
   const nqListingsAverageTotal =
     Math.ceil(
-      nqListings.map((listing) => listing.total).reduce((agg, next) => agg + next, 0) /
-        nqListings.length
+      nqListings
+        .map((listing: any) => listing.total)
+        .reduce((agg: any, next: any) => agg + next, 0) / nqListings.length
     ) || 0;
   const hqSalesAveragePpu =
     Math.ceil(
-      hqSales.map((sale) => sale.pricePerUnit).reduce((agg, next) => agg + next, 0) / hqSales.length
+      hqSales.map((sale: any) => sale.pricePerUnit).reduce((agg: any, next: any) => agg + next, 0) /
+        hqSales.length
     ) || 0;
   const nqSalesAveragePpu =
     Math.ceil(
-      nqSales.map((sale) => sale.pricePerUnit).reduce((agg, next) => agg + next, 0) / nqSales.length
+      nqSales.map((sale: any) => sale.pricePerUnit).reduce((agg: any, next: any) => agg + next, 0) /
+        nqSales.length
     ) || 0;
   const hqSalesAverageTotal =
     Math.ceil(
-      hqSales.map((sale) => sale.total).reduce((agg, next) => agg + next, 0) / hqSales.length
+      hqSales.map((sale: any) => sale.total).reduce((agg: any, next: any) => agg + next, 0) /
+        hqSales.length
     ) || 0;
   const nqSalesAverageTotal =
     Math.ceil(
-      nqSales.map((sale) => sale.total).reduce((agg, next) => agg + next, 0) / nqSales.length
+      nqSales.map((sale: any) => sale.total).reduce((agg: any, next: any) => agg + next, 0) /
+        nqSales.length
     ) || 0;
 
   return (
     <>
-      <MarketServerUpdateTimes worlds={worldsSorted} uploadTimes={markets} />
       <div className="cross_world_markets">
         <MarketCheapest item={item} listings={hqListings} quality="HQ" />
         <MarketCheapest item={item} listings={nqListings} quality="NQ" />
@@ -109,7 +93,7 @@ export default function MarketDataCenter({ item, dc, markets, lang }: MarketData
           <h6>
             <Trans>STACK SIZE HISTOGRAM</Trans>
           </h6>
-          <MarketStackSizeHistogram item={item} data={allSales} />
+          <MarketStackSizeHistogram item={item} data={market.recentHistory} />
         </div>
       )}
       <div className="cross_world_markets">
