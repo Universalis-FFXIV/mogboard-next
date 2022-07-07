@@ -1,6 +1,6 @@
 import { t, Trans } from '@lingui/macro';
 import { useEffect, useState } from 'react';
-import { getServersWithRegions, ServersWithRegionNames } from '../../../../service/servers';
+import { getServers, getServerRegionNameMap, Servers } from '../../../../service/servers';
 import { getTimeZones, TimeZone } from '../../../../service/timezones';
 import useClickOutside from '../../../../hooks/useClickOutside';
 import useSettings from '../../../../hooks/useSettings';
@@ -24,7 +24,7 @@ export default function SettingsModal({ isOpen, closeModal, onSave }: SettingsMo
   );
 
   const [settingsData, setSettingsData] = useState<
-    Omit<ServersWithRegionNames & { timezones: TimeZone[] }, 'worlds'>
+    Omit<Servers & { timezones: TimeZone[] }, 'worlds'>
   >({
     dcs: [],
     timezones: [],
@@ -32,20 +32,21 @@ export default function SettingsModal({ isOpen, closeModal, onSave }: SettingsMo
   useEffect(() => {
     (async () => {
       const timezones = await getTimeZones();
-      const { dcs } = await getServersWithRegions({
-        europe: t`Europe`,
-        japan: t`Japan`,
-        america: t`America`,
-        oceania: t`Oceania`,
-        china: t`中国`,
-        unknown: t`(Unknown)`,
-      });
+      const { dcs } = await getServers();
       setSettingsData({
         dcs: dcs.sort((a, b) => a.region.localeCompare(b.region)),
         ...{ timezones },
       });
     })();
   }, []);
+
+  const regionNameMapping = getServerRegionNameMap({
+    europe: t`Europe`,
+    japan: t`Japan`,
+    america: t`America`,
+    oceania: t`Oceania`,
+    china: t`中国`,
+  });
 
   return (
     <div ref={modalRef} className={`modal modal_settings ${isOpen ? 'open' : ''}`}>
@@ -74,7 +75,10 @@ export default function SettingsModal({ isOpen, closeModal, onSave }: SettingsMo
                   <Trans>- Please Choose a Server -</Trans>
                 </option>
                 {settingsData.dcs.map(({ name, region, worlds }) => (
-                  <optgroup key={name} label={`${name} - ${region}`}>
+                  <optgroup
+                    key={name}
+                    label={`${name} - ${regionNameMapping.get(region) ?? t`(Unknown)`}`}
+                  >
                     {worlds.map((world) => (
                       <option key={world.id} value={world.name}>
                         {world.name}

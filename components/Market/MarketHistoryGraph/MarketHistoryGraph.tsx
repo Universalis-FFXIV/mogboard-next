@@ -7,6 +7,7 @@ import { sprintf } from 'sprintf-js';
 interface MarketHistoryGraphProps {
   server: string;
   itemId: number;
+  entries?: number;
 }
 
 function createSalesOptions(data: any[]): Highcharts.Options {
@@ -134,19 +135,21 @@ function createSalesOptions(data: any[]): Highcharts.Options {
   };
 }
 
-export default function MarketHistoryGraph({ server, itemId }: MarketHistoryGraphProps) {
+export default function MarketHistoryGraph({ server, itemId, entries }: MarketHistoryGraphProps) {
   const chartComponentRef = useRef<HighchartsReact.RefObject>(null);
 
   const [options, setOptions] = useState<Highcharts.Options | null>(null);
   useEffect(() => {
     (async () => {
-      const sales = await fetch(`https://universalis.app/api/history/${server}/${itemId}`)
+      const sales = await fetch(
+        `https://universalis.app/api/history/${server}/${itemId}?entries=${entries ?? 1800}`
+      )
         .then((res) => res.json())
         .then((market) => market.entries.sort((a: any, b: any) => a.timestamp - b.timestamp));
       setOptions(createSalesOptions(sales));
       chartComponentRef.current?.chart?.redraw();
     })();
-  }, [itemId, server]);
+  }, [itemId, server, entries]);
 
   return (
     <div className="highchart" style={{ width: '100%', height: 320 }}>

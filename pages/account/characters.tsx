@@ -375,10 +375,13 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   let dcs: DataCenter[] = [];
   try {
     const servers = await getServers();
-    dcs = servers.dcs.map((dc) => ({
-      name: dc.name,
-      worlds: dc.worlds.sort((a, b) => a.name.localeCompare(b.name)),
-    }));
+    dcs = servers.dcs
+      .map((dc) => ({
+        name: dc.name,
+        region: dc.region,
+        worlds: dc.worlds.sort((a, b) => a.name.localeCompare(b.name)),
+      }))
+      .sort((a, b) => a.region.localeCompare(b.region));
   } catch (err) {
     console.error(err);
   }
