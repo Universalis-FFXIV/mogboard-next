@@ -1,12 +1,10 @@
 import { t } from '@lingui/macro';
-import { useState, useEffect } from 'react';
 import { getItems, getItemSearchCategories } from '../../../../data/game';
 import { filterItemSearchCategories } from '../../../../service/isc';
 import { getSearchIcon } from '../../../../theme/xiv-font';
 import useSettings from '../../../../hooks/useSettings';
 import { Item } from '../../../../types/game/Item';
 import { ItemSearchCategory } from '../../../../types/game/ItemSearchCategory';
-import { XIVAPIItemSearchCategoryIndex } from '../../../../types/xivapi/XIVAPIItemSearchCategoryIndex';
 
 interface NavCategoryProps {
   type: string;

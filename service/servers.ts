@@ -6,13 +6,8 @@ export interface Servers {
   worlds: World[];
 }
 
-export type ServersWithRegionNames = {
-  dcs: (DataCenter & { region: string })[];
-  worlds: World[];
-};
-
 export async function getServers(): Promise<Servers> {
-  const dcData: { name: string; worlds: number[] }[] = await fetch(
+  const dcData: { name: string; region: string; worlds: number[] }[] = await fetch(
     'https://universalis.app/api/v3/game/data-centers'
   ).then((res) => res.json());
   const worlds: World[] = await fetch('https://universalis.app/api/v3/game/worlds').then((res) =>
@@ -20,6 +15,7 @@ export async function getServers(): Promise<Servers> {
   );
   const dcs = dcData.map((dc) => ({
     name: dc.name,
+    region: dc.region,
     worlds: dc.worlds.map((worldId) => worlds.find((w) => w.id === worldId)!),
   }));
   return { dcs, worlds };
@@ -32,28 +28,18 @@ export async function getServersWithRegions(regionStrings: {
   oceania: string;
   china: string;
   unknown: string;
-}): Promise<ServersWithRegionNames> {
+}): Promise<Servers> {
   const { dcs, worlds } = await getServers();
-  const dcRegions = {
-    europe: ['Chaos', 'Light'],
-    japan: ['Elemental', 'Gaia', 'Mana', 'Meteor'],
-    america: ['Crystal', 'Primal', 'Aether'],
-    oceania: ['Materia'],
-    china: ['陆行鸟', '莫古力', '猫小胖', '豆豆柴'],
-  };
+  const mapping = new Map<string, string>([
+    ['Japan', regionStrings.europe],
+    ['North-America', regionStrings.japan],
+    ['Europe', regionStrings.america],
+    ['Oceania', regionStrings.oceania],
+    ['中国', regionStrings.china],
+  ]);
   const dcsWithRegions = dcs.map((dc) => ({
     name: dc.name,
-    region: dcRegions.europe.includes(dc.name)
-      ? regionStrings.europe
-      : dcRegions.japan.includes(dc.name)
-      ? regionStrings.japan
-      : dcRegions.america.includes(dc.name)
-      ? regionStrings.america
-      : dcRegions.oceania.includes(dc.name)
-      ? regionStrings.oceania
-      : dcRegions.china.includes(dc.name)
-      ? regionStrings.china
-      : regionStrings.unknown,
+    region: mapping.get(dc.region) ?? regionStrings.unknown,
     worlds: dc.worlds.map((world) => worlds.find((w) => w.id === world.id)!),
   }));
   return { dcs: dcsWithRegions, worlds };

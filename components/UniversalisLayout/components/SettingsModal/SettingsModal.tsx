@@ -1,6 +1,6 @@
 import { t, Trans } from '@lingui/macro';
 import { useEffect, useState } from 'react';
-import { getServersWithRegions, ServersWithRegionNames } from '../../../../service/servers';
+import { getServersWithRegions, Servers } from '../../../../service/servers';
 import { getTimeZones, TimeZone } from '../../../../service/timezones';
 import useClickOutside from '../../../../hooks/useClickOutside';
 import useSettings from '../../../../hooks/useSettings';
@@ -24,7 +24,7 @@ export default function SettingsModal({ isOpen, closeModal, onSave }: SettingsMo
   );
 
   const [settingsData, setSettingsData] = useState<
-    Omit<ServersWithRegionNames & { timezones: TimeZone[] }, 'worlds'>
+    Omit<Servers & { timezones: TimeZone[] }, 'worlds'>
   >({
     dcs: [],
     timezones: [],

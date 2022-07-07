@@ -93,33 +93,33 @@ const materia: Record<Language, DataIndex<Materia>> = {
 };
 
 export function getItemSearchCategories(lang: Language): ItemSearchCategory[] {
-  return Object.values(itemSearchCategories[lang]);
+  return Object.values(itemSearchCategories[lang] ?? {});
 }
 
 export function getItems(lang: Language): Item[] {
-  return Object.values(items[lang]);
+  return Object.values(items[lang] ?? {});
 }
 
 export function getClassJobCategory(id: number, lang: Language): ClassJobCategory | undefined {
-  return classJobCategories[lang][id] ?? classJobCategories['en'][id];
+  return (classJobCategories[lang] ?? classJobCategories['en'])[id];
 }
 
 export function getItemUICategory(id: number, lang: Language): ItemUICategory | undefined {
-  return itemUiCategories[lang][id] ?? itemUiCategories['en'][id];
+  return (itemUiCategories[lang] ?? itemUiCategories['en'])[id];
 }
 
 export function getItemSearchCategory(id: number, lang: Language): ItemSearchCategory | undefined {
-  return itemSearchCategories[lang][id] ?? itemSearchCategories['en'][id];
+  return (itemSearchCategories[lang] ?? itemSearchCategories['en'])[id];
 }
 
 export function getItemKind(id: number, lang: Language): ItemKind | undefined {
-  return itemKinds[lang][id] ?? itemKinds['en'][id];
+  return (itemKinds[lang] ?? itemKinds['en'])[id];
 }
 
 export function getItem(id: number, lang: Language): Item | undefined {
-  return items[lang][id] ?? items['en'][id];
+  return (items[lang] ?? items['en'])[id];
 }
 
 export function getMateria(id: number, lang: Language): Materia | undefined {
-  return materia[lang][id] ?? materia['en'][id];
+  return (materia[lang] ?? materia['en'])[id];
 }

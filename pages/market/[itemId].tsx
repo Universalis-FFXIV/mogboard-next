@@ -182,6 +182,7 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
     const servers = await getServers();
     dcs = servers.dcs.map((dc) => ({
       name: dc.name,
+      region: dc.region,
       worlds: dc.worlds.sort((a, b) => a.name.localeCompare(b.name)),
     }));
   } catch (err) {
