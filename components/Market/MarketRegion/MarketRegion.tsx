@@ -24,8 +24,14 @@ function entriesToShow(entries: {}[]) {
 }
 
 export default function MarketRegion({ item, region, dcs, dcMarkets, lang }: MarketRegionProps) {
-  const allListings = dcs.map((dc) => dcMarkets[dc.name].listings).flat();
-  const allSales = dcs.map((dc) => dcMarkets[dc.name].recentHistory).flat();
+  const allListings = dcs
+    .map((dc) => dcMarkets[dc.name].listings)
+    .flat()
+    .sort((a, b) => a.pricePerUnit - b.pricePerUnit);
+  const allSales = dcs
+    .map((dc) => dcMarkets[dc.name].recentHistory)
+    .flat()
+    .sort((a, b) => b.timestamp - a.timestamp);
 
   const hqListings = allListings.filter((listing: any) => listing.hq);
   const nqListings = allListings.filter((listing: any) => !listing.hq);
