@@ -16,6 +16,8 @@ export default function SearchBar({ onResults, onMarketClicked }: SearchBarProps
   const [query, setQuery] = useState('');
   const [settings] = useSettings();
 
+  const lang = settings['mogboard_language'] ?? 'en';
+
   const inputRef = useClickOutside<HTMLInputElement>(null, () => {
     setTyping(false);
     setComplete(false);
@@ -37,25 +39,30 @@ export default function SearchBar({ onResults, onMarketClicked }: SearchBarProps
     setComplete(false);
 
     try {
-      const res1 = await searchItems(q, settings['mogboard_language'] ?? 'en');
-      const res2 = await searchItems(q, settings['mogboard_language'] ?? 'en', 'fuzzy');
+      if (lang !== 'chs') {
+        const res1 = await searchItems(q, lang, 'wildcard');
+        const res2 = await searchItems(q, lang, 'fuzzy');
 
-      const res = res1;
-      let shownResults = res1.resultsReturned + res2.resultsReturned;
-      let totalResults = res1.resultsTotal + res2.resultsTotal;
-      res2.results.forEach((result) => {
-        if (!res.results.find((item) => item.id === result.id)) {
-          res.results.push(result);
-        } else {
-          shownResults--;
-          totalResults--;
-        }
-      });
-      res.results.sort((a, b) => b.levelItem - a.levelItem);
-      res.resultsReturned = shownResults;
-      res.resultsTotal = totalResults;
+        const res = res1;
+        let shownResults = res1.resultsReturned + res2.resultsReturned;
+        let totalResults = res1.resultsTotal + res2.resultsTotal;
+        res2.results.forEach((result) => {
+          if (!res.results.find((item) => item.id === result.id)) {
+            res.results.push(result);
+          } else {
+            shownResults--;
+            totalResults--;
+          }
+        });
+        res.results.sort((a, b) => b.levelItem - a.levelItem);
+        res.resultsReturned = shownResults;
+        res.resultsTotal = totalResults;
 
-      onResults(res.results, res.resultsTotal, q);
+        onResults(res.results, res.resultsTotal, q);
+      } else {
+        const res = await searchItems(q, lang);
+        onResults(res.results, res.resultsTotal, q);
+      }
     } catch (err) {
       console.error(err);
     }
