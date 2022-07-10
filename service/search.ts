@@ -45,12 +45,17 @@ function getRepositoryUrl(lang: string) {
 export async function searchItems(
   query: string,
   lang: string,
-  algorithm: string = 'wildcard'
+  algorithm?: string
 ): Promise<ItemSearchResults> {
   const baseUrl = getRepositoryUrl(lang);
-  const data: XIVAPISearchResults = await fetch(
-    `${baseUrl}/search?string=${query}&indexes=item&language=${lang}&filters=ItemSearchCategory.ID>=1&columns=ID,Icon,Name,LevelItem,Rarity,ItemSearchCategory.Name,ItemSearchCategory.ID,ItemKind.Name&limit=100&sort_field=LevelItem&sort_order=desc&string_algo=${algorithm}`
-  ).then((res) => res.json());
+
+  let searchUrl = `${baseUrl}/search?string=${query}&indexes=item&language=${lang}&filters=ItemSearchCategory.ID>=1&columns=ID,Icon,Name,LevelItem,Rarity,ItemSearchCategory.Name,ItemSearchCategory.ID,ItemKind.Name&limit=100&sort_field=LevelItem&sort_order=desc`;
+  if (algorithm != null) {
+    searchUrl += `&string_algo=${algorithm}`;
+  }
+
+  const data: XIVAPISearchResults = await fetch(searchUrl).then((res) => res.json());
+
   return {
     resultsReturned: data.Pagination.Results,
     resultsTotal: data.Pagination.ResultsTotal,

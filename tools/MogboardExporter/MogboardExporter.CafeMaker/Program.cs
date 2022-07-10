@@ -29,8 +29,8 @@ public class Program
                 Console.WriteLine("Exporting item search categories...");
                 var itemSearchCategories = new Dictionary<uint, ItemSearchCategoryDump>();
                 var iscData = GetData<ItemSearchCategory>(http,
-                    "https://cafemaker.wakingsands.com/ItemSearchCategory?columns=ID,Name&limit=999999");
-                foreach (var isc in iscData!)
+                    "https://cafemaker.wakingsands.com/ItemSearchCategory?columns=ID,Name,Category,Order&limit=999999");
+                foreach (var isc in iscData)
                 {
                     itemSearchCategories.Add(isc.Id, new ItemSearchCategoryDump
                     {
@@ -49,7 +49,7 @@ public class Program
                 var itemUICategoryData = GetData<ItemUICategory>(http,
                     "https://cafemaker.wakingsands.com/ItemUICategory?columns=ID,Name&limit=999999");
                 ;
-                foreach (var iuc in itemUICategoryData!)
+                foreach (var iuc in itemUICategoryData)
                 {
                     itemUICategories.Add(iuc.Id, new ItemUICategoryDump
                     {
@@ -66,7 +66,7 @@ public class Program
                 var classJobCategoryData = GetData<ClassJobCategory>(http,
                     "https://cafemaker.wakingsands.com/ClassJobCategory?columns=ID,Name&limit=999999");
                 ;
-                foreach (var cjc in classJobCategoryData!)
+                foreach (var cjc in classJobCategoryData)
                 {
                     classJobCategories.Add(cjc.Id, new ClassJobCategoryDump
                     {
@@ -95,7 +95,7 @@ public class Program
                 Console.WriteLine("Exporting materia...");
                 var allMateria = new Dictionary<uint, MateriaDump>();
                 var materiaData = GetData<Materia>(http, "https://cafemaker.wakingsands.com/Materia?columns=ID,Value*,Item*&limit=999999");
-                foreach (var materia in materiaData!)
+                foreach (var materia in materiaData)
                 {
                     allMateria.Add(materia.Id, new MateriaDump
                     {
@@ -120,7 +120,7 @@ public class Program
                 var items = new Dictionary<uint, ItemDump>();
                 var itemData = GetData<Item>(http,
                     "https://cafemaker.wakingsands.com/Item?columns=ID,Name,Description,LevelItem,LevelEquip,Rarity,ItemKind,CanBeHq,ItemSearchCategory,ItemUICategory,ClassJobCategory&limit=999999");
-                foreach (var item in itemData!.Where(item => item.ItemSearchCategory is { Id: > 0 }))
+                foreach (var item in itemData.Where(item => item.ItemSearchCategory is { Id: > 0 }))
                 {
                     items.Add(item.Id, new ItemDump
                     {
