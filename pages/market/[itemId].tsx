@@ -273,13 +273,18 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   const queryServer =
     typeof ctx.query.server === 'string' && ctx.query.server.length > 0 ? ctx.query.server : null;
   const homeWorld = cookies.get<string | undefined>('mogboard_server') || 'Phoenix';
-  const dc = dcs.find(
+  let dc = dcs.find(
     (x) =>
       x.worlds.some((y) => y.name.toLowerCase() === (queryServer || homeWorld).toLowerCase()) ||
       (queryServer && x.name.toLowerCase() === queryServer.toLowerCase())
   );
   if (!dc) {
-    throw new Error('Data center not found.');
+    // This can happen if the user has an arbitrary junk value in the server cookie
+    dc = dcs.find((x) => x.worlds.some((y) => y.name === 'Phoenix'));
+
+    if (!dc) {
+      throw new Error('Data center not found.');
+    }
   }
 
   const region = dc.region;
