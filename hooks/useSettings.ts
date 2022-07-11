@@ -10,6 +10,15 @@ interface Settings {
   mogboard_homeworld: 'yes' | 'no';
 }
 
+function validateLanguage(
+  settings: Partial<Settings>,
+  setSettings: (name: keyof Settings, value: any) => void
+) {
+  if (!['ja', 'en', 'fr', 'de', 'chs', undefined].includes(settings['mogboard_language'])) {
+    setSettings('mogboard_language', 'en');
+  }
+}
+
 /**
  * Retrieve the user's site settings.
  * WARNING: This function refreshes the expiry of all settings cookies; this is a relatively *slow* operation!
@@ -47,11 +56,16 @@ export default function useSettings(): [
   useEffect(() => {
     for (const key of keys) {
       const localValue = localStorage.getItem(key);
-      if (localValue != null) {
-        setSetting(key, localValue);
-      }
+      setSetting(key, localValue);
     }
+
+    // This only runs on the client
+    validateLanguage(cookies, setSetting);
   });
+
+  // This runs on the server first, and then on the client; bad data needs to be handled
+  // in the initial page render.
+  validateLanguage(cookies, setSetting);
 
   return [cookies, setSetting];
 }
