@@ -16,7 +16,14 @@ export default function MarketRegionUpdateTimes({
   const [settings] = useSettings();
   const lang = settings['mogboard_language'] || 'en';
 
-  const relativeTime = new RelativeTime({ locale: lang });
+  let relativeTime: RelativeTime;
+  try {
+    relativeTime = new RelativeTime({ locale: lang });
+  } catch (err) {
+    console.error(err);
+    return <div className="market_update_times" />;
+  }
+
   return (
     <div className="region_update_times">
       {dcs.map((dc) => (
