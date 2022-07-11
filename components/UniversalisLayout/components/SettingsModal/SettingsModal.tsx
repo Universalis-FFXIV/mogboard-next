@@ -15,9 +15,9 @@ export default function SettingsModal({ isOpen, closeModal, onSave }: SettingsMo
   const modalRef = useClickOutside<HTMLDivElement>(null, closeModal);
 
   const [settings, setSetting] = useSettings();
-  const [server, setServer] = useState(settings['mogboard_server'] ?? '');
-  const [lang, setLang] = useState(settings['mogboard_language'] ?? '');
-  const [timezone, setTimezone] = useState(settings['mogboard_timezone'] ?? '');
+  const [server, setServer] = useState(settings['mogboard_server']);
+  const [lang, setLang] = useState(settings['mogboard_language']);
+  const [timezone, setTimezone] = useState(settings['mogboard_timezone']);
   const [showLeftNav, setShowLeftNav] = useState(settings['mogboard_leftnav'] ?? 'off');
   const [showDefaultHomeWorld, setShowDefaultHomeWorld] = useState(
     settings['mogboard_homeworld'] ?? 'no'

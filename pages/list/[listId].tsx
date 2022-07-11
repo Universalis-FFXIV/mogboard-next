@@ -31,7 +31,7 @@ type ListsAction = { type: 'removeItem'; itemId: number } | { type: 'renameList'
 
 const List: NextPage<ListProps> = ({ dcs, list, reqIsOwner, ownerName }) => {
   const [settings] = useSettings();
-  const lang = settings['mogboard_language'] ?? 'en';
+  const lang = settings['mogboard_language'] || 'en';
 
   const [newName, setNewName] = useState(list.name);
   const [updating, setUpdating] = useState(false);
@@ -112,7 +112,7 @@ const List: NextPage<ListProps> = ({ dcs, list, reqIsOwner, ownerName }) => {
   };
 
   const [showHomeWorld, setShowHomeWorld] = useState(settings['mogboard_homeworld'] === 'yes');
-  const world = settings['mogboard_server'] ?? 'Phoenix';
+  const world = settings['mogboard_server'] || 'Phoenix';
   const dc = dcs.find((x) => x.worlds.some((y) => y.name === world));
   const server = showHomeWorld ? world : dc?.name ?? 'Chaos';
 

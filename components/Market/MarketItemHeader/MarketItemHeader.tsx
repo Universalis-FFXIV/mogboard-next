@@ -27,7 +27,7 @@ export default function MarketItemHeader({
   dispatch,
 }: MarketItemHeaderProps) {
   const [settings] = useSettings();
-  const lang = settings['mogboard_language'] ?? 'en';
+  const lang = settings['mogboard_language'] || 'en';
   const classJobCategory = getClassJobCategory(item.classJobCategory, lang);
   const itemSearchCategory = getItemSearchCategory(item.itemSearchCategory, lang);
   const itemUiCategory = getItemUICategory(item.itemUiCategory, lang);

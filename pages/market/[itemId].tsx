@@ -56,9 +56,9 @@ const Market: NextPage<MarketProps> = ({
 }) => {
   const [settings] = useSettings();
 
-  const lang = settings['mogboard_language'] ?? 'en';
+  const lang = settings['mogboard_language'] || 'en';
   const showHomeWorld = settings['mogboard_homeworld'] === 'yes';
-  const homeWorld = settings['mogboard_server'] ?? 'Phoenix';
+  const homeWorld = settings['mogboard_server'] || 'Phoenix';
   const [selectedServer, setSelectedServer] = useState<
     | { type: 'region'; region: string }
     | { type: 'dc'; dc: DataCenter }
@@ -272,10 +272,10 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
 
   const queryServer =
     typeof ctx.query.server === 'string' && ctx.query.server.length > 0 ? ctx.query.server : null;
-  const homeWorld = cookies.get<string | undefined>('mogboard_server') ?? 'Phoenix';
+  const homeWorld = cookies.get<string | undefined>('mogboard_server') || 'Phoenix';
   const dc = dcs.find(
     (x) =>
-      x.worlds.some((y) => y.name.toLowerCase() === (queryServer ?? homeWorld).toLowerCase()) ||
+      x.worlds.some((y) => y.name.toLowerCase() === (queryServer || homeWorld).toLowerCase()) ||
       (queryServer && x.name.toLowerCase() === queryServer.toLowerCase())
   );
   if (!dc) {

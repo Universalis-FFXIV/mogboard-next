@@ -30,7 +30,7 @@ interface ListOverviewProps {
 
 function ListOverview({ list, items, dispatch }: ListOverviewProps) {
   const [settings] = useSettings();
-  const lang = settings['mogboard_language'] ?? 'en';
+  const lang = settings['mogboard_language'] || 'en';
 
   const { setPopup } = usePopup();
 
@@ -113,7 +113,7 @@ function ListOverview({ list, items, dispatch }: ListOverviewProps) {
 
 const Lists: NextPage<ListsProps> = ({ hasSession, lists }) => {
   const [settings] = useSettings();
-  const lang = settings['mogboard_language'] ?? 'en';
+  const lang = settings['mogboard_language'] || 'en';
 
   const [listsState, dispatch] = useReducer((state: UserList[], action: ListsAction) => {
     const listIdx = state.findIndex((list) => list.id === action.listId);
