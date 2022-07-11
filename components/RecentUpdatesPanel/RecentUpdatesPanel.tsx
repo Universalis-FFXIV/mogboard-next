@@ -11,7 +11,7 @@ interface RecentUpdatesPanelProps {
 
 export default function RecentUpdatesPanel({ items }: RecentUpdatesPanelProps) {
   const [settings] = useSettings();
-  const lang = settings['mogboard_language'] ?? 'en';
+  const lang = settings['mogboard_language'] || 'en';
 
   const error = `(${t`Cannot be sold`})`;
   return (

@@ -76,7 +76,7 @@ function NavCategoryGroup({
 
 export default function CategoriesNavbar({ onCategoryOpen }: CategoriesNavbarProps) {
   const [settings] = useSettings();
-  const lang = settings['mogboard_language'] ?? 'en';
+  const lang = settings['mogboard_language'] || 'en';
 
   const categoriesIndex = getItemSearchCategories(lang);
 

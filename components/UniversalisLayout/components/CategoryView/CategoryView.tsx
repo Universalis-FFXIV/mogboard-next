@@ -17,7 +17,7 @@ export default function CategoryView({ isOpen, closeView, items }: CategoryViewP
   const viewRef = useClickOutside<HTMLDivElement>(null, closeView);
 
   const [settings] = useSettings();
-  const lang = settings['mogboard_language'] ?? 'en';
+  const lang = settings['mogboard_language'] || 'en';
 
   if (!isOpen) {
     return (

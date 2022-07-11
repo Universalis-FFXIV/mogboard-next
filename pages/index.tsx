@@ -51,7 +51,7 @@ const Home: NextPage<HomeProps> = ({
   lists,
 }: HomeProps) => {
   const [settings] = useSettings();
-  const lang = settings['mogboard_language'] ?? 'en';
+  const lang = settings['mogboard_language'] || 'en';
 
   const [selectedList, setSelectedList] = useState<UserList | undefined>();
 
@@ -132,7 +132,7 @@ function zeroTaxRates(): Record<City, number> {
 
 export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   const cookies = new Cookies(ctx.req?.headers.cookie);
-  const world = cookies.get<string | undefined>('mogboard_server') ?? 'Phoenix';
+  const world = cookies.get<string | undefined>('mogboard_server') || 'Phoenix';
 
   let taxes: Record<City, number>;
   try {

@@ -44,7 +44,7 @@ export default function SearchCategories({
   const boxRef = useClickOutside<HTMLDivElement>(null, closeBox);
   const [settings] = useSettings();
 
-  const lang = settings['mogboard_language'] ?? 'en';
+  const lang = settings['mogboard_language'] || 'en';
   const categories = getItemSearchCategories(lang);
   const categoryItems = getItems(lang).filter((item) => item.itemSearchCategory > 0);
 

@@ -46,7 +46,7 @@ function CheapestListing({ listing, hq }: CheapestListingProps) {
 export default function HomeUserList({ dcs, list }: HomeUserListProps) {
   const [settings] = useSettings();
   const dc = dcs.find((x) => x.worlds.some((y) => y.name === settings['mogboard_server']));
-  const lang = settings['mogboard_language'] ?? 'en';
+  const lang = settings['mogboard_language'] || 'en';
 
   const itemIdsStr = list.items.length <= 1 ? `0,${list.items[0]}` : list.items.join();
 
@@ -54,7 +54,7 @@ export default function HomeUserList({ dcs, list }: HomeUserListProps) {
   useEffect(() => {
     fetch(
       `https://universalis.app/api/v2/${
-        dc?.name ?? 'Chaos'
+        dc?.name || 'Chaos'
       }/${itemIdsStr}?listings=1&entries=0&hq=0`
     )
       .then((res) => res.json())
@@ -65,7 +65,7 @@ export default function HomeUserList({ dcs, list }: HomeUserListProps) {
   useEffect(() => {
     fetch(
       `https://universalis.app/api/v2/${
-        dc?.name ?? 'Chaos'
+        dc?.name || 'Chaos'
       }/${itemIdsStr}?listings=1&entries=0&hq=1`
     )
       .then((res) => res.json())

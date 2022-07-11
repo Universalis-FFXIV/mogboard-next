@@ -69,7 +69,7 @@ const Account: NextPage<AccountProps> = ({ hasSession, characters, verification,
 
   const [searching, setSearching] = useState(false);
   const [progressText, setProgressText] = useState('');
-  const [world, setWorld] = useState(settings['mogboard_server'] ?? 'Phoenix');
+  const [world, setWorld] = useState(settings['mogboard_server'] || 'Phoenix');
   const [charSearch, setCharSearch] = useState('');
   const parseCharSearch = ():
     | { isLodestoneId: true; lodestoneId: number }
@@ -295,7 +295,7 @@ const Account: NextPage<AccountProps> = ({ hasSession, characters, verification,
                     className="full"
                     name="character_server"
                     id="character_server"
-                    defaultValue={settings['mogboard_server'] ?? 'Phoenix'}
+                    defaultValue={settings['mogboard_server'] || 'Phoenix'}
                     onChange={(e) => setWorld(e.target.value)}
                   >
                     {dcs.map((dc) => (

@@ -14,7 +14,7 @@ export default function MarketRegionUpdateTimes({
   dcWorldUploadTimes,
 }: MarketRegionUpdateTimesProps) {
   const [settings] = useSettings();
-  const lang = settings['mogboard_language'] ?? 'en';
+  const lang = settings['mogboard_language'] || 'en';
 
   const relativeTime = new RelativeTime({ locale: lang });
   return (

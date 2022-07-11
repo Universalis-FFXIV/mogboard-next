@@ -23,7 +23,7 @@ export default function SearchCategoryResults({
   closeResults,
 }: SearchCategoryResultsProps) {
   const [settings] = useSettings();
-  const lang = settings['mogboard_language'] ?? 'en';
+  const lang = settings['mogboard_language'] || 'en';
 
   const resultsRef = useClickOutside<HTMLDivElement>(null, closeResults);
   return (

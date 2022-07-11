@@ -16,7 +16,7 @@ export default function SearchBar({ onResults, onMarketClicked }: SearchBarProps
   const [query, setQuery] = useState('');
   const [settings] = useSettings();
 
-  const lang = settings['mogboard_language'] ?? 'en';
+  const lang = settings['mogboard_language'] || 'en';
 
   const inputRef = useClickOutside<HTMLInputElement>(null, () => {
     setTyping(false);
