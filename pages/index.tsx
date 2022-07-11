@@ -108,13 +108,13 @@ const Home: NextPage<HomeProps> = ({
 
 function convertTaxRates(taxRates: TaxRates): Record<City, number> {
   return {
-    [City.LimsaLominsa]: taxRates['Limsa Lominsa'],
-    [City.Gridania]: taxRates['Gridania'],
-    [City.Uldah]: taxRates["Ul'dah"],
-    [City.Ishgard]: taxRates['Ishgard'],
-    [City.Kugane]: taxRates['Kugane'],
-    [City.Crystarium]: taxRates['Crystarium'],
-    [City.OldSharlayan]: taxRates['Old Sharlayan'],
+    [City.LimsaLominsa]: taxRates['Limsa Lominsa'] ?? 0,
+    [City.Gridania]: taxRates['Gridania'] ?? 0,
+    [City.Uldah]: taxRates["Ul'dah"] ?? 0,
+    [City.Ishgard]: taxRates['Ishgard'] ?? 0,
+    [City.Kugane]: taxRates['Kugane'] ?? 0,
+    [City.Crystarium]: taxRates['Crystarium'] ?? 0,
+    [City.OldSharlayan]: taxRates['Old Sharlayan'] ?? 0,
   };
 }
 

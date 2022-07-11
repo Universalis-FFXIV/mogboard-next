@@ -46,7 +46,14 @@ function SalesTableHeader({
 }
 
 function SalesTableRow({ sale, lang }: { sale: SaleRow; lang: Language }) {
-  const relativeTime = new RelativeTime({ locale: lang });
+  let relativeTime: RelativeTime;
+  try {
+    relativeTime = new RelativeTime({ locale: lang });
+  } catch (err) {
+    console.error(err);
+    return <tr />;
+  }
+
   return (
     <tr>
       <td className="price-num tac">{sale.n}</td>

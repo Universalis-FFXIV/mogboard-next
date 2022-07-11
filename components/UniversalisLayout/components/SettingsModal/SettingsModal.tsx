@@ -4,6 +4,7 @@ import { getServers, getServerRegionNameMap, Servers } from '../../../../service
 import { getTimeZones, TimeZone } from '../../../../service/timezones';
 import useClickOutside from '../../../../hooks/useClickOutside';
 import useSettings from '../../../../hooks/useSettings';
+import ErrorBoundary from '../../../ErrorBoundary/ErrorBoundary';
 
 interface SettingsModalProps {
   isOpen: boolean;
@@ -54,189 +55,197 @@ export default function SettingsModal({ isOpen, closeModal, onSave }: SettingsMo
         <i className="xiv-NavigationClose"></i>
       </button>
 
-      <div className={`row row_top ${settings['mogboard_server'] == '' ? 'row-alert' : ''}`}>
-        <div className="flex">
-          <div className="flex_50">
-            <label htmlFor="servers">
-              <Trans>Your Server</Trans>
-            </label>
-            <div className="form">
-              <select
-                value={server}
-                id="servers"
-                className="servers"
-                onChange={(e) => {
-                  if (server !== e.target.value) {
-                    setServer(e.target.value);
-                  }
-                }}
-              >
-                <option disabled value="">
-                  <Trans>- Please Choose a Server -</Trans>
-                </option>
-                {settingsData.dcs.map(({ name, region, worlds }) => (
-                  <optgroup
-                    key={name}
-                    label={`${name} - ${regionNameMapping.get(region) ?? t`(Unknown)`}`}
-                  >
-                    {worlds.map((world) => (
-                      <option key={world.id} value={world.name}>
-                        {world.name}
-                      </option>
-                    ))}
-                  </optgroup>
-                ))}
-              </select>
+      <ErrorBoundary>
+        <div className={`row row_top ${settings['mogboard_server'] == '' ? 'row-alert' : ''}`}>
+          <div className="flex">
+            <div className="flex_50">
+              <label htmlFor="servers">
+                <Trans>Your Server</Trans>
+              </label>
+              <div className="form">
+                <select
+                  value={server}
+                  id="servers"
+                  className="servers"
+                  onChange={(e) => {
+                    if (server !== e.target.value) {
+                      setServer(e.target.value);
+                    }
+                  }}
+                >
+                  <option disabled value="">
+                    <Trans>- Please Choose a Server -</Trans>
+                  </option>
+                  {settingsData.dcs.map(({ name, region, worlds }) => (
+                    <optgroup
+                      key={name}
+                      label={`${name} - ${regionNameMapping.get(region) ?? t`(Unknown)`}`}
+                    >
+                      {worlds.map((world) => (
+                        <option key={world.id} value={world.name}>
+                          {world.name}
+                        </option>
+                      ))}
+                    </optgroup>
+                  ))}
+                </select>
+              </div>
             </div>
-          </div>
 
-          <div className="flex_50">
-            <label htmlFor="languages">
-              <Trans>Language</Trans>
-            </label>
-            <div className="form">
-              <select
-                value={lang}
-                id="languages"
-                className="languages"
-                onChange={(e) => {
-                  const val = e.target.value;
-                  if (
-                    lang !== val &&
-                    (val === 'en' || val === 'fr' || val === 'de' || val === 'ja' || val === 'chs')
-                  ) {
-                    setLang(val);
-                  }
-                }}
-              >
-                <option disabled value="">
-                  <Trans>- Choose your language -</Trans>
-                </option>
-                <option value="en">English</option>
-                <option value="fr">Français</option>
-                <option value="de">Deutsch</option>
-                <option value="ja">日本語</option>
-                {/* <option value="kr">한국어</option> */}
-                <option value="chs">中文</option>
-              </select>
+            <div className="flex_50">
+              <label htmlFor="languages">
+                <Trans>Language</Trans>
+              </label>
+              <div className="form">
+                <select
+                  value={lang}
+                  id="languages"
+                  className="languages"
+                  onChange={(e) => {
+                    const val = e.target.value;
+                    if (
+                      lang !== val &&
+                      (val === 'en' ||
+                        val === 'fr' ||
+                        val === 'de' ||
+                        val === 'ja' ||
+                        val === 'chs')
+                    ) {
+                      setLang(val);
+                    }
+                  }}
+                >
+                  <option disabled value="">
+                    <Trans>- Choose your language -</Trans>
+                  </option>
+                  <option value="en">English</option>
+                  <option value="fr">Français</option>
+                  <option value="de">Deutsch</option>
+                  <option value="ja">日本語</option>
+                  {/* <option value="kr">한국어</option> */}
+                  <option value="chs">中文</option>
+                </select>
+              </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <div className="row row_top">
-        <label htmlFor="timezones">
-          <Trans>Timezone</Trans>
-        </label>
-        <div className="form">
-          <select
-            value={timezone}
-            id="timezones"
-            className="timezones"
-            onChange={(e) => {
-              if (timezone !== e.target.value) {
-                setTimezone(e.target.value);
-              }
+        <div className="row row_top">
+          <label htmlFor="timezones">
+            <Trans>Timezone</Trans>
+          </label>
+          <div className="form">
+            <select
+              value={timezone}
+              id="timezones"
+              className="timezones"
+              onChange={(e) => {
+                if (timezone !== e.target.value) {
+                  setTimezone(e.target.value);
+                }
+              }}
+            >
+              <option disabled value="">
+                <Trans>- Choose your timezone -</Trans>
+              </option>
+              {settingsData.timezones
+                .sort((a, b) => a.offset - b.offset)
+                .map(({ id, name }) => (
+                  <option key={id} value={id}>
+                    {name}
+                  </option>
+                ))}
+            </select>
+          </div>
+        </div>
+
+        <div className="row row_top">
+          <div className="flex">
+            <div className="flex_50">
+              <label htmlFor="leftnav">
+                <Trans>Left Navigation</Trans>
+              </label>
+              <div style={{ paddingBottom: 10 }}>
+                <small>
+                  <Trans>
+                    This enables a quick-access left-navigation of all market categories.
+                  </Trans>
+                </small>
+              </div>
+              <div className="form">
+                <select
+                  value={showLeftNav}
+                  id="leftnav"
+                  className="leftnav"
+                  onChange={(e) => {
+                    const val = e.target.value;
+                    if (showLeftNav !== val && (val === 'on' || val === 'off')) {
+                      setShowLeftNav(val);
+                    }
+                  }}
+                >
+                  <option value="off">
+                    <Trans>No</Trans>
+                  </option>
+                  <option value="on">
+                    <Trans>Yes</Trans>
+                  </option>
+                </select>
+              </div>
+            </div>
+            <div className="flex_50">
+              <label htmlFor="homeworld">
+                <Trans>Default Home World</Trans>
+              </label>
+              <div style={{ paddingBottom: 10 }}>
+                <small>
+                  <Trans>
+                    This will show prices/history on your home world by default instead of
+                    cross-world.
+                  </Trans>
+                </small>
+              </div>
+              <div className="form">
+                <select
+                  value={showDefaultHomeWorld}
+                  id="homeworld"
+                  className="homeworld"
+                  onChange={(e) => {
+                    const val = e.target.value;
+                    if (showDefaultHomeWorld !== val && (val === 'yes' || val === 'no')) {
+                      setShowDefaultHomeWorld(val);
+                    }
+                  }}
+                >
+                  <option value="no">
+                    <Trans>No</Trans>
+                  </option>
+                  <option value="yes">
+                    <Trans>Yes</Trans>
+                  </option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="row form tac">
+          <button
+            type="button"
+            className="btn-green"
+            onClick={() => {
+              setSetting('mogboard_server', server);
+              setSetting('mogboard_language', lang);
+              setSetting('mogboard_timezone', timezone);
+              setSetting('mogboard_leftnav', showLeftNav);
+              setSetting('mogboard_homeworld', showDefaultHomeWorld);
+              onSave();
             }}
           >
-            <option disabled value="">
-              <Trans>- Choose your timezone -</Trans>
-            </option>
-            {settingsData.timezones
-              .sort((a, b) => a.offset - b.offset)
-              .map(({ id, name }) => (
-                <option key={id} value={id}>
-                  {name}
-                </option>
-              ))}
-          </select>
+            <Trans>Save Settings</Trans>
+          </button>
         </div>
-      </div>
-
-      <div className="row row_top">
-        <div className="flex">
-          <div className="flex_50">
-            <label htmlFor="leftnav">
-              <Trans>Left Navigation</Trans>
-            </label>
-            <div style={{ paddingBottom: 10 }}>
-              <small>
-                <Trans>This enables a quick-access left-navigation of all market categories.</Trans>
-              </small>
-            </div>
-            <div className="form">
-              <select
-                value={showLeftNav}
-                id="leftnav"
-                className="leftnav"
-                onChange={(e) => {
-                  const val = e.target.value;
-                  if (showLeftNav !== val && (val === 'on' || val === 'off')) {
-                    setShowLeftNav(val);
-                  }
-                }}
-              >
-                <option value="off">
-                  <Trans>No</Trans>
-                </option>
-                <option value="on">
-                  <Trans>Yes</Trans>
-                </option>
-              </select>
-            </div>
-          </div>
-          <div className="flex_50">
-            <label htmlFor="homeworld">
-              <Trans>Default Home World</Trans>
-            </label>
-            <div style={{ paddingBottom: 10 }}>
-              <small>
-                <Trans>
-                  This will show prices/history on your home world by default instead of
-                  cross-world.
-                </Trans>
-              </small>
-            </div>
-            <div className="form">
-              <select
-                value={showDefaultHomeWorld}
-                id="homeworld"
-                className="homeworld"
-                onChange={(e) => {
-                  const val = e.target.value;
-                  if (showDefaultHomeWorld !== val && (val === 'yes' || val === 'no')) {
-                    setShowDefaultHomeWorld(val);
-                  }
-                }}
-              >
-                <option value="no">
-                  <Trans>No</Trans>
-                </option>
-                <option value="yes">
-                  <Trans>Yes</Trans>
-                </option>
-              </select>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div className="row form tac">
-        <button
-          type="button"
-          className="btn-green"
-          onClick={() => {
-            setSetting('mogboard_server', server);
-            setSetting('mogboard_language', lang);
-            setSetting('mogboard_timezone', timezone);
-            setSetting('mogboard_leftnav', showLeftNav);
-            setSetting('mogboard_homeworld', showDefaultHomeWorld);
-            onSave();
-          }}
-        >
-          <Trans>Save Settings</Trans>
-        </button>
-      </div>
+      </ErrorBoundary>
     </div>
   );
 }
