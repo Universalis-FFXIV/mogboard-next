@@ -15,7 +15,7 @@ function validateLanguage(
   setSettings: (name: keyof Settings, value: any) => void
 ) {
   if (!['ja', 'en', 'fr', 'de', 'chs'].includes(settings['mogboard_language'] ?? 'en')) {
-    setSettings('mogboard_language', 'en');
+    setSettings('mogboard_language', undefined);
   }
 }
 
