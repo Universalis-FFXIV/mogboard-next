@@ -14,7 +14,7 @@ function validateLanguage(
   settings: Partial<Settings>,
   setSettings: (name: keyof Settings, value: any) => void
 ) {
-  if (!['ja', 'en', 'fr', 'de', 'chs', undefined].includes(settings['mogboard_language'])) {
+  if (!['ja', 'en', 'fr', 'de', 'chs'].includes(settings['mogboard_language'] ?? 'en')) {
     setSettings('mogboard_language', 'en');
   }
 }
@@ -56,7 +56,9 @@ export default function useSettings(): [
   useEffect(() => {
     for (const key of keys) {
       const localValue = localStorage.getItem(key);
-      setSetting(key, localValue);
+      if (localValue != null) {
+        setSetting(key, localValue);
+      }
     }
 
     // This only runs on the client

@@ -29,10 +29,6 @@ import {
 import MogboardHighchartsTheme from '../theme/highcharts';
 
 function parseLang(lang: any): 'ja' | 'en' | 'de' | 'fr' | 'zh-HANS' {
-  if (typeof lang !== 'string') {
-    return 'en';
-  }
-
   if (lang === 'chs') {
     return 'zh-HANS';
   }
