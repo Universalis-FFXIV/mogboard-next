@@ -87,7 +87,14 @@ export default function HomeUserList({ dcs, list }: HomeUserListProps) {
     return agg;
   }, {});
 
-  const relativeTime = new RelativeTime({ locale: lang });
+  let relativeTime: RelativeTime;
+  try {
+    relativeTime = new RelativeTime({ locale: lang });
+  } catch (err) {
+    console.error(err);
+    return <div className="home-tab open" />;
+  }
+
   const listDescription = sprintf(t`%d items in this list`, list.items.length);
 
   return (

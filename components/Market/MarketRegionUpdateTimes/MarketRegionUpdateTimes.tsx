@@ -1,6 +1,6 @@
 import { t } from '@lingui/macro';
 import RelativeTime from '@yaireo/relative-time';
-import { Fragment, Suspense } from 'react';
+import { Suspense } from 'react';
 import useSettings from '../../../hooks/useSettings';
 import { DataCenter } from '../../../types/game/DataCenter';
 
@@ -21,7 +21,7 @@ export default function MarketRegionUpdateTimes({
     relativeTime = new RelativeTime({ locale: lang });
   } catch (err) {
     console.error(err);
-    return <div className="market_update_times" />;
+    return <div className="region_update_times" />;
   }
 
   return (

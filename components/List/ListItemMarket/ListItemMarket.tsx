@@ -3,6 +3,7 @@ import RelativeTime from '@yaireo/relative-time';
 import { sprintf } from 'sprintf-js';
 import { Item } from '../../../types/game/Item';
 import { Language } from '../../../types/universalis/lang';
+import ErrorBoundary from '../../ErrorBoundary/ErrorBoundary';
 import ListingsTable from '../../ListingsTable/ListingsTable';
 import SalesTable from '../../SalesTable/SalesTable';
 
@@ -23,7 +24,14 @@ export default function ListItemMarket({ item, market, showHomeWorld, lang }: Li
     return <div className="alert-light">{sprintf(marketFailed, item.name)}</div>;
   }
 
-  const relativeTime = new RelativeTime({ locale: lang });
+  let relativeTime: RelativeTime;
+  try {
+    relativeTime = new RelativeTime({ locale: lang });
+  } catch (err) {
+    console.error(err);
+    return <div className="flex" />;
+  }
+
   return (
     <div className="flex">
       <div className="flex_50 pl_mt_p">
@@ -32,16 +40,18 @@ export default function ListItemMarket({ item, market, showHomeWorld, lang }: Li
             <Trans>Top 5 cheapest</Trans>
           </h3>
           <div>
-            <ListingsTable
-              listings={market.listings}
-              averageHq={market.currentAveragePriceHQ}
-              averageNq={market.currentAveragePriceNQ}
-              crossWorld={!showHomeWorld}
-              includeDiff={false}
-              lang={lang}
-              start={0}
-              end={5}
-            />
+            <ErrorBoundary>
+              <ListingsTable
+                listings={market.listings}
+                averageHq={market.currentAveragePriceHQ}
+                averageNq={market.currentAveragePriceNQ}
+                crossWorld={!showHomeWorld}
+                includeDiff={false}
+                lang={lang}
+                start={0}
+                end={5}
+              />
+            </ErrorBoundary>
           </div>
         </div>
       </div>
@@ -51,16 +61,18 @@ export default function ListItemMarket({ item, market, showHomeWorld, lang }: Li
             <Trans>Last 5 sales</Trans>
           </h3>
           <div>
-            <SalesTable
-              sales={market.recentHistory}
-              averageHq={market.averagePriceHQ}
-              averageNq={market.averagePriceNQ}
-              crossWorld={!showHomeWorld}
-              includeDiff={false}
-              lang={lang}
-              start={0}
-              end={5}
-            />
+            <ErrorBoundary>
+              <SalesTable
+                sales={market.recentHistory}
+                averageHq={market.averagePriceHQ}
+                averageNq={market.averagePriceNQ}
+                crossWorld={!showHomeWorld}
+                includeDiff={false}
+                lang={lang}
+                start={0}
+                end={5}
+              />
+            </ErrorBoundary>
           </div>
           <small>
             <Trans>Last updated:</Trans> {relativeTime.from(new Date(market.lastUploadTime))}
