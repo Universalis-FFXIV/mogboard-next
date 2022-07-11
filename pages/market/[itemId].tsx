@@ -32,6 +32,7 @@ import { Connection } from 'mariadb';
 import MarketServerUpdateTimes from '../../components/Market/MarketServerUpdateTimes/MarketServerUpdateTimes';
 import MarketRegion from '../../components/Market/MarketRegion/MarketRegion';
 import MarketRegionUpdateTimes from '../../components/Market/MarketRegionUpdateTimes/MarketRegionUpdateTimes';
+import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary';
 
 interface MarketProps {
   hasSession: boolean;
@@ -125,12 +126,14 @@ const Market: NextPage<MarketProps> = ({
       <div className="product">
         <div>
           <div className="item_top">
-            <MarketItemHeader
-              hasSession={hasSession}
-              item={item}
-              stateLists={stateLists}
-              dispatch={dispatch}
-            />
+            <ErrorBoundary>
+              <MarketItemHeader
+                hasSession={hasSession}
+                item={item}
+                stateLists={stateLists}
+                dispatch={dispatch}
+              />
+            </ErrorBoundary>
             <div className="item_nav_mobile_toggle">
               <button type="button" onClick={() => setMobileNavOpen(!mobileNavOpen)}>
                 <Trans>Menu</Trans>
@@ -149,20 +152,22 @@ const Market: NextPage<MarketProps> = ({
           <div className="tab">
             {selectedServer.type === 'region' && selectedServer.region === region && (
               <div className="tab-page tab-summary open">
-                <MarketRegionUpdateTimes
-                  dcs={dcs}
-                  dcWorldUploadTimes={dcs.reduce((agg, next) => {
-                    agg[next.name] = markets[next.name].worldUploadTimes;
-                    return agg;
-                  }, {} as Record<string, Record<number, number>>)}
-                />
-                <MarketRegion
-                  item={item}
-                  region={region}
-                  dcs={dcs}
-                  dcMarkets={markets}
-                  lang={lang}
-                />
+                <ErrorBoundary>
+                  <MarketRegionUpdateTimes
+                    dcs={dcs}
+                    dcWorldUploadTimes={dcs.reduce((agg, next) => {
+                      agg[next.name] = markets[next.name].worldUploadTimes;
+                      return agg;
+                    }, {} as Record<string, Record<number, number>>)}
+                  />
+                  <MarketRegion
+                    item={item}
+                    region={region}
+                    dcs={dcs}
+                    dcMarkets={markets}
+                    lang={lang}
+                  />
+                </ErrorBoundary>
               </div>
             )}
             {dcs.map((dc, i) => {
@@ -177,22 +182,26 @@ const Market: NextPage<MarketProps> = ({
                     selectedServer.dc.name === dc.name ? 'open' : ''
                   }`}
                 >
-                  <MarketServerUpdateTimes
-                    worlds={dc.worlds.sort((a, b) => a.name.localeCompare(b.name))}
-                    worldUploadTimes={markets[dc.name].worldUploadTimes}
-                  />
-                  <MarketDataCenter item={item} dc={dc} market={markets[dc.name]} lang={lang} />
+                  <ErrorBoundary>
+                    <MarketServerUpdateTimes
+                      worlds={dc.worlds.sort((a, b) => a.name.localeCompare(b.name))}
+                      worldUploadTimes={markets[dc.name].worldUploadTimes}
+                    />
+                    <MarketDataCenter item={item} dc={dc} market={markets[dc.name]} lang={lang} />
+                  </ErrorBoundary>
                 </div>
               );
             })}
             {selectedServer.type === 'world' && (
               <div className="tab-page tab-cw open">
-                <MarketWorld
-                  item={item}
-                  world={selectedServer.world}
-                  market={markets[selectedServer.world.id]}
-                  lang={lang}
-                />
+                <ErrorBoundary>
+                  <MarketWorld
+                    item={item}
+                    world={selectedServer.world}
+                    market={markets[selectedServer.world.id]}
+                    lang={lang}
+                  />
+                </ErrorBoundary>
               </div>
             )}
           </div>
