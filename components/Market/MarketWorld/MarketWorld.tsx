@@ -26,7 +26,7 @@ export default function MarketWorld({ item, world, market, lang }: MarketWorldPr
     relativeTime = new RelativeTime({ locale: lang });
   } catch (err) {
     console.error(err);
-    return <></>;
+    relativeTime = new RelativeTime({ locale: 'en' });
   }
 
   if (market == null) {

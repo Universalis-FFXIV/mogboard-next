@@ -51,7 +51,7 @@ function SalesTableRow({ sale, lang }: { sale: SaleRow; lang: Language }) {
     relativeTime = new RelativeTime({ locale: lang });
   } catch (err) {
     console.error(err);
-    return <tr />;
+    relativeTime = new RelativeTime({ locale: 'en' });
   }
 
   return (

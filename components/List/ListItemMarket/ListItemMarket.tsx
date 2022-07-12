@@ -29,7 +29,7 @@ export default function ListItemMarket({ item, market, showHomeWorld, lang }: Li
     relativeTime = new RelativeTime({ locale: lang });
   } catch (err) {
     console.error(err);
-    return <div className="flex" />;
+    relativeTime = new RelativeTime({ locale: 'en' });
   }
 
   return (
