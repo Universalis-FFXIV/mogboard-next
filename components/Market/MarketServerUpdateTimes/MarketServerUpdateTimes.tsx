@@ -20,7 +20,7 @@ export default function MarketServerUpdateTimes({
     relativeTime = new RelativeTime({ locale: lang });
   } catch (err) {
     console.error(err);
-    relativeTime = new RelativeTime({ locale: 'en' });
+    return <div className="market_update_times" />;
   }
 
   return (

@@ -1,5 +1,6 @@
 import { t, Trans } from '@lingui/macro';
 import RelativeTime from '@yaireo/relative-time';
+import { Suspense } from 'react';
 import { Item } from '../../../types/game/Item';
 import { World } from '../../../types/game/World';
 import { Language } from '../../../types/universalis/lang';
@@ -26,7 +27,7 @@ export default function MarketWorld({ item, world, market, lang }: MarketWorldPr
     relativeTime = new RelativeTime({ locale: lang });
   } catch (err) {
     console.error(err);
-    relativeTime = new RelativeTime({ locale: 'en' });
+    return <></>;
   }
 
   if (market == null) {
@@ -55,8 +56,10 @@ export default function MarketWorld({ item, world, market, lang }: MarketWorldPr
           <h4>
             <Trans>PRICES</Trans>{' '}
             <small>
-              <Trans>Updated:</Trans> {relativeTime.from(new Date(market.lastUploadTime))}{' '}
-              {t`(Includes 5% GST)`}
+              <Suspense>
+                <Trans>Updated:</Trans> {relativeTime.from(new Date(market.lastUploadTime))}{' '}
+                {t`(Includes 5% GST)`}
+              </Suspense>
             </small>
           </h4>
           <ListingsTable

@@ -21,7 +21,7 @@ export default function MarketRegionUpdateTimes({
     relativeTime = new RelativeTime({ locale: lang });
   } catch (err) {
     console.error(err);
-    relativeTime = new RelativeTime({ locale: 'en' });
+    return <div className="region_update_times" />;
   }
 
   return (

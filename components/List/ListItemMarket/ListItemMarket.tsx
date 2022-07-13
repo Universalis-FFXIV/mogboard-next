@@ -1,5 +1,6 @@
 import { t, Trans } from '@lingui/macro';
 import RelativeTime from '@yaireo/relative-time';
+import { Suspense } from 'react';
 import { sprintf } from 'sprintf-js';
 import { Item } from '../../../types/game/Item';
 import { Language } from '../../../types/universalis/lang';
@@ -29,7 +30,7 @@ export default function ListItemMarket({ item, market, showHomeWorld, lang }: Li
     relativeTime = new RelativeTime({ locale: lang });
   } catch (err) {
     console.error(err);
-    relativeTime = new RelativeTime({ locale: 'en' });
+    return <div className="flex" />;
   }
 
   return (
@@ -75,7 +76,9 @@ export default function ListItemMarket({ item, market, showHomeWorld, lang }: Li
             </ErrorBoundary>
           </div>
           <small>
-            <Trans>Last updated:</Trans> {relativeTime.from(new Date(market.lastUploadTime))}
+            <Suspense>
+              <Trans>Last updated:</Trans> {relativeTime.from(new Date(market.lastUploadTime))}
+            </Suspense>
           </small>
         </div>
       </div>

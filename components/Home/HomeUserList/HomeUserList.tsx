@@ -92,7 +92,7 @@ export default function HomeUserList({ dcs, list }: HomeUserListProps) {
     relativeTime = new RelativeTime({ locale: lang });
   } catch (err) {
     console.error(err);
-    relativeTime = new RelativeTime({ locale: 'en' });
+    return <div className="home-tab open" />;
   }
 
   const listDescription = sprintf(t`%d items in this list`, list.items.length);
