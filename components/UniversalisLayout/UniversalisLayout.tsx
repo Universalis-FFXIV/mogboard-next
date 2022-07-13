@@ -50,7 +50,7 @@ export default function UniversalisLayout({ children }: PropsWithChildren) {
   };
 
   useEffect(() => {
-    if (!settings['mogboard_server'] || !settings['mogboard_language']) {
+    if (!settings['mogboard_server']) {
       openSettingsModal();
     }
   }, [settings, openSettingsModal]);
