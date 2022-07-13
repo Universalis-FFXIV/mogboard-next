@@ -31,10 +31,12 @@ USER nextjs
 
 # Automatically leverage output traces to reduce image size
 # https://nextjs.org/docs/advanced-features/output-file-tracing
-COPY --from=builder --chown=nextjs:nodejs /app/ ./
+COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone /app/next.config.js ./
 
-USER nextjs
+# Copy assets over as a backup for the CDN
+COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+COPY --from=builder --chown=nextjs:nodejs /app/public ./public
 
 EXPOSE 3000
 
-CMD ["yarn", "start"]
+CMD ["node", "server.js"]
