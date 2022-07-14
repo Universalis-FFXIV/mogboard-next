@@ -89,7 +89,7 @@ export default function HomeUserList({ dcs, list }: HomeUserListProps) {
 
   let relativeTime: RelativeTime;
   try {
-    relativeTime = new RelativeTime({ locale: lang });
+    relativeTime = new RelativeTime();
   } catch (err) {
     console.error(err);
     return <div className="home-tab open" />;
