@@ -6,19 +6,6 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 const nextConfig = {
   reactStrictMode: true,
   productionBrowserSourceMaps: true,
-  serverRuntimeConfig: {
-    discordClientId: process.env['DISCORD_CLIENT_ID'],
-    discordClientSecret: process.env['DISCORD_CLIENT_SECRET'],
-    nextAuthSecret: process.env['NEXTAUTH_SECRET'],
-    dbUser: process.env['DATABASE_USER'],
-    dbPass: process.env['DATABASE_PASS'],
-    dbName: process.env['DATABASE_NAME'],
-    dbHost: process.env['DATABASE_HOST'],
-    dbPort: process.env['DATABASE_PORT'],
-    dbConnections: process.env['DATABASE_CONNECTIONS'],
-    lodestoneHost: process.env['LODESTONE_HOST'],
-    lodestonePort: process.env['LODESTONE_PORT'],
-  },
   images: {
     domains: [
       'xivapi.com',

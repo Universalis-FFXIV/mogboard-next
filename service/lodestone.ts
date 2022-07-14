@@ -1,7 +1,3 @@
-import getConfig from 'next/config';
-
-const { serverRuntimeConfig } = getConfig();
-
 type LodestoneId = number;
 
 export interface LodestoneCharacter {
@@ -12,7 +8,7 @@ export interface LodestoneCharacter {
 }
 
 function getBaseUrl(): string {
-  return `http://${serverRuntimeConfig.lodestoneHost}:${serverRuntimeConfig.lodestonePort}`;
+  return `http://${process.env['LODESTONE_HOST']}:${process.env['LODESTONE_PORT']}`;
 }
 
 export async function getCharacter(id: LodestoneId): Promise<LodestoneCharacter> {
