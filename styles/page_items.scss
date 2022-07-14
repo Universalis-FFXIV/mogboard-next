@@ -86,8 +86,7 @@
         box-shadow: 0 1px 3px #000;
 
         @include mq($until: desktop) {
-          width: 72px;
-          height: 72px;
+          margin: auto;
         }
       }
     }
