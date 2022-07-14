@@ -4,6 +4,19 @@ services:
     image: ghcr.io/universalis-ffxiv/mogboard-next:latest
     restart: always
     environment:
+      APP_ENV: "prod"
+      NEXTAUTH_URL: "https://universalis.app"
+
+      DATABASE_HOST: "mariadb"
+      DATABASE_PORT: "3306"
+      DATABASE_USER: "dalamud"
+      DATABASE_PASS: "dalamud"
+      DATABASE_NAME: "dalamud"
+      DATABASE_CONNECTIONS: "32"
+
+      LODESTONE_HOST: "lodestone"
+      LODESTONE_PORT: "3999"
+
       DISCORD_CLIENT_ID: "${MOGBOARD_DISCORD_ID}"
       DISCORD_CLIENT_SECRET: "${MOGBOARD_DISCORD_SECRET}"
       NEXTAUTH_SECRET: "${MOGBOARD_SECRET}"
