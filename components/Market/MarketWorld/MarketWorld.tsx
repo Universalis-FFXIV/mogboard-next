@@ -24,7 +24,7 @@ function entriesToShow(entries: {}[]) {
 export default function MarketWorld({ item, world, market, lang }: MarketWorldProps) {
   let relativeTime: RelativeTime;
   try {
-    relativeTime = new RelativeTime({ locale: lang });
+    relativeTime = new RelativeTime();
   } catch (err) {
     console.error(err);
     return <></>;

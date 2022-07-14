@@ -27,7 +27,7 @@ export default function ListItemMarket({ item, market, showHomeWorld, lang }: Li
 
   let relativeTime: RelativeTime;
   try {
-    relativeTime = new RelativeTime({ locale: lang });
+    relativeTime = new RelativeTime();
   } catch (err) {
     console.error(err);
     return <div className="flex" />;
