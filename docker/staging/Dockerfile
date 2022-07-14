@@ -13,6 +13,7 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
 ENV NEXT_TELEMETRY_DISABLED 1
+ENV APP_ENV prod
 
 RUN yarn test && NODE_OPTIONS="--max-old-space-size=4096" yarn build
 

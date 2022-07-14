@@ -8,9 +8,9 @@ const connections = parseInt(serverRuntimeConfig.dbConnections ?? '');
 const pool = mariadb.createPool({
   host: serverRuntimeConfig.dbHost ?? '',
   port: isNaN(port) ? 0 : port,
-  user: process.env['DATABASE_USER'] ?? '',
-  password: process.env['DATABASE_PASS'] ?? '',
-  database: process.env['DATABASE_NAME'] ?? '',
+  user: serverRuntimeConfig.dbUser ?? '',
+  password: serverRuntimeConfig.dbPass ?? '',
+  database: serverRuntimeConfig.dbName ?? '',
   connectionLimit: connections,
 });
 
