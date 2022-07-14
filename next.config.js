@@ -25,6 +25,7 @@ const nextConfig = {
     ],
   },
   compress: false,
+  output: 'standalone',
   poweredByHeader: false,
 };
 
