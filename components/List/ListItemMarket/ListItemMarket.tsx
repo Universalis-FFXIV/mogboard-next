@@ -1,6 +1,6 @@
 import { t, Trans } from '@lingui/macro';
-import RelativeTime from '@yaireo/relative-time';
 import { Suspense } from 'react';
+import ago from 's-ago';
 import { sprintf } from 'sprintf-js';
 import { Item } from '../../../types/game/Item';
 import { Language } from '../../../types/universalis/lang';
@@ -23,14 +23,6 @@ export default function ListItemMarket({ item, market, showHomeWorld, lang }: Li
   const marketFailed = t`Market info could not be fetched for: %s at this time.`;
   if (market == null) {
     return <div className="alert-light">{sprintf(marketFailed, item.name)}</div>;
-  }
-
-  let relativeTime: RelativeTime;
-  try {
-    relativeTime = new RelativeTime();
-  } catch (err) {
-    console.error(err);
-    return <div className="flex" />;
   }
 
   return (
@@ -69,7 +61,6 @@ export default function ListItemMarket({ item, market, showHomeWorld, lang }: Li
                 averageNq={market.averagePriceNQ}
                 crossWorld={!showHomeWorld}
                 includeDiff={false}
-                lang={lang}
                 start={0}
                 end={5}
               />
@@ -77,7 +68,7 @@ export default function ListItemMarket({ item, market, showHomeWorld, lang }: Li
           </div>
           <small>
             <Suspense>
-              <Trans>Last updated:</Trans> {relativeTime.from(new Date(market.lastUploadTime))}
+              <Trans>Last updated:</Trans> {ago(new Date(market.lastUploadTime))}
             </Suspense>
           </small>
         </div>

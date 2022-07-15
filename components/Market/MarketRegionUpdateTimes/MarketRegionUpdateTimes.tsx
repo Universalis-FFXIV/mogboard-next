@@ -1,7 +1,6 @@
 import { t } from '@lingui/macro';
-import RelativeTime from '@yaireo/relative-time';
 import { Suspense } from 'react';
-import useSettings from '../../../hooks/useSettings';
+import ago from 's-ago';
 import { DataCenter } from '../../../types/game/DataCenter';
 
 interface MarketRegionUpdateTimesProps {
@@ -13,17 +12,6 @@ export default function MarketRegionUpdateTimes({
   dcs,
   dcWorldUploadTimes,
 }: MarketRegionUpdateTimesProps) {
-  const [settings] = useSettings();
-  const lang = settings['mogboard_language'] || 'en';
-
-  let relativeTime: RelativeTime;
-  try {
-    relativeTime = new RelativeTime();
-  } catch (err) {
-    console.error(err);
-    return <div className="region_update_times" />;
-  }
-
   return (
     <div className="region_update_times">
       {dcs.map((dc) => (
@@ -34,7 +22,7 @@ export default function MarketRegionUpdateTimes({
               <div>
                 <Suspense>
                   {dcWorldUploadTimes[dc.name][world.id]
-                    ? relativeTime.from(new Date(dcWorldUploadTimes[dc.name][world.id]))
+                    ? ago(new Date(dcWorldUploadTimes[dc.name][world.id]))
                     : t`No data`}
                 </Suspense>
               </div>

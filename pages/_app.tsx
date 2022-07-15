@@ -27,7 +27,6 @@ import {
   ModalCoverProvider,
 } from '../components/UniversalisLayout/components/ModalCover/ModalCover';
 import MogboardHighchartsTheme from '../theme/highcharts';
-import 'relative-time-format';
 
 function parseLang(lang: any): 'ja' | 'en' | 'de' | 'fr' | 'zh-HANS' {
   if (lang === 'chs') {
