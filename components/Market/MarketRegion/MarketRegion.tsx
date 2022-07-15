@@ -151,7 +151,6 @@ export default function MarketRegion({ item, region, dcs, dcMarkets, lang }: Mar
                 averageNq={nqSalesAveragePpu}
                 crossWorld={true}
                 includeDiff={true}
-                lang={lang}
                 start={0}
                 end={entriesToShow(hqSales)}
               />
@@ -165,7 +164,6 @@ export default function MarketRegion({ item, region, dcs, dcMarkets, lang }: Mar
             averageNq={nqSalesAveragePpu}
             crossWorld={true}
             includeDiff={true}
-            lang={lang}
             start={0}
             end={entriesToShow(nqSales)}
           />
