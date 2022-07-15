@@ -1,10 +1,9 @@
 import { Trans } from '@lingui/macro';
-import RelativeTime from '@yaireo/relative-time';
 import { PropsWithChildren, Suspense } from 'react';
 import SortTable from '../SortTable/SortTable';
 import Tooltip from '../Tooltip/Tooltip';
 import Image from 'next/image';
-import { Language } from '../../types/universalis/lang';
+import ago from 's-ago';
 
 interface SalesTableProps {
   sales: any[];
@@ -12,7 +11,6 @@ interface SalesTableProps {
   averageNq: number;
   crossWorld: boolean;
   includeDiff: boolean;
-  lang: Language;
   start?: number;
   end?: number;
 }
@@ -45,15 +43,7 @@ function SalesTableHeader({
   );
 }
 
-function SalesTableRow({ sale, lang }: { sale: SaleRow; lang: Language }) {
-  let relativeTime: RelativeTime;
-  try {
-    relativeTime = new RelativeTime();
-  } catch (err) {
-    console.error(err);
-    return <tr />;
-  }
-
+function SalesTableRow({ sale }: { sale: SaleRow }) {
   return (
     <tr>
       <td className="price-num tac">{sale.n}</td>
@@ -99,7 +89,7 @@ function SalesTableRow({ sale, lang }: { sale: SaleRow; lang: Language }) {
       )}
       <td className="price-buyer">{sale.buyerName}</td>
       <td className="price-date">
-        <Suspense>{relativeTime.from(new Date(sale.timestamp * 1000))}</Suspense>
+        <Suspense>{ago(new Date(sale.timestamp * 1000))}</Suspense>
       </td>
     </tr>
   );
@@ -111,7 +101,6 @@ export default function SalesTable({
   averageNq,
   crossWorld,
   includeDiff,
-  lang,
   start,
   end,
 }: SalesTableProps) {
@@ -189,7 +178,7 @@ export default function SalesTable({
           </tr>
         }
       >
-        {(sale) => <SalesTableRow sale={sale} lang={lang} />}
+        {(sale) => <SalesTableRow sale={sale} />}
       </SortTable>
     </div>
   );

@@ -1,14 +1,13 @@
 import { t, Trans } from '@lingui/macro';
-import RelativeTime from '@yaireo/relative-time';
 import Link from 'next/link';
 import { Suspense, useEffect, useState } from 'react';
+import ago from 's-ago';
 import { sprintf } from 'sprintf-js';
-import { getItem, getItemKind, getItems, getItemSearchCategories } from '../../../data/game';
+import { getItem, getItemKind, getItemSearchCategories } from '../../../data/game';
 import useSettings from '../../../hooks/useSettings';
 import { DataCenter } from '../../../types/game/DataCenter';
 import { ItemSearchCategory } from '../../../types/game/ItemSearchCategory';
 import { UserList } from '../../../types/universalis/user';
-import { XIVAPIItemSearchCategoryIndex } from '../../../types/xivapi/XIVAPIItemSearchCategoryIndex';
 import GameItemIcon from '../../GameItemIcon/GameItemIcon';
 
 interface HomeUserListProps {
@@ -87,14 +86,6 @@ export default function HomeUserList({ dcs, list }: HomeUserListProps) {
     return agg;
   }, {});
 
-  let relativeTime: RelativeTime;
-  try {
-    relativeTime = new RelativeTime();
-  } catch (err) {
-    console.error(err);
-    return <div className="home-tab open" />;
-  }
-
   const listDescription = sprintf(t`%d items in this list`, list.items.length);
 
   return (
@@ -145,9 +136,7 @@ export default function HomeUserList({ dcs, list }: HomeUserListProps) {
                       <small>
                         <Trans>Last updated:</Trans>{' '}
                         <Suspense>
-                          {itemMarketUpdated > 0
-                            ? relativeTime.from(new Date(itemMarketUpdated))
-                            : t`No data`}
+                          {itemMarketUpdated > 0 ? ago(new Date(itemMarketUpdated)) : t`No data`}
                         </Suspense>
                       </small>
                     </div>
