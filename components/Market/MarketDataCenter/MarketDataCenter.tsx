@@ -141,7 +141,6 @@ export default function MarketDataCenter({ item, dc, market, lang }: MarketDataC
                 averageNq={nqSalesAveragePpu}
                 crossWorld={true}
                 includeDiff={true}
-                lang={lang}
                 start={0}
                 end={entriesToShow(hqSales)}
               />
@@ -155,7 +154,6 @@ export default function MarketDataCenter({ item, dc, market, lang }: MarketDataC
             averageNq={nqSalesAveragePpu}
             crossWorld={true}
             includeDiff={true}
-            lang={lang}
             start={0}
             end={entriesToShow(nqSales)}
           />
