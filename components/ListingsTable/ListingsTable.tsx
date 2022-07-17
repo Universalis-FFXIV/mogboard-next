@@ -1,6 +1,7 @@
 import { Trans } from '@lingui/macro';
 import Image from 'next/image';
 import { Fragment, PropsWithChildren } from 'react';
+import { DataCenter } from '../../types/game/DataCenter';
 import { Language } from '../../types/universalis/lang';
 import GameCityIcon from '../GameCityIcon/GameCityIcon';
 import GameMateria from '../GameMateria/GameMateria';
@@ -16,6 +17,8 @@ interface ListingsTableProps {
   lang: Language;
   start?: number;
   end?: number;
+  crossDc?: boolean;
+  dcs?: DataCenter[];
 }
 
 interface ListingsTableHeaderProps {
@@ -33,8 +36,13 @@ type ListingRow = {
   retainerName: string;
   retainerCity: number;
   creatorName: string;
-} & ({ average: number; diff: number } | { average: null; diff: null }) &
-  ({ crossWorld: true; world: string } | { crossWorld: false; world: null });
+  average: number | null | undefined;
+  diff: number | null | undefined;
+  crossWorld: boolean | null | undefined;
+  world: string | null | undefined;
+  crossDc: boolean | null | undefined;
+  dc: string | null | undefined;
+};
 
 function ListingsTableHeader({
   onSelected,
@@ -52,9 +60,14 @@ function ListingsTableRow({ listing }: { listing: ListingRow }) {
   return (
     <tr>
       <td className="price-num tac">{listing.n}</td>
-      {listing.crossWorld && (
+      {(listing.crossWorld || listing.crossDc) && (
         <td className="price-server">
           <strong>{listing.world}</strong>
+        </td>
+      )}
+      {listing.crossDc && (
+        <td className="price-server">
+          <strong>{listing.dc}</strong>
         </td>
       )}
       <td className="price-hq">
@@ -89,7 +102,7 @@ function ListingsTableRow({ listing }: { listing: ListingRow }) {
                 {listing.diff === 0 ? '-' : Math.round(listing.diff).toLocaleString() + '%'}{' '}
                 {listing.diff > 0 ? 'more' : 'less'} than the current <br />
                 <strong>Avg. Price Per Unit</strong>: {listing.hq ? '(HQ)' : '(NQ)'}{' '}
-                {Math.round(listing.average).toLocaleString()}
+                {Math.round(listing.average!).toLocaleString()}
               </div>
             }
           >
@@ -120,6 +133,8 @@ export default function ListingsTable({
   averageNq,
   averageHq,
   crossWorld,
+  crossDc,
+  dcs,
   includeDiff,
   lang,
   start,
@@ -128,7 +143,11 @@ export default function ListingsTable({
   const listingRows: ListingRow[] = listings
     .sort((a, b) => a.pricePerUnit - b.pricePerUnit)
     .map((listing, i) => {
-      const avgForQuality: any = includeDiff ? (listing.hq ? averageHq : averageNq) : null;
+      const avgForQuality: number | null = includeDiff
+        ? listing.hq
+          ? averageHq
+          : averageNq
+        : null;
       return {
         n: i + 1,
         hq: listing.hq,
@@ -146,8 +165,12 @@ export default function ListingsTable({
         creatorName: listing.creatorName ? listing.creatorName : '?',
         crossWorld,
         world: crossWorld ? listing.worldName : null,
-        average: avgForQuality,
-        diff: avgForQuality != null ? (listing.pricePerUnit / avgForQuality) * 100 - 100 : null,
+        crossDc,
+        dc: crossDc
+          ? dcs?.find((dc) => dc.worlds.some((w) => w.id === listing.worldID))?.name
+          : null,
+        average: includeDiff ? avgForQuality : null,
+        diff: includeDiff ? (listing.pricePerUnit / avgForQuality!) * 100 - 100 : null,
       };
     });
   return (
@@ -163,9 +186,14 @@ export default function ListingsTable({
               <ListingsTableHeader className="tac" onSelected={() => ctx.intSort('n')}>
                 <Trans>#</Trans>
               </ListingsTableHeader>
-              {crossWorld && (
+              {(crossWorld || crossDc) && (
                 <ListingsTableHeader onSelected={() => ctx.stringSort('world')}>
                   <Trans>Server</Trans>
+                </ListingsTableHeader>
+              )}
+              {crossDc && (
+                <ListingsTableHeader onSelected={() => ctx.stringSort('dc')}>
+                  <Trans>Data Center</Trans>
                 </ListingsTableHeader>
               )}
               <ListingsTableHeader onSelected={() => ctx.boolSort('hq')}>

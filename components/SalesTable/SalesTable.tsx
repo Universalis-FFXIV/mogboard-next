@@ -4,6 +4,7 @@ import SortTable from '../SortTable/SortTable';
 import Tooltip from '../Tooltip/Tooltip';
 import Image from 'next/image';
 import ago from 's-ago';
+import { DataCenter } from '../../types/game/DataCenter';
 
 interface SalesTableProps {
   sales: any[];
@@ -13,6 +14,8 @@ interface SalesTableProps {
   includeDiff: boolean;
   start?: number;
   end?: number;
+  crossDc?: boolean;
+  dcs?: DataCenter[];
 }
 
 interface SalesTableHeaderProps {
@@ -20,7 +23,7 @@ interface SalesTableHeaderProps {
   className?: string;
 }
 
-type SaleRow = {
+interface SaleRow {
   n: number;
   hq: boolean;
   pricePerUnit: number;
@@ -28,8 +31,13 @@ type SaleRow = {
   total: number;
   buyerName: string;
   timestamp: number;
-} & ({ average: number; diff: number } | { average: null; diff: null }) &
-  ({ crossWorld: true; world: string } | { crossWorld: false; world: null });
+  average: number | null | undefined;
+  diff: number | null | undefined;
+  crossWorld: boolean | null | undefined;
+  world: string | null | undefined;
+  crossDc: boolean | null | undefined;
+  dc: string | null | undefined;
+}
 
 function SalesTableHeader({
   onSelected,
@@ -47,9 +55,14 @@ function SalesTableRow({ sale }: { sale: SaleRow }) {
   return (
     <tr>
       <td className="price-num tac">{sale.n}</td>
-      {sale.crossWorld && (
+      {(sale.crossWorld || sale.crossDc) && (
         <td className="price-server">
           <strong>{sale.world}</strong>
+        </td>
+      )}
+      {sale.crossDc && (
+        <td className="price-server">
+          <strong>{sale.dc}</strong>
         </td>
       )}
       <td className="price-hq">
@@ -75,7 +88,7 @@ function SalesTableRow({ sale }: { sale: SaleRow }) {
                 {sale.diff === 0 ? '-' : Math.round(sale.diff).toLocaleString() + '%'}{' '}
                 {sale.diff > 0 ? 'more' : 'less'} than the current <br />
                 <strong>Avg. Price Per Unit</strong>: {sale.hq ? '(HQ)' : '(NQ)'}{' '}
-                {Math.round(sale.average).toLocaleString()}
+                {Math.round(sale.average!).toLocaleString()}
               </div>
             }
           >
@@ -100,6 +113,8 @@ export default function SalesTable({
   averageHq,
   averageNq,
   crossWorld,
+  crossDc,
+  dcs,
   includeDiff,
   start,
   end,
@@ -118,6 +133,8 @@ export default function SalesTable({
         timestamp: sale.timestamp,
         crossWorld,
         world: crossWorld ? sale.worldName : null,
+        crossDc,
+        dc: crossDc ? dcs?.find((dc) => dc.worlds.some((w) => w.id === sale.worldID))?.name : null,
         average: avgForQuality,
         diff: avgForQuality != null ? (sale.pricePerUnit / avgForQuality) * 100 - 100 : null,
       };
@@ -135,9 +152,14 @@ export default function SalesTable({
               <SalesTableHeader className="tac" onSelected={() => ctx.intSort('n')}>
                 <Trans>#</Trans>
               </SalesTableHeader>
-              {crossWorld && (
+              {(crossWorld || crossDc) && (
                 <SalesTableHeader onSelected={() => ctx.stringSort('world')}>
                   <Trans>Server</Trans>
+                </SalesTableHeader>
+              )}
+              {crossDc && (
+                <SalesTableHeader onSelected={() => ctx.stringSort('dc')}>
+                  <Trans>Data Center</Trans>
                 </SalesTableHeader>
               )}
               <SalesTableHeader onSelected={() => ctx.boolSort('hq')}>
