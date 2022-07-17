@@ -131,6 +131,7 @@ const Market: NextPage<MarketProps> = ({
                 hasSession={hasSession}
                 item={item}
                 stateLists={stateLists}
+                lang={lang}
                 dispatch={dispatch}
               />
             </ErrorBoundary>
@@ -144,6 +145,7 @@ const Market: NextPage<MarketProps> = ({
                 region={region}
                 homeDc={homeDc}
                 dcs={dcs}
+                homeWorldName={settings['mogboard_server']}
                 selectedServer={selectedServer}
                 setSelectedServer={setSelectedServer}
               />
