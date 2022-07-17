@@ -172,28 +172,22 @@ const Market: NextPage<MarketProps> = ({
                 />
               </ErrorBoundary>
             </div>
-            {dcs.map((dc, i) => {
-              if (selectedServer.type !== 'dc' || selectedServer.dc.name !== dc.name) {
-                return <div key={i} />;
-              }
-
-              return (
-                <div
-                  key={i}
-                  className={`tab-page tab-summary ${
-                    selectedServer.dc.name === dc.name ? 'open' : ''
-                  }`}
-                >
-                  <ErrorBoundary>
-                    <MarketServerUpdateTimes
-                      worlds={dc.worlds.sort((a, b) => a.name.localeCompare(b.name))}
-                      worldUploadTimes={markets[dc.name].worldUploadTimes}
-                    />
-                    <MarketDataCenter item={item} dc={dc} market={markets[dc.name]} lang={lang} />
-                  </ErrorBoundary>
-                </div>
-              );
-            })}
+            {dcs.map((dc, i) => (
+              <div
+                key={i}
+                className={`tab-page tab-summary ${
+                  selectedServer.type === 'dc' && selectedServer.dc.name === dc.name ? 'open' : ''
+                }`}
+              >
+                <ErrorBoundary>
+                  <MarketServerUpdateTimes
+                    worlds={dc.worlds.sort((a, b) => a.name.localeCompare(b.name))}
+                    worldUploadTimes={markets[dc.name].worldUploadTimes}
+                  />
+                  <MarketDataCenter item={item} dc={dc} market={markets[dc.name]} lang={lang} />
+                </ErrorBoundary>
+              </div>
+            ))}
             {homeDc.worlds.map((world) => (
               <div
                 key={world.id}
