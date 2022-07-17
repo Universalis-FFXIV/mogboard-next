@@ -1,6 +1,5 @@
 import { t } from '@lingui/macro';
 import SimpleBar from 'simplebar-react';
-import useSettings from '../../../hooks/useSettings';
 import { getServerRegionNameMap } from '../../../service/servers';
 import { DataCenter } from '../../../types/game/DataCenter';
 import { World } from '../../../types/game/World';
@@ -14,6 +13,7 @@ interface MarketServerSelectorProps {
   region: string;
   homeDc: DataCenter;
   dcs: DataCenter[];
+  homeWorldName?: string;
   selectedServer: Server;
   setSelectedServer: (server: Server) => void;
 }
@@ -22,11 +22,10 @@ export default function MarketServerSelector({
   region,
   homeDc,
   dcs,
+  homeWorldName,
   selectedServer,
   setSelectedServer,
 }: MarketServerSelectorProps) {
-  const [settings] = useSettings();
-
   const regionNameMapping = getServerRegionNameMap({
     europe: t`Europe`,
     japan: t`Japan`,
@@ -60,7 +59,7 @@ export default function MarketServerSelector({
           </button>
         ))}
         {homeDc.worlds.map((world, i) => {
-          const homeWorld = world.name === settings['mogboard_server'];
+          const homeWorld = world.name === homeWorldName;
           const icon = homeWorld ? 'xiv-ItemShard cw-home' : '';
           const className = homeWorld ? 'home-world' : '';
           return (

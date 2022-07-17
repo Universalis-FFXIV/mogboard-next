@@ -6,17 +6,18 @@ import {
   getItemUICategory,
 } from '../../../data/game';
 import { getSearchIcon } from '../../../theme/xiv-font';
-import useSettings from '../../../hooks/useSettings';
 import { Item } from '../../../types/game/Item';
 import { UserList } from '../../../types/universalis/user';
 import GameItemIcon from '../../GameItemIcon/GameItemIcon';
 import MarketNav, { ListsDispatchAction } from '../MarketNav/MarketNav';
 import CopyTextButton from '../../CopyTextButton/CopyTextButton';
+import { Language } from '../../../types/universalis/lang';
 
 interface MarketItemHeaderProps {
   hasSession: boolean;
   item: Item;
   stateLists: UserList[];
+  lang: Language;
   dispatch: (action: ListsDispatchAction) => void;
 }
 
@@ -24,10 +25,9 @@ export default function MarketItemHeader({
   hasSession,
   item,
   stateLists,
+  lang,
   dispatch,
 }: MarketItemHeaderProps) {
-  const [settings] = useSettings();
-  const lang = settings['mogboard_language'] || 'en';
   const classJobCategory = getClassJobCategory(item.classJobCategory, lang);
   const itemSearchCategory = getItemSearchCategory(item.itemSearchCategory, lang);
   const itemUiCategory = getItemUICategory(item.itemUiCategory, lang);
