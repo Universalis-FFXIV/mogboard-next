@@ -116,6 +116,8 @@ export default function MarketRegion({ item, region, dcs, dcMarkets, lang }: Mar
                 averageHq={hqListingsAveragePpu}
                 averageNq={nqListingsAveragePpu}
                 crossWorld={true}
+                crossDc={true}
+                dcs={dcs}
                 includeDiff={true}
                 lang={lang}
                 start={0}
@@ -132,6 +134,8 @@ export default function MarketRegion({ item, region, dcs, dcMarkets, lang }: Mar
             averageHq={hqListingsAveragePpu}
             averageNq={nqListingsAveragePpu}
             crossWorld={true}
+            crossDc={true}
+            dcs={dcs}
             includeDiff={true}
             lang={lang}
             start={0}
@@ -150,6 +154,8 @@ export default function MarketRegion({ item, region, dcs, dcMarkets, lang }: Mar
                 averageHq={hqSalesAveragePpu}
                 averageNq={nqSalesAveragePpu}
                 crossWorld={true}
+                crossDc={true}
+                dcs={dcs}
                 includeDiff={true}
                 start={0}
                 end={entriesToShow(hqSales)}
@@ -163,6 +169,8 @@ export default function MarketRegion({ item, region, dcs, dcMarkets, lang }: Mar
             averageHq={hqSalesAveragePpu}
             averageNq={nqSalesAveragePpu}
             crossWorld={true}
+            crossDc={true}
+            dcs={dcs}
             includeDiff={true}
             start={0}
             end={entriesToShow(nqSales)}
