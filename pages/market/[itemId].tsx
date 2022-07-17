@@ -150,26 +150,28 @@ const Market: NextPage<MarketProps> = ({
             </div>
           </div>
           <div className="tab">
-            {selectedServer.type === 'region' && selectedServer.region === region && (
-              <div className="tab-page tab-summary open">
-                <ErrorBoundary>
-                  <MarketRegionUpdateTimes
-                    dcs={dcs}
-                    dcWorldUploadTimes={dcs.reduce((agg, next) => {
-                      agg[next.name] = markets[next.name].worldUploadTimes;
-                      return agg;
-                    }, {} as Record<string, Record<number, number>>)}
-                  />
-                  <MarketRegion
-                    item={item}
-                    region={region}
-                    dcs={dcs}
-                    dcMarkets={markets}
-                    lang={lang}
-                  />
-                </ErrorBoundary>
-              </div>
-            )}
+            <div
+              className={`tab-page tab-summary ${
+                selectedServer.type === 'region' && selectedServer.region === region ? 'open' : ''
+              }`}
+            >
+              <ErrorBoundary>
+                <MarketRegionUpdateTimes
+                  dcs={dcs}
+                  dcWorldUploadTimes={dcs.reduce((agg, next) => {
+                    agg[next.name] = markets[next.name].worldUploadTimes;
+                    return agg;
+                  }, {} as Record<string, Record<number, number>>)}
+                />
+                <MarketRegion
+                  item={item}
+                  region={region}
+                  dcs={dcs}
+                  dcMarkets={markets}
+                  lang={lang}
+                />
+              </ErrorBoundary>
+            </div>
             {dcs.map((dc, i) => {
               if (selectedServer.type !== 'dc' || selectedServer.dc.name !== dc.name) {
                 return <div key={i} />;
@@ -192,18 +194,20 @@ const Market: NextPage<MarketProps> = ({
                 </div>
               );
             })}
-            {selectedServer.type === 'world' && (
-              <div className="tab-page tab-cw open">
+            {homeDc.worlds.map((world) => (
+              <div
+                key={world.id}
+                className={`tab-page tab-cw ${
+                  selectedServer.type === 'world' && selectedServer.world.name === world.name
+                    ? 'open'
+                    : ''
+                }`}
+              >
                 <ErrorBoundary>
-                  <MarketWorld
-                    item={item}
-                    world={selectedServer.world}
-                    market={markets[selectedServer.world.id]}
-                    lang={lang}
-                  />
+                  <MarketWorld item={item} world={world} market={markets[world.id]} lang={lang} />
                 </ErrorBoundary>
               </div>
-            )}
+            ))}
           </div>
         </div>
       </div>
