@@ -171,6 +171,7 @@ const Market: NextPage<MarketProps> = ({
                   dcs={dcs}
                   dcMarkets={markets}
                   lang={lang}
+                  open={selectedServer.type === 'region' && selectedServer.region === region}
                 />
               </ErrorBoundary>
             </div>
@@ -186,7 +187,13 @@ const Market: NextPage<MarketProps> = ({
                     worlds={dc.worlds.sort((a, b) => a.name.localeCompare(b.name))}
                     worldUploadTimes={markets[dc.name].worldUploadTimes}
                   />
-                  <MarketDataCenter item={item} dc={dc} market={markets[dc.name]} lang={lang} />
+                  <MarketDataCenter
+                    item={item}
+                    dc={dc}
+                    market={markets[dc.name]}
+                    lang={lang}
+                    open={selectedServer.type === 'dc' && selectedServer.dc.name === dc.name}
+                  />
                 </ErrorBoundary>
               </div>
             ))}
@@ -200,7 +207,15 @@ const Market: NextPage<MarketProps> = ({
                 }`}
               >
                 <ErrorBoundary>
-                  <MarketWorld item={item} world={world} market={markets[world.id]} lang={lang} />
+                  <MarketWorld
+                    item={item}
+                    world={world}
+                    market={markets[world.id]}
+                    lang={lang}
+                    open={
+                      selectedServer.type === 'world' && selectedServer.world.name === world.name
+                    }
+                  />
                 </ErrorBoundary>
               </div>
             ))}

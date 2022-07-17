@@ -17,13 +17,21 @@ interface MarketRegionProps {
   dcs: DataCenter[];
   dcMarkets: Record<string, any>;
   lang: Language;
+  open: boolean;
 }
 
 function entriesToShow(entries: {}[]) {
   return Math.max(Math.floor(entries.length * 0.1), 10);
 }
 
-export default function MarketRegion({ item, region, dcs, dcMarkets, lang }: MarketRegionProps) {
+export default function MarketRegion({
+  item,
+  region,
+  dcs,
+  dcMarkets,
+  lang,
+  open,
+}: MarketRegionProps) {
   const allListings = dcs
     .map((dc) => dcMarkets[dc.name].listings)
     .flat()
@@ -94,13 +102,13 @@ export default function MarketRegion({ item, region, dcs, dcMarkets, lang }: Mar
       <h6>
         <Trans>Cross-World Purchase history (500 sales)</Trans>
       </h6>
-      <MarketHistoryGraph server={region} itemId={item.id} entries={4800} />
+      {open && <MarketHistoryGraph server={region} itemId={item.id} entries={4800} />}
       {item.stackSize > 1 && (
         <div>
           <h6>
             <Trans>STACK SIZE HISTOGRAM</Trans>
           </h6>
-          <MarketStackSizeHistogram item={item} data={allSales} />
+          {open && <MarketStackSizeHistogram item={item} data={allSales} />}
         </div>
       )}
       <div className="cross_world_markets">

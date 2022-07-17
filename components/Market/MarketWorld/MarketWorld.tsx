@@ -15,13 +15,14 @@ interface MarketWorldProps {
   world: World;
   market: any;
   lang: Language;
+  open: boolean;
 }
 
 function entriesToShow(entries: {}[]) {
   return Math.max(Math.floor(entries.length * 0.1), 10);
 }
 
-export default function MarketWorld({ item, world, market, lang }: MarketWorldProps) {
+export default function MarketWorld({ item, world, market, lang, open }: MarketWorldProps) {
   if (market == null) {
     return <></>;
   }
@@ -32,7 +33,7 @@ export default function MarketWorld({ item, world, market, lang }: MarketWorldPr
 
   return (
     <>
-      <MarketHistoryGraph server={world.name} itemId={item.id} />
+      {open && <MarketHistoryGraph server={world.name} itemId={item.id} />}
       {item.stackSize > 1 && market.stackSizeHistogram && (
         <div>
           <h4
@@ -40,7 +41,7 @@ export default function MarketWorld({ item, world, market, lang }: MarketWorldPr
               __html: t`STACK SIZE HISTOGRAM <small>Last 20 Sales</small>`,
             }}
           ></h4>
-          <MarketStackSizeHistogram item={item} data={market.recentHistory} />
+          {open && <MarketStackSizeHistogram item={item} data={market.recentHistory} />}
         </div>
       )}
       <div className="tab-market-tables">
