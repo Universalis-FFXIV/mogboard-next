@@ -35,7 +35,11 @@ export const authOptions: NextAuthOptions = {
           }
         }
 
-        if (!token.picture && account.provider === 'discord' && account.access_token) {
+        if (
+          (!token.picture || token.picture.includes('null.webp')) &&
+          account.provider === 'discord' &&
+          account.access_token
+        ) {
           try {
             const res = await fetch('https://discord.com/api/v9/users/@me', {
               headers: { Authorization: `Bearer ${account.access_token}` },
@@ -47,8 +51,10 @@ export const authOptions: NextAuthOptions = {
               throw new Error(body);
             } else {
               const me = await res.json();
-              console.log(me);
-              token.picture = `https://cdn.discordapp.com/avatars/${me.id}/${me.avatar}.webp?size=96`;
+              const avatar: string | null = me.avatar;
+              if (avatar) {
+                token.picture = `https://cdn.discordapp.com/avatars/${me.id}/${me.avatar}.webp?size=96`;
+              }
             }
           } catch (err) {
             console.error(err);
