@@ -7,12 +7,17 @@ export function getUserAuthCode(userId: string): string {
   return 'MB' + createHash('sha1').update(userId).digest('hex').substring(0, 5).toUpperCase();
 }
 
-export function linkUserCharacter(userId: string, characterId: string, conn: mariadb.Connection) {
-  return conn.execute('UPDATE users_characters SET user_id = ?, updated = ? WHERE id = ?', [
-    userId,
-    unix(),
-    characterId,
-  ]);
+export function linkUserCharacter(
+  userId: string,
+  characterId: string,
+  characterName: string,
+  characterServer: string,
+  conn: mariadb.Connection
+) {
+  return conn.execute(
+    'UPDATE users_characters SET user_id = ?, updated = ?, name = ?, server = ? WHERE id = ?',
+    [userId, unix(), characterName, characterServer, characterId]
+  );
 }
 
 export function unlinkUserCharacter(userId: string, characterId: string, conn: mariadb.Connection) {
