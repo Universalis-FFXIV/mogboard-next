@@ -91,7 +91,13 @@ async function post(req: NextApiRequest, res: NextApiResponse) {
         return res.status(403).json({ message: 'Character is linked to a different user.' });
       } else {
         finalId = existing.id;
-        await linkUserCharacter(session.user.id, existing.id, conn);
+        await linkUserCharacter(
+          session.user.id,
+          existing.id,
+          character.name,
+          character.world,
+          conn
+        );
         userCharacter = existing;
         delete userCharacter.id;
         delete userCharacter.userId;
