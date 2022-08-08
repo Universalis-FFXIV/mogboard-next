@@ -131,7 +131,7 @@ public class Program
                         LevelItem = item.LevelItem,
                         LevelEquip = item.LevelEquip,
                         Rarity = item.Rarity,
-                        ItemKind = item.ItemKind!.Id,
+                        ItemKind = ItemKind.GetItemKind(item.ItemUICategory?.Id ?? 0, Language.ChineseSimplified).Id,
                         CanBeHq = item.CanBeHq == 1,
                         ItemSearchCategory = item.ItemSearchCategory?.Id ?? 0,
                         ItemUICategory = item.ItemUICategory?.Id ?? 0,
@@ -262,8 +262,6 @@ public class Item
     public uint LevelEquip { get; init; }
 
     public uint Rarity { get; init; }
-
-    public ItemKind? ItemKind { get; init; }
 
     public uint StackSize { get; init; }
 
