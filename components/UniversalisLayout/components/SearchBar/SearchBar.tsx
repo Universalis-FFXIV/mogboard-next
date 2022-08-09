@@ -29,6 +29,7 @@ export default function SearchBar({ onResults, onMarketClicked }: SearchBarProps
       setComplete(false);
     }
 
+    // Defensively avoids sending excessively long search requests
     q = q.slice(0, 32);
 
     if (q.trim().length === 0) {
