@@ -29,6 +29,8 @@ export default function SearchBar({ onResults, onMarketClicked }: SearchBarProps
       setComplete(false);
     }
 
+    q = q.slice(0, 32);
+
     if (q.trim().length === 0) {
       setSearching(false);
       return;
