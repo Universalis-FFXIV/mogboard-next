@@ -123,52 +123,8 @@ public class Program
                         items.Add(item.RowId, new ItemDump
                         {
                             Id = item.RowId,
-                            Name = item.Name.RawString,
-                            Description = item.Description.Payloads.Aggregate("", (text, payload) =>
-                            {
-                                var raw = payload.Data.ToArray();
-                                if (raw.Length < 3)
-                                {
-                                    return text + payload.RawString;
-                                }
-                                
-                                using var ms = new MemoryStream(raw);
-                                var bytes = new BinaryReader(ms);
-                                bytes.ReadByte(); // start byte
-                                
-                                var chunkType = bytes.ReadByte();
-                                GetInteger(bytes); // chunk length
-
-                                string next;
-                                switch (chunkType)
-                                {
-                                    case 0x48:
-                                    {
-                                        var uiColorId = GetInteger(bytes);
-                                        if (uiColorId == 0)
-                                        {
-                                            return text + "</span>";
-                                        }
-                                
-                                        var uiColor = gameData.GetExcelSheet<UIColor>()!.GetRow(uiColorId)!;
-                                        var html = $"<span style=\"color:#{uiColor.UIForeground >> 8:X6}\">";
-                                        next = html;
-                                    }
-                                        break;
-                                    case 0x49:
-                                        next = "";
-                                        break;
-                                    case 0x10:
-                                        next = "\n";
-                                        break;
-                                    default:
-                                        next = payload.RawString;
-                                        break;
-                                }
-
-                                ms.Seek(0, SeekOrigin.End);
-                                return text + next;
-                            }),
+                            Name = PayloadsToString(item.Name.Payloads, gameData),
+                            Description = PayloadsToString(item.Description.Payloads, gameData),
                             IconId = item.Icon,
                             LevelItem = item.LevelItem.Row,
                             LevelEquip = item.LevelEquip,
@@ -186,7 +142,56 @@ public class Program
                 }
             });
     }
-    
+
+    private static string PayloadsToString(IEnumerable<BasePayload> payloads, GameData gameData)
+    {
+        return payloads.Aggregate("", (text, payload) =>
+        {
+            var raw = payload.Data.ToArray();
+            if (raw.Length < 3)
+            {
+                return text + payload.RawString;
+            }
+
+            using var ms = new MemoryStream(raw);
+            var bytes = new BinaryReader(ms);
+            bytes.ReadByte(); // start byte
+
+            var chunkType = bytes.ReadByte();
+            GetInteger(bytes); // chunk length
+
+            string next;
+            switch (chunkType)
+            {
+                case 0x48:
+                {
+                    var uiColorId = GetInteger(bytes);
+                    if (uiColorId == 0)
+                    {
+                        return text + "</span>";
+                    }
+
+                    var uiColor = gameData.GetExcelSheet<UIColor>()!.GetRow(uiColorId)!;
+                    var html = $"<span style=\"color:#{uiColor.UIForeground >> 8:X6}\">";
+                    next = html;
+                }
+                    break;
+                case 0x49:
+                    next = "";
+                    break;
+                case 0x10:
+                    next = "\n";
+                    break;
+                default:
+                    next = payload.RawString;
+                    break;
+            }
+
+            ms.Seek(0, SeekOrigin.End);
+            return text + next;
+        });
+    }
+
     // ripped from Dalamud
     private static uint GetInteger(BinaryReader input)
     {
