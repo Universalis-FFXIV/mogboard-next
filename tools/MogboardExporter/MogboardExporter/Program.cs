@@ -67,7 +67,7 @@ public class Program
                         itemUICategories.Add(iuc.RowId, new ItemUICategoryDump
                         {
                             Id = iuc.RowId,
-                            Name = iuc.Name.RawString,
+                            Name = PayloadsToString(iuc.Name.Payloads, gameData),
                         });
                     }
 
