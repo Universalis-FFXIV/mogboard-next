@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using System.Text.Json;
+using System.Text.RegularExpressions;
 using CommandLine;
 using Lumina;
 using Lumina.Data;
@@ -155,10 +156,14 @@ public class Program
 
             using var ms = new MemoryStream(raw.ToArray());
             var bytes = new BinaryReader(ms);
-            bytes.ReadByte(); // start byte
+            var startByte = bytes.ReadByte();
+            if (startByte != 0x02)
+            {
+                bytes.BaseStream.Seek(-1, SeekOrigin.Current);
+            }
 
-            var chunkType = bytes.ReadByte();
-            GetInteger(bytes); // chunk length
+            var chunkType = startByte == 0x02 ? bytes.ReadByte() : 0;
+            var chunkLength = startByte == 0x02 ? GetInteger(bytes) : (uint)raw.Length;
 
             string next;
             switch (chunkType)
@@ -176,20 +181,21 @@ public class Program
                     next = html;
                 }
                     break;
-                case 0x49:
+                case 0x49: // 0x49 == UIGlow
                     next = "";
                     break;
                 case 0x10:
                     next = "\n";
                     break;
                 default:
-                    if (raw.Length > 1 && raw[0] == 0x02) // START_BYTE
+                    try
                     {
-                        next = payload.RawString[2..^2];
+                        next = Encoding.UTF8.GetString(bytes.ReadBytes(Convert.ToInt32(chunkLength)));
                     }
-                    else
+                    catch
                     {
-                        next = payload.RawString;
+                        Console.WriteLine($"Chunk type: {chunkType}\nChunk length: {chunkLength}");
+                        throw;
                     }
                     break;
             }
