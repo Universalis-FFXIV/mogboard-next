@@ -1,9 +1,9 @@
-﻿using System.Text.Json;
+﻿using System.Text;
+using System.Text.Json;
 using CommandLine;
 using Lumina;
 using Lumina.Data;
 using Lumina.Excel.GeneratedSheets;
-using Lumina.Text;
 using Lumina.Text.Payloads;
 using MogboardExporter.Data;
 
@@ -147,13 +147,13 @@ public class Program
     {
         return payloads.Aggregate("", (text, payload) =>
         {
-            var raw = payload.Data.ToArray();
+            var raw = payload.Data;
             if (raw.Length < 3)
             {
                 return text + payload.RawString;
             }
 
-            using var ms = new MemoryStream(raw);
+            using var ms = new MemoryStream(raw.ToArray());
             var bytes = new BinaryReader(ms);
             bytes.ReadByte(); // start byte
 
@@ -183,7 +183,14 @@ public class Program
                     next = "\n";
                     break;
                 default:
-                    next = payload.RawString;
+                    if (raw.Length > 1 && raw[0] == 0x02) // START_BYTE
+                    {
+                        next = payload.RawString[2..^2];
+                    }
+                    else
+                    {
+                        next = payload.RawString;
+                    }
                     break;
             }
 
