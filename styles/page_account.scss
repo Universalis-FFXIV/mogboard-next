@@ -469,6 +469,18 @@
     padding: 8px;
   }
 
+  .list-entry-header {
+    cursor: pointer;
+  }
+
+  .list-entry {
+    display: none;
+  }
+
+  .open {
+    display: block;
+  }
+
   ul {
     list-style: none;
     margin: 10px 0;
