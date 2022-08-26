@@ -3,7 +3,7 @@ import { GetServerSidePropsContext, NextPage } from 'next';
 import { unstable_getServerSession } from 'next-auth';
 import Head from 'next/head';
 import Link from 'next/link';
-import { useReducer } from 'react';
+import { useReducer, useState } from 'react';
 import AccountLayout from '../../components/AccountLayout/AccountLayout';
 import GameIcon from '../../components/GameIcon/GameIcon';
 import { usePopup } from '../../components/UniversalisLayout/components/Popup/Popup';
@@ -25,10 +25,12 @@ type ListsAction = { type: 'deleteList'; listId: string };
 interface ListOverviewProps {
   list: UserList;
   items: Record<number, Item>;
+  selected: boolean;
+  onSelected: () => void;
   dispatch: (action: ListsAction) => void;
 }
 
-function ListOverview({ list, items, dispatch }: ListOverviewProps) {
+function ListOverview({ list, items, selected, onSelected, dispatch }: ListOverviewProps) {
   const [settings] = useSettings();
   const lang = settings['mogboard_language'] || 'en';
 
@@ -65,48 +67,52 @@ function ListOverview({ list, items, dispatch }: ListOverviewProps) {
 
   return (
     <div className="lists">
-      <h3>
-        <Trans>Items:</Trans> {list.items.length} -{' '}
-        <Link href="/list/[listId]" as={`/list/${list.id}`}>
-          <a>{list.name}</a>
-        </Link>
-      </h3>
-      <ul>
-        {(list.items as number[])
-          .filter((itemId) => items[itemId] != null)
-          .map((itemId) => {
-            const item = items[itemId];
-            return (
-              <li key={itemId}>
-                <GameIcon
-                  id={item.iconId}
-                  ext="png"
-                  size="1x"
-                  width={36}
-                  height={36}
-                  className="list-item"
-                />
-                <span>
-                  {item.levelItem > 1 && <em className="ilv">{item.levelItem}</em>}
-                  <Link href="/market/[itemId]" as={`/market/${item.id}`}>
-                    <a className={`rarity-${item.rarity}`}>{item.name}</a>
-                  </Link>
-                  <small>
-                    {getItemKind(item.itemKind, lang)?.name} -{' '}
-                    {getItemSearchCategory(item.itemSearchCategory, lang)?.name}
-                  </small>
-                </span>
-              </li>
-            );
-          })}
-      </ul>
-      {!list.custom && (
-        <div className="delete-list-block">
-          <a className="text-red fr" onClick={() => deleteList(list.id)}>
-            <Trans>Delete List</Trans>
-          </a>
-        </div>
-      )}
+      <div className="list-entry-header" onClick={() => onSelected()}>
+        <h3>
+          <Trans>Items:</Trans> {list.items.length} -{' '}
+          <Link href="/list/[listId]" as={`/list/${list.id}`}>
+            <a>{list.name}</a>
+          </Link>
+        </h3>
+      </div>
+      <div className={`list-entry ${selected ? 'open' : ''}`}>
+        <ul>
+          {(list.items as number[])
+            .filter((itemId) => items[itemId] != null)
+            .map((itemId) => {
+              const item = items[itemId];
+              return (
+                <li key={itemId}>
+                  <GameIcon
+                    id={item.iconId}
+                    ext="png"
+                    size="1x"
+                    width={36}
+                    height={36}
+                    className="list-item"
+                  />
+                  <span>
+                    {item.levelItem > 1 && <em className="ilv">{item.levelItem}</em>}
+                    <Link href="/market/[itemId]" as={`/market/${item.id}`}>
+                      <a className={`rarity-${item.rarity}`}>{item.name}</a>
+                    </Link>
+                    <small>
+                      {getItemKind(item.itemKind, lang)?.name} -{' '}
+                      {getItemSearchCategory(item.itemSearchCategory, lang)?.name}
+                    </small>
+                  </span>
+                </li>
+              );
+            })}
+        </ul>
+        {!list.custom && (
+          <div className="delete-list-block">
+            <a className="text-red fr" onClick={() => deleteList(list.id)}>
+              <Trans>Delete List</Trans>
+            </a>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
@@ -142,6 +148,8 @@ const Lists: NextPage<ListsProps> = ({ hasSession, lists }) => {
       return { ...agg, ...{ [next]: item } };
     }, {});
 
+  const [selectedList, setSelectedList] = useState<string | null>(null);
+
   const title = 'Lists - Universalis';
   const description =
     'Final Fantasy XIV Online: Market Board aggregator. Find Prices, track Item History and create Price Alerts. Anywhere, anytime.';
@@ -161,7 +169,20 @@ const Lists: NextPage<ListsProps> = ({ hasSession, lists }) => {
           {listsState
             .sort((a, b) => b.updated - a.updated)
             .map((list) => (
-              <ListOverview key={list.id} list={list} items={items} dispatch={dispatch} />
+              <ListOverview
+                key={list.id}
+                list={list}
+                items={items}
+                selected={selectedList === list.id}
+                onSelected={() => {
+                  if (selectedList === list.id) {
+                    setSelectedList(null);
+                  } else {
+                    setSelectedList(list.id);
+                  }
+                }}
+                dispatch={dispatch}
+              />
             ))}
           {listsState.length === 0 && (
             <div>
