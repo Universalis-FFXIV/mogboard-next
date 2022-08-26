@@ -91,11 +91,7 @@ const Market: NextPage<MarketProps> = ({
   };
 
   // Create state for selected server
-  const [selectedServer, setSelectedServer] = useState<
-    | { type: 'region'; region: string }
-    | { type: 'dc'; dc: DataCenter }
-    | { type: 'world'; world: World }
-  >(() => {
+  const [selectedServer, setSelectedServer] = useState<Server>(() => {
     // Try to find the last selected server
     const last = findServer(lastSelectedServer);
     // Try to find the server from the URL
