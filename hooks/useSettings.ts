@@ -4,6 +4,7 @@ import { Language } from '../types/universalis/lang';
 
 interface Settings {
   mogboard_server: string;
+  mogboard_last_selected_server: string;
   mogboard_language: Language;
   mogboard_timezone: string;
   mogboard_leftnav: 'on' | 'off';
@@ -30,6 +31,7 @@ export default function useSettings(): [
 ] {
   const keys: (keyof Settings)[] = [
     'mogboard_server',
+    'mogboard_last_selected_server',
     'mogboard_language',
     'mogboard_timezone',
     'mogboard_leftnav',

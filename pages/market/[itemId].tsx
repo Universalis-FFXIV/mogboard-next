@@ -45,6 +45,11 @@ interface MarketProps {
   queryServer: string | null;
 }
 
+type Server =
+  | { type: 'region'; region: string }
+  | { type: 'dc'; dc: DataCenter }
+  | { type: 'world'; world: World };
+
 const Market: NextPage<MarketProps> = ({
   hasSession,
   lists,
@@ -55,28 +60,57 @@ const Market: NextPage<MarketProps> = ({
   dcs,
   queryServer,
 }) => {
-  const [settings] = useSettings();
+  const [settings, setSetting] = useSettings();
 
   const lang = settings['mogboard_language'] || 'en';
   const showHomeWorld = settings['mogboard_homeworld'] === 'yes';
   const homeWorld = settings['mogboard_server'] || 'Phoenix';
-  const [selectedServer, setSelectedServer] = useState<
-    | { type: 'region'; region: string }
-    | { type: 'dc'; dc: DataCenter }
-    | { type: 'world'; world: World }
-  >(() => {
+  const lastSelectedServer = settings['mogboard_last_selected_server'] || null;
+
+  const findServer: (s: string | null) => Server = (s: string | null) => {
+    // Match region
+    if (s === region) {
+      return { type: 'region', region };
+    }
+
+    // Match world on the user's home DC
     const world = homeDc.worlds.find(
-      (world) => world.name === queryServer ?? (showHomeWorld ? homeWorld : null)
+      (world) => world.name === s ?? (showHomeWorld ? homeWorld : null)
     );
     if (world != null) {
       return { type: 'world', world };
     }
 
+    // Match DC on the user's home region
+    const dc = dcs.find((dc) => dc.name === s ?? homeDc.name);
+    if (dc != null) {
+      return { type: 'dc', dc };
+    }
+
     return { type: 'dc', dc: homeDc };
+  };
+
+  // Create state for selected server
+  const [selectedServer, setSelectedServer] = useState<
+    | { type: 'region'; region: string }
+    | { type: 'dc'; dc: DataCenter }
+    | { type: 'world'; world: World }
+  >(() => {
+    // Try to find the last selected server
+    const last = findServer(lastSelectedServer);
+    // Try to find the server from the URL
+    const result = last != null ? last : findServer(queryServer);
+    // It will have fallen back to the user's home world/DC otherwise
+    return result;
   });
+
+  const setLastSelectedServer = (x: string) => {
+    setSetting('mogboard_last_selected_server', x);
+  };
 
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
 
+  // Create state machine for list management
   const [stateLists, dispatch] = useReducer((state: UserList[], action: ListsDispatchAction) => {
     switch (action.type) {
       case 'createList':
@@ -147,7 +181,18 @@ const Market: NextPage<MarketProps> = ({
                 dcs={dcs}
                 homeWorldName={settings['mogboard_server']}
                 selectedServer={selectedServer}
-                setSelectedServer={setSelectedServer}
+                setSelectedServer={(s) => {
+                  // Set the new last-selected server for future page loads
+                  if (s.type === 'region') {
+                    setLastSelectedServer(s.region);
+                  } else if (s.type === 'dc') {
+                    setLastSelectedServer(s.dc.name);
+                  } else if (s.type === 'world') {
+                    setLastSelectedServer(s.world.name);
+                  }
+
+                  setSelectedServer(s);
+                }}
               />
             </div>
           </div>
