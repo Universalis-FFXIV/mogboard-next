@@ -20,7 +20,7 @@ import { messages as messagesDe } from '../i18n/de/messages';
 import { messages as messagesFr } from '../i18n/fr/messages';
 import { messages as messagesZhHans } from '../i18n/zh-HANS/messages';
 import App from 'next/app';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { PopupData, PopupProvider } from '../components/UniversalisLayout/components/Popup/Popup';
 import {
   ModalCoverData,
@@ -60,6 +60,9 @@ i18n.loadLocaleData({
   'zh-HANS': { plurals: zh },
 });
 
+// This needs to be here so that it runs on the server
+i18n.activate('en');
+
 if (typeof Highcharts === 'object') {
   HighchartsAccessibility(Highcharts);
   HighchartsStock(Highcharts);
@@ -84,7 +87,10 @@ export default function MyApp({
   const cookiesObj = new Cookies(cookies);
 
   const lang = parseLang(cookiesObj.get('mogboard_language'));
-  i18n.activate(lang);
+  useEffect(() => {
+    // This only runs on the client
+    i18n.activate(lang);
+  });
 
   const [popup, setPopup] = useState<PopupData>({ isOpen: false });
   const [modalCover, setModalCover] = useState<ModalCoverData>({ isOpen: false });
