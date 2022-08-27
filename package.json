@@ -20,6 +20,7 @@
     "@lingui/macro": "^3.14.0",
     "@lingui/react": "^3.14.0",
     "@next/bundle-analyzer": "^12.2.0",
+    "date-fns": "^2.29.2",
     "framer-motion": "^6.3.11",
     "highcharts": "^10.1.0",
     "highcharts-react-official": "^3.1.0",
