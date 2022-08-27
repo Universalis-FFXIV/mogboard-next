@@ -360,12 +360,14 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   for (const world of dc.worlds) {
     marketFetches.push(
       (async () => {
-        const market = await fetch(
-          `https://universalis.app/api/v2/${world.id}/${itemId}?entries=20`
-        )
-          .then((res) => res.json())
-          .catch(console.error);
-        markets[world.id] = market;
+        do {
+          const market = await fetch(
+            `https://universalis.app/api/v2/${world.id}/${itemId}?entries=20`
+          )
+            .then((res) => res.json())
+            .catch(console.error);
+          markets[world.id] = market;
+        } while (markets[world.id] == null);
       })()
     );
   }
@@ -373,12 +375,14 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   for (const regionDc of regionDcs) {
     marketFetches.push(
       (async () => {
-        const market = await fetch(
-          `https://universalis.app/api/v2/${regionDc.name}/${itemId}?entries=20`
-        )
-          .then((res) => res.json())
-          .catch(console.error);
-        markets[regionDc.name] = market;
+        do {
+          const market = await fetch(
+            `https://universalis.app/api/v2/${regionDc.name}/${itemId}?entries=20`
+          )
+            .then((res) => res.json())
+            .catch(console.error);
+          markets[regionDc.name] = market;
+        } while (markets[regionDc.name] == null);
       })()
     );
   }
