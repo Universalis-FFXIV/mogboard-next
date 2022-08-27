@@ -90,7 +90,7 @@ export default function MyApp({
   useEffect(() => {
     // This only runs on the client
     i18n.activate(lang);
-  });
+  }, [lang]);
 
   const [popup, setPopup] = useState<PopupData>({ isOpen: false });
   const [modalCover, setModalCover] = useState<ModalCoverData>({ isOpen: false });
