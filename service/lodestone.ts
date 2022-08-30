@@ -15,6 +15,19 @@ function getBaseUrl(): string {
   return process.env['LODESTONE_API'];
 }
 
+async function handleError(res: Response) {
+  try {
+    const data = await res.json();
+    if ('message' in data) {
+      return data.message;
+    }
+
+    return res.statusText;
+  } catch {
+    return res.statusText;
+  }
+}
+
 export async function getCharacter(id: LodestoneId): Promise<LodestoneCharacter> {
   const res = await fetch(`${getBaseUrl()}/character`, {
     method: 'POST',
@@ -25,7 +38,8 @@ export async function getCharacter(id: LodestoneId): Promise<LodestoneCharacter>
   });
 
   if (!res.ok) {
-    throw new Error(res.statusText);
+    const message = await handleError(res);
+    throw new Error(message);
   }
 
   const data = await res.json();
@@ -43,7 +57,8 @@ export async function searchCharacter(world: string, name: string): Promise<Lode
   });
 
   if (!res.ok) {
-    throw new Error(res.statusText);
+    const message = await handleError(res);
+    throw new Error(message);
   }
 
   const data = await res.json();
