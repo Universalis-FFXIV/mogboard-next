@@ -21,7 +21,6 @@ services:
       NEXTAUTH_SECRET: "${MOGBOARD_SECRET}"
     depends_on:
       - mariadb
-      - lodestone
     ports:
       - "7020:3000"
   mariadb:
