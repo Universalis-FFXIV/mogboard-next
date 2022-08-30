@@ -14,8 +14,7 @@ services:
       DATABASE_NAME: "dalamud"
       DATABASE_CONNECTIONS: "32"
 
-      LODESTONE_HOST: "lodestone"
-      LODESTONE_PORT: "3999"
+      LODESTONE_API: "https://lodestone.universalis.app"
 
       DISCORD_CLIENT_ID: "${MOGBOARD_DISCORD_ID}"
       DISCORD_CLIENT_SECRET: "${MOGBOARD_DISCORD_SECRET}"
@@ -36,6 +35,3 @@ services:
     volumes:
       - "${HOME}/mogboard-mariadb-staging:/var/lib/mysql"
       - "${HOME}/mogboard-mariadb-staging-import:/import"
-  lodestone:
-    image: ghcr.io/universalis-ffxiv/lodestone:latest
-    restart: always

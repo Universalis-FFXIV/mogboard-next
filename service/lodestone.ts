@@ -8,11 +8,22 @@ export interface LodestoneCharacter {
 }
 
 function getBaseUrl(): string {
-  return `http://${process.env['LODESTONE_HOST']}:${process.env['LODESTONE_PORT']}`;
+  if (!process.env['LODESTONE_API']) {
+    throw new Error('No Lodestone API set.');
+  }
+
+  return process.env['LODESTONE_API'];
 }
 
 export async function getCharacter(id: LodestoneId): Promise<LodestoneCharacter> {
-  const res = await fetch(`${getBaseUrl()}/lodestone/character/${id}`);
+  const res = await fetch(`${getBaseUrl()}/character`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ id: `${id}` }),
+  });
+
   if (!res.ok) {
     throw new Error(res.statusText);
   }
@@ -23,9 +34,14 @@ export async function getCharacter(id: LodestoneId): Promise<LodestoneCharacter>
 
 export async function searchCharacter(world: string, name: string): Promise<LodestoneId> {
   const [firstName, lastName] = name.split(' ');
-  const res = await fetch(
-    `${getBaseUrl()}/lodestone/search/character/${world}/${firstName}/${lastName}`
-  );
+  const res = await fetch(`${getBaseUrl()}/character/search`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ world, firstName, lastName }),
+  });
+
   if (!res.ok) {
     throw new Error(res.statusText);
   }
