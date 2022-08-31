@@ -123,7 +123,6 @@ function ListingsTableRow({ listing }: { listing: ListingRow }) {
           width={20}
         />
       </td>
-      <td className="price-creator">{listing.creatorName}</td>
     </tr>
   );
 }
@@ -218,9 +217,6 @@ export default function ListingsTable({
               )}
               <ListingsTableHeader onSelected={() => ctx.stringSort('retainerName')}>
                 <Trans>Retainer</Trans>
-              </ListingsTableHeader>
-              <ListingsTableHeader onSelected={() => ctx.stringSort('creatorName')}>
-                <Trans>Creator</Trans>
               </ListingsTableHeader>
             </>
           ) : (
