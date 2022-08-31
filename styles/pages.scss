@@ -14,7 +14,6 @@
     text-align: center;
     padding: 20px;
     background-color: rgba(0, 0, 0, 0.25);
-    color: var(--highlight3x);
     text-transform: uppercase;
     border-bottom: solid 1px #000;
     box-shadow: 0 1px 0 #444;
@@ -25,7 +24,6 @@
     font-weight: 300;
     text-shadow: none;
     margin: 0 0 15px 0;
-    color: var(--color6);
   }
 
   h3 {
@@ -33,7 +31,6 @@
     font-weight: 300;
     text-shadow: none;
     margin: 0 0 15px 0;
-    color: var(--purple-3x);
   }
 
   p {
@@ -132,8 +129,6 @@
 }
 
 .mog-honorable {
-  opacity: 0.5;
-  color: #ccc;
   font-size: 15px;
   line-height: 22px;
 
