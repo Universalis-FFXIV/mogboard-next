@@ -38,7 +38,7 @@ const UniversalisHeader = ({ onSettingsClicked, children }: UniversalisHeaderPro
         <LoggedIn hasSession={!!session}>
           <div>
             <Link href="/account">
-              <a>
+              <a style={{ color: 'var(--color8)' }}>
                 <Trans>My Account</Trans>
               </a>
             </Link>

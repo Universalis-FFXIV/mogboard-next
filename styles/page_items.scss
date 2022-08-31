@@ -171,11 +171,9 @@
 
       > div:first-of-type {
         margin-bottom: 8px;
-        color: #aaa;
       }
 
       > div:last-of-type {
-        color: #666;
         font-style: italic;
       }
     }
@@ -659,7 +657,6 @@
     h6 {
       font-size: 15px;
       font-weight: 600;
-      color: var(--table-color-3x);
       text-shadow: none;
       text-transform: uppercase;
 
@@ -673,7 +670,6 @@
     .cheapest_price {
       font-size: 28px;
       font-weight: 400;
-      color: var(--color3);
       margin-bottom: 8px;
 
       i {
@@ -683,12 +679,10 @@
       }
 
       em {
-        color: var(--color6);
         font-style: normal;
       }
 
       .cheapest_price_info {
-        opacity: 0.6;
         font-size: 16px;
         display: inline-table;
         margin-left: 20px;
@@ -768,7 +762,6 @@
       font-weight: bold;
       text-transform: uppercase;
       margin: 0 0 3px 0;
-      color: #555;
     }
 
     > div {
@@ -879,7 +872,6 @@
     .user_no_lists {
       padding: 10px;
       text-align: center;
-      color: #aaa;
     }
 
     .user_lists_loading {
@@ -966,7 +958,6 @@
       font-weight: bold;
       text-transform: uppercase;
       margin: 0 0 3px 0;
-      color: #555;
     }
 
     > div {
@@ -1000,7 +991,6 @@
         font-weight: bold;
         text-transform: uppercase;
         margin: 0 0 3px 0;
-        color: #555;
       }
 
       > div {
@@ -1086,7 +1076,6 @@
     }
 
     .price-num {
-      color: #666;
       text-shadow: none;
     }
 
@@ -1095,7 +1084,6 @@
     }
 
     .price-qty {
-      color: #aaa;
       font-weight: 600;
     }
 
@@ -1138,7 +1126,6 @@
     .price-buyer,
     .price-date {
       text-align: right;
-      color: #aaa;
       font-size: 12px;
     }
 

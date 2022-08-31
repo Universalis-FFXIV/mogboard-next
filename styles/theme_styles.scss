@@ -43,7 +43,7 @@ html {
   font-size: 16px;
   text-shadow: 0 1px 2px #000;
   background-color: var(--color7);
-  color: #fff;
+  color: #eee;
 }
 
 body {
@@ -648,10 +648,6 @@ header {
           }
         }
       }
-
-      input::placeholder {
-        color: var(--color6);
-      }
     }
   }
 
@@ -696,7 +692,7 @@ header {
     }
 
     a {
-      color: #888;
+      color: #eee;
       display: inline-block;
       font-size: 18px;
       font-weight: 400;
@@ -713,7 +709,6 @@ header {
     }
 
     .username {
-      color: var(--color8);
       display: inline-block;
       font-size: 18px;
       font-weight: 400;
@@ -776,18 +771,19 @@ header {
 
       > span {
         font-size: 32px;
-        color: #444;
+        color: #eee;
+        text-shadow: 0 1px 2px #000;
         transition: var(--transition-speed);
 
         @include mq($until: desktop) {
           font-size: 24px;
-          color: #888;
+          color: #eee;
           line-height: 24px;
         }
       }
 
       &:hover > span {
-        color: #888;
+        color: #fff;
       }
     }
   }
@@ -806,10 +802,8 @@ main {
 }
 
 footer {
-  opacity: 0.5;
   text-align: center;
   padding: 40px 0;
-  color: #ccc;
   font-size: 15px;
   line-height: 22px;
 
@@ -1340,7 +1334,7 @@ ol {
   .item-category {
     position: absolute;
     right: 20px;
-    color: var(--table-color-3x);
+    color: #eee;
     font-size: 11px;
     text-transform: uppercase;
     text-shadow: none;
