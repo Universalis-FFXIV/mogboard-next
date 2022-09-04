@@ -7,15 +7,13 @@ test('PHPArray can serialize an empty array', () => {
 });
 
 test('PHPArray can serialize an array with one number', () => {
-  const php = new PHPObject();
-  php.push(33027);
+  const php = PHPObject.fromArray([33027]);
   const serialized = php.serialize();
   expect(serialized).toEqual('a:1:{i:0;i:33027;}');
 });
 
 test('PHPArray can serialize an array with two numbers', () => {
-  const php = new PHPObject();
-  php.push(...[33027, 5333]);
+  const php = PHPObject.fromArray([33027, 5333]);
   const serialized = php.serialize();
   expect(serialized).toEqual('a:2:{i:0;i:33027;i:1;i:5333;}');
 });
@@ -40,8 +38,7 @@ test('PHPArray can deserialize an array with two numbers', () => {
 
 test('PHPArray can serialize and deserialize an array with many numbers', () => {
   const data = new Array(1000).fill(0).map(() => Math.floor(Math.random() * 1000));
-  const php = new PHPObject();
-  php.push(...data);
+  const php = PHPObject.fromArray(data);
   const serialized = php.serialize();
   const result = PHPObject.deserialize(serialized);
 

@@ -56,7 +56,7 @@ export class PHPObject extends ArrayWithEnd<any> {
     return fragments.join('');
   }
 
-  public static deserialize(data: string, options?: PHPDeserializationOptions) {
+  public static deserialize(data: string, options?: PHPDeserializationOptions): PHPObject {
     const getOption: GetOption = (k) => {
       return (options && options[k]) ?? defaultOptions[k];
     };
@@ -196,6 +196,12 @@ export class PHPObject extends ArrayWithEnd<any> {
     }
 
     return containers[0] as PHPObject;
+  }
+
+  public static fromArray(arr: any[]): PHPObject {
+    const php = new PHPObject();
+    php.push(...arr);
+    return php;
   }
 }
 
