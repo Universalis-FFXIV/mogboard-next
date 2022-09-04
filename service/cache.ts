@@ -1,4 +1,5 @@
 import { Servers } from './servers';
+import { TimeZone } from './timezones';
 
 export interface MogboardCacheItem<T> {
   value: T;
@@ -7,8 +8,7 @@ export interface MogboardCacheItem<T> {
 
 export interface MogboardCache {
   servers?: MogboardCacheItem<Servers>;
+  timezones?: MogboardCacheItem<TimeZone[]>;
 }
 
-export const cache: MogboardCache = {
-  servers: undefined,
-};
+export const cache: MogboardCache = {};
