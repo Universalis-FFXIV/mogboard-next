@@ -230,6 +230,9 @@
 .xiv-ChatDeleted:before {
   content: '\e324';
 }
+.xiv-app_chat_pinned:before {
+  content: '\e325';
+}
 .xiv-Schedule:before {
   content: '\e400';
 }
@@ -716,7 +719,7 @@
 .xiv-ItemCategory_SCH:before {
   content: '\f178';
 }
-.xiv-ItemCategory_BLU:before {
+.xiv-item_category_085:before {
   content: '\f180';
 }
 .xiv-ItemAll:before {
