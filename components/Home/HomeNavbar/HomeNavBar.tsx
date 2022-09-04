@@ -19,7 +19,7 @@ export default function HomeNavbar({ hasSession, lists, onListSelected }: HomeNa
             <Trans>Logged-out</Trans>
           </strong>
         </section>
-        <p className="text-gray">
+        <p>
           <Trans>
             Lists, Alerts, Market activity and retainer links will show here when you are logged
             into the site.
