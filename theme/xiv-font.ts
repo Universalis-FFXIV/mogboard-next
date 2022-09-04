@@ -58,7 +58,7 @@ export function getSearchIcon(id: number) {
     59: 'ItemCategory_Catalyst',
     60: 'ItemCategory_Miscellany',
     74: 'ItemCategory_Seasonal_Miscellany',
-    90: 'ItemCategory_Registrable_Miscellany',
+    90: 'item_category_085',
     75: 'ItemCategory_Minion',
     79: 'ItemCategory_Airship',
     80: 'ItemCategory_Orchestrion_Roll',
