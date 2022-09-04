@@ -144,6 +144,10 @@ function rowToUserList(row: Record<string, any>): UserList {
     name: row['name'],
     custom: row['custom'],
     customType: row['custom_type'],
-    items: PHPObject.deserialize(row['items'], { allowDirtyArrays: true }),
+    items: PHPObject.fromArray(
+      PHPObject.deserialize(row['items'], { allowDirtyArrays: true }).filter(
+        (x) => !isNaN(parseInt(x))
+      )
+    ),
   };
 }
