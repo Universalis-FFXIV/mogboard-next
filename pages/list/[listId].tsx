@@ -4,6 +4,7 @@ import { unstable_getServerSession } from 'next-auth';
 import Head from 'next/head';
 import { useState, useEffect, useRef, useReducer } from 'react';
 import { sprintf } from 'sprintf-js';
+import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary';
 import ListHeader from '../../components/List/ListHeader/ListHeader';
 import ListItem from '../../components/List/ListItem/ListItem';
 import ListRenameModal from '../../components/List/ListRenameModal/ListRenameModal';
@@ -166,16 +167,17 @@ const List: NextPage<ListProps> = ({ dcs, list, reqIsOwner, ownerName }) => {
           setShowHomeWorld={setShowHomeWorld}
         />
         {stateList.items.map((itemId) => (
-          <ListItem
-            key={itemId}
-            itemId={itemId}
-            item={items[itemId]}
-            market={market}
-            reqIsOwner={reqIsOwner}
-            showHomeWorld={showHomeWorld}
-            removeItem={(itemId) => updateList({ type: 'removeItem', itemId })}
-            lang={lang}
-          />
+          <ErrorBoundary key={itemId}>
+            <ListItem
+              itemId={itemId}
+              item={items[itemId]}
+              market={market}
+              reqIsOwner={reqIsOwner}
+              showHomeWorld={showHomeWorld}
+              removeItem={(itemId) => updateList({ type: 'removeItem', itemId })}
+              lang={lang}
+            />
+          </ErrorBoundary>
         ))}
         {stateList.items.length === 0 && (
           <div className="alert-dark">
