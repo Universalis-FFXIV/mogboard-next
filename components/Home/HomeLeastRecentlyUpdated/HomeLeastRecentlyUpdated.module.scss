@@ -1,0 +1,79 @@
+@import '../../../styles/mq.scss';
+
+.title {
+  font-size: 18px;
+  font-weight: 400;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  text-shadow: none;
+}
+
+.itemList {
+  background-color: var(--dark-blue);
+  box-shadow: 0 1px 3px #000;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  overflow: hidden;
+}
+
+.itemRow {
+  display: flex;
+  border-bottom: solid 1px #000;
+
+  .itemIconWrapper {
+    flex: 0 1 50px;
+    border-right: solid 1px #000;
+    overflow: hidden;
+    position: relative;
+    width: 50px;
+    height: 50px;
+
+    .homeTrendingItem {
+      position: absolute;
+      width: 55px;
+      height: 55px;
+      margin-top: -2.5px;
+      margin-left: -2.5px;
+    }
+  }
+
+  .itemInfoWrapper {
+    flex: 0 1 calc(100% - 50px);
+
+    justify-content: space-between;
+    width: 100%;
+    padding-left: 10px;
+    padding-right: 10px;
+
+    display: flex;
+    @media (max-width: 400px) {
+      display: block;
+    }
+
+    .mainInfo {
+      flex: 0 1 calc(100% - 50px);
+
+      > div {
+        margin-top: 8px;
+      }
+
+      small {
+        font-size: 12px;
+      }
+    }
+
+    .updateTime {
+      white-space: nowrap;
+
+      margin-top: 24px;
+      @media (max-width: 400px) {
+        margin-top: inherit;
+        margin-bottom: 8px;
+      }
+
+      small {
+        font-size: 12px;
+      }
+    }
+  }
+}

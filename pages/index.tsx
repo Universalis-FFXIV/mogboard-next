@@ -24,12 +24,14 @@ import useSettings from '../hooks/useSettings';
 import { getServers } from '../service/servers';
 import { TaxRates } from '../types/universalis/TaxRates';
 import { unstable_getServerSession } from 'next-auth';
+import HomeLeastRecentlyUpdated from '../components/Home/HomeLeastRecentlyUpdated/HomeLeastRecentlyUpdated';
 
 interface HomeProps {
   dcs: DataCenter[];
   world: string;
   taxes: Record<City, number>;
   recent: number[];
+  leastRecents: { id: number; date: number }[];
   dailyUploads: number[];
   worldUploads: { world: string; count: number }[];
   hasSession: boolean;
@@ -45,6 +47,7 @@ const Home: NextPage<HomeProps> = ({
   world,
   taxes,
   recent,
+  leastRecents,
   dailyUploads,
   worldUploads,
   hasSession,
@@ -87,6 +90,11 @@ const Home: NextPage<HomeProps> = ({
           <LoggedOut hasSession={hasSession}>
             <HomeLoggedOut />
           </LoggedOut>
+          <HomeLeastRecentlyUpdated
+            world={world}
+            lang={lang}
+            leastRecents={leastRecents.map((entry) => ({ ...entry, date: new Date(entry.date) }))}
+          />
         </div>
         <div>
           <HomeAction />
@@ -155,6 +163,21 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
     console.error(err);
   }
 
+  let leastRecents: number[] = [];
+  try {
+    const leastRecentlyUpdated = await fetch(
+      `https://universalis.app/api/extra/stats/least-recently-updated?world=${world}`
+    ).then((res) => res.json());
+    leastRecents = leastRecentlyUpdated.items
+      .slice(0, 6)
+      .map((entry: { [x: string]: string | number }) => ({
+        id: entry.itemID,
+        date: entry.lastUploadTime,
+      }));
+  } catch (err) {
+    console.error(err);
+  }
+
   const dailyUploads: number[] = [];
   try {
     const uploadHistory = await fetch(
@@ -208,7 +231,17 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   }
 
   return {
-    props: { dcs, world, taxes, recent, dailyUploads, worldUploads, hasSession, lists },
+    props: {
+      dcs,
+      world,
+      taxes,
+      recent,
+      leastRecents,
+      dailyUploads,
+      worldUploads,
+      hasSession,
+      lists,
+    },
   };
 }
 
