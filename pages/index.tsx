@@ -29,9 +29,10 @@ import HomeLeastRecentlyUpdated from '../components/Home/HomeLeastRecentlyUpdate
 interface HomeProps {
   dcs: DataCenter[];
   world: string;
+  server: string;
   taxes: Record<City, number>;
   recent: number[];
-  leastRecents: { id: number; date: number }[];
+  leastRecents: { id: number; date: number; world: string }[];
   dailyUploads: number[];
   worldUploads: { world: string; count: number }[];
   hasSession: boolean;
@@ -45,6 +46,7 @@ function sum(arr: number[], start: number, end: number) {
 const Home: NextPage<HomeProps> = ({
   dcs,
   world,
+  server,
   taxes,
   recent,
   leastRecents,
@@ -91,7 +93,8 @@ const Home: NextPage<HomeProps> = ({
             <HomeLoggedOut />
           </LoggedOut>
           <HomeLeastRecentlyUpdated
-            world={world}
+            server={server}
+            multiWorld={settings['mogboard_homeworld'] !== 'yes'}
             lang={lang}
             leastRecents={leastRecents.map((entry) => ({ ...entry, date: new Date(entry.date) }))}
           />
@@ -142,6 +145,24 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   const cookies = new Cookies(ctx.req?.headers.cookie);
   const world = cookies.get<string | undefined>('mogboard_server') || 'Phoenix';
 
+  let dcs: DataCenter[] = [];
+  try {
+    const servers = await getServers();
+    dcs = servers.dcs.map((dc) => ({
+      name: dc.name,
+      region: dc.region,
+      worlds: dc.worlds.sort((a, b) => a.name.localeCompare(b.name)),
+    }));
+  } catch (err) {
+    console.error(err);
+  }
+
+  const showHomeWorld = cookies.get<string | undefined>('mogboard_homeworld') === 'yes';
+  const server = showHomeWorld
+    ? world
+    : dcs.find((dc) => dc.worlds.some((w) => w.name.toLowerCase() === world.toLowerCase()))?.name ||
+      world;
+
   let taxes: Record<City, number>;
   try {
     const taxRates: TaxRates = await fetch(
@@ -166,13 +187,16 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   let leastRecents: number[] = [];
   try {
     const leastRecentlyUpdated = await fetch(
-      `https://universalis.app/api/extra/stats/least-recently-updated?world=${world}`
+      `https://universalis.app/api/extra/stats/least-recently-updated?${
+        server.toLowerCase() === world.toLowerCase() ? 'world' : 'dcName'
+      }=${server}`
     ).then((res) => res.json());
     leastRecents = leastRecentlyUpdated.items
-      .slice(0, 6)
+      .slice(0, 20)
       .map((entry: { [x: string]: string | number }) => ({
         id: entry.itemID,
         date: entry.lastUploadTime,
+        world: entry.worldName,
       }));
   } catch (err) {
     console.error(err);
@@ -203,18 +227,6 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
     console.error(err);
   }
 
-  let dcs: DataCenter[] = [];
-  try {
-    const servers = await getServers();
-    dcs = servers.dcs.map((dc) => ({
-      name: dc.name,
-      region: dc.region,
-      worlds: dc.worlds.sort((a, b) => a.name.localeCompare(b.name)),
-    }));
-  } catch (err) {
-    console.error(err);
-  }
-
   const session = await unstable_getServerSession(ctx.req, ctx.res, authOptions);
   const hasSession = !!session;
 
@@ -234,6 +246,7 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
     props: {
       dcs,
       world,
+      server,
       taxes,
       recent,
       leastRecents,

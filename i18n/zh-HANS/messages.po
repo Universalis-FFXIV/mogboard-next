@@ -312,7 +312,8 @@ msgstr "买家"
 msgid "Can I have access to the data?"
 msgstr "我能够访问数据吗？"
 
-#: components/Home/HomeLeastRecentlyUpdated/HomeLeastRecentlyUpdated.tsx:11
+#: components/Home/HomeLeastRecentlyUpdated/HomeLeastRecentlyUpdated.tsx:22
+#: components/Home/HomeLeastRecentlyUpdated/HomeLeastRecentlyUpdated.tsx:61
 #: components/RecentUpdatesPanel/RecentUpdatesPanel.tsx:16
 msgid "Cannot be sold"
 msgstr "当前版本无法出售"
@@ -694,12 +695,21 @@ msgstr "过去5次售卖"
 msgid "Last updated:"
 msgstr "上次更新："
 
-#: components/Home/HomeLeastRecentlyUpdated/HomeLeastRecentlyUpdated.tsx:39
+#: components/Home/HomeLeastRecentlyUpdated/HomeLeastRecentlyUpdated.tsx:89
 msgid "Last updated: {0}"
 msgstr ""
 
+#: components/Home/HomeLeastRecentlyUpdated/HomeLeastRecentlyUpdated.tsx:50
+msgid "Last updated: {0} on {world}"
+msgstr ""
+
 #: components/Home/HomeLeastRecentlyUpdated/HomeLeastRecentlyUpdated.tsx:60
-msgid "Least Recently Updated on {world}"
+#~ msgid "Least Recently Updated on {world}"
+#~ msgstr ""
+
+#: components/Home/HomeLeastRecentlyUpdated/HomeLeastRecentlyUpdated.tsx:113
+#: components/Home/HomeLeastRecentlyUpdated/HomeLeastRecentlyUpdated.tsx:139
+msgid "Least recently updated on {server}"
 msgstr ""
 
 #: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:166
@@ -934,7 +944,7 @@ msgstr "删除"
 msgid "Really rare!?"
 msgstr "十分稀有！？"
 
-#: pages/index.tsx:102
+#: pages/index.tsx:105
 msgid "Recent Updates"
 msgstr "最近更新"
 
@@ -1103,7 +1113,7 @@ msgstr "特别感谢"
 msgid "Stack:"
 msgstr "每组个数："
 
-#: pages/index.tsx:109
+#: pages/index.tsx:112
 msgid "Thank you!"
 msgstr "感谢您！"
 
