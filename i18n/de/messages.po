@@ -311,7 +311,8 @@ msgstr "Käufer"
 msgid "Can I have access to the data?"
 msgstr "Sind die Daten öffentlich?"
 
-#: components/Home/HomeLeastRecentlyUpdated/HomeLeastRecentlyUpdated.tsx:11
+#: components/Home/HomeLeastRecentlyUpdated/HomeLeastRecentlyUpdated.tsx:22
+#: components/Home/HomeLeastRecentlyUpdated/HomeLeastRecentlyUpdated.tsx:61
 #: components/RecentUpdatesPanel/RecentUpdatesPanel.tsx:16
 msgid "Cannot be sold"
 msgstr "Kann nicht verkauft werden"
@@ -693,12 +694,21 @@ msgstr "Letzte 5 Verkäufe:"
 msgid "Last updated:"
 msgstr "Zuletzt aktualisiert:"
 
-#: components/Home/HomeLeastRecentlyUpdated/HomeLeastRecentlyUpdated.tsx:39
+#: components/Home/HomeLeastRecentlyUpdated/HomeLeastRecentlyUpdated.tsx:89
 msgid "Last updated: {0}"
 msgstr ""
 
+#: components/Home/HomeLeastRecentlyUpdated/HomeLeastRecentlyUpdated.tsx:50
+msgid "Last updated: {0} on {world}"
+msgstr ""
+
 #: components/Home/HomeLeastRecentlyUpdated/HomeLeastRecentlyUpdated.tsx:60
-msgid "Least Recently Updated on {world}"
+#~ msgid "Least Recently Updated on {world}"
+#~ msgstr ""
+
+#: components/Home/HomeLeastRecentlyUpdated/HomeLeastRecentlyUpdated.tsx:113
+#: components/Home/HomeLeastRecentlyUpdated/HomeLeastRecentlyUpdated.tsx:139
+msgid "Least recently updated on {server}"
 msgstr ""
 
 #: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:166
@@ -933,7 +943,7 @@ msgstr "ENTFERNEN"
 msgid "Really rare!?"
 msgstr "Sehr selten!?"
 
-#: pages/index.tsx:102
+#: pages/index.tsx:105
 msgid "Recent Updates"
 msgstr "Letzte Updates"
 
@@ -1102,7 +1112,7 @@ msgstr "Besonderer Dank"
 msgid "Stack:"
 msgstr "Stapel:"
 
-#: pages/index.tsx:109
+#: pages/index.tsx:112
 msgid "Thank you!"
 msgstr "Danke!"
 
