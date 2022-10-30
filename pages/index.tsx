@@ -177,7 +177,7 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
 
   let recent: number[] = [];
   try {
-    const recentlyUpdated = await fetch('${getBaseUrl()}/extra/stats/recently-updated').then(
+    const recentlyUpdated = await fetch(`${getBaseUrl()}/extra/stats/recently-updated`).then(
       (res) => res.json()
     );
     recent = recentlyUpdated.items.slice(0, 6);
@@ -205,7 +205,7 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
 
   const dailyUploads: number[] = [];
   try {
-    const uploadHistory = await fetch('${getBaseUrl()}/extra/stats/upload-history').then((res) =>
+    const uploadHistory = await fetch(`${getBaseUrl()}/extra/stats/upload-history`).then((res) =>
       res.json()
     );
     dailyUploads.push(...uploadHistory.uploadCountByDay);
@@ -216,7 +216,7 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   const worldUploads: { world: string; count: number }[] = [];
   try {
     const worldUploadCounts: Record<string, { count: number; proportion: number }> = await fetch(
-      '${getBaseUrl()}/extra/stats/world-upload-counts'
+      `${getBaseUrl()}/extra/stats/world-upload-counts`
     ).then((res) => res.json());
     worldUploads.push(
       ...Object.keys(worldUploadCounts).map((k) => ({

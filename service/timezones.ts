@@ -1,5 +1,6 @@
 import { differenceInMinutes } from 'date-fns';
 import { cache } from './cache';
+import { getBaseUrl } from './universalis';
 
 export interface TimeZone {
   id: string;
@@ -13,7 +14,7 @@ export async function getTimeZones(): Promise<TimeZone[]> {
   }
 
   try {
-    const timezones = await fetch('${getBaseUrl()}/v3/misc/time-zones').then((res) => res.json());
+    const timezones = await fetch(`${getBaseUrl()}/v3/misc/time-zones`).then((res) => res.json());
 
     cache.timezones = {
       value: timezones,
