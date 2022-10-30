@@ -2,6 +2,7 @@ import { differenceInMinutes } from 'date-fns';
 import { DataCenter } from '../types/game/DataCenter';
 import { World } from '../types/game/World';
 import { cache } from './cache';
+import { getBaseUrl } from './universalis';
 
 export interface Servers {
   dcs: DataCenter[];
@@ -15,12 +16,10 @@ export async function getServers(): Promise<Servers> {
 
   try {
     const dcData: { name: string; region: string; worlds: number[] }[] = await fetch(
-      'https://universalis.app/api/v3/game/data-centers'
+      `${getBaseUrl()}/v3/game/data-centers`
     ).then((res) => res.json());
 
-    const worlds: World[] = await fetch('https://universalis.app/api/v3/game/worlds').then((res) =>
-      res.json()
-    );
+    const worlds: World[] = await fetch(`${getBaseUrl()}/v3/game/worlds`).then((res) => res.json());
 
     const dcs = dcData.map((dc) => ({
       name: dc.name,

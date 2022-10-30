@@ -25,6 +25,7 @@ import { getServers } from '../service/servers';
 import { TaxRates } from '../types/universalis/TaxRates';
 import { unstable_getServerSession } from 'next-auth';
 import HomeLeastRecentlyUpdated from '../components/Home/HomeLeastRecentlyUpdated/HomeLeastRecentlyUpdated';
+import { getBaseUrl } from '../service/universalis';
 
 interface HomeProps {
   dcs: DataCenter[];
@@ -165,9 +166,9 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
 
   let taxes: Record<City, number>;
   try {
-    const taxRates: TaxRates = await fetch(
-      `https://universalis.app/api/tax-rates?world=${world}`
-    ).then((res) => res.json());
+    const taxRates: TaxRates = await fetch(`${getBaseUrl()}/tax-rates?world=${world}`).then((res) =>
+      res.json()
+    );
     taxes = convertTaxRates(taxRates);
   } catch (err) {
     console.error(err);
@@ -176,9 +177,9 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
 
   let recent: number[] = [];
   try {
-    const recentlyUpdated = await fetch(
-      'https://universalis.app/api/extra/stats/recently-updated'
-    ).then((res) => res.json());
+    const recentlyUpdated = await fetch('${getBaseUrl()}/extra/stats/recently-updated').then(
+      (res) => res.json()
+    );
     recent = recentlyUpdated.items.slice(0, 6);
   } catch (err) {
     console.error(err);
@@ -187,7 +188,7 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   let leastRecents: number[] = [];
   try {
     const leastRecentlyUpdated = await fetch(
-      `https://universalis.app/api/extra/stats/least-recently-updated?${
+      `${getBaseUrl()}/extra/stats/least-recently-updated?${
         server.toLowerCase() === world.toLowerCase() ? 'world' : 'dcName'
       }=${server}`
     ).then((res) => res.json());
@@ -204,9 +205,9 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
 
   const dailyUploads: number[] = [];
   try {
-    const uploadHistory = await fetch(
-      'https://universalis.app/api/extra/stats/upload-history'
-    ).then((res) => res.json());
+    const uploadHistory = await fetch('${getBaseUrl()}/extra/stats/upload-history').then((res) =>
+      res.json()
+    );
     dailyUploads.push(...uploadHistory.uploadCountByDay);
   } catch (err) {
     console.error(err);
@@ -215,7 +216,7 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   const worldUploads: { world: string; count: number }[] = [];
   try {
     const worldUploadCounts: Record<string, { count: number; proportion: number }> = await fetch(
-      'https://universalis.app/api/extra/stats/world-upload-counts'
+      '${getBaseUrl()}/extra/stats/world-upload-counts'
     ).then((res) => res.json());
     worldUploads.push(
       ...Object.keys(worldUploadCounts).map((k) => ({

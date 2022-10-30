@@ -48,7 +48,7 @@ export async function getCharacter(id: LodestoneId): Promise<LodestoneCharacter>
 
 export async function searchCharacter(world: string, name: string): Promise<LodestoneId> {
   const [firstName, lastName] = name.split(' ');
-  const res = await fetch(`${getBaseUrl()}/character/search`, {
+  const res = await fetch(`${getBaseUrl()}}/character/search`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

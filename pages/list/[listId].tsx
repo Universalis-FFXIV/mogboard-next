@@ -16,6 +16,7 @@ import * as userDb from '../../db/user';
 import * as listDb from '../../db/user-list';
 import useSettings from '../../hooks/useSettings';
 import { getServers } from '../../service/servers';
+import { getBaseUrl } from '../../service/universalis';
 import { DataCenter } from '../../types/game/DataCenter';
 import { Item } from '../../types/game/Item';
 import { UserList } from '../../types/universalis/user';
@@ -125,7 +126,7 @@ const List: NextPage<ListProps> = ({ dcs, list, reqIsOwner, ownerName }) => {
       return;
     }
 
-    fetch(`https://universalis.app/api/v2/${server}/${itemIds}?listings=5&entries=5`)
+    fetch(`${getBaseUrl()}/v2/${server}/${itemIds}?listings=5&entries=5`)
       .then((res) => res.json())
       .then(setMarket)
       .catch(console.error);

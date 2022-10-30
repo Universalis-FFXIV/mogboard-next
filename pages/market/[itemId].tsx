@@ -33,6 +33,7 @@ import MarketServerUpdateTimes from '../../components/Market/MarketServerUpdateT
 import MarketRegion from '../../components/Market/MarketRegion/MarketRegion';
 import MarketRegionUpdateTimes from '../../components/Market/MarketRegionUpdateTimes/MarketRegionUpdateTimes';
 import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary';
+import { getBaseUrl } from '../../service/universalis';
 
 interface MarketProps {
   hasSession: boolean;
@@ -360,9 +361,7 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   for (const world of dc.worlds) {
     marketFetches.push(
       (async () => {
-        const market = await fetch(
-          `https://universalis.app/api/v2/${world.id}/${itemId}?entries=20`
-        )
+        const market = await fetch(`${getBaseUrl()}/v2/${world.id}/${itemId}?entries=20`)
           .then((res) => res.json())
           .catch(console.error);
         markets[world.id] = market;
@@ -373,9 +372,7 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   for (const regionDc of regionDcs) {
     marketFetches.push(
       (async () => {
-        const market = await fetch(
-          `https://universalis.app/api/v2/${regionDc.name}/${itemId}?entries=20`
-        )
+        const market = await fetch(`${getBaseUrl()}/v2/${regionDc.name}/${itemId}?entries=20`)
           .then((res) => res.json())
           .catch(console.error);
         markets[regionDc.name] = market;
