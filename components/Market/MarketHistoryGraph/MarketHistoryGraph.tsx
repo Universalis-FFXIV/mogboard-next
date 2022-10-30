@@ -3,6 +3,7 @@ import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { sprintf } from 'sprintf-js';
+import { getBaseUrl } from '../../../service/universalis';
 
 interface MarketHistoryGraphProps {
   server: string;
@@ -142,7 +143,7 @@ export default function MarketHistoryGraph({ server, itemId, entries }: MarketHi
   useEffect(() => {
     (async () => {
       const sales = await fetch(
-        `https://universalis.app/api/history/${server}/${itemId}?entries=${entries ?? 1800}`
+        `${getBaseUrl()}/history/${server}/${itemId}?entries=${entries ?? 1800}`
       )
         .then((res) => res.json())
         .then((market) => market.entries.sort((a: any, b: any) => a.timestamp - b.timestamp));

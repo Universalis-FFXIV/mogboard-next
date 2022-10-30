@@ -13,9 +13,7 @@ export async function getTimeZones(): Promise<TimeZone[]> {
   }
 
   try {
-    const timezones = await fetch('https://universalis.app/api/v3/misc/time-zones').then((res) =>
-      res.json()
-    );
+    const timezones = await fetch('${getBaseUrl()}/v3/misc/time-zones').then((res) => res.json());
 
     cache.timezones = {
       value: timezones,

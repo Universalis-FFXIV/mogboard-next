@@ -5,6 +5,7 @@ import ago from 's-ago';
 import { sprintf } from 'sprintf-js';
 import { getItem, getItemKind, getItemSearchCategories } from '../../../data/game';
 import useSettings from '../../../hooks/useSettings';
+import { getBaseUrl } from '../../../service/universalis';
 import { DataCenter } from '../../../types/game/DataCenter';
 import { ItemSearchCategory } from '../../../types/game/ItemSearchCategory';
 import { UserList } from '../../../types/universalis/user';
@@ -51,22 +52,14 @@ export default function HomeUserList({ dcs, list }: HomeUserListProps) {
 
   const [marketNq, setMarketNq] = useState<any>(null);
   useEffect(() => {
-    fetch(
-      `https://universalis.app/api/v2/${
-        dc?.name || 'Chaos'
-      }/${itemIdsStr}?listings=1&entries=0&hq=0`
-    )
+    fetch(`${getBaseUrl()}/v2/${dc?.name || 'Chaos'}/${itemIdsStr}?listings=1&entries=0&hq=0`)
       .then((res) => res.json())
       .then(setMarketNq);
   }, [dc?.name, itemIdsStr]);
 
   const [marketHq, setMarketHq] = useState<any>(null);
   useEffect(() => {
-    fetch(
-      `https://universalis.app/api/v2/${
-        dc?.name || 'Chaos'
-      }/${itemIdsStr}?listings=1&entries=0&hq=1`
-    )
+    fetch(`${getBaseUrl()}/v2/${dc?.name || 'Chaos'}/${itemIdsStr}?listings=1&entries=0&hq=1`)
       .then((res) => res.json())
       .then(setMarketHq);
   }, [dc?.name, itemIdsStr]);
