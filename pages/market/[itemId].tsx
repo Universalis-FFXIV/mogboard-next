@@ -203,7 +203,8 @@ const Market: NextPage<MarketProps> = ({
                 <MarketRegionUpdateTimes
                   dcs={dcs}
                   dcWorldUploadTimes={dcs.reduce((agg, next) => {
-                    agg[next.name] = markets[next.name].worldUploadTimes;
+                    const nextMarket = markets[next.name];
+                    agg[next.name] = nextMarket?.worldUploadTimes ?? 0;
                     return agg;
                   }, {} as Record<string, Record<number, number>>)}
                 />
