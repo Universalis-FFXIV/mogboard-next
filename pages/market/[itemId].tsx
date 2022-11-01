@@ -208,6 +208,8 @@ const Market: NextPage<MarketProps> = ({
                     return agg;
                   }, {} as Record<string, Record<number, number>>)}
                 />
+              </ErrorBoundary>
+              <ErrorBoundary>
                 <MarketRegion
                   item={item}
                   region={region}
@@ -228,8 +230,10 @@ const Market: NextPage<MarketProps> = ({
                 <ErrorBoundary>
                   <MarketServerUpdateTimes
                     worlds={dc.worlds.sort((a, b) => a.name.localeCompare(b.name))}
-                    worldUploadTimes={markets[dc.name].worldUploadTimes}
+                    worldUploadTimes={markets[dc.name]?.worldUploadTimes ?? dc.worlds.map(() => 0)}
                   />
+                </ErrorBoundary>
+                <ErrorBoundary>
                   <MarketDataCenter
                     item={item}
                     dc={dc}
