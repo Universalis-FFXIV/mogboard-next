@@ -33,18 +33,20 @@ export default function MarketRegion({
   open,
 }: MarketRegionProps) {
   const allListings = dcs
+    .filter((dc) => dcMarkets[dc.name] != null)
     .map((dc) => dcMarkets[dc.name].listings)
     .flat()
     .sort((a, b) => a.pricePerUnit - b.pricePerUnit);
   const allSales = dcs
+    .filter((dc) => dcMarkets[dc.name] != null)
     .map((dc) => dcMarkets[dc.name].recentHistory)
     .flat()
     .sort((a, b) => b.timestamp - a.timestamp);
 
-  const hqListings = allListings.filter((listing: any) => listing.hq);
-  const nqListings = allListings.filter((listing: any) => !listing.hq);
-  const hqSales = allSales.filter((sale: any) => sale.hq);
-  const nqSales = allSales.filter((sale: any) => !sale.hq);
+  const hqListings = allListings?.filter((listing: any) => listing.hq) ?? [];
+  const nqListings = allListings.filter((listing: any) => !listing.hq) ?? [];
+  const hqSales = allSales?.filter((sale: any) => sale.hq) ?? [];
+  const nqSales = allSales?.filter((sale: any) => !sale.hq) ?? [];
 
   const hqListingsAveragePpu =
     Math.ceil(
