@@ -24,10 +24,10 @@ function entriesToShow(entries: {}[]) {
 }
 
 export default function MarketDataCenter({ item, dc, market, lang, open }: MarketDataCenterProps) {
-  const hqListings = market.listings.filter((listing: any) => listing.hq);
-  const nqListings = market.listings.filter((listing: any) => !listing.hq);
-  const hqSales = market.recentHistory.filter((sale: any) => sale.hq);
-  const nqSales = market.recentHistory.filter((sale: any) => !sale.hq);
+  const hqListings = market.listings?.filter((listing: any) => listing.hq) ?? [];
+  const nqListings = market.listings?.filter((listing: any) => !listing.hq) ?? [];
+  const hqSales = market.recentHistory?.filter((sale: any) => sale.hq) ?? [];
+  const nqSales = market.recentHistory?.filter((sale: any) => !sale.hq) ?? [];
 
   const hqListingsAveragePpu =
     Math.ceil(
