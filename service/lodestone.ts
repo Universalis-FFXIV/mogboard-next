@@ -50,9 +50,9 @@ export async function searchCharacter(world: string, name: string): Promise<Lode
   const [firstName, lastName] = name.split(' ');
   const body = JSON.stringify({ world, firstName, lastName });
 
-  console.log(`Making request to ${getBaseUrl()}}/character/search with payload ${body}`);
+  console.log(`Making request to ${getBaseUrl()}/character/search with payload ${body}`);
 
-  const res = await fetch(`${getBaseUrl()}}/character/search`, {
+  const res = await fetch(`${getBaseUrl()}/character/search`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
