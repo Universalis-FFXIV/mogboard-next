@@ -15,6 +15,7 @@
     "i18n:compile": "lingui compile"
   },
   "dependencies": {
+    "@badrap/bar-of-progress": "^0.2.2",
     "@floating-ui/react-dom-interactions": "^0.6.4",
     "@lingui/core": "^3.14.0",
     "@lingui/macro": "^3.14.0",
