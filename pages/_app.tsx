@@ -2,8 +2,10 @@ import '../styles/app.scss';
 import '../styles/font/styles.css';
 import '../styles/font/xivicons.css';
 import 'simplebar/dist/simplebar.min.css';
+import ProgressBar from "@badrap/bar-of-progress";
 import type { AppContext, AppProps } from 'next/app';
 import Head from 'next/head';
+import { useRouter } from "next/router";
 import UniversalisLayout from '../components/UniversalisLayout/UniversalisLayout';
 import { Cookies, CookiesProvider } from 'react-cookie';
 import { SessionProvider } from 'next-auth/react';
@@ -79,6 +81,13 @@ if (typeof Highcharts === 'object') {
   } as any);
 }
 
+const progress = new ProgressBar({
+  size: 2,
+  color: "#fff8ac",
+  className: "mog-progress",
+  delay: 100,
+});
+
 export default function MyApp({
   Component,
   cookies,
@@ -91,6 +100,19 @@ export default function MyApp({
     // This only runs on the client
     i18n.activate(lang);
   }, [lang]);
+
+  const router = useRouter();
+  useEffect(() => {
+    router.events.on("routeChangeStart", progress.start);
+    router.events.on("routeChangeComplete", progress.finish);
+    router.events.on("routeChangeError", progress.finish);
+
+    return () => {
+      router.events.off("routeChangeStart", progress.start);
+      router.events.off("routeChangeComplete", progress.finish);
+      router.events.off("routeChangeError", progress.finish);
+    };
+  }, [router]);
 
   const [popup, setPopup] = useState<PopupData>({ isOpen: false });
   const [modalCover, setModalCover] = useState<ModalCoverData>({ isOpen: false });
