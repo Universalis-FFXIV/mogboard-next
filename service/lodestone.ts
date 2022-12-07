@@ -48,6 +48,10 @@ export async function getCharacter(id: LodestoneId): Promise<LodestoneCharacter>
 
 export async function searchCharacter(world: string, name: string): Promise<LodestoneId> {
   const [firstName, lastName] = name.split(' ');
+  if (firstName == null || lastName == null) {
+    throw new Error(`First or last name was null: "${name}"`);
+  }
+
   const body = JSON.stringify({ world, firstName, lastName });
 
   console.log(`Making request to ${getBaseUrl()}/character/search with payload ${body}`);
