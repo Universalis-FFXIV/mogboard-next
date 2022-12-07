@@ -70,6 +70,14 @@ async function post(req: NextApiRequest, res: NextApiResponse) {
     return res.status(400).json({ message: 'No valid parameter set provided.' });
   }
 
+  if (character == null) {
+    console.error('Character was null after fetch operation.');
+    return res.status(404).json({
+      message:
+        'Could not find your character on Lodestone, try entering the Lodestone URL for your character.',
+    });
+  }
+
   const authCode = getUserAuthCode(session.user.id);
   if (!character.bio.includes(authCode)) {
     return res.status(403).json({ message: 'Auth code not found in character bio.' });

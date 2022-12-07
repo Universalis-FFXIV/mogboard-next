@@ -66,5 +66,9 @@ export async function searchCharacter(world: string, name: string): Promise<Lode
   }
 
   const data = await res.json();
+  if (data == null || data.id == null) {
+    throw new Error('Server responded with null search results.');
+  }
+
   return data.id;
 }
