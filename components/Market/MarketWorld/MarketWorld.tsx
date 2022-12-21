@@ -33,17 +33,6 @@ export default function MarketWorld({ item, world, market, lang, open }: MarketW
 
   return (
     <>
-      {open && <MarketHistoryGraph server={world.name} itemId={item.id} />}
-      {item.stackSize > 1 && market.stackSizeHistogram && (
-        <div>
-          <h4
-            dangerouslySetInnerHTML={{
-              __html: t`STACK SIZE HISTOGRAM <small>Last 20 Sales</small>`,
-            }}
-          ></h4>
-          {open && <MarketStackSizeHistogram item={item} data={market.recentHistory} />}
-        </div>
-      )}
       <div className="tab-market-tables">
         <div className="cw-table cw-prices">
           <h4>
@@ -81,6 +70,22 @@ export default function MarketWorld({ item, world, market, lang, open }: MarketW
           />
         </div>
       </div>
+      <br />
+      <br />
+      <h6>
+        <Trans>Purchase history (500 sales)</Trans>
+      </h6>
+      {open && <MarketHistoryGraph server={world.name} itemId={item.id} />}
+      {item.stackSize > 1 && market.stackSizeHistogram && (
+        <div>
+          <h4
+            dangerouslySetInnerHTML={{
+              __html: t`STACK SIZE HISTOGRAM <small>Last 20 Sales</small>`,
+            }}
+          ></h4>
+          {open && <MarketStackSizeHistogram item={item} data={market.recentHistory} />}
+        </div>
+      )}
     </>
   );
 }

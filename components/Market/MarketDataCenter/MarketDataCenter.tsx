@@ -56,22 +56,22 @@ export default function MarketDataCenter({ item, dc, market, lang, open }: Marke
   const hqSalesAveragePpu =
     Math.ceil(
       hqSales.map((sale: any) => sale.pricePerUnit).reduce((agg: any, next: any) => agg + next, 0) /
-        hqSales.length
+      hqSales.length
     ) || 0;
   const nqSalesAveragePpu =
     Math.ceil(
       nqSales.map((sale: any) => sale.pricePerUnit).reduce((agg: any, next: any) => agg + next, 0) /
-        nqSales.length
+      nqSales.length
     ) || 0;
   const hqSalesAverageTotal =
     Math.ceil(
       hqSales.map((sale: any) => sale.total).reduce((agg: any, next: any) => agg + next, 0) /
-        hqSales.length
+      hqSales.length
     ) || 0;
   const nqSalesAverageTotal =
     Math.ceil(
       nqSales.map((sale: any) => sale.total).reduce((agg: any, next: any) => agg + next, 0) /
-        nqSales.length
+      nqSales.length
     ) || 0;
 
   return (
@@ -82,18 +82,6 @@ export default function MarketDataCenter({ item, dc, market, lang, open }: Marke
       </div>
       <br />
       <br />
-      <h6>
-        <Trans>Cross-World Purchase history (500 sales)</Trans>
-      </h6>
-      {open && <MarketHistoryGraph server={dc.name} itemId={item.id} />}
-      {item.stackSize > 1 && (
-        <div>
-          <h6>
-            <Trans>STACK SIZE HISTOGRAM</Trans>
-          </h6>
-          {open && <MarketStackSizeHistogram item={item} data={market.recentHistory} />}
-        </div>
-      )}
       <div className="cross_world_markets">
         <div>
           {item.canBeHq && (
@@ -160,6 +148,20 @@ export default function MarketDataCenter({ item, dc, market, lang, open }: Marke
           />
         </div>
       </div>
+      <br />
+      <br />
+      <h6>
+        <Trans>Cross-World Purchase history (500 sales)</Trans>
+      </h6>
+      {open && <MarketHistoryGraph server={dc.name} itemId={item.id} />}
+      {item.stackSize > 1 && (
+        <div>
+          <h6>
+            <Trans>STACK SIZE HISTOGRAM</Trans>
+          </h6>
+          {open && <MarketStackSizeHistogram item={item} data={market.recentHistory} />}
+        </div>
+      )}
       <br />
       <br />
       <div className="cross_world_markets">
