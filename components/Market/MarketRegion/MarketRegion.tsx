@@ -75,22 +75,22 @@ export default function MarketRegion({
   const hqSalesAveragePpu =
     Math.ceil(
       hqSales.map((sale: any) => sale.pricePerUnit).reduce((agg: any, next: any) => agg + next, 0) /
-        hqSales.length
+      hqSales.length
     ) || 0;
   const nqSalesAveragePpu =
     Math.ceil(
       nqSales.map((sale: any) => sale.pricePerUnit).reduce((agg: any, next: any) => agg + next, 0) /
-        nqSales.length
+      nqSales.length
     ) || 0;
   const hqSalesAverageTotal =
     Math.ceil(
       hqSales.map((sale: any) => sale.total).reduce((agg: any, next: any) => agg + next, 0) /
-        hqSales.length
+      hqSales.length
     ) || 0;
   const nqSalesAverageTotal =
     Math.ceil(
       nqSales.map((sale: any) => sale.total).reduce((agg: any, next: any) => agg + next, 0) /
-        nqSales.length
+      nqSales.length
     ) || 0;
 
   return (
@@ -101,18 +101,6 @@ export default function MarketRegion({
       </div>
       <br />
       <br />
-      <h6>
-        <Trans>Cross-World Purchase history (500 sales)</Trans>
-      </h6>
-      {open && <MarketHistoryGraph server={region} itemId={item.id} entries={4800} />}
-      {item.stackSize > 1 && (
-        <div>
-          <h6>
-            <Trans>STACK SIZE HISTOGRAM</Trans>
-          </h6>
-          {open && <MarketStackSizeHistogram item={item} data={allSales} />}
-        </div>
-      )}
       <div className="cross_world_markets">
         <div>
           {item.canBeHq && (
@@ -187,6 +175,20 @@ export default function MarketRegion({
           />
         </div>
       </div>
+      <br />
+      <br />
+      <h6>
+        <Trans>Cross-World Purchase history (500 sales)</Trans>
+      </h6>
+      {open && <MarketHistoryGraph server={region} itemId={item.id} entries={4800} />}
+      {item.stackSize > 1 && (
+        <div>
+          <h6>
+            <Trans>STACK SIZE HISTOGRAM</Trans>
+          </h6>
+          {open && <MarketStackSizeHistogram item={item} data={allSales} />}
+        </div>
+      )}
       <br />
       <br />
       <div className="cross_world_markets">
