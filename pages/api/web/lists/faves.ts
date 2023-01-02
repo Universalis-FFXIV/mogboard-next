@@ -1,64 +1,56 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { acquireConn, releaseConn } from '../../../../db/connect';
 import { PHPObject } from '../../../../db/PHPObject';
-import * as db from '../../../../db/user-list';
+import { Database } from '../../../../db';
 import { UserListCustomType } from '../../../../types/universalis/user';
 import { authOptions } from '../../auth/[...nextauth]';
 import { v4 as uuidv4 } from 'uuid';
 import { unstable_getServerSession } from 'next-auth';
+import { Body, createHandler, Put, Req, Res, ValidationPipe } from 'next-api-decorators';
+import { IsInt, ArrayMaxSize } from 'class-validator';
+import { FavouritesList, USER_LIST_MAX_ITEMS } from '../../../../db/user-list';
 
-async function put(req: NextApiRequest, res: NextApiResponse) {
-  const session = await unstable_getServerSession(req, res, authOptions);
+class AddFaveDTO {
+  @IsInt({ each: true })
+  @ArrayMaxSize(USER_LIST_MAX_ITEMS)
+  items!: number[];
+}
 
-  if (!session || !session.user.id) {
-    return res.status(401).json({ message: 'You must be logged in to perform this action.' });
-  }
-
-  const itemsBody = req.body.items;
-
-  if (
-    itemsBody == null ||
-    !Array.isArray(itemsBody) ||
-    itemsBody.some((item: any) => typeof item !== 'number')
+class FavesHandler {
+  @Put()
+  async addFave(
+    @Body(ValidationPipe) body: AddFaveDTO,
+    @Req() req: NextApiRequest,
+    @Res() res: NextApiResponse
   ) {
-    return res.status(400).json({ message: 'Invalid list items.' });
-  }
-
-  if (itemsBody.length > db.USER_LIST_MAX_ITEMS) {
-    return res
-      .status(441)
-      .json({ message: 'List is at maximum capacity; please remove some items first.' });
-  }
-
-  const items = new PHPObject();
-  items.push(...itemsBody);
-
-  const conn = await acquireConn();
-  try {
-    const faves = await db.getUserListCustom(session.user.id, UserListCustomType.Favourites, conn);
-
-    if (faves == null) {
-      await db.createUserList(db.FavouritesList(uuidv4(), session.user.id, items), conn);
-    } else {
-      await db.updateUserListItems(session.user.id, faves.id, items, conn);
+    const session = await unstable_getServerSession(req, res, authOptions);
+    if (!session || !session.user.id) {
+      return res.status(401).json({ message: 'You must be logged in to perform this action.' });
     }
-  } catch (err) {
-    console.error(err);
-    return res.status(500).json({ message: 'Unknown error' });
-  } finally {
-    await releaseConn(conn);
-  }
 
-  return res.json({
-    message: 'Success',
-  });
+    const itemsBody = body.items;
+    const items = new PHPObject();
+    items.push(...itemsBody);
+
+    try {
+      const faves = await Database.getUserListCustom(
+        session.user.id,
+        UserListCustomType.Favourites
+      );
+
+      if (faves == null) {
+        await Database.createUserList(FavouritesList(uuidv4(), session.user.id, items));
+      } else {
+        await Database.updateUserListItems(session.user.id, faves.id, items);
+      }
+    } catch (err) {
+      console.error(err);
+      return res.status(500).json({ message: 'An error occurred.' });
+    }
+
+    return res.json({
+      message: 'Success',
+    });
+  }
 }
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  if (req.method === 'PUT') {
-    return await put(req, res);
-  } else {
-    res.setHeader('Allow', ['PUT']);
-    return res.status(405).end(`Method ${req.method} not allowed`);
-  }
-}
+export default createHandler(FavesHandler);
