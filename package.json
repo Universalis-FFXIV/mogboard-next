@@ -21,6 +21,7 @@
     "@lingui/macro": "^3.14.0",
     "@lingui/react": "^3.14.0",
     "@next/bundle-analyzer": "^12.2.0",
+    "class-transformer": "^0.5.1",
     "class-validator": "^0.14.0",
     "date-fns": "^2.29.2",
     "framer-motion": "^6.3.11",
