@@ -1,132 +1,159 @@
+import { Type } from 'class-transformer';
+import {
+  IsIn,
+  IsInt,
+  IsOptional,
+  IsUUID,
+  MaxLength,
+  MinLength,
+  ValidateNested,
+} from 'class-validator';
 import { NextApiRequest, NextApiResponse } from 'next';
+import {
+  Body,
+  createHandler,
+  Delete,
+  Put,
+  Query,
+  Req,
+  Res,
+  ValidationPipe,
+} from 'next-api-decorators';
 import { unstable_getServerSession } from 'next-auth';
-import { getItem } from '../../../../data/game';
-import { acquireConn, releaseConn } from '../../../../db/connect';
-import * as db from '../../../../db/user-list';
+import { Database } from '../../../../db';
+import { USER_LIST_MAX_ITEMS } from '../../../../db/user-list';
 import { authOptions } from '../../auth/[...nextauth]';
 
-type ToggleItem = { action: 'add'; itemId: number } | { action: 'remove'; itemId: number };
+class ToggleItemDTO {
+  @IsIn(['add', 'remove'])
+  action!: string;
 
-async function put(req: NextApiRequest, res: NextApiResponse) {
-  const session = await unstable_getServerSession(req, res, authOptions);
-  const { listId } = req.query;
-  const { name, item } = req.body;
+  @IsInt()
+  itemId!: number;
+}
 
-  if (!session || !session.user.id) {
-    return res.status(401).json({ message: 'You must be logged in to perform this action.' });
-  }
+class UpdateListDTO {
+  @IsOptional()
+  @MinLength(3)
+  @MaxLength(100)
+  name?: string;
 
-  if (typeof listId !== 'string') {
-    return res.status(400).json({ message: 'Invalid list provided.' });
-  }
+  @Type(() => ToggleItemDTO)
+  @ValidateNested()
+  @IsOptional()
+  item?: ToggleItemDTO;
+}
 
-  if (name != null && (typeof name !== 'string' || name.length < 3)) {
-    return res.status(400).json({ message: 'Invalid list name.' });
-  }
+class UpdateListQueryDTO {
+  @IsUUID(4)
+  listId!: string;
+}
 
-  let itemUpdate: ToggleItem | null = null;
-  if (Object.hasOwn(item, 'action') && Object.hasOwn(item, 'itemId')) {
-    if (item.action !== 'add' && item.action !== 'remove') {
-      return res.status(400).json({ message: 'Invalid item update format.' });
+class DeleteListQueryDTO {
+  @IsUUID(4)
+  listId!: string;
+}
+
+class ListHandler {
+  @Put()
+  async updateList(
+    @Body(ValidationPipe) body: UpdateListDTO,
+    @Query(ValidationPipe) query: UpdateListQueryDTO,
+    @Req() req: NextApiRequest,
+    @Res() res: NextApiResponse
+  ) {
+    const session = await unstable_getServerSession(req, res, authOptions);
+    if (!session || !session.user.id) {
+      return res.status(401).json({ message: 'You must be logged in to perform this action.' });
     }
 
-    if (typeof item.itemId !== 'number' || !getItem(item.itemId, 'en')) {
-      return res.status(400).json({ message: 'Invalid item ID.' });
-    }
+    const { listId } = query;
+    const { name, item } = body;
 
-    itemUpdate = { action: item.action, itemId: item.itemId };
-  }
-
-  const conn = await acquireConn();
-  try {
-    const list = await db.getUserList(listId, conn);
-    if (list == null) {
-      return res.status(404).json({ message: 'The requested list does not exist.' });
-    }
-
-    if (list.userId !== session.user.id) {
-      return res.status(403).json({ message: 'You are not authorized to perform this action.' });
-    }
-
-    if (name != null) {
-      await db.updateUserListName(session.user.id, listId, name, conn);
-    }
-
-    if (itemUpdate != null) {
-      if (itemUpdate.action === 'add' && !list.items.includes(itemUpdate.itemId)) {
-        list.items.unshift(itemUpdate.itemId);
-
-        if (list.items.length > db.USER_LIST_MAX_ITEMS) {
-          return res.status(441).json({ message: 'List is at maximum capacity.' });
-        }
-
-        await db.updateUserListItems(session.user.id, listId, list.items, conn);
-      } else if (itemUpdate.action === 'remove' && list.items.includes(itemUpdate.itemId)) {
-        list.items.splice(list.items.indexOf(itemUpdate.itemId), 1);
-
-        await db.updateUserListItems(session.user.id, listId, list.items, conn);
+    try {
+      // Get the list
+      const list = await Database.getUserList(listId);
+      if (list == null) {
+        return res.status(404).json({ message: 'The requested list does not exist.' });
       }
+
+      // Ensure the user is authorized to modify the list
+      if (list.userId !== session.user.id) {
+        return res.status(403).json({ message: 'You are not authorized to perform this action.' });
+      }
+
+      // Update the list name, if desired
+      if (name != null) {
+        await Database.updateUserListName(session.user.id, listId, name);
+      }
+
+      // Update the list items, if desired
+      if (item != null) {
+        if (item.action === 'add' && !list.items.includes(item.itemId)) {
+          list.items.unshift(item.itemId);
+
+          if (list.items.length > USER_LIST_MAX_ITEMS) {
+            return res.status(441).json({ message: 'List is at maximum capacity.' });
+          }
+
+          await Database.updateUserListItems(session.user.id, listId, list.items);
+        } else if (item.action === 'remove' && list.items.includes(item.itemId)) {
+          list.items.splice(list.items.indexOf(item.itemId), 1);
+
+          await Database.updateUserListItems(session.user.id, listId, list.items);
+        }
+      }
+    } catch (err) {
+      console.error(err);
+      return res.status(500).json({ message: 'An error occurred.' });
     }
-  } catch (err) {
-    console.error(err);
-    return res.status(500).json({ message: 'Unknown error' });
-  } finally {
-    await releaseConn(conn);
+
+    return res.json({
+      message: 'Success',
+    });
   }
 
-  return res.json({
-    message: 'Success',
-  });
+  @Delete()
+  async deleteList(
+    @Query(ValidationPipe) query: DeleteListQueryDTO,
+    @Req() req: NextApiRequest,
+    @Res() res: NextApiResponse
+  ) {
+    const session = await unstable_getServerSession(req, res, authOptions);
+    if (!session || !session.user.id) {
+      return res.status(401).json({ message: 'You must be logged in to perform this action.' });
+    }
+
+    const { listId } = query;
+
+    try {
+      // Get the list
+      const list = await Database.getUserList(listId);
+      if (list == null) {
+        return res.status(404).json({ message: 'The requested list does not exist.' });
+      }
+
+      // Ensure the user is authorized to modify the list
+      const ownerId = list.userId;
+      if (ownerId !== session.user.id) {
+        return res.status(403).json({ message: 'You are not authorized to perform this action.' });
+      }
+
+      // Make sure the list isn't a system list
+      if (list.custom) {
+        return res.status(440).json({ message: 'You may not delete special lists.' });
+      }
+
+      await Database.deleteUserList(session.user.id, listId);
+    } catch (err) {
+      console.error(err);
+      return res.status(500).json({ message: 'An error occurred.' });
+    }
+
+    return res.json({
+      message: 'Success',
+    });
+  }
 }
 
-async function del(req: NextApiRequest, res: NextApiResponse) {
-  const session = await unstable_getServerSession(req, res, authOptions);
-  const { listId } = req.query;
-
-  if (!session || !session.user.id) {
-    return res.status(401).json({ message: 'You must be logged in to perform this action.' });
-  }
-
-  if (typeof listId !== 'string') {
-    return res.status(400).json({ message: 'Invalid list provided.' });
-  }
-
-  const conn = await acquireConn();
-  try {
-    const list = await db.getUserList(listId, conn);
-    if (list == null) {
-      return res.status(404).json({ message: 'The requested list does not exist.' });
-    }
-
-    if (list.custom) {
-      return res.status(440).json({ message: 'You may not delete special lists.' });
-    }
-
-    const ownerId = list.userId;
-    if (ownerId !== session.user.id) {
-      return res.status(403).json({ message: 'You are not authorized to perform this action.' });
-    }
-
-    await db.deleteUserList(session.user.id, listId, conn);
-  } catch (err) {
-    console.error(err);
-    return res.status(500).json({ message: 'Unknown error' });
-  } finally {
-    await releaseConn(conn);
-  }
-
-  return res.json({
-    message: 'Success',
-  });
-}
-
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  if (req.method === 'PUT') {
-    return await put(req, res);
-  } else if (req.method === 'DELETE') {
-    return await del(req, res);
-  } else {
-    res.setHeader('Allow', ['PUT', 'DELETE']);
-    return res.status(405).end(`Method ${req.method} not allowed`);
-  }
-}
+export default createHandler(ListHandler);
