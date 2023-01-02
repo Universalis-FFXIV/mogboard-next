@@ -1,103 +1,93 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { acquireConn, releaseConn } from '../../../../db/connect';
+import { Database } from '../../../../db';
 import { PHPObject } from '../../../../db/PHPObject';
 import { unix } from '../../../../db/util';
 import { UserList, UserListCustomType } from '../../../../types/universalis/user';
 import { authOptions } from '../../auth/[...nextauth]';
 import { v4 as uuidv4 } from 'uuid';
-import {
-  getUserLists,
-  USER_LIST_MAX,
-  USER_LIST_MAX_ITEMS,
-  createUserList,
-} from '../../../../db/user-list';
+import { USER_LIST_MAX, USER_LIST_MAX_ITEMS } from '../../../../db/user-list';
 import { unstable_getServerSession } from 'next-auth';
+import { Body, createHandler, Get, Post, Req, Res, ValidationPipe } from 'next-api-decorators';
+import { ArrayMaxSize, IsInt, MaxLength, MinLength } from 'class-validator';
 
-async function get(req: NextApiRequest, res: NextApiResponse) {
-  const session = await unstable_getServerSession(req, res, authOptions);
-  if (!session || !session.user.id) {
-    return res.status(401).json({ message: 'You must be logged in to perform this action.' });
-  }
+class CreateListDTO {
+  @MinLength(3)
+  @MaxLength(100)
+  name!: string;
 
-  const lists: UserList[] = [];
-  const conn = await acquireConn();
-  try {
-    const userLists = await getUserLists(session.user.id, conn);
-    lists.push(...userLists);
-  } catch (err) {
-    console.error(err);
-    return res.status(500).json({ message: 'Unknown error' });
-  }
-
-  return res.json(lists);
+  @IsInt({ each: true })
+  @ArrayMaxSize(USER_LIST_MAX_ITEMS)
+  items!: number[];
 }
 
-async function post(req: NextApiRequest, res: NextApiResponse) {
-  const session = await unstable_getServerSession(req, res, authOptions);
-
-  if (!session || !session.user.id) {
-    return res.status(401).json({ message: 'You must be logged in to perform this action.' });
-  }
-
-  const conn = await acquireConn();
-  try {
-    const lists = await getUserLists(session.user.id, conn);
-    if (lists.length >= USER_LIST_MAX) {
-      return res.status(400).json({ message: 'Maximum number of lists has been created.' });
+class ListsHandler {
+  @Get()
+  async fetchLists(@Req() req: NextApiRequest, @Res() res: NextApiResponse) {
+    const session = await unstable_getServerSession(req, res, authOptions);
+    if (!session || !session.user.id) {
+      return res.status(401).json({ message: 'You must be logged in to perform this action.' });
     }
-  } catch (err) {
-    console.error(err);
-    return res.status(500).json({ message: 'Unknown error' });
+
+    // Fetch the user's lists
+    const lists: UserList[] = [];
+    try {
+      const userLists = await Database.getUserLists(session.user.id);
+      lists.push(...userLists);
+    } catch (err) {
+      console.error(err);
+      return res.status(500).json({ message: 'An error occurred.' });
+    }
+
+    return res.json(lists);
   }
 
-  const nameBody = req.body.name;
-  if (typeof nameBody !== 'string' || nameBody.length < 3) {
-    return res.status(400).json({ message: 'Invalid name provided.' });
-  }
-  const name = nameBody;
-
-  const items = new PHPObject();
-  const itemsBody: unknown = req.body.items;
-  if (
-    !Array.isArray(itemsBody) ||
-    itemsBody.some((item) => typeof item !== 'number') ||
-    itemsBody.length > USER_LIST_MAX_ITEMS
+  @Post()
+  async createList(
+    @Body(ValidationPipe) body: CreateListDTO,
+    @Req() req: NextApiRequest,
+    @Res() res: NextApiResponse
   ) {
-    return res.status(400).json({ message: 'Invalid items provided.' });
+    const session = await unstable_getServerSession(req, res, authOptions);
+    if (!session || !session.user.id) {
+      return res.status(401).json({ message: 'You must be logged in to perform this action.' });
+    }
+
+    // Ensure the user can create more lists
+    try {
+      const lists = await Database.getUserLists(session.user.id);
+      if (lists.length >= USER_LIST_MAX) {
+        return res.status(400).json({ message: 'Maximum number of lists has been created.' });
+      }
+    } catch (err) {
+      console.error(err);
+      return res.status(500).json({ message: 'An error occurred.' });
+    }
+
+    // Create the list
+    const name = body.name;
+    const items = new PHPObject();
+    items.push(...body.items);
+
+    const list: UserList = {
+      id: uuidv4(),
+      userId: session.user.id,
+      added: unix(),
+      updated: unix(),
+      name,
+      custom: false,
+      customType: UserListCustomType.Default,
+      items,
+    };
+
+    try {
+      await Database.createUserList(list);
+    } catch (err) {
+      console.error(err);
+      return res.status(500).json({ message: 'An error occurred.' });
+    }
+
+    return res.json(list);
   }
-  items.push(...itemsBody);
-
-  const list: UserList = {
-    id: uuidv4(),
-    userId: session.user.id,
-    added: unix(),
-    updated: unix(),
-    name,
-    custom: false,
-    customType: UserListCustomType.Default,
-    items,
-  };
-
-  try {
-    await createUserList(list, conn);
-  } catch (err) {
-    console.error(err);
-    return res.status(500).json({ message: 'Unknown error' });
-  } finally {
-    await releaseConn(conn);
-  }
-
-  return res.json(list);
 }
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  if (req.method === 'GET') {
-    return await get(req, res);
-  }
-  if (req.method === 'POST') {
-    return await post(req, res);
-  } else {
-    res.setHeader('Allow', ['GET', 'POST']);
-    return res.status(405).end(`Method ${req.method} not allowed`);
-  }
-}
+export default createHandler(ListsHandler);
