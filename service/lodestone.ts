@@ -1,10 +1,19 @@
+import { IsString, IsUrl, validateOrReject } from 'class-validator';
+
 type LodestoneId = number;
 
-export interface LodestoneCharacter {
-  bio: string;
-  name: string;
-  world: string;
-  avatar: string;
+export class LodestoneCharacter {
+  @IsString()
+  bio!: string;
+
+  @IsString()
+  name!: string;
+
+  @IsString()
+  world!: string;
+
+  @IsUrl()
+  avatar!: string;
 }
 
 function getBaseUrl(): string {
@@ -43,7 +52,16 @@ export async function getCharacter(id: LodestoneId): Promise<LodestoneCharacter>
   }
 
   const data = await res.json();
-  return data;
+
+  // Validate that the data received is correct
+  const character = new LodestoneCharacter();
+  character.bio = data.bio;
+  character.name = data.name;
+  character.world = data.world;
+  character.avatar = data.avatar;
+  await validateOrReject(character);
+
+  return character;
 }
 
 export async function searchCharacter(world: string, name: string): Promise<LodestoneId> {
