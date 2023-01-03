@@ -7,8 +7,7 @@ import { useReducer, useRef, useState } from 'react';
 import { sprintf } from 'sprintf-js';
 import AccountLayout from '../../components/AccountLayout/AccountLayout';
 import { usePopup } from '../../components/UniversalisLayout/components/Popup/Popup';
-import { acquireConn, releaseConn } from '../../db/connect';
-import { getUserAuthCode, getUserCharacters } from '../../db/user-character';
+import { Database } from '../../db';
 import useSettings from '../../hooks/useSettings';
 import { getServers } from '../../service/servers';
 import { DataCenter } from '../../types/game/DataCenter';
@@ -355,9 +354,8 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   let characters: Partial<UserCharacter>[] = [];
   let verification = '';
   if (session && session.user.id) {
-    const conn = await acquireConn();
     try {
-      characters = (await getUserCharacters(session.user.id, conn)).map((character) => {
+      characters = (await Database.getUserCharacters(session.user.id)).map((character) => {
         const x: Partial<UserCharacter> = character;
         delete x.id;
         delete x.userId;
@@ -365,11 +363,9 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
       });
     } catch (err) {
       console.error(err);
-    } finally {
-      await releaseConn(conn);
     }
 
-    verification = getUserAuthCode(session.user.id);
+    verification = Database.getUserAuthCode(session.user.id);
   }
 
   let dcs: DataCenter[] = [];
