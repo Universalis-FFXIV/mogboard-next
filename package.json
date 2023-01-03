@@ -40,6 +40,7 @@
     "sharp": "^0.30.7",
     "simplebar-react": "^2.4.1",
     "sprintf-js": "^1.1.2",
+    "swr": "^2.0.0",
     "uuid": "^8.3.2"
   },
   "devDependencies": {
