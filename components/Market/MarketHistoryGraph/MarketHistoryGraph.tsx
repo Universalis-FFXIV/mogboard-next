@@ -1,7 +1,8 @@
 import { t } from '@lingui/macro';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import useSWR from 'swr';
 import { sprintf } from 'sprintf-js';
 import { getBaseUrl } from '../../../service/universalis';
 
@@ -139,18 +140,17 @@ function createSalesOptions(data: any[]): Highcharts.Options {
 export default function MarketHistoryGraph({ server, itemId, entries }: MarketHistoryGraphProps) {
   const chartComponentRef = useRef<HighchartsReact.RefObject>(null);
 
-  const [options, setOptions] = useState<Highcharts.Options | null>(null);
-  useEffect(() => {
-    (async () => {
-      const sales = await fetch(
-        `${getBaseUrl()}/history/${server}/${itemId}?entries=${entries ?? 1800}`
-      )
+  const { data: options } = useSWR(
+    `${getBaseUrl()}/history/${server}/${itemId}?entries=${entries ?? 1800}`,
+    (url) =>
+      fetch(url)
         .then((res) => res.json())
-        .then((market) => market.entries.sort((a: any, b: any) => a.timestamp - b.timestamp));
-      setOptions(createSalesOptions(sales));
-      chartComponentRef.current?.chart?.redraw();
-    })();
-  }, [itemId, server, entries]);
+        .then((market) => market.entries.sort((a: any, b: any) => a.timestamp - b.timestamp))
+        .then((sales) => createSalesOptions(sales))
+  );
+  useEffect(() => {
+    chartComponentRef.current?.chart?.redraw();
+  }, [options]);
 
   return (
     <div className="highchart" style={{ width: '100%', height: 320 }}>
