@@ -1,4 +1,4 @@
-import { NextApiRequest, NextApiResponse } from 'next';
+import type { NextApiRequest, NextApiResponse } from 'next';
 import { getCharacter, LodestoneCharacter, searchCharacter } from '../../../../service/lodestone';
 import { Database } from '../../../../db';
 import { authOptions } from '../../auth/[...nextauth]';

@@ -1,4 +1,4 @@
-import { NextApiRequest, NextApiResponse } from 'next';
+import type { NextApiRequest, NextApiResponse } from 'next';
 import { Database } from '../../../../db';
 import { PHPObject } from '../../../../db/PHPObject';
 import { unix } from '../../../../db/util';
