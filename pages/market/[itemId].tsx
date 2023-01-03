@@ -3,15 +3,8 @@ import { GetServerSidePropsContext, NextPage } from 'next';
 import { unstable_getServerSession } from 'next-auth';
 import Head from 'next/head';
 import { useReducer, useState } from 'react';
-import { acquireConn, releaseConn } from '../../db/connect';
-import {
-  createUserList,
-  getUserListCustom,
-  getUserLists,
-  RecentlyViewedList,
-  updateUserListItems,
-  USER_LIST_MAX_ITEMS,
-} from '../../db/user-list';
+import { Database } from '../../db';
+import { RecentlyViewedList, USER_LIST_MAX_ITEMS } from '../../db/user-list';
 import useSettings from '../../hooks/useSettings';
 import { DataCenter } from '../../types/game/DataCenter';
 import { UserList, UserListCustomType } from '../../types/universalis/user';
@@ -281,9 +274,9 @@ function getItemId(query: ParsedUrlQuery): number {
   return parseInt(query.itemId);
 }
 
-async function addToRecentlyViewed(userId: string, itemId: number, conn: Connection) {
+async function addToRecentlyViewed(userId: string, itemId: number) {
   // Add this item to the user's recently-viewed list, creating it if it doesn't exist.
-  const recents = await getUserListCustom(userId, UserListCustomType.RecentlyViewed, conn);
+  const recents = await Database.getUserListCustom(userId, UserListCustomType.RecentlyViewed);
 
   if (recents) {
     const items = new PHPObject();
@@ -293,11 +286,11 @@ async function addToRecentlyViewed(userId: string, itemId: number, conn: Connect
       items.pop();
     }
 
-    await updateUserListItems(userId, recents.id, items, conn);
+    await Database.updateUserListItems(userId, recents.id, items);
   } else {
     const items = new PHPObject();
     items.push(itemId);
-    await createUserList(RecentlyViewedList(uuidv4(), userId, items), conn);
+    await Database.createUserList(RecentlyViewedList(uuidv4(), userId, items));
   }
 }
 
@@ -326,18 +319,15 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
 
   let lists: UserList[] = [];
   if (session && session.user.id) {
-    const conn = await acquireConn();
     try {
       await Promise.all([
-        addToRecentlyViewed(session.user.id!, itemId, conn),
+        addToRecentlyViewed(session.user.id!, itemId),
         (async () => {
-          lists = await getUserLists(session.user.id!, conn);
+          lists = await Database.getUserLists(session.user.id!);
         })(),
       ]);
     } catch (err) {
       console.error(err);
-    } finally {
-      await releaseConn(conn);
     }
   }
 

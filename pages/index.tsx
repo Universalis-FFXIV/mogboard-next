@@ -12,8 +12,7 @@ import UploadCountPanel from '../components/UploadCountPanel/UploadCountPanel';
 import WorldUploadCountsPanel from '../components/WorldUploadCountsPanel/WorldUploadCountsPanel';
 import { City } from '../types/game/City';
 import { UserList } from '../types/universalis/user';
-import { acquireConn, releaseConn } from '../db/connect';
-import * as listsDb from '../db/user-list';
+import { Database } from '../db';
 import { DataCenter } from '../types/game/DataCenter';
 import HomeUserList from '../components/Home/HomeUserList/HomeUserList';
 import { useState } from 'react';
@@ -233,13 +232,10 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
 
   let lists: UserList[] = [];
   if (session?.user?.id) {
-    const conn = await acquireConn();
     try {
-      lists = await listsDb.getUserLists(session.user.id, conn);
+      lists = await Database.getUserLists(session.user.id);
     } catch (err) {
       console.error(err);
-    } finally {
-      await releaseConn(conn);
     }
   }
 
