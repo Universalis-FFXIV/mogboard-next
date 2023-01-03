@@ -1,6 +1,6 @@
 import { t, Trans } from '@lingui/macro';
 import Link from 'next/link';
-import { Suspense, useEffect, useState } from 'react';
+import { Suspense } from 'react';
 import ago from 's-ago';
 import { sprintf } from 'sprintf-js';
 import { getItem, getItemKind, getItemSearchCategories } from '../../../data/game';
@@ -10,6 +10,7 @@ import { DataCenter } from '../../../types/game/DataCenter';
 import { ItemSearchCategory } from '../../../types/game/ItemSearchCategory';
 import { UserList } from '../../../types/universalis/user';
 import GameItemIcon from '../../GameItemIcon/GameItemIcon';
+import useSWR from 'swr';
 
 interface HomeUserListProps {
   dcs: DataCenter[];
@@ -50,21 +51,15 @@ export default function HomeUserList({ dcs, list }: HomeUserListProps) {
 
   const itemIdsStr = list.items.length <= 1 ? `0,${list.items[0]}` : list.items.join();
 
-  const [marketNq, setMarketNq] = useState<any>(null);
-  useEffect(() => {
-    fetch(`${getBaseUrl()}/v2/${dc?.name || 'Chaos'}/${itemIdsStr}?listings=1&entries=0&hq=0`)
-      .then((res) => res.json())
-      .then(setMarketNq)
-      .catch(console.error);
-  }, [dc?.name, itemIdsStr]);
+  const { data: marketNq } = useSWR(
+    `${getBaseUrl()}/v2/${dc?.name || 'Chaos'}/${itemIdsStr}?listings=1&entries=0&hq=0`,
+    (url) => fetch(url).then((res) => res.json())
+  );
 
-  const [marketHq, setMarketHq] = useState<any>(null);
-  useEffect(() => {
-    fetch(`${getBaseUrl()}/v2/${dc?.name || 'Chaos'}/${itemIdsStr}?listings=1&entries=0&hq=1`)
-      .then((res) => res.json())
-      .then(setMarketHq)
-      .catch(console.error);
-  }, [dc?.name, itemIdsStr]);
+  const { data: marketHq } = useSWR(
+    `${getBaseUrl()}/v2/${dc?.name || 'Chaos'}/${itemIdsStr}?listings=1&entries=0&hq=1`,
+    (url) => fetch(url).then((res) => res.json())
+  );
 
   const itemSearchCategories = getItemSearchCategories(lang);
 
