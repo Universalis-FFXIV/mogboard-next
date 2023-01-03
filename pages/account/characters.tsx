@@ -1,69 +1,47 @@
 import { t, Trans } from '@lingui/macro';
-import { GetServerSidePropsContext, NextPage } from 'next';
-import { unstable_getServerSession } from 'next-auth';
+import { NextPage } from 'next';
+import { useSession } from 'next-auth/react';
 import Head from 'next/head';
 import Image from 'next/image';
-import { useReducer, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { sprintf } from 'sprintf-js';
 import AccountLayout from '../../components/AccountLayout/AccountLayout';
 import { usePopup } from '../../components/UniversalisLayout/components/Popup/Popup';
-import { Database } from '../../db';
 import useSettings from '../../hooks/useSettings';
 import { getServers } from '../../service/servers';
-import { DataCenter } from '../../types/game/DataCenter';
 import { UserCharacter } from '../../types/universalis/user';
-import { authOptions } from '../api/auth/[...nextauth]';
-
-type CharacterSimple = Omit<UserCharacter, 'id' | 'userId'>;
-
-interface AccountProps {
-  hasSession: boolean;
-  characters: CharacterSimple[];
-  verification: string;
-  dcs: DataCenter[];
-}
+import useSWR, { useSWRConfig } from 'swr';
+import useSWRImmutable from 'swr/immutable';
 
 type LodestoneParams = { lodestoneId: number } | { world: string; name: string };
 
-type CharactersAction =
-  | { type: 'addCharacter'; character: CharacterSimple }
-  | { type: 'deleteCharacter'; characterId: number; main?: number }
-  | { type: 'setMain'; characterId: number };
-
-const Account: NextPage<AccountProps> = ({ hasSession, characters, verification, dcs }) => {
+const Account: NextPage = () => {
+  const { status: sessionStatus } = useSession();
   const [settings] = useSettings();
 
   const { setPopup } = usePopup();
 
   const submitRef = useRef<HTMLButtonElement>(null);
 
-  const [stateCharacters, dispatch] = useReducer(
-    (state: CharacterSimple[], action: CharactersAction) => {
-      switch (action.type) {
-        case 'addCharacter':
-          if (!state.find((character) => character.lodestoneId === action.character.lodestoneId)) {
-            state.push(action.character);
-          }
-          return state.slice(0);
-        case 'deleteCharacter':
-          const idx = state.findIndex((character) => character.lodestoneId === action.characterId);
-          if (idx !== -1) {
-            state.splice(idx, 1);
-            if (action.main != null) {
-              for (const character of state) {
-                character.main = character.lodestoneId === action.main;
-              }
-            }
-          }
-          return state.slice(0);
-        case 'setMain':
-          for (const character of state) {
-            character.main = character.lodestoneId === action.characterId;
-          }
-          return state.slice(0);
-      }
-    },
-    characters
+  const { mutate } = useSWRConfig();
+  const { data: verification } = useSWR<string>('/api/web/verify-code', (url) =>
+    fetch(url)
+      .then((res) => res.json())
+      .then((res) => res.code)
+  );
+  const { data: characters } = useSWR<UserCharacter[]>('/api/web/characters', (url) =>
+    fetch(url).then((res) => res.json())
+  );
+  const { data: dcs } = useSWRImmutable('$servers', () =>
+    getServers().then((servers) =>
+      servers.dcs
+        .map((dc) => ({
+          name: dc.name,
+          region: dc.region,
+          worlds: dc.worlds.sort((a, b) => a.name.localeCompare(b.name)),
+        }))
+        .sort((a, b) => a.region.localeCompare(b.region))
+    )
   );
 
   const [searching, setSearching] = useState(false);
@@ -121,14 +99,13 @@ const Account: NextPage<AccountProps> = ({ hasSession, characters, verification,
     })
       .then(async (res) => {
         await handleErr(res);
-        const character = await res.json();
         setPopup({
           type: 'success',
           title: 'Character Added!',
           message: 'Your character has been added.',
           isOpen: true,
         });
-        dispatch({ type: 'addCharacter', character });
+        await mutate('/api/web/characters');
       })
       .catch(popupErr)
       .finally(() => {
@@ -147,7 +124,7 @@ const Account: NextPage<AccountProps> = ({ hasSession, characters, verification,
     })
       .then(async (res) => {
         await handleErr(res);
-        dispatch({ type: 'setMain', characterId: data.lodestoneId });
+        await mutate('/api/web/characters');
       })
       .catch(popupErr);
   };
@@ -162,11 +139,7 @@ const Account: NextPage<AccountProps> = ({ hasSession, characters, verification,
     })
       .then(async (res) => {
         await handleErr(res);
-        dispatch({
-          type: 'deleteCharacter',
-          characterId: data.lodestoneId,
-          main: (await res.json()).main,
-        });
+        await mutate('/api/web/characters');
       })
       .catch(popupErr);
   };
@@ -174,21 +147,31 @@ const Account: NextPage<AccountProps> = ({ hasSession, characters, verification,
   const title = 'Characters - Universalis';
   const description =
     'Final Fantasy XIV Online: Market Board aggregator. Find Prices, track Item History and create Price Alerts. Anywhere, anytime.';
+
+  const AccountHead = () => (
+    <Head>
+      <meta property="og:title" content={title} />
+      <meta property="og:description" content={description} />
+      <meta name="description" content={description} />
+      <title>{title}</title>
+    </Head>
+  );
+
+  if (sessionStatus === 'loading') {
+    return <AccountHead />;
+  }
+
+  const hasSession = sessionStatus === 'authenticated';
   return (
     <>
-      <Head>
-        <meta property="og:title" content={title} />
-        <meta property="og:description" content={description} />
-        <meta name="description" content={description} />
-        <title>{title}</title>
-      </Head>
+      <AccountHead />
       <AccountLayout section="characters" hasSession={hasSession}>
         <div className="characters">
           <h1>
             <Trans>Characters</Trans>
           </h1>
           <div className="account-panel">
-            {stateCharacters.map((character) => (
+            {(characters ?? []).map((character) => (
               <div key={character.lodestoneId} className="flex">
                 <div className="flex_10">
                   <div className="character_avatar">
@@ -225,7 +208,7 @@ const Account: NextPage<AccountProps> = ({ hasSession, characters, verification,
                 </div>
               </div>
             ))}
-            {stateCharacters.length === 0 && (
+            {characters != null && characters.length === 0 && (
               <div className="account-none">
                 <Trans>You have no characters, why not add one below!</Trans>
               </div>
@@ -297,7 +280,7 @@ const Account: NextPage<AccountProps> = ({ hasSession, characters, verification,
                     defaultValue={settings['mogboard_server'] || 'Phoenix'}
                     onChange={(e) => setWorld(e.target.value)}
                   >
-                    {dcs.map((dc) => (
+                    {(dcs ?? []).map((dc) => (
                       <optgroup key={dc.name} label={dc.name}>
                         {dc.worlds.map((world) => (
                           <option key={world.id} value={world.name}>
@@ -346,50 +329,5 @@ const Account: NextPage<AccountProps> = ({ hasSession, characters, verification,
     </>
   );
 };
-
-export async function getServerSideProps(ctx: GetServerSidePropsContext) {
-  const session = await unstable_getServerSession(ctx.req, ctx.res, authOptions);
-  const hasSession = !!session;
-
-  let characters: Partial<UserCharacter>[] = [];
-  let verification = '';
-  if (session && session.user.id) {
-    try {
-      characters = (await Database.getUserCharacters(session.user.id)).map((character) => {
-        const x: Partial<UserCharacter> = character;
-        delete x.id;
-        delete x.userId;
-        return x;
-      });
-    } catch (err) {
-      console.error(err);
-    }
-
-    verification = Database.getUserAuthCode(session.user.id);
-  }
-
-  let dcs: DataCenter[] = [];
-  try {
-    const servers = await getServers();
-    dcs = servers.dcs
-      .map((dc) => ({
-        name: dc.name,
-        region: dc.region,
-        worlds: dc.worlds.sort((a, b) => a.name.localeCompare(b.name)),
-      }))
-      .sort((a, b) => a.region.localeCompare(b.region));
-  } catch (err) {
-    console.error(err);
-  }
-
-  return {
-    props: {
-      hasSession,
-      characters,
-      verification,
-      dcs,
-    },
-  };
-}
 
 export default Account;

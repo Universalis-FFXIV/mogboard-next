@@ -1,37 +1,43 @@
 import { Trans } from '@lingui/macro';
-import { GetServerSidePropsContext, NextPage } from 'next';
-import { unstable_getServerSession } from 'next-auth';
+import { NextPage } from 'next';
+import { useSession } from 'next-auth/react';
 import Head from 'next/head';
 import Image from 'next/image';
 import AccountLayout from '../../components/AccountLayout/AccountLayout';
 import useSettings from '../../hooks/useSettings';
-import { authOptions } from '../api/auth/[...nextauth]';
 
-interface UserSimple {
-  name?: string;
-  avatar?: string;
-  email?: string;
-  sso?: string;
-}
-
-interface AccountProps {
-  hasSession: boolean;
-  user: UserSimple;
-}
-
-const Account: NextPage<AccountProps> = ({ hasSession, user }) => {
+const Account: NextPage = () => {
+  const { data: sessionData, status: sessionStatus } = useSession();
   const [settings] = useSettings();
+
+  const user = {
+    name: sessionData?.user.name,
+    avatar: sessionData?.user.image,
+    email: sessionData?.user.email,
+    sso: sessionData?.user.sso,
+  };
+
   const title = 'My Account - Universalis';
   const description =
     'Final Fantasy XIV Online: Market Board aggregator. Find Prices, track Item History and create Price Alerts. Anywhere, anytime.';
+
+  const AccountHead = () => (
+    <Head>
+      <meta property="og:title" content={title} />
+      <meta property="og:description" content={description} />
+      <meta name="description" content={description} />
+      <title>{title}</title>
+    </Head>
+  );
+
+  if (sessionStatus === 'loading') {
+    return <AccountHead />;
+  }
+
+  const hasSession = sessionStatus === 'authenticated';
   return (
     <>
-      <Head>
-        <meta property="og:title" content={title} />
-        <meta property="og:description" content={description} />
-        <meta name="description" content={description} />
-        <title>{title}</title>
-      </Head>
+      <AccountHead />
       <AccountLayout section="account" hasSession={hasSession}>
         <h1>
           <Trans>Account</Trans>
@@ -64,21 +70,5 @@ const Account: NextPage<AccountProps> = ({ hasSession, user }) => {
     </>
   );
 };
-
-export async function getServerSideProps(ctx: GetServerSidePropsContext) {
-  const session = await unstable_getServerSession(ctx.req, ctx.res, authOptions);
-  const hasSession = !!session;
-  return {
-    props: {
-      hasSession,
-      user: {
-        name: session?.user.name,
-        avatar: session?.user.image,
-        email: session?.user.email,
-        sso: session?.user.sso,
-      },
-    },
-  };
-}
 
 export default Account;
