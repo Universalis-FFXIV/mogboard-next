@@ -2,7 +2,7 @@ import { t, Trans } from '@lingui/macro';
 import { GetServerSidePropsContext, NextPage } from 'next';
 import { unstable_getServerSession } from 'next-auth';
 import Head from 'next/head';
-import { useState, useEffect, useRef, useReducer } from 'react';
+import { useState, useRef, useReducer } from 'react';
 import { sprintf } from 'sprintf-js';
 import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary';
 import ListHeader from '../../components/List/ListHeader/ListHeader';
@@ -20,6 +20,7 @@ import { Item } from '../../types/game/Item';
 import { UserList } from '../../types/universalis/user';
 import { authOptions } from '../api/auth/[...nextauth]';
 import useSWR from 'swr';
+import useSWRImmutable from 'swr/immutable';
 
 interface ListProps {
   dcs: DataCenter[];
@@ -30,13 +31,25 @@ interface ListProps {
 
 type ListsAction = { type: 'removeItem'; itemId: number } | { type: 'renameList'; name: string };
 
-const List: NextPage<ListProps> = ({ dcs, list, reqIsOwner, ownerName }) => {
+const List: NextPage<ListProps> = ({ list, reqIsOwner, ownerName }) => {
   const [settings] = useSettings();
   const lang = settings['mogboard_language'] || 'en';
 
   const [newName, setNewName] = useState(list.name);
   const [updating, setUpdating] = useState(false);
   const [renameModalOpen, setRenameModalOpen] = useState(false);
+
+  const { data: dcs } = useSWRImmutable('$servers', () =>
+    getServers().then((servers) =>
+      servers.dcs
+        .map((dc) => ({
+          name: dc.name,
+          region: dc.region,
+          worlds: dc.worlds.sort((a, b) => a.name.localeCompare(b.name)),
+        }))
+        .sort((a, b) => a.region.localeCompare(b.region))
+    )
+  );
 
   const submitRef = useRef<HTMLButtonElement>(null);
 
@@ -114,7 +127,7 @@ const List: NextPage<ListProps> = ({ dcs, list, reqIsOwner, ownerName }) => {
 
   const [showHomeWorld, setShowHomeWorld] = useState(settings['mogboard_homeworld'] === 'yes');
   const world = settings['mogboard_server'] || 'Phoenix';
-  const dc = dcs.find((x) => x.worlds.some((y) => y.name === world));
+  const dc = (dcs ?? []).find((x) => x.worlds.some((y) => y.name === world));
   const server = showHomeWorld ? world : dc?.name ?? 'Chaos';
 
   const itemIds = list.items.length <= 1 ? `0,${list.items[0]}` : list.items.join();
@@ -198,18 +211,6 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
     return { notFound: true };
   }
 
-  let dcs: DataCenter[] = [];
-  try {
-    const servers = await getServers();
-    dcs = servers.dcs.map((dc) => ({
-      name: dc.name,
-      region: dc.region,
-      worlds: dc.worlds.sort((a, b) => a.name.localeCompare(b.name)),
-    }));
-  } catch (err) {
-    console.error(err);
-  }
-
   const session = await unstable_getServerSession(ctx.req, ctx.res, authOptions);
 
   let list: UserList | null = null;
@@ -235,7 +236,7 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   }
 
   return {
-    props: { list, reqIsOwner, ownerName, dcs },
+    props: { list, reqIsOwner, ownerName },
   };
 }
 
