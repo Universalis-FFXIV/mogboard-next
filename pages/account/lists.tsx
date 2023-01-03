@@ -3,30 +3,23 @@ import { GetServerSidePropsContext, NextPage } from 'next';
 import { unstable_getServerSession } from 'next-auth';
 import Head from 'next/head';
 import Link from 'next/link';
-import { useReducer, useState } from 'react';
+import { useState } from 'react';
 import AccountLayout from '../../components/AccountLayout/AccountLayout';
 import GameIcon from '../../components/GameIcon/GameIcon';
 import { usePopup } from '../../components/UniversalisLayout/components/Popup/Popup';
 import { getItem, getItemKind, getItemSearchCategory } from '../../data/game';
-import { Database } from '../../db';
 import useSettings from '../../hooks/useSettings';
 import { Item } from '../../types/game/Item';
 import { UserList } from '../../types/universalis/user';
-import { authOptions } from '../api/auth/[...nextauth]';
-
-interface ListsProps {
-  hasSession: boolean;
-  lists: UserList[];
-}
-
-type ListsAction = { type: 'deleteList'; listId: string };
+import useSWR, { useSWRConfig } from 'swr';
+import { useSession } from 'next-auth/react';
 
 interface ListOverviewProps {
   list: UserList;
   items: Record<number, Item>;
   selected: boolean;
   onSelected: () => void;
-  dispatch: (action: ListsAction) => void;
+  dispatch: () => void;
 }
 
 function ListOverview({ list, items, selected, onSelected, dispatch }: ListOverviewProps) {
@@ -59,7 +52,7 @@ function ListOverview({ list, items, selected, onSelected, dispatch }: ListOverv
     })
       .then(async (res) => {
         await handleErr(res);
-        dispatch({ type: 'deleteList', listId: id });
+        dispatch();
       })
       .catch(popupErr);
   };
@@ -116,22 +109,20 @@ function ListOverview({ list, items, selected, onSelected, dispatch }: ListOverv
   );
 }
 
-const Lists: NextPage<ListsProps> = ({ hasSession, lists }) => {
+const Lists: NextPage = () => {
+  const { status: sessionStatus } = useSession();
+
   const [settings] = useSettings();
   const lang = settings['mogboard_language'] || 'en';
 
-  const [listsState, dispatch] = useReducer((state: UserList[], action: ListsAction) => {
-    const listIdx = state.findIndex((list) => list.id === action.listId);
-    if (listIdx === -1) {
-      return state;
-    }
+  const { mutate } = useSWRConfig();
+  const { data: lists } = useSWR<UserList[]>('/api/web/lists', (url) =>
+    fetch(url).then((res) => res.json())
+  );
 
-    const next = state.slice(0);
-    next.splice(listIdx, 1);
-    return next;
-  }, lists);
+  const [selectedList, setSelectedList] = useState<string | null>(null);
 
-  const items = lists
+  const items = (lists ?? [])
     .map((list) => list.items)
     .flat()
     .reduce<Record<number, Item>>((agg, next) => {
@@ -147,25 +138,33 @@ const Lists: NextPage<ListsProps> = ({ hasSession, lists }) => {
       return { ...agg, ...{ [next]: item } };
     }, {});
 
-  const [selectedList, setSelectedList] = useState<string | null>(null);
-
   const title = 'Lists - Universalis';
   const description =
     'Final Fantasy XIV Online: Market Board aggregator. Find Prices, track Item History and create Price Alerts. Anywhere, anytime.';
+
+  const AccountHead = () => (
+    <Head>
+      <meta property="og:title" content={title} />
+      <meta property="og:description" content={description} />
+      <meta name="description" content={description} />
+      <title>{title}</title>
+    </Head>
+  );
+
+  if (sessionStatus === 'loading') {
+    return <AccountHead />;
+  }
+
+  const hasSession = sessionStatus === 'authenticated';
   return (
     <>
-      <Head>
-        <meta property="og:title" content={title} />
-        <meta property="og:description" content={description} />
-        <meta name="description" content={description} />
-        <title>{title}</title>
-      </Head>
+      <AccountHead />
       <AccountLayout section="lists" hasSession={hasSession}>
         <h5>
           <Trans>Lists</Trans>
         </h5>
         <div className="account-panel">
-          {listsState
+          {(lists ?? [])
             .sort((a, b) => b.updated - a.updated)
             .map((list) => (
               <ListOverview
@@ -180,10 +179,12 @@ const Lists: NextPage<ListsProps> = ({ hasSession, lists }) => {
                     setSelectedList(list.id);
                   }
                 }}
-                dispatch={dispatch}
+                dispatch={() => {
+                  mutate('/api/web/lists');
+                }}
               />
             ))}
-          {listsState.length === 0 && (
+          {lists != null && lists.length === 0 && (
             <div>
               <Trans>You have no lists, visit some items and create some!</Trans>
             </div>
@@ -193,26 +194,5 @@ const Lists: NextPage<ListsProps> = ({ hasSession, lists }) => {
     </>
   );
 };
-
-export async function getServerSideProps(ctx: GetServerSidePropsContext) {
-  const session = await unstable_getServerSession(ctx.req, ctx.res, authOptions);
-  const hasSession = !!session;
-
-  let lists: UserList[] = [];
-  if (session && session.user.id) {
-    try {
-      lists = await Database.getUserLists(session.user.id);
-    } catch (err) {
-      console.error(err);
-    }
-  }
-
-  return {
-    props: {
-      hasSession,
-      lists,
-    },
-  };
-}
 
 export default Lists;
