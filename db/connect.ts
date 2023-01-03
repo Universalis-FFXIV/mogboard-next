@@ -1,5 +1,7 @@
 import mariadb from 'mariadb';
 
+const isDev = process.env['APP_ENV'] !== 'prod';
+
 const port = parseInt(process.env['DATABASE_PORT'] ?? '');
 const connections = parseInt(process.env['DATABASE_CONNECTIONS'] ?? '');
 const pool = mariadb.createPool({
@@ -9,6 +11,7 @@ const pool = mariadb.createPool({
   password: process.env['DATABASE_PASS'] ?? '',
   database: process.env['DATABASE_NAME'] ?? '',
   connectionLimit: connections,
+  trace: isDev,
 });
 
 export function acquireConn() {
