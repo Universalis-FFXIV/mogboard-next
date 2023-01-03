@@ -11,9 +11,7 @@ import ListRenameModal from '../../components/List/ListRenameModal/ListRenameMod
 import { useModalCover } from '../../components/UniversalisLayout/components/ModalCover/ModalCover';
 import { usePopup } from '../../components/UniversalisLayout/components/Popup/Popup';
 import { getItem } from '../../data/game';
-import { acquireConn, releaseConn } from '../../db/connect';
-import * as userDb from '../../db/user';
-import * as listDb from '../../db/user-list';
+import { Database } from '../../db';
 import useSettings from '../../hooks/useSettings';
 import { getServers } from '../../service/servers';
 import { getBaseUrl } from '../../service/universalis';
@@ -225,22 +223,17 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   let ownerName = 'unknown user';
   if (listId != null) {
     try {
-      const conn = await acquireConn();
-      try {
-        list = await listDb.getUserList(listId, conn);
-        if (list == null) {
-          return { notFound: true };
-        }
+      list = await Database.getUserList(listId);
+      if (list == null) {
+        return { notFound: true };
+      }
 
-        if (list.userId != null) {
-          const owner = await userDb.getUser(list.userId, conn);
-          if (owner != null) {
-            reqIsOwner = owner.id === session?.user.id;
-            ownerName = owner.username;
-          }
+      if (list.userId != null) {
+        const owner = await Database.getUser(list.userId);
+        if (owner != null) {
+          reqIsOwner = owner.id === session?.user.id;
+          ownerName = owner.username;
         }
-      } finally {
-        await releaseConn(conn);
       }
     } catch (err) {
       console.error(err);
