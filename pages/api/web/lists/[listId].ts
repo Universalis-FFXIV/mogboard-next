@@ -8,7 +8,7 @@ import {
   MinLength,
   ValidateNested,
 } from 'class-validator';
-import { NextApiRequest, NextApiResponse } from 'next';
+import type { NextApiRequest, NextApiResponse } from 'next';
 import {
   Body,
   createHandler,

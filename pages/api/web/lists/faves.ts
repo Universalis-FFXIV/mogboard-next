@@ -1,4 +1,4 @@
-import { NextApiRequest, NextApiResponse } from 'next';
+import type { NextApiRequest, NextApiResponse } from 'next';
 import { PHPObject } from '../../../../db/PHPObject';
 import { Database } from '../../../../db';
 import { UserListCustomType } from '../../../../types/universalis/user';
