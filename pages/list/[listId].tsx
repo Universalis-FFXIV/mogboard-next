@@ -19,6 +19,7 @@ import { DataCenter } from '../../types/game/DataCenter';
 import { Item } from '../../types/game/Item';
 import { UserList } from '../../types/universalis/user';
 import { authOptions } from '../api/auth/[...nextauth]';
+import useSWR from 'swr';
 
 interface ListProps {
   dcs: DataCenter[];
@@ -118,17 +119,10 @@ const List: NextPage<ListProps> = ({ dcs, list, reqIsOwner, ownerName }) => {
 
   const itemIds = list.items.length <= 1 ? `0,${list.items[0]}` : list.items.join();
 
-  const [market, setMarket] = useState<any>(null);
-  useEffect(() => {
-    if (stateList.items.length === 0 || market) {
-      return;
-    }
-
-    fetch(`${getBaseUrl()}/v2/${server}/${itemIds}?listings=5&entries=5`)
-      .then((res) => res.json())
-      .then(setMarket)
-      .catch(console.error);
-  }, [stateList.items, itemIds, market, server]);
+  const { data: market } = useSWR(
+    `${getBaseUrl()}/v2/${server}/${itemIds}?listings=5&entries=5`,
+    (url) => fetch(url).then((res) => res.json())
+  );
 
   const items = stateList.items.reduce<Record<number, Item>>((agg, next) => {
     const item = getItem(next, lang);
