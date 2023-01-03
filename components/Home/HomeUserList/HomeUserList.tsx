@@ -54,14 +54,16 @@ export default function HomeUserList({ dcs, list }: HomeUserListProps) {
   useEffect(() => {
     fetch(`${getBaseUrl()}/v2/${dc?.name || 'Chaos'}/${itemIdsStr}?listings=1&entries=0&hq=0`)
       .then((res) => res.json())
-      .then(setMarketNq);
+      .then(setMarketNq)
+      .catch(console.error);
   }, [dc?.name, itemIdsStr]);
 
   const [marketHq, setMarketHq] = useState<any>(null);
   useEffect(() => {
     fetch(`${getBaseUrl()}/v2/${dc?.name || 'Chaos'}/${itemIdsStr}?listings=1&entries=0&hq=1`)
       .then((res) => res.json())
-      .then(setMarketHq);
+      .then(setMarketHq)
+      .catch(console.error);
   }, [dc?.name, itemIdsStr]);
 
   const itemSearchCategories = getItemSearchCategories(lang);
