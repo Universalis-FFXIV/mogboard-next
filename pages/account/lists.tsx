@@ -8,8 +8,7 @@ import AccountLayout from '../../components/AccountLayout/AccountLayout';
 import GameIcon from '../../components/GameIcon/GameIcon';
 import { usePopup } from '../../components/UniversalisLayout/components/Popup/Popup';
 import { getItem, getItemKind, getItemSearchCategory } from '../../data/game';
-import { acquireConn, releaseConn } from '../../db/connect';
-import { getUserLists } from '../../db/user-list';
+import { Database } from '../../db';
 import useSettings from '../../hooks/useSettings';
 import { Item } from '../../types/game/Item';
 import { UserList } from '../../types/universalis/user';
@@ -201,13 +200,10 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
 
   let lists: UserList[] = [];
   if (session && session.user.id) {
-    const conn = await acquireConn();
     try {
-      lists = await getUserLists(session.user.id, conn);
+      lists = await Database.getUserLists(session.user.id);
     } catch (err) {
       console.error(err);
-    } finally {
-      await releaseConn(conn);
     }
   }
 
