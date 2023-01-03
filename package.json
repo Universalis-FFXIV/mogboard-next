@@ -27,7 +27,7 @@
     "framer-motion": "^6.3.11",
     "highcharts": "^10.1.0",
     "highcharts-react-official": "^3.1.0",
-    "mariadb": "^3.0.0",
+    "mariadb": "^3.0.2",
     "next": "^12.2.0",
     "next-api-decorators": "^2.0.0",
     "next-auth": "^4.9.0",
