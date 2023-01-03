@@ -23,6 +23,8 @@ import { getBaseUrl } from '../service/universalis';
 import useSWR from 'swr';
 import useSWRImmutable from 'swr/immutable';
 import { useSession } from 'next-auth/react';
+import useDataCenters from '../hooks/useDataCenters';
+import ErrorBoundary from '../components/ErrorBoundary/ErrorBoundary';
 
 function sum(arr: number[], start: number, end: number) {
   return arr.slice(start, end).reduce((a, b) => a + b, 0);
@@ -62,17 +64,7 @@ const Home: NextPage = () => {
 
   const world = settings['mogboard_server'] || 'Phoenix';
 
-  const { data: dcs } = useSWRImmutable('$servers', () =>
-    getServers().then((servers) =>
-      servers.dcs
-        .map((dc) => ({
-          name: dc.name,
-          region: dc.region,
-          worlds: dc.worlds.sort((a, b) => a.name.localeCompare(b.name)),
-        }))
-        .sort((a, b) => a.region.localeCompare(b.region))
-    )
-  );
+  const { data: dcs } = useDataCenters();
 
   const showHomeWorld = settings['mogboard_homeworld'] === 'yes';
   const server = showHomeWorld
@@ -132,7 +124,16 @@ const Home: NextPage = () => {
   );
 
   const { data: lists } = useSWR<UserList[]>('/api/web/lists', (url) =>
-    fetch(url).then((res) => res.json())
+    fetch(url)
+      .then((res) => res.json())
+      .then((res) => {
+        if ('message' in res) {
+          console.warn(res.message);
+          return [];
+        }
+
+        return res;
+      })
   );
 
   const title = 'Universalis';

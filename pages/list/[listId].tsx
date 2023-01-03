@@ -21,6 +21,7 @@ import { UserList } from '../../types/universalis/user';
 import { authOptions } from '../api/auth/[...nextauth]';
 import useSWR from 'swr';
 import useSWRImmutable from 'swr/immutable';
+import useDataCenters from '../../hooks/useDataCenters';
 
 interface ListProps {
   dcs: DataCenter[];
@@ -39,17 +40,7 @@ const List: NextPage<ListProps> = ({ list, reqIsOwner, ownerName }) => {
   const [updating, setUpdating] = useState(false);
   const [renameModalOpen, setRenameModalOpen] = useState(false);
 
-  const { data: dcs } = useSWRImmutable('$servers', () =>
-    getServers().then((servers) =>
-      servers.dcs
-        .map((dc) => ({
-          name: dc.name,
-          region: dc.region,
-          worlds: dc.worlds.sort((a, b) => a.name.localeCompare(b.name)),
-        }))
-        .sort((a, b) => a.region.localeCompare(b.region))
-    )
-  );
+  const { data: dcs } = useDataCenters();
 
   const submitRef = useRef<HTMLButtonElement>(null);
 
