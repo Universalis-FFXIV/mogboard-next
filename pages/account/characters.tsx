@@ -12,6 +12,7 @@ import { getServers } from '../../service/servers';
 import { UserCharacter } from '../../types/universalis/user';
 import useSWR, { useSWRConfig } from 'swr';
 import useSWRImmutable from 'swr/immutable';
+import useDataCenters from '../../hooks/useDataCenters';
 
 type LodestoneParams = { lodestoneId: number } | { world: string; name: string };
 
@@ -32,17 +33,7 @@ const Account: NextPage = () => {
   const { data: characters } = useSWR<UserCharacter[]>('/api/web/characters', (url) =>
     fetch(url).then((res) => res.json())
   );
-  const { data: dcs } = useSWRImmutable('$servers', () =>
-    getServers().then((servers) =>
-      servers.dcs
-        .map((dc) => ({
-          name: dc.name,
-          region: dc.region,
-          worlds: dc.worlds.sort((a, b) => a.name.localeCompare(b.name)),
-        }))
-        .sort((a, b) => a.region.localeCompare(b.region))
-    )
-  );
+  const { data: dcs } = useDataCenters();
 
   const [searching, setSearching] = useState(false);
   const [progressText, setProgressText] = useState('');
