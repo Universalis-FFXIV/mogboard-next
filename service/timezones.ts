@@ -3,6 +3,8 @@ import retry from 'retry-as-promised';
 import { cache } from './cache';
 import { getBaseUrl } from './universalis';
 
+const isDev = process.env['APP_ENV'] !== 'prod';
+
 export interface TimeZone {
   id: string;
   offset: number;
@@ -11,9 +13,9 @@ export interface TimeZone {
 
 export async function getTimeZones(): Promise<TimeZone[]> {
   return retry(getTimeZonesInternal, {
-    max: 3,
-    timeout: 5000,
-    report: (message) => console.warn(message),
+    max: 5,
+    backoffBase: 1000,
+    report: (message) => isDev && console.warn(message),
     name: 'getTimeZones',
   });
 }

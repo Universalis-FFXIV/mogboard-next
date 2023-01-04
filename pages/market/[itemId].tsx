@@ -26,6 +26,9 @@ import MarketRegion from '../../components/Market/MarketRegion/MarketRegion';
 import MarketRegionUpdateTimes from '../../components/Market/MarketRegionUpdateTimes/MarketRegionUpdateTimes';
 import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary';
 import { getBaseUrl } from '../../service/universalis';
+import retry, { Options } from 'retry-as-promised';
+
+const isDev = process.env['APP_ENV'] !== 'prod';
 
 interface MarketProps {
   hasSession: boolean;
@@ -293,6 +296,43 @@ async function addToRecentlyViewed(userId: string, itemId: number) {
   }
 }
 
+const retryOptions: Options = {
+  max: 5,
+  backoffBase: 1000,
+  report: (message) => isDev && console.warn(message),
+  name: '/market/[itemId]#getServerSideProps',
+};
+
+function dummyMarket(itemId: number, worldName?: string, dcName?: string) {
+  return {
+    itemID: itemId,
+    lastUploadTime: 0,
+    listings: [],
+    recentHistory: [],
+    worldName,
+    dcName,
+    currentAveragePrice: 0,
+    currentAveragePriceNQ: 0,
+    currentAveragePriceHQ: 0,
+    regularSaleVelocity: 0,
+    nqSaleVelocity: 0,
+    hqSaleVelocity: 0,
+    averagePrice: 0,
+    averagePriceNQ: 0,
+    averagePriceHQ: 0,
+    minPrice: 0,
+    minPriceNQ: 0,
+    minPriceHQ: 0,
+    maxPrice: 0,
+    maxPriceNQ: 0,
+    maxPriceHQ: 0,
+    stackSizeHistogram: {},
+    stackSizeHistogramNQ: {},
+    stackSizeHistogramHQ: {},
+    worldUploadTimes: {},
+  };
+}
+
 export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   const itemId = getItemId(ctx.query);
   if (isNaN(itemId) || !getItem(itemId, 'en')) {
@@ -343,7 +383,7 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
     dc = dcs.find((x) => x.worlds.some((y) => y.name === 'Phoenix'));
 
     if (!dc) {
-      throw new Error('Data center not found.');
+      throw new Error(`Data center not found for server "${queryServer || homeWorld}".`);
     }
   }
 
@@ -355,10 +395,12 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   for (const world of dc.worlds) {
     marketFetches.push(
       (async () => {
-        const market = await fetch(`${getBaseUrl()}/v2/${world.id}/${itemId}?entries=20`)
-          .then((res) => res.json())
-          .catch(console.error);
-        markets[world.id] = market;
+        const market = await retry(
+          () =>
+            fetch(`${getBaseUrl()}/v2/${world.id}/${itemId}?entries=20`).then((res) => res.json()),
+          retryOptions
+        ).catch(console.error);
+        markets[world.id] = market || dummyMarket(itemId, world.name);
       })()
     );
   }
@@ -366,10 +408,14 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   for (const regionDc of regionDcs) {
     marketFetches.push(
       (async () => {
-        const market = await fetch(`${getBaseUrl()}/v2/${regionDc.name}/${itemId}?entries=20`)
-          .then((res) => res.json())
-          .catch(console.error);
-        markets[regionDc.name] = market;
+        const market = await retry(
+          () =>
+            fetch(`${getBaseUrl()}/v2/${regionDc.name}/${itemId}?entries=20`).then((res) =>
+              res.json()
+            ),
+          retryOptions
+        ).catch(console.error);
+        markets[regionDc.name] = market || dummyMarket(itemId, undefined, regionDc.name);
       })()
     );
   }
