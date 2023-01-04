@@ -1,4 +1,5 @@
 import { differenceInMinutes } from 'date-fns';
+import retry from 'retry-as-promised';
 import { cache } from './cache';
 import { getBaseUrl } from './universalis';
 
@@ -9,6 +10,15 @@ export interface TimeZone {
 }
 
 export async function getTimeZones(): Promise<TimeZone[]> {
+  return retry(getTimeZonesInternal, {
+    max: 3,
+    timeout: 5000,
+    report: (message) => console.warn(message),
+    name: 'getTimeZones',
+  });
+}
+
+async function getTimeZonesInternal(): Promise<TimeZone[]> {
   if (cache.timezones && differenceInMinutes(cache.timezones.cachedAt, new Date()) <= 5) {
     return cache.timezones.value;
   }

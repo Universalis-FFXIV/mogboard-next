@@ -3,6 +3,7 @@ import { DataCenter } from '../types/game/DataCenter';
 import { World } from '../types/game/World';
 import { cache } from './cache';
 import { getBaseUrl } from './universalis';
+import retry from 'retry-as-promised';
 
 export interface Servers {
   dcs: DataCenter[];
@@ -10,6 +11,15 @@ export interface Servers {
 }
 
 export async function getServers(): Promise<Servers> {
+  return retry(getServersInternal, {
+    max: 3,
+    timeout: 5000,
+    report: (message) => console.warn(message),
+    name: 'getServers',
+  });
+}
+
+async function getServersInternal(): Promise<Servers> {
   if (cache.servers && differenceInMinutes(cache.servers.cachedAt, new Date()) <= 5) {
     return cache.servers.value;
   }
