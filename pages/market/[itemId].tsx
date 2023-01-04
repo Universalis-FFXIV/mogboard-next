@@ -21,7 +21,6 @@ import { Cookies } from 'react-cookie';
 import { World } from '../../types/game/World';
 import { getServers } from '../../service/servers';
 import { ParsedUrlQuery } from 'querystring';
-import { Connection } from 'mariadb';
 import MarketServerUpdateTimes from '../../components/Market/MarketServerUpdateTimes/MarketServerUpdateTimes';
 import MarketRegion from '../../components/Market/MarketRegion/MarketRegion';
 import MarketRegionUpdateTimes from '../../components/Market/MarketRegionUpdateTimes/MarketRegionUpdateTimes';

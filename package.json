@@ -36,6 +36,7 @@
     "react-copy-to-clipboard": "^5.1.0",
     "react-dom": "18.2.0",
     "react-icons": "^4.4.0",
+    "retry-as-promised": "^7.0.3",
     "s-ago": "^2.2.0",
     "sharp": "^0.30.7",
     "simplebar-react": "^2.4.1",
