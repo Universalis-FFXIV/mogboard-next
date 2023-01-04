@@ -5,6 +5,8 @@ import { cache } from './cache';
 import { getBaseUrl } from './universalis';
 import retry from 'retry-as-promised';
 
+const isDev = process.env['APP_ENV'] !== 'prod';
+
 export interface Servers {
   dcs: DataCenter[];
   worlds: World[];
@@ -12,9 +14,9 @@ export interface Servers {
 
 export async function getServers(): Promise<Servers> {
   return retry(getServersInternal, {
-    max: 3,
-    timeout: 5000,
-    report: (message) => console.warn(message),
+    max: 5,
+    backoffBase: 1000,
+    report: (message) => isDev && console.warn(message),
     name: 'getServers',
   });
 }
