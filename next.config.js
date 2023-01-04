@@ -7,6 +7,7 @@ const nextConfig = {
   reactStrictMode: true,
   productionBrowserSourceMaps: true,
   images: {
+    minimumCacheTTL: 604800,
     domains: [
       'xivapi.com',
       'universalis-ffxiv.github.io',
