@@ -2,10 +2,10 @@ import '../styles/app.scss';
 import '../styles/font/styles.css';
 import '../styles/font/xivicons.css';
 import 'simplebar/dist/simplebar.min.css';
-import ProgressBar from "@badrap/bar-of-progress";
+import ProgressBar from '@badrap/bar-of-progress';
 import type { AppContext, AppProps } from 'next/app';
 import Head from 'next/head';
-import { useRouter } from "next/router";
+import { useRouter } from 'next/router';
 import UniversalisLayout from '../components/UniversalisLayout/UniversalisLayout';
 import { Cookies, CookiesProvider } from 'react-cookie';
 import { SessionProvider } from 'next-auth/react';
@@ -83,15 +83,15 @@ if (typeof Highcharts === 'object') {
 
 const progress = new ProgressBar({
   size: 2,
-  color: "#fff8ac",
-  className: "mog-progress",
+  color: '#fff8ac',
+  className: 'mog-progress',
   delay: 100,
 });
 
 export default function MyApp({
   Component,
   cookies,
-  pageProps: { session, ...pageProps },
+  pageProps,
 }: AppProps & { cookies: Record<string, string> }) {
   const cookiesObj = new Cookies(cookies);
 
@@ -103,14 +103,14 @@ export default function MyApp({
 
   const router = useRouter();
   useEffect(() => {
-    router.events.on("routeChangeStart", progress.start);
-    router.events.on("routeChangeComplete", progress.finish);
-    router.events.on("routeChangeError", progress.finish);
+    router.events.on('routeChangeStart', progress.start);
+    router.events.on('routeChangeComplete', progress.finish);
+    router.events.on('routeChangeError', progress.finish);
 
     return () => {
-      router.events.off("routeChangeStart", progress.start);
-      router.events.off("routeChangeComplete", progress.finish);
-      router.events.off("routeChangeError", progress.finish);
+      router.events.off('routeChangeStart', progress.start);
+      router.events.off('routeChangeComplete', progress.finish);
+      router.events.off('routeChangeError', progress.finish);
     };
   }, [router]);
 
@@ -121,7 +121,7 @@ export default function MyApp({
       <Head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
-      <SessionProvider session={session}>
+      <SessionProvider>
         <CookiesProvider cookies={cookiesObj}>
           <I18nProvider i18n={i18n} forceRenderOnLocaleChange={false}>
             <PopupProvider popup={popup} setPopup={setPopup}>
