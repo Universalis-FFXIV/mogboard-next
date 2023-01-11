@@ -19,7 +19,7 @@ dotnet run -- -s "C:\Program Files (x86)\SquareEnix\FINAL FANTASY XIV - A Realm 
 
 ## MogboardExporter.CafeMaker
 
-The CafeMaker sub-project exports data from CafeMaker for use in the Chinese version of the website. It is used as followed, from its
+The CafeMaker sub-project exports data from CafeMaker for use in the Chinese version of the website. It is used as follows, from its
 project directory:
 
 ```bash
