@@ -8,6 +8,7 @@ const nextConfig = {
   productionBrowserSourceMaps: true,
   images: {
     minimumCacheTTL: 604800,
+    unoptimized: true,
     domains: [
       'xivapi.com',
       'universalis-ffxiv.github.io',
