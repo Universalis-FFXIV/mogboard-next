@@ -6,7 +6,7 @@ export async function getUserAlerts(
   conn: mariadb.Connection
 ): Promise<UserAlert[]> {
   const rows: Record<string, any>[] = await conn.query(
-    'SELECT id, user_id, item_id, world_id, discord_webhook, trigger_version, trigger FROM users_alerts_next WHERE user_id = ?',
+    'SELECT `id`, `user_id`, `item_id`, `world_id`, `discord_webhook`, `trigger_version`, `trigger` FROM `users_alerts_next` WHERE `user_id` = ?',
     [userId]
   );
   return rows.map(rowToUserAlert);
