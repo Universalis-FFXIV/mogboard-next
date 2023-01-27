@@ -27,21 +27,21 @@ msgstr ""
 msgid "%d / %d items"
 msgstr ""
 
-#: components/Home/HomeUserList/HomeUserList.tsx:89
+#: components/Home/HomeUserList/HomeUserList.tsx:79
 msgid "%d items in this list"
 msgstr ""
 
-#: components/Market/MarketDataCenter/MarketDataCenter.tsx:103
-#: components/Market/MarketDataCenter/MarketDataCenter.tsx:119
-#: components/Market/MarketRegion/MarketRegion.tsx:120
-#: components/Market/MarketRegion/MarketRegion.tsx:138
+#: components/Market/MarketDataCenter/MarketDataCenter.tsx:91
+#: components/Market/MarketDataCenter/MarketDataCenter.tsx:107
+#: components/Market/MarketRegion/MarketRegion.tsx:110
+#: components/Market/MarketRegion/MarketRegion.tsx:128
 msgid "%s Prices"
 msgstr ""
 
-#: components/Market/MarketDataCenter/MarketDataCenter.tsx:137
-#: components/Market/MarketDataCenter/MarketDataCenter.tsx:151
-#: components/Market/MarketRegion/MarketRegion.tsx:158
-#: components/Market/MarketRegion/MarketRegion.tsx:174
+#: components/Market/MarketDataCenter/MarketDataCenter.tsx:125
+#: components/Market/MarketDataCenter/MarketDataCenter.tsx:139
+#: components/Market/MarketRegion/MarketRegion.tsx:148
+#: components/Market/MarketRegion/MarketRegion.tsx:164
 msgid "%s Purchase History"
 msgstr ""
 
@@ -49,21 +49,21 @@ msgstr ""
 msgid "%s is a brand new server"
 msgstr ""
 
-#: components/Market/MarketHistoryGraph/MarketHistoryGraph.tsx:92
-#: components/Market/MarketHistoryGraph/MarketHistoryGraph.tsx:105
+#: components/Market/MarketHistoryGraph/MarketHistoryGraph.tsx:94
+#: components/Market/MarketHistoryGraph/MarketHistoryGraph.tsx:107
 msgid "(%s) PerUnit"
 msgstr ""
 
-#: components/Market/MarketHistoryGraph/MarketHistoryGraph.tsx:118
-#: components/Market/MarketHistoryGraph/MarketHistoryGraph.tsx:127
+#: components/Market/MarketHistoryGraph/MarketHistoryGraph.tsx:120
+#: components/Market/MarketHistoryGraph/MarketHistoryGraph.tsx:129
 msgid "(%s) PerUnit QUANTITY"
 msgstr ""
 
-#: components/Market/MarketDataCenter/MarketDataCenter.tsx:103
-#: components/Market/MarketDataCenter/MarketDataCenter.tsx:119
-#: components/Market/MarketRegion/MarketRegion.tsx:120
-#: components/Market/MarketRegion/MarketRegion.tsx:138
-#: components/Market/MarketWorld/MarketWorld.tsx:54
+#: components/Market/MarketDataCenter/MarketDataCenter.tsx:91
+#: components/Market/MarketDataCenter/MarketDataCenter.tsx:107
+#: components/Market/MarketRegion/MarketRegion.tsx:110
+#: components/Market/MarketRegion/MarketRegion.tsx:128
+#: components/Market/MarketWorld/MarketWorld.tsx:43
 msgid "(Includes 5% GST)"
 msgstr ""
 
@@ -100,7 +100,7 @@ msgstr ""
 msgid "ACT plugin"
 msgstr ""
 
-#: components/UniversalisLayout/components/UniversalisFooter/UniversalisFooter.tsx:18
+#: components/UniversalisLayout/components/UniversalisFooter/UniversalisFooter.tsx:22
 msgid "API Documentation"
 msgstr ""
 
@@ -109,7 +109,7 @@ msgstr ""
 msgid "ARMOR"
 msgstr ""
 
-#: pages/account/characters.tsx:242
+#: pages/account/characters.tsx:215
 msgid "AUTH CODE: %s"
 msgstr ""
 
@@ -118,11 +118,11 @@ msgid "About"
 msgstr ""
 
 #: components/AccountLayout/AccountLayout.tsx:25
-#: pages/account/index.tsx:37
+#: pages/account/index.tsx:43
 msgid "Account"
 msgstr ""
 
-#: pages/account/characters.tsx:240
+#: pages/account/characters.tsx:213
 msgid "Add a new character"
 msgstr ""
 
@@ -175,16 +175,16 @@ msgid "Cannot be sold"
 msgstr ""
 
 #: components/AccountLayout/AccountLayout.tsx:30
-#: pages/account/characters.tsx:189
+#: pages/account/characters.tsx:162
 msgid "Characters"
 msgstr ""
 
-#: components/Home/HomeUserList/HomeUserList.tsx:25
+#: components/Home/HomeUserList/HomeUserList.tsx:27
 #: components/Market/MarketCheapest/MarketCheapest.tsx:14
 msgid "Cheapest %s"
 msgstr ""
 
-#: components/Home/HomeUserList/HomeUserList.tsx:100
+#: components/Home/HomeUserList/HomeUserList.tsx:90
 msgid "Click on the list title to view market information for this list."
 msgstr ""
 
@@ -216,8 +216,8 @@ msgstr ""
 #~ msgid "Cross-World"
 #~ msgstr ""
 
-#: components/Market/MarketDataCenter/MarketDataCenter.tsx:86
-#: components/Market/MarketRegion/MarketRegion.tsx:103
+#: components/Market/MarketDataCenter/MarketDataCenter.tsx:154
+#: components/Market/MarketRegion/MarketRegion.tsx:181
 msgid "Cross-World Purchase history (500 sales)"
 msgstr ""
 
@@ -225,7 +225,7 @@ msgstr ""
 msgid "Current Market Tax Rates on %s"
 msgstr ""
 
-#: pages/list/[listId].tsx:144
+#: pages/list/[listId].tsx:141
 msgid "Custom Universalis list by %s"
 msgstr ""
 
@@ -250,11 +250,11 @@ msgstr ""
 msgid "Default Home World"
 msgstr ""
 
-#: pages/account/lists.tsx:111
+#: pages/account/lists.tsx:103
 msgid "Delete List"
 msgstr ""
 
-#: components/UniversalisLayout/components/UniversalisFooter/UniversalisFooter.tsx:26
+#: components/UniversalisLayout/components/UniversalisFooter/UniversalisFooter.tsx:30
 msgid "Discord"
 msgstr ""
 
@@ -279,7 +279,7 @@ msgstr ""
 msgid "FFXIVQuickLauncher is a faster launcher for FFXIV aims to fix the slowness and tediousness of the regular launcher and adds a lot of QoL features to the game. A Universalis uploader that can be disabled is built into the launcher."
 msgstr ""
 
-#: components/UniversalisLayout/components/UniversalisFooter/UniversalisFooter.tsx:30
+#: components/UniversalisLayout/components/UniversalisFooter/UniversalisFooter.tsx:34
 msgid "FINAL FANTASY XIV © 2010 - 2020 SQUARE ENIX CO., LTD. All Rights Reserved."
 msgstr ""
 
@@ -303,15 +303,15 @@ msgstr ""
 msgid "Game stuff, stealing mogboard"
 msgstr ""
 
-#: components/UniversalisLayout/components/UniversalisFooter/UniversalisFooter.tsx:22
+#: components/UniversalisLayout/components/UniversalisFooter/UniversalisFooter.tsx:26
 msgid "GitHub"
 msgstr ""
 
-#: pages/account/characters.tsx:256
+#: pages/account/characters.tsx:229
 msgid "Go to Lodestone and Login with your character. Then <a href=\"%s\">click here to edit your profile</a>."
 msgstr ""
 
-#: components/Market/MarketWorld/MarketWorld.tsx:71
+#: components/Market/MarketWorld/MarketWorld.tsx:60
 msgid "HISTORY"
 msgstr ""
 
@@ -325,7 +325,7 @@ msgstr ""
 msgid "HQ"
 msgstr ""
 
-#: pages/account/characters.tsx:267
+#: pages/account/characters.tsx:240
 msgid "Hop back to Universalis and fill in the form below. The site will search for your character and confirm your auth code."
 msgstr ""
 
@@ -368,7 +368,7 @@ msgstr ""
 #~ msgid "If you wish to contribute to <strong>Universalis</strong> with your own application, please contact us on our <a href=\"%s\">Discord</a>. Let\\'s work together!"
 #~ msgstr ""
 
-#: pages/account/characters.tsx:263
+#: pages/account/characters.tsx:236
 msgid "In the text box, enter in your <strong>AUTH CODE</strong>, then click on Confirm (twice)."
 msgstr ""
 
@@ -385,7 +385,7 @@ msgid "Item has no HQ variant."
 msgstr ""
 
 #: components/Market/MarketNav/MarketNav.tsx:282
-#: pages/account/lists.tsx:72
+#: pages/account/lists.tsx:64
 msgid "Items:"
 msgstr ""
 
@@ -406,7 +406,7 @@ msgstr ""
 msgid "Last 5 sales"
 msgstr ""
 
-#: components/Home/HomeUserList/HomeUserList.tsx:137
+#: components/Home/HomeUserList/HomeUserList.tsx:127
 #: components/List/ListItemMarket/ListItemMarket.tsx:71
 msgid "Last updated:"
 msgstr ""
@@ -432,19 +432,19 @@ msgstr ""
 msgid "Left Navigation"
 msgstr ""
 
-#: pages/list/[listId].tsx:143
+#: pages/list/[listId].tsx:140
 msgid "List"
 msgstr ""
 
-#: components/Market/MarketDataCenter/MarketDataCenter.tsx:168
-#: components/Market/MarketRegion/MarketRegion.tsx:193
+#: components/Market/MarketDataCenter/MarketDataCenter.tsx:170
+#: components/Market/MarketRegion/MarketRegion.tsx:197
 msgid "Listings"
 msgstr ""
 
 #: components/AccountLayout/AccountLayout.tsx:35
 #: components/Home/HomeNavbar/HomeNavBar.tsx:34
 #: components/Market/MarketNav/MarketNav.tsx:187
-#: pages/account/lists.tsx:166
+#: pages/account/lists.tsx:164
 msgid "Lists"
 msgstr ""
 
@@ -480,7 +480,7 @@ msgstr ""
 msgid "Mat"
 msgstr ""
 
-#: pages/market/[itemId].tsx:170
+#: pages/market/[itemId].tsx:166
 msgid "Menu"
 msgstr ""
 
@@ -488,7 +488,7 @@ msgstr ""
 msgid "My Account"
 msgstr ""
 
-#: pages/account/characters.tsx:278
+#: pages/account/characters.tsx:251
 msgid "Name, ID, or Lodestone URL"
 msgstr ""
 
@@ -497,7 +497,7 @@ msgstr ""
 msgid "No"
 msgstr ""
 
-#: components/Home/HomeUserList/HomeUserList.tsx:26
+#: components/Home/HomeUserList/HomeUserList.tsx:28
 #: components/Market/MarketCheapest/MarketCheapest.tsx:31
 msgid "No %s for sale."
 msgstr ""
@@ -506,7 +506,7 @@ msgstr ""
 msgid "No Listings"
 msgstr ""
 
-#: components/Home/HomeUserList/HomeUserList.tsx:139
+#: components/Home/HomeUserList/HomeUserList.tsx:129
 #: components/Market/MarketRegionUpdateTimes/MarketRegionUpdateTimes.tsx:26
 #: components/Market/MarketServerUpdateTimes/MarketServerUpdateTimes.tsx:21
 msgid "No data"
@@ -516,7 +516,7 @@ msgstr ""
 msgid "No one has contributed any information about this item yet"
 msgstr ""
 
-#: components/Home/HomeUserList/HomeUserList.tsx:129
+#: components/Home/HomeUserList/HomeUserList.tsx:119
 msgid "Not Sellable"
 msgstr ""
 
@@ -537,7 +537,7 @@ msgstr ""
 msgid "Option 2) Use an existing list:"
 msgstr ""
 
-#: components/Market/MarketWorld/MarketWorld.tsx:50
+#: components/Market/MarketWorld/MarketWorld.tsx:39
 msgid "PRICES"
 msgstr ""
 
@@ -546,13 +546,17 @@ msgstr ""
 msgid "Price"
 msgstr ""
 
+#: components/Market/MarketWorld/MarketWorld.tsx:76
+msgid "Purchase history (500 sales)"
+msgstr ""
+
 #: components/ListingsTable/ListingsTable.tsx:208
 #: components/SalesTable/SalesTable.tsx:172
 msgid "QTY"
 msgstr ""
 
 #: components/Market/MarketNav/MarketNav.tsx:288
-#: pages/account/characters.tsx:210
+#: pages/account/characters.tsx:183
 msgid "REMOVE"
 msgstr ""
 
@@ -560,7 +564,7 @@ msgstr ""
 msgid "Really rare!?"
 msgstr ""
 
-#: pages/index.tsx:105
+#: pages/index.tsx:184
 msgid "Recent Updates"
 msgstr ""
 
@@ -581,17 +585,17 @@ msgstr ""
 msgid "Retainer"
 msgstr ""
 
-#: components/Market/MarketDataCenter/MarketDataCenter.tsx:92
-#: components/Market/MarketRegion/MarketRegion.tsx:109
+#: components/Market/MarketDataCenter/MarketDataCenter.tsx:160
+#: components/Market/MarketRegion/MarketRegion.tsx:187
 msgid "STACK SIZE HISTOGRAM"
 msgstr ""
 
-#: components/Market/MarketWorld/MarketWorld.tsx:41
+#: components/Market/MarketWorld/MarketWorld.tsx:83
 msgid "STACK SIZE HISTOGRAM <small>Last 20 Sales</small>"
 msgstr ""
 
-#: components/Market/MarketDataCenter/MarketDataCenter.tsx:180
-#: components/Market/MarketRegion/MarketRegion.tsx:205
+#: components/Market/MarketDataCenter/MarketDataCenter.tsx:182
+#: components/Market/MarketRegion/MarketRegion.tsx:209
 msgid "Sales"
 msgstr ""
 
@@ -600,22 +604,26 @@ msgid "Save Settings"
 msgstr ""
 
 #: components/UniversalisLayout/components/SearchBar/SearchBar.tsx:90
-#: pages/account/characters.tsx:338
+#: pages/account/characters.tsx:311
 msgid "Search"
 msgstr ""
 
 #: components/ListingsTable/ListingsTable.tsx:190
 #: components/SalesTable/SalesTable.tsx:157
-#: pages/account/characters.tsx:292
+#: pages/account/characters.tsx:265
 msgid "Server"
 msgstr ""
 
-#: components/Home/HomeUserList/HomeUserList.tsx:35
+#: components/Home/HomeUserList/HomeUserList.tsx:37
 #: components/Market/MarketCheapest/MarketCheapest.tsx:26
 msgid "Server:"
 msgstr ""
 
-#: pages/account/characters.tsx:224
+#: components/UniversalisLayout/components/UniversalisFooter/UniversalisFooter.tsx:18
+msgid "Service Status"
+msgstr ""
+
+#: pages/account/characters.tsx:197
 msgid "Set character as MAIN."
 msgstr ""
 
@@ -659,7 +667,7 @@ msgstr ""
 msgid "Stack:"
 msgstr ""
 
-#: pages/index.tsx:112
+#: pages/index.tsx:194
 msgid "Thank you!"
 msgstr ""
 
@@ -707,11 +715,11 @@ msgstr ""
 msgid "Timezone"
 msgstr ""
 
-#: pages/account/index.tsx:58
+#: pages/account/index.tsx:64
 msgid "Timezone:"
 msgstr ""
 
-#: pages/account/characters.tsx:249
+#: pages/account/characters.tsx:222
 msgid "To add a new character, you must first add your verification code. <strong>Please add your MAIN character first</strong>."
 msgstr ""
 
@@ -724,7 +732,7 @@ msgstr ""
 msgid "Total"
 msgstr ""
 
-#: components/Home/HomeUserList/HomeUserList.tsx:35
+#: components/Home/HomeUserList/HomeUserList.tsx:37
 #: components/Market/MarketCheapest/MarketCheapest.tsx:27
 msgid "Total:"
 msgstr ""
@@ -737,8 +745,8 @@ msgstr ""
 msgid "Universalis is a market board data site with crowd sourced information, based on mogboard. It can aggregate market board information from multiple sources, so if you want to help out, please check out our contributing page."
 msgstr ""
 
-#: components/Market/MarketWorld/MarketWorld.tsx:53
-#: pages/account/characters.tsx:216
+#: components/Market/MarketWorld/MarketWorld.tsx:42
+#: pages/account/characters.tsx:189
 msgid "Updated:"
 msgstr ""
 
@@ -788,11 +796,11 @@ msgstr ""
 msgid "You can also PM me: <span class=\"text-yellow\">%s</span> if you prefer :)"
 msgstr ""
 
-#: pages/account/characters.tsx:231
+#: pages/account/characters.tsx:204
 msgid "You have no characters, why not add one below!"
 msgstr ""
 
-#: pages/list/[listId].tsx:184
+#: pages/list/[listId].tsx:181
 msgid "You have no items in this list."
 msgstr ""
 

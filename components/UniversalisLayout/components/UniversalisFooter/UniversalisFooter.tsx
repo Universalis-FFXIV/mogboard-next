@@ -14,6 +14,10 @@ const UniversalisFooter = () => {
             </a>
           </Link>
           &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+          <a href="https://status.universalis.app" className="btn-menu">
+            <Trans>Service Status</Trans>
+          </a>
+          &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
           <a href="https://docs.universalis.app" className="btn-menu">
             <Trans>API Documentation</Trans>
           </a>

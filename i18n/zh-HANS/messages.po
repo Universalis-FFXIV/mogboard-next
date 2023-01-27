@@ -32,21 +32,21 @@ msgstr "%d / %d 个物品"
 #~ msgid "%d days"
 #~ msgstr "%s 天"
 
-#: components/Home/HomeUserList/HomeUserList.tsx:89
+#: components/Home/HomeUserList/HomeUserList.tsx:79
 msgid "%d items in this list"
 msgstr "此清单中有 %d 个物品。"
 
-#: components/Market/MarketDataCenter/MarketDataCenter.tsx:103
-#: components/Market/MarketDataCenter/MarketDataCenter.tsx:119
-#: components/Market/MarketRegion/MarketRegion.tsx:120
-#: components/Market/MarketRegion/MarketRegion.tsx:138
+#: components/Market/MarketDataCenter/MarketDataCenter.tsx:91
+#: components/Market/MarketDataCenter/MarketDataCenter.tsx:107
+#: components/Market/MarketRegion/MarketRegion.tsx:110
+#: components/Market/MarketRegion/MarketRegion.tsx:128
 msgid "%s Prices"
 msgstr "%s 价格"
 
-#: components/Market/MarketDataCenter/MarketDataCenter.tsx:137
-#: components/Market/MarketDataCenter/MarketDataCenter.tsx:151
-#: components/Market/MarketRegion/MarketRegion.tsx:158
-#: components/Market/MarketRegion/MarketRegion.tsx:174
+#: components/Market/MarketDataCenter/MarketDataCenter.tsx:125
+#: components/Market/MarketDataCenter/MarketDataCenter.tsx:139
+#: components/Market/MarketRegion/MarketRegion.tsx:148
+#: components/Market/MarketRegion/MarketRegion.tsx:164
 msgid "%s Purchase History"
 msgstr "%s 交易历史"
 
@@ -54,13 +54,13 @@ msgstr "%s 交易历史"
 msgid "%s is a brand new server"
 msgstr "%s 是新服务器"
 
-#: components/Market/MarketHistoryGraph/MarketHistoryGraph.tsx:92
-#: components/Market/MarketHistoryGraph/MarketHistoryGraph.tsx:105
+#: components/Market/MarketHistoryGraph/MarketHistoryGraph.tsx:94
+#: components/Market/MarketHistoryGraph/MarketHistoryGraph.tsx:107
 msgid "(%s) PerUnit"
 msgstr "(%s) 每个"
 
-#: components/Market/MarketHistoryGraph/MarketHistoryGraph.tsx:118
-#: components/Market/MarketHistoryGraph/MarketHistoryGraph.tsx:127
+#: components/Market/MarketHistoryGraph/MarketHistoryGraph.tsx:120
+#: components/Market/MarketHistoryGraph/MarketHistoryGraph.tsx:129
 msgid "(%s) PerUnit QUANTITY"
 msgstr "(%s) 每个数量"
 
@@ -74,11 +74,11 @@ msgstr "(%s) 每个数量"
 #~ msgid "(%s) Price Per Unit QUANTITY"
 #~ msgstr "(%s) 单价数量"
 
-#: components/Market/MarketDataCenter/MarketDataCenter.tsx:103
-#: components/Market/MarketDataCenter/MarketDataCenter.tsx:119
-#: components/Market/MarketRegion/MarketRegion.tsx:120
-#: components/Market/MarketRegion/MarketRegion.tsx:138
-#: components/Market/MarketWorld/MarketWorld.tsx:54
+#: components/Market/MarketDataCenter/MarketDataCenter.tsx:91
+#: components/Market/MarketDataCenter/MarketDataCenter.tsx:107
+#: components/Market/MarketRegion/MarketRegion.tsx:110
+#: components/Market/MarketRegion/MarketRegion.tsx:128
+#: components/Market/MarketWorld/MarketWorld.tsx:43
 msgid "(Includes 5% GST)"
 msgstr ""
 
@@ -179,7 +179,7 @@ msgstr "<strong>Universalis</strong> 提供一个 REST API ，应用程序可以
 msgid "ACT plugin"
 msgstr "ACT 插件"
 
-#: components/UniversalisLayout/components/UniversalisFooter/UniversalisFooter.tsx:18
+#: components/UniversalisLayout/components/UniversalisFooter/UniversalisFooter.tsx:22
 msgid "API Documentation"
 msgstr "API 文档"
 
@@ -188,7 +188,7 @@ msgstr "API 文档"
 msgid "ARMOR"
 msgstr "装备"
 
-#: pages/account/characters.tsx:242
+#: pages/account/characters.tsx:215
 msgid "AUTH CODE: %s"
 msgstr "认证码：%s"
 
@@ -197,7 +197,7 @@ msgid "About"
 msgstr "关于"
 
 #: components/AccountLayout/AccountLayout.tsx:25
-#: pages/account/index.tsx:37
+#: pages/account/index.tsx:43
 msgid "Account"
 msgstr "账号"
 
@@ -211,7 +211,7 @@ msgstr "账号"
 #~ msgid "Add"
 #~ msgstr "添加"
 
-#: pages/account/characters.tsx:240
+#: pages/account/characters.tsx:213
 msgid "Add a new character"
 msgstr "添加角色"
 
@@ -319,11 +319,11 @@ msgid "Cannot be sold"
 msgstr "当前版本无法出售"
 
 #: components/AccountLayout/AccountLayout.tsx:30
-#: pages/account/characters.tsx:189
+#: pages/account/characters.tsx:162
 msgid "Characters"
 msgstr "角色"
 
-#: components/Home/HomeUserList/HomeUserList.tsx:25
+#: components/Home/HomeUserList/HomeUserList.tsx:27
 #: components/Market/MarketCheapest/MarketCheapest.tsx:14
 msgid "Cheapest %s"
 msgstr "%s 最低价"
@@ -333,7 +333,7 @@ msgstr "%s 最低价"
 #~ msgid "Check entire Data Center"
 #~ msgstr ""
 
-#: components/Home/HomeUserList/HomeUserList.tsx:100
+#: components/Home/HomeUserList/HomeUserList.tsx:90
 msgid "Click on the list title to view market information for this list."
 msgstr "单击清单标题以查看此清单的市场信息。"
 
@@ -375,8 +375,8 @@ msgstr "致谢"
 #~ msgid "Cross-World"
 #~ msgstr "跨服"
 
-#: components/Market/MarketDataCenter/MarketDataCenter.tsx:86
-#: components/Market/MarketRegion/MarketRegion.tsx:103
+#: components/Market/MarketDataCenter/MarketDataCenter.tsx:154
+#: components/Market/MarketRegion/MarketRegion.tsx:181
 msgid "Cross-World Purchase history (500 sales)"
 msgstr "跨服交易数据（500条）"
 
@@ -394,7 +394,7 @@ msgstr "当前 %s 的市场税率"
 #~ msgid "Current alerts for: %s"
 #~ msgstr "当前的提醒：%s"
 
-#: pages/list/[listId].tsx:144
+#: pages/list/[listId].tsx:141
 msgid "Custom Universalis list by %s"
 msgstr "%s 的自定义 Universalis 清单"
 
@@ -429,11 +429,11 @@ msgstr "原始服务器"
 #~ msgid "Delete"
 #~ msgstr "删除"
 
-#: pages/account/lists.tsx:111
+#: pages/account/lists.tsx:103
 msgid "Delete List"
 msgstr "删除清单"
 
-#: components/UniversalisLayout/components/UniversalisFooter/UniversalisFooter.tsx:26
+#: components/UniversalisLayout/components/UniversalisFooter/UniversalisFooter.tsx:30
 msgid "Discord"
 msgstr "Discord"
 
@@ -483,7 +483,7 @@ msgstr "FFXIV Teamcraft是适用于最终幻想14玩家的工具，可帮助整�
 msgid "FFXIVQuickLauncher is a faster launcher for FFXIV aims to fix the slowness and tediousness of the regular launcher and adds a lot of QoL features to the game. A Universalis uploader that can be disabled is built into the launcher."
 msgstr ""
 
-#: components/UniversalisLayout/components/UniversalisFooter/UniversalisFooter.tsx:30
+#: components/UniversalisLayout/components/UniversalisFooter/UniversalisFooter.tsx:34
 msgid "FINAL FANTASY XIV © 2010 - 2020 SQUARE ENIX CO., LTD. All Rights Reserved."
 msgstr "FINAL FANTASY XIV © 2010 - 2020 SQUARE ENIX CO., LTD. All Rights Reserved."
 
@@ -527,7 +527,7 @@ msgstr "游戏相关，偷 mogboard 代码"
 #~ msgid "Gil Per Token"
 #~ msgstr "每个代币的价格"
 
-#: components/UniversalisLayout/components/UniversalisFooter/UniversalisFooter.tsx:22
+#: components/UniversalisLayout/components/UniversalisFooter/UniversalisFooter.tsx:26
 msgid "GitHub"
 msgstr "GitHub"
 
@@ -536,11 +536,11 @@ msgstr "GitHub"
 #~ msgid "Give your alert a name (length: 4-100)"
 #~ msgstr "给您的提醒起个名字（长度：4-100）"
 
-#: pages/account/characters.tsx:256
+#: pages/account/characters.tsx:229
 msgid "Go to Lodestone and Login with your character. Then <a href=\"%s\">click here to edit your profile</a>."
 msgstr "转到 Lodestone 并使用您的角色登录。 然后<a href=\"%s\">单击此处编辑您的个人资料</a>。"
 
-#: components/Market/MarketWorld/MarketWorld.tsx:71
+#: components/Market/MarketWorld/MarketWorld.tsx:60
 msgid "HISTORY"
 msgstr ""
 
@@ -569,7 +569,7 @@ msgstr "HQ"
 #~ msgid "High-Quality"
 #~ msgstr "优质"
 
-#: pages/account/characters.tsx:267
+#: pages/account/characters.tsx:240
 msgid "Hop back to Universalis and fill in the form below. The site will search for your character and confirm your auth code."
 msgstr "跳回 Universalis 并填写以下表格。 该站点将搜索您的角色并确认您的身份认证码。"
 
@@ -627,7 +627,7 @@ msgstr "如果您希望使用自己的应用程序为 <strong>Universalis</stron
 #~ msgid "If you wish to contribute to <strong>Universalis</strong> with your own application, please contact us on our <a href=\"%s\">Discord</a>. Let\\'s work together!"
 #~ msgstr "如果您希望使用自己的应用程序为 <strong>Universalis</strong> 做出贡献，请通过我们的 <a href=\"%s\">Discord</a> 与我们联系。一起搞事吧！"
 
-#: pages/account/characters.tsx:263
+#: pages/account/characters.tsx:236
 msgid "In the text box, enter in your <strong>AUTH CODE</strong>, then click on Confirm (twice)."
 msgstr "在文本框中，输入您的<strong>认证码</strong>，然后单击“确认”（两次）。"
 
@@ -654,7 +654,7 @@ msgid "Item has no HQ variant."
 msgstr "该物品没有HQ版本。"
 
 #: components/Market/MarketNav/MarketNav.tsx:282
-#: pages/account/lists.tsx:72
+#: pages/account/lists.tsx:64
 msgid "Items:"
 msgstr "物品："
 
@@ -690,7 +690,7 @@ msgstr "过去5次售卖"
 #~ msgid "Last Triggered Event: %s"
 #~ msgstr "上一个触发的事件： %s"
 
-#: components/Home/HomeUserList/HomeUserList.tsx:137
+#: components/Home/HomeUserList/HomeUserList.tsx:127
 #: components/List/ListItemMarket/ListItemMarket.tsx:71
 msgid "Last updated:"
 msgstr "上次更新："
@@ -716,19 +716,19 @@ msgstr ""
 msgid "Left Navigation"
 msgstr "左侧导航"
 
-#: pages/list/[listId].tsx:143
+#: pages/list/[listId].tsx:140
 msgid "List"
 msgstr "清单"
 
-#: components/Market/MarketDataCenter/MarketDataCenter.tsx:168
-#: components/Market/MarketRegion/MarketRegion.tsx:193
+#: components/Market/MarketDataCenter/MarketDataCenter.tsx:170
+#: components/Market/MarketRegion/MarketRegion.tsx:197
 msgid "Listings"
 msgstr ""
 
 #: components/AccountLayout/AccountLayout.tsx:35
 #: components/Home/HomeNavbar/HomeNavBar.tsx:34
 #: components/Market/MarketNav/MarketNav.tsx:187
-#: pages/account/lists.tsx:166
+#: pages/account/lists.tsx:164
 msgid "Lists"
 msgstr "清单"
 
@@ -794,7 +794,7 @@ msgstr "材料"
 #~ msgid "Max: %d"
 #~ msgstr "最大：%d"
 
-#: pages/market/[itemId].tsx:170
+#: pages/market/[itemId].tsx:166
 msgid "Menu"
 msgstr "菜单"
 
@@ -817,7 +817,7 @@ msgstr "账号"
 #~ msgid "Name"
 #~ msgstr "名称"
 
-#: pages/account/characters.tsx:278
+#: pages/account/characters.tsx:251
 msgid "Name, ID, or Lodestone URL"
 msgstr "姓名，ID，或 Lodestone 地址"
 
@@ -836,7 +836,7 @@ msgstr "姓名，ID，或 Lodestone 地址"
 msgid "No"
 msgstr "否"
 
-#: components/Home/HomeUserList/HomeUserList.tsx:26
+#: components/Home/HomeUserList/HomeUserList.tsx:28
 #: components/Market/MarketCheapest/MarketCheapest.tsx:31
 msgid "No %s for sale."
 msgstr "没有在售的 %s 。"
@@ -845,7 +845,7 @@ msgstr "没有在售的 %s 。"
 msgid "No Listings"
 msgstr "没有清单"
 
-#: components/Home/HomeUserList/HomeUserList.tsx:139
+#: components/Home/HomeUserList/HomeUserList.tsx:129
 #: components/Market/MarketRegionUpdateTimes/MarketRegionUpdateTimes.tsx:26
 #: components/Market/MarketServerUpdateTimes/MarketServerUpdateTimes.tsx:21
 msgid "No data"
@@ -865,7 +865,7 @@ msgstr "没有人给该物品上传过数据"
 #~ msgid "Normal Quality"
 #~ msgstr "普通品质"
 
-#: components/Home/HomeUserList/HomeUserList.tsx:129
+#: components/Home/HomeUserList/HomeUserList.tsx:119
 msgid "Not Sellable"
 msgstr "不可出售"
 
@@ -891,7 +891,7 @@ msgstr "选项 1) 创建新清单"
 msgid "Option 2) Use an existing list:"
 msgstr "选项 2) 使用已存在的清单"
 
-#: components/Market/MarketWorld/MarketWorld.tsx:50
+#: components/Market/MarketWorld/MarketWorld.tsx:39
 msgid "PRICES"
 msgstr "价格"
 
@@ -920,6 +920,10 @@ msgstr "价格"
 #~ msgid "Purchasable from NPC Vendors"
 #~ msgstr "可从NPC处购买"
 
+#: components/Market/MarketWorld/MarketWorld.tsx:76
+msgid "Purchase history (500 sales)"
+msgstr ""
+
 #: components/ListingsTable/ListingsTable.tsx:208
 #: components/SalesTable/SalesTable.tsx:172
 msgid "QTY"
@@ -936,7 +940,7 @@ msgstr "数量"
 #~ msgstr "数量"
 
 #: components/Market/MarketNav/MarketNav.tsx:288
-#: pages/account/characters.tsx:210
+#: pages/account/characters.tsx:183
 msgid "REMOVE"
 msgstr "删除"
 
@@ -944,7 +948,7 @@ msgstr "删除"
 msgid "Really rare!?"
 msgstr "十分稀有！？"
 
-#: pages/index.tsx:105
+#: pages/index.tsx:184
 msgid "Recent Updates"
 msgstr "最近更新"
 
@@ -985,17 +989,17 @@ msgstr "雇员"
 #~ msgid "Retainers"
 #~ msgstr "雇员"
 
-#: components/Market/MarketDataCenter/MarketDataCenter.tsx:92
-#: components/Market/MarketRegion/MarketRegion.tsx:109
+#: components/Market/MarketDataCenter/MarketDataCenter.tsx:160
+#: components/Market/MarketRegion/MarketRegion.tsx:187
 msgid "STACK SIZE HISTOGRAM"
 msgstr ""
 
-#: components/Market/MarketWorld/MarketWorld.tsx:41
+#: components/Market/MarketWorld/MarketWorld.tsx:83
 msgid "STACK SIZE HISTOGRAM <small>Last 20 Sales</small>"
 msgstr "组数直方图 <small>最近20次销售</small>"
 
-#: components/Market/MarketDataCenter/MarketDataCenter.tsx:180
-#: components/Market/MarketRegion/MarketRegion.tsx:205
+#: components/Market/MarketDataCenter/MarketDataCenter.tsx:182
+#: components/Market/MarketRegion/MarketRegion.tsx:209
 msgid "Sales"
 msgstr ""
 
@@ -1009,7 +1013,7 @@ msgid "Save Settings"
 msgstr "保存设置"
 
 #: components/UniversalisLayout/components/SearchBar/SearchBar.tsx:90
-#: pages/account/characters.tsx:338
+#: pages/account/characters.tsx:311
 msgid "Search"
 msgstr "搜索"
 
@@ -1035,16 +1039,20 @@ msgstr "搜索"
 
 #: components/ListingsTable/ListingsTable.tsx:190
 #: components/SalesTable/SalesTable.tsx:157
-#: pages/account/characters.tsx:292
+#: pages/account/characters.tsx:265
 msgid "Server"
 msgstr "服务器"
 
-#: components/Home/HomeUserList/HomeUserList.tsx:35
+#: components/Home/HomeUserList/HomeUserList.tsx:37
 #: components/Market/MarketCheapest/MarketCheapest.tsx:26
 msgid "Server:"
 msgstr "服务器："
 
-#: pages/account/characters.tsx:224
+#: components/UniversalisLayout/components/UniversalisFooter/UniversalisFooter.tsx:18
+msgid "Service Status"
+msgstr ""
+
+#: pages/account/characters.tsx:197
 msgid "Set character as MAIN."
 msgstr "设定角色为主要角色。"
 
@@ -1113,7 +1121,7 @@ msgstr "特别感谢"
 msgid "Stack:"
 msgstr "每组个数："
 
-#: pages/index.tsx:112
+#: pages/index.tsx:194
 msgid "Thank you!"
 msgstr "感谢您！"
 
@@ -1166,11 +1174,11 @@ msgstr "默认情况下，这将显示您的原始服务器的价格/历史，�
 msgid "Timezone"
 msgstr "时区"
 
-#: pages/account/index.tsx:58
+#: pages/account/index.tsx:64
 msgid "Timezone:"
 msgstr ""
 
-#: pages/account/characters.tsx:249
+#: pages/account/characters.tsx:222
 msgid "To add a new character, you must first add your verification code. <strong>Please add your MAIN character first</strong>."
 msgstr "要添加新字符，您必须首先添加认证码。 <strong>请先添加您的主要角色</strong>。"
 
@@ -1188,7 +1196,7 @@ msgstr ""
 msgid "Total"
 msgstr "总计"
 
-#: components/Home/HomeUserList/HomeUserList.tsx:35
+#: components/Home/HomeUserList/HomeUserList.tsx:37
 #: components/Market/MarketCheapest/MarketCheapest.tsx:27
 msgid "Total:"
 msgstr "总计："
@@ -1226,8 +1234,8 @@ msgstr "Universalis 无法在找到服务器 %s 中这个物品的市场数据�
 msgid "Universalis is a market board data site with crowd sourced information, based on mogboard. It can aggregate market board information from multiple sources, so if you want to help out, please check out our contributing page."
 msgstr "Universalis 是一个市场布告板数据统计站，其中包含基于 mogboard 的众多来源的市场数据。 它可以汇总来自多个来源的市场交易板信息，因此，如果您想提供帮助，请查看我们的“贡献数据”页面。"
 
-#: components/Market/MarketWorld/MarketWorld.tsx:53
-#: pages/account/characters.tsx:216
+#: components/Market/MarketWorld/MarketWorld.tsx:42
+#: pages/account/characters.tsx:189
 msgid "Updated:"
 msgstr "更新于："
 
@@ -1347,11 +1355,11 @@ msgstr "您也可以私聊我： <span class=\"text-yellow\">%s</span> 如果您
 #~ msgid "You have no alerts set up."
 #~ msgstr "您没有设置任何提醒。"
 
-#: pages/account/characters.tsx:231
+#: pages/account/characters.tsx:204
 msgid "You have no characters, why not add one below!"
 msgstr "您没有声明角色，快来添加一个！"
 
-#: pages/list/[listId].tsx:184
+#: pages/list/[listId].tsx:181
 msgid "You have no items in this list."
 msgstr "此清单中没有物品"
 
