@@ -1,9 +1,9 @@
-version: "2.4"
+version: '2.4'
 services:
   mariadb:
     image: mariadb:10.3.32
     ports:
-      - "4003:3306"
+      - '4003:3306'
     environment:
       MYSQL_ROOT_PASSWORD: password
       MYSQL_DATABASE: dalamud
@@ -11,7 +11,10 @@ services:
       MYSQL_PASSWORD: dalamud
     volumes:
       - ./sqlinit:/docker-entrypoint-initdb.d
-  lodestone:
-    image: ghcr.io/universalis-ffxiv/lodestone:latest
-    ports:
-      - "5022:3999"
+  alerts:
+    image: ghcr.io/universalis-ffxiv/universalis-alerts:main
+    restart: always
+    environment:
+      UNIVERSALIS_ALERTS_DB: mysql://dalamud:dalamud@mariadb:3306/dalamud
+      UNIVERSALIS_ALERTS_WS: wss://universalis.app/api/ws
+      UNIVERSALIS_ALERTS_CHANNEL: listings/add{world=74}
