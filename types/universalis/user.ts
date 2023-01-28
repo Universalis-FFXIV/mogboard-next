@@ -62,6 +62,8 @@ export type TriggerMapper = 'pricePerUnit';
 
 export type TriggerReducer = 'min' | 'max' | 'mean';
 
+export type ComparisonType = 'lt' | 'gt';
+
 export type Comparison = { lt: { target: number } } | { gt: { target: number } };
 
 export interface UserAlertTrigger {
