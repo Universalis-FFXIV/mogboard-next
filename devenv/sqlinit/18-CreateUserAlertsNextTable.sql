@@ -6,7 +6,7 @@ CREATE TABLE `users_alerts_next` (
   `world_id` INT NOT NULL,
   `discord_webhook` TEXT DEFAULT NULL,
   `trigger_version` INT NOT NULL,
-  `trigger` TEXT NOT NULL,
+  `trigger` LONGTEXT NOT NULL,
   PRIMARY KEY (`id`),
   KEY (`item_id`, `world_id`, `trigger_version`),
   CONSTRAINT `FK_user_id_users_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
