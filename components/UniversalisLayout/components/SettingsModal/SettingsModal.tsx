@@ -5,6 +5,7 @@ import { getTimeZones, TimeZone } from '../../../../service/timezones';
 import useClickOutside from '../../../../hooks/useClickOutside';
 import useSettings from '../../../../hooks/useSettings';
 import ErrorBoundary from '../../../ErrorBoundary/ErrorBoundary';
+import WorldOption from '../../../WorldOption/WorldOption';
 
 interface SettingsModalProps {
   isOpen: boolean;
@@ -24,30 +25,15 @@ export default function SettingsModal({ isOpen, closeModal, onSave }: SettingsMo
     settings['mogboard_homeworld'] ?? 'no'
   );
 
-  const [settingsData, setSettingsData] = useState<
-    Omit<Servers & { timezones: TimeZone[] }, 'worlds'>
-  >({
-    dcs: [],
+  const [settingsData, setSettingsData] = useState<{ timezones: TimeZone[] }>({
     timezones: [],
   });
   useEffect(() => {
     (async () => {
       const timezones = await getTimeZones();
-      const { dcs } = await getServers();
-      setSettingsData({
-        dcs: dcs.sort((a, b) => a.region.localeCompare(b.region)),
-        ...{ timezones },
-      });
+      setSettingsData({ timezones });
     })();
   }, []);
-
-  const regionNameMapping = getServerRegionNameMap({
-    europe: t`Europe`,
-    japan: t`Japan`,
-    america: t`America`,
-    oceania: t`Oceania`,
-    china: t`中国`,
-  });
 
   return (
     <div ref={modalRef} className={`modal modal_settings ${isOpen ? 'open' : ''}`}>
@@ -63,32 +49,7 @@ export default function SettingsModal({ isOpen, closeModal, onSave }: SettingsMo
                 <Trans>Your Server</Trans>
               </label>
               <div className="form">
-                <select
-                  value={server}
-                  id="servers"
-                  className="servers"
-                  onChange={(e) => {
-                    if (server !== e.target.value) {
-                      setServer(e.target.value);
-                    }
-                  }}
-                >
-                  <option disabled value="">
-                    <Trans>- Please Choose a Server -</Trans>
-                  </option>
-                  {settingsData.dcs.map(({ name, region, worlds }) => (
-                    <optgroup
-                      key={name}
-                      label={`${name} - ${regionNameMapping.get(region) ?? t`(Unknown)`}`}
-                    >
-                      {worlds.map((world) => (
-                        <option key={world.id} value={world.name}>
-                          {world.name}
-                        </option>
-                      ))}
-                    </optgroup>
-                  ))}
-                </select>
+                <WorldOption value={server} setValue={setServer} />
               </div>
             </div>
 

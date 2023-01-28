@@ -21,6 +21,7 @@ import LoggedIn from '../../LoggedIn/LoggedIn';
 import { useModalCover } from '../../UniversalisLayout/components/ModalCover/ModalCover';
 import { usePopup } from '../../UniversalisLayout/components/Popup/Popup';
 import cloneDeep from 'lodash.clonedeep';
+import WorldOption from '../../WorldOption/WorldOption';
 
 export type ListsDispatchAction =
   | { type: 'updateAllLists'; lists: UserList[] }
@@ -192,8 +193,13 @@ function AlertsModal({ isOpen, close }: AlertsModalProps) {
     return <></>;
   }
 
+  const worldIds = Object.keys(worlds).reduce<Record<string, number>>(
+    (agg, next) => ({ ...agg, [worlds[parseInt(next)].name]: parseInt(next) }),
+    {}
+  );
+
   return (
-    <div className={`modal list_modal ${isOpen ? 'open' : ''}`}>
+    <div className={`modal ${isOpen ? 'open' : ''}`}>
       <button type="button" className="modal_close_button" onClick={close}>
         <i className="xiv-NavigationClose"></i>
       </button>
@@ -209,9 +215,22 @@ function AlertsModal({ isOpen, close }: AlertsModalProps) {
           </p>
           {alertBuilders.toArray().map((alert, i) => (
             <div key={i}>
-              {worlds[alert.world()].name}
+              <span>
+                <Trans>World:</Trans>
+              </span>
+              <WorldOption
+                value={worlds[alert.world()].name}
+                setValue={(world) => {
+                  console.log(world);
+                  alert.setWorld(worldIds[world]);
+                }}
+              />
+              <br />
+              <span>
+                <Trans>Filters:</Trans>
+              </span>
               {alert.filters.length > 0 &&
-                alert.filters.map((filter) => (
+                alert.filters.map((filter, j) => (
                   <React.Fragment key={filter}>
                     <button
                       onClick={(e) => {
@@ -219,7 +238,7 @@ function AlertsModal({ isOpen, close }: AlertsModalProps) {
                         alert.removeFilter(filter);
                       }}
                     >
-                      Remove
+                      <Trans>Remove</Trans>
                     </button>
                     <select
                       onChange={(e) => {
@@ -235,6 +254,7 @@ function AlertsModal({ isOpen, close }: AlertsModalProps) {
                         </option>
                       ))}
                     </select>
+                    {j !== alert.filters.length - 1 && <br />}
                   </React.Fragment>
                 ))}
               {alert.getRemainingFilters().length > 0 && (
@@ -249,28 +269,52 @@ function AlertsModal({ isOpen, close }: AlertsModalProps) {
                   ))}
                 </select>
               )}
+              <br />
+              <span>
+                <Trans>Map to:</Trans>
+              </span>
               <select
                 value={alert.mapper}
                 onChange={(e) => alert.setMapper(e.target.value as TriggerMapper)}
               >
-                <option value="pricePerUnit">Unit price</option>
+                <option value="pricePerUnit">
+                  <Trans>Unit price</Trans>
+                </option>
               </select>
+              <br />
+              <span>
+                <Trans>Calculate:</Trans>
+              </span>
               <select
                 value={alert.reducer}
                 onChange={(e) => alert.setReducer(e.target.value as TriggerReducer)}
               >
-                <option value="min">Min</option>
-                <option value="max">Max</option>
-                <option value="mean">Mean</option>
+                <option value="min">
+                  <Trans>Min</Trans>
+                </option>
+                <option value="max">
+                  <Trans>Max</Trans>
+                </option>
+                <option value="mean">
+                  <Trans>Mean</Trans>
+                </option>
               </select>
+              <br />
+              <span>
+                <Trans>Compare:</Trans>
+              </span>
               <select
                 value={alert.comparisonType()}
                 onChange={(e) =>
                   alert.setComparison(e.target.value as ComparisonType, alert.comparisonTarget())
                 }
               >
-                <option value="lt">Less than</option>
-                <option value="gt">Greater than</option>
+                <option value="lt">
+                  <Trans>Less than</Trans>
+                </option>
+                <option value="gt">
+                  <Trans>Greater than</Trans>
+                </option>
               </select>
               <input
                 type="text"
@@ -283,6 +327,9 @@ function AlertsModal({ isOpen, close }: AlertsModalProps) {
                 }}
               ></input>
               <br />
+              <span>
+                <Trans>Webhook:</Trans>
+              </span>
               <input
                 type="text"
                 value={alert.transports.discordWebhook ?? ''}
