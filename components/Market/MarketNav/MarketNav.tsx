@@ -340,14 +340,16 @@ export default function MarketNav({ hasSession, lists, dispatch, itemId }: Marke
         </div>
       </div>
       <LoggedIn hasSession={hasSession}>
-        <ListsModal
-          lists={lists}
-          dispatch={dispatch}
-          itemId={itemId}
-          isOpen={listsModalOpen}
-          close={closeListsModal}
-        />
-        <AlertsModal isOpen={alertsModalOpen} close={closeAlertsModal} />
+        {listsModalOpen && (
+          <ListsModal
+            lists={lists}
+            dispatch={dispatch}
+            itemId={itemId}
+            isOpen={listsModalOpen}
+            close={closeListsModal}
+          />
+        )}
+        {alertsModalOpen && <AlertsModal isOpen={alertsModalOpen} close={closeAlertsModal} />}
       </LoggedIn>
     </div>
   );

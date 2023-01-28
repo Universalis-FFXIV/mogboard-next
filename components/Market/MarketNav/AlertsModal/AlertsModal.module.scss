@@ -21,3 +21,32 @@
 .alertEditorWebhook {
   min-width: 500px;
 }
+
+.btnSave {
+  height: 38px;
+  min-width: 80px;
+  line-height: 38px;
+  font-size: 16px;
+  text-shadow: 0 1px 2px rgb(0 0 0 / 80%);
+  box-shadow: 0 1px 3px rgb(0 0 0 / 50%);
+  padding: 0 10px;
+  background-color: var(--table-color);
+  border-radius: 3px;
+
+  margin-top: 4px;
+
+  &:hover {
+    background-color: var(--table-color-2x);
+  }
+
+  &.btnSave {
+    &.on {
+      background-color: var(--green-2x);
+    }
+  }
+
+  i {
+    margin-bottom: -3px;
+    margin-right: 5px;
+  }
+}

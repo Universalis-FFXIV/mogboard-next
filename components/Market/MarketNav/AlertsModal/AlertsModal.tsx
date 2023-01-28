@@ -14,7 +14,8 @@ import {
   UserAlert,
   UserAlertTrigger,
 } from '../../../../types/universalis/user';
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useRef } from 'react';
+import { usePopup } from '../../../UniversalisLayout/components/Popup/Popup';
 
 interface TriggerTransports {
   discordWebhook: string | null;
@@ -131,26 +132,29 @@ class AlertBuilder implements UserAlertTrigger {
   }
 
   async save() {
-    try {
-      return await fetch(`/api/web/alerts/${this.alert.id}`, {
-        method: 'PUT',
-        body: JSON.stringify({
-          itemId: this.alert.itemId,
-          worldId: this.alert.worldId,
-          discordWebhook: this.transports.discordWebhook,
-          triggerVersion: 0,
-          trigger: {
-            filters: this.filters,
-            mapper: this.mapper,
-            reducer: this.reducer,
-            comparison: this.comparison,
-          },
-        } as Omit<UserAlert, 'id' | 'userId'>),
-        headers: { 'Content-Type': 'application/json' },
-      });
-    } catch (message) {
-      return console.error(message);
-    }
+    return await fetch(`/api/web/alerts/${this.alert.id}`, {
+      method: 'PUT',
+      body: JSON.stringify({
+        itemId: this.alert.itemId,
+        worldId: this.alert.worldId,
+        discordWebhook: this.transports.discordWebhook,
+        triggerVersion: 0,
+        trigger: {
+          filters: this.filters,
+          mapper: this.mapper,
+          reducer: this.reducer,
+          comparison: this.comparison,
+        },
+      } as Omit<UserAlert, 'id' | 'userId'>),
+      headers: { 'Content-Type': 'application/json' },
+    }).then(async (res) => {
+      if (!res.ok) {
+        const body = res.headers.get('Content-Type')?.includes('application/json')
+          ? (await res.json()).message
+          : await res.text();
+        throw new Error(body);
+      }
+    });
   }
 
   notifyChanges() {
@@ -186,6 +190,61 @@ function useAlertBuilders(alerts: UserAlert[] | void): AlertBuilderCollection {
     const collection = new AlertBuilderCollection(alertBuilders);
     return collection;
   }, [alerts, notifyChange]);
+}
+
+interface SaveButtonProps {
+  alert: AlertBuilder;
+}
+
+function SaveButton({ alert }: SaveButtonProps) {
+  const { setPopup } = usePopup();
+
+  const savingRef = useRef<HTMLButtonElement>(null);
+  const [saving, setSaving] = useState(false);
+  const [saved, setSaved] = useState(false);
+  const save = () => {
+    if (saving) {
+      return;
+    }
+
+    setSaving(true);
+    alert
+      .save()
+      .catch((err) =>
+        setPopup({
+          type: 'error',
+          title: 'Error',
+          message: err instanceof Error ? err.message : `${err}`,
+          isOpen: true,
+        })
+      )
+      .finally(() => {
+        setSaving(false);
+        setSaved(true);
+      });
+  };
+
+  return (
+    <button
+      ref={savingRef}
+      className={`${styles.btnSave} ${saving ? 'loading_interaction' : ''} ${
+        saved ? styles.on : ''
+      }`}
+      style={
+        saving
+          ? {
+              minWidth: savingRef.current?.offsetWidth,
+              minHeight: savingRef.current?.offsetHeight,
+              display: 'inline-block',
+            }
+          : undefined
+      }
+      disabled={saving}
+      onClick={save}
+    >
+      <span>{saving ? <>&nbsp;</> : saved ? <Trans>Saved</Trans> : <Trans>Save</Trans>}</span>
+    </button>
+  );
 }
 
 interface AlertsModalProps {
@@ -396,14 +455,9 @@ export default function AlertsModal({ isOpen, close }: AlertsModalProps) {
                   </tr>
                 </tbody>
               </table>
-              <button
-                onClick={(e) => {
-                  e.preventDefault();
-                  alert.save();
-                }}
-              >
-                Save
-              </button>
+              <div style={{ display: 'flex', justifyContent: 'space-around' }}>
+                <SaveButton alert={alert} />
+              </div>
             </details>
           ))}
           <p>
