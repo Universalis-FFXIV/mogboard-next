@@ -214,130 +214,176 @@ function AlertsModal({ isOpen, close }: AlertsModalProps) {
             <Trans>Current alerts for this item: {alertBuilders.size()}</Trans>
           </p>
           {alertBuilders.toArray().map((alert, i) => (
-            <div key={i}>
-              <span>
-                <Trans>World:</Trans>
-              </span>
-              <WorldOption
-                value={worlds[alert.world()].name}
-                setValue={(world) => {
-                  console.log(world);
-                  alert.setWorld(worldIds[world]);
-                }}
-              />
-              <br />
-              <span>
-                <Trans>Filters:</Trans>
-              </span>
-              {alert.filters.length > 0 &&
-                alert.filters.map((filter, j) => (
-                  <React.Fragment key={filter}>
-                    <button
-                      onClick={(e) => {
-                        e.preventDefault();
-                        alert.removeFilter(filter);
-                      }}
-                    >
-                      <Trans>Remove</Trans>
-                    </button>
-                    <select
-                      onChange={(e) => {
-                        alert.addFilter(e.target.value as TriggerFilter, false);
-                        alert.removeFilter(filter, false);
-                        alert.notifyChanges();
-                      }}
-                    >
-                      <option value={filter}>{alert.formatFilter(filter)}</option>
-                      {alert.getRemainingFilters().map((f, k) => (
-                        <option key={k} value={f}>
-                          {alert.formatFilter(f)}
+            <details key={i} style={{ marginBottom: '8px' }}>
+              <summary>Alert {i + 1}</summary>
+              <table>
+                <colgroup>
+                  <col width="10%" />
+                  <col />
+                </colgroup>
+                <tbody>
+                  <tr>
+                    <td style={{ lineHeight: '38px' }}>
+                      <strong style={{ color: 'var(--highlight3x)' }}>
+                        <Trans>World</Trans>
+                      </strong>
+                    </td>
+                    <td>
+                      <WorldOption
+                        value={worlds[alert.world()].name}
+                        setValue={(world) => {
+                          console.log(world);
+                          alert.setWorld(worldIds[world]);
+                        }}
+                      />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style={{ lineHeight: '38px' }}>
+                      <strong style={{ color: 'var(--highlight3x)' }}>
+                        <Trans>Filters</Trans>
+                      </strong>
+                    </td>
+                    <td>
+                      {alert.filters.length > 0 &&
+                        alert.filters.map((filter, j) => (
+                          <React.Fragment key={filter}>
+                            <button
+                              onClick={(e) => {
+                                e.preventDefault();
+                                alert.removeFilter(filter);
+                              }}
+                            >
+                              <Trans>Remove</Trans>
+                            </button>
+                            <select
+                              onChange={(e) => {
+                                alert.addFilter(e.target.value as TriggerFilter, false);
+                                alert.removeFilter(filter, false);
+                                alert.notifyChanges();
+                              }}
+                            >
+                              <option value={filter}>{alert.formatFilter(filter)}</option>
+                              {alert.getRemainingFilters().map((f, k) => (
+                                <option key={k} value={f}>
+                                  {alert.formatFilter(f)}
+                                </option>
+                              ))}
+                            </select>
+                            {j !== alert.filters.length - 1 && <br />}
+                          </React.Fragment>
+                        ))}
+                      {alert.getRemainingFilters().length > 0 && (
+                        <select
+                          value=""
+                          onChange={(e) => alert.addFilter(e.target.value as TriggerFilter)}
+                        >
+                          <option disabled value="">
+                            <Trans>Filter...</Trans>
+                          </option>
+                          {alert.getRemainingFilters().map((f, j) => (
+                            <option key={j} value={f}>
+                              {alert.formatFilter(f)}
+                            </option>
+                          ))}
+                        </select>
+                      )}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style={{ lineHeight: '38px' }}>
+                      <strong style={{ color: 'var(--highlight3x)' }}>
+                        <Trans>Map to</Trans>
+                      </strong>
+                    </td>
+                    <td>
+                      <select
+                        value={alert.mapper}
+                        onChange={(e) => alert.setMapper(e.target.value as TriggerMapper)}
+                      >
+                        <option value="pricePerUnit">
+                          <Trans>Unit price</Trans>
                         </option>
-                      ))}
-                    </select>
-                    {j !== alert.filters.length - 1 && <br />}
-                  </React.Fragment>
-                ))}
-              {alert.getRemainingFilters().length > 0 && (
-                <select value="" onChange={(e) => alert.addFilter(e.target.value as TriggerFilter)}>
-                  <option disabled value="">
-                    <Trans>Filter...</Trans>
-                  </option>
-                  {alert.getRemainingFilters().map((f, j) => (
-                    <option key={j} value={f}>
-                      {alert.formatFilter(f)}
-                    </option>
-                  ))}
-                </select>
-              )}
-              <br />
-              <span>
-                <Trans>Map to:</Trans>
-              </span>
-              <select
-                value={alert.mapper}
-                onChange={(e) => alert.setMapper(e.target.value as TriggerMapper)}
-              >
-                <option value="pricePerUnit">
-                  <Trans>Unit price</Trans>
-                </option>
-              </select>
-              <br />
-              <span>
-                <Trans>Calculate:</Trans>
-              </span>
-              <select
-                value={alert.reducer}
-                onChange={(e) => alert.setReducer(e.target.value as TriggerReducer)}
-              >
-                <option value="min">
-                  <Trans>Min</Trans>
-                </option>
-                <option value="max">
-                  <Trans>Max</Trans>
-                </option>
-                <option value="mean">
-                  <Trans>Mean</Trans>
-                </option>
-              </select>
-              <br />
-              <span>
-                <Trans>Compare:</Trans>
-              </span>
-              <select
-                value={alert.comparisonType()}
-                onChange={(e) =>
-                  alert.setComparison(e.target.value as ComparisonType, alert.comparisonTarget())
-                }
-              >
-                <option value="lt">
-                  <Trans>Less than</Trans>
-                </option>
-                <option value="gt">
-                  <Trans>Greater than</Trans>
-                </option>
-              </select>
-              <input
-                type="text"
-                value={alert.comparisonTarget()}
-                onChange={(e) => {
-                  const value = parseInt(e.target.value);
-                  if (!isNaN(value)) {
-                    alert.setComparison(alert.comparisonType(), parseInt(e.target.value));
-                  }
-                }}
-              ></input>
-              <br />
-              <span>
-                <Trans>Webhook:</Trans>
-              </span>
-              <input
-                type="text"
-                value={alert.transports.discordWebhook ?? ''}
-                onChange={(e) => {
-                  alert.addTransport('discordWebhook', e.target.value);
-                }}
-              ></input>
-            </div>
+                      </select>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style={{ lineHeight: '38px' }}>
+                      <strong style={{ color: 'var(--highlight3x)' }}>
+                        <Trans>Calculate</Trans>
+                      </strong>
+                    </td>
+                    <td>
+                      <select
+                        value={alert.reducer}
+                        onChange={(e) => alert.setReducer(e.target.value as TriggerReducer)}
+                      >
+                        <option value="min">
+                          <Trans>Min</Trans>
+                        </option>
+                        <option value="max">
+                          <Trans>Max</Trans>
+                        </option>
+                        <option value="mean">
+                          <Trans>Mean</Trans>
+                        </option>
+                      </select>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style={{ lineHeight: '38px' }}>
+                      <strong style={{ color: 'var(--highlight3x)' }}>
+                        <Trans>Compare</Trans>
+                      </strong>
+                    </td>
+                    <td>
+                      <select
+                        value={alert.comparisonType()}
+                        onChange={(e) =>
+                          alert.setComparison(
+                            e.target.value as ComparisonType,
+                            alert.comparisonTarget()
+                          )
+                        }
+                      >
+                        <option value="lt">
+                          <Trans>Less than</Trans>
+                        </option>
+                        <option value="gt">
+                          <Trans>Greater than</Trans>
+                        </option>
+                      </select>
+                      <input
+                        type="text"
+                        value={alert.comparisonTarget()}
+                        onChange={(e) => {
+                          const value = parseInt(e.target.value);
+                          if (!isNaN(value)) {
+                            alert.setComparison(alert.comparisonType(), parseInt(e.target.value));
+                          }
+                        }}
+                      ></input>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style={{ lineHeight: '38px' }}>
+                      <strong style={{ color: 'var(--highlight3x)' }}>
+                        <Trans>Webhook</Trans>
+                      </strong>
+                    </td>
+                    <td>
+                      <input
+                        type="text"
+                        value={alert.transports.discordWebhook ?? ''}
+                        onChange={(e) => {
+                          alert.addTransport('discordWebhook', e.target.value);
+                        }}
+                      ></input>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </details>
           ))}
           <p>
             <Trans>
