@@ -7,7 +7,7 @@ import { UserAlert } from '../../../../types/universalis/user';
 
 class AlertsHandler {
   @Get()
-  async getAlerts(@Req() req: NextApiRequest, @Res() res: NextApiResponse) {
+  async fetchAlerts(@Req() req: NextApiRequest, @Res() res: NextApiResponse) {
     const session = await unstable_getServerSession(req, res, authOptions);
     if (!session || !session.user.id) {
       return res.status(401).json({ message: 'You must be logged in to perform this action.' });
