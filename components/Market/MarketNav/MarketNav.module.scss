@@ -1,0 +1,23 @@
+.alertDetails {
+  margin-bottom: 8px;
+}
+
+.alertEditorLabel {
+  line-height: 38px;
+
+  strong {
+    color: var(--highlight3x);
+  }
+}
+
+.alertEditorRemoveFilter {
+  margin-left: 4px;
+}
+
+.alertEditorComparison {
+  margin-right: 4px;
+}
+
+.alertEditorWebhook {
+  min-width: 500px;
+}

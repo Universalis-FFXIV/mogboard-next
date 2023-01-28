@@ -22,6 +22,7 @@ import { useModalCover } from '../../UniversalisLayout/components/ModalCover/Mod
 import { usePopup } from '../../UniversalisLayout/components/Popup/Popup';
 import cloneDeep from 'lodash.clonedeep';
 import WorldOption from '../../WorldOption/WorldOption';
+import styles from './MarketNav.module.scss';
 
 export type ListsDispatchAction =
   | { type: 'updateAllLists'; lists: UserList[] }
@@ -209,22 +210,22 @@ function AlertsModal({ isOpen, close }: AlertsModalProps) {
             <Trans>Alerts</Trans>
           </h1>
         </div>
-        <form className="modal_form create_list_form">
+        <form className="modal_form">
           <p>
             <Trans>Current alerts for this item: {alertBuilders.size()}</Trans>
           </p>
           {alertBuilders.toArray().map((alert, i) => (
-            <details key={i} style={{ marginBottom: '8px' }}>
+            <details key={i} className={styles.alertDetails}>
               <summary>Alert {i + 1}</summary>
               <table>
                 <colgroup>
-                  <col width="10%" />
+                  <col width="20%" />
                   <col />
                 </colgroup>
                 <tbody>
                   <tr>
-                    <td style={{ lineHeight: '38px' }}>
-                      <strong style={{ color: 'var(--highlight3x)' }}>
+                    <td className={styles.alertEditorLabel}>
+                      <strong>
                         <Trans>World</Trans>
                       </strong>
                     </td>
@@ -239,23 +240,15 @@ function AlertsModal({ isOpen, close }: AlertsModalProps) {
                     </td>
                   </tr>
                   <tr>
-                    <td style={{ lineHeight: '38px' }}>
-                      <strong style={{ color: 'var(--highlight3x)' }}>
-                        <Trans>Filters</Trans>
+                    <td className={styles.alertEditorLabel}>
+                      <strong>
+                        <Trans>Filter to</Trans>
                       </strong>
                     </td>
                     <td>
                       {alert.filters.length > 0 &&
                         alert.filters.map((filter, j) => (
                           <React.Fragment key={filter}>
-                            <button
-                              onClick={(e) => {
-                                e.preventDefault();
-                                alert.removeFilter(filter);
-                              }}
-                            >
-                              <Trans>Remove</Trans>
-                            </button>
                             <select
                               onChange={(e) => {
                                 alert.addFilter(e.target.value as TriggerFilter, false);
@@ -270,6 +263,15 @@ function AlertsModal({ isOpen, close }: AlertsModalProps) {
                                 </option>
                               ))}
                             </select>
+                            <button
+                              onClick={(e) => {
+                                e.preventDefault();
+                                alert.removeFilter(filter);
+                              }}
+                              className={styles.alertEditorRemoveFilter}
+                            >
+                              <Trans>Remove</Trans>
+                            </button>
                             {j !== alert.filters.length - 1 && <br />}
                           </React.Fragment>
                         ))}
@@ -291,9 +293,9 @@ function AlertsModal({ isOpen, close }: AlertsModalProps) {
                     </td>
                   </tr>
                   <tr>
-                    <td style={{ lineHeight: '38px' }}>
-                      <strong style={{ color: 'var(--highlight3x)' }}>
-                        <Trans>Map to</Trans>
+                    <td className={styles.alertEditorLabel}>
+                      <strong>
+                        <Trans>Using</Trans>
                       </strong>
                     </td>
                     <td>
@@ -308,8 +310,8 @@ function AlertsModal({ isOpen, close }: AlertsModalProps) {
                     </td>
                   </tr>
                   <tr>
-                    <td style={{ lineHeight: '38px' }}>
-                      <strong style={{ color: 'var(--highlight3x)' }}>
+                    <td className={styles.alertEditorLabel}>
+                      <strong>
                         <Trans>Calculate</Trans>
                       </strong>
                     </td>
@@ -319,20 +321,20 @@ function AlertsModal({ isOpen, close }: AlertsModalProps) {
                         onChange={(e) => alert.setReducer(e.target.value as TriggerReducer)}
                       >
                         <option value="min">
-                          <Trans>Min</Trans>
+                          <Trans>Minimum</Trans>
                         </option>
                         <option value="max">
-                          <Trans>Max</Trans>
+                          <Trans>Maximum</Trans>
                         </option>
                         <option value="mean">
-                          <Trans>Mean</Trans>
+                          <Trans>Average</Trans>
                         </option>
                       </select>
                     </td>
                   </tr>
                   <tr>
-                    <td style={{ lineHeight: '38px' }}>
-                      <strong style={{ color: 'var(--highlight3x)' }}>
+                    <td className={styles.alertEditorLabel}>
+                      <strong>
                         <Trans>Compare</Trans>
                       </strong>
                     </td>
@@ -345,6 +347,7 @@ function AlertsModal({ isOpen, close }: AlertsModalProps) {
                             alert.comparisonTarget()
                           )
                         }
+                        className={styles.alertEditorComparison}
                       >
                         <option value="lt">
                           <Trans>Less than</Trans>
@@ -366,9 +369,9 @@ function AlertsModal({ isOpen, close }: AlertsModalProps) {
                     </td>
                   </tr>
                   <tr>
-                    <td style={{ lineHeight: '38px' }}>
-                      <strong style={{ color: 'var(--highlight3x)' }}>
-                        <Trans>Webhook</Trans>
+                    <td className={styles.alertEditorLabel}>
+                      <strong>
+                        <Trans>Discord Webhook</Trans>
                       </strong>
                     </td>
                     <td>
@@ -378,6 +381,7 @@ function AlertsModal({ isOpen, close }: AlertsModalProps) {
                         onChange={(e) => {
                           alert.addTransport('discordWebhook', e.target.value);
                         }}
+                        className={styles.alertEditorWebhook}
                       ></input>
                     </td>
                   </tr>
