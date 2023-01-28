@@ -130,6 +130,29 @@ class AlertBuilder implements UserAlertTrigger {
     }
   }
 
+  async save() {
+    try {
+      return await fetch(`/api/web/alerts/${this.alert.id}`, {
+        method: 'PUT',
+        body: JSON.stringify({
+          itemId: this.alert.itemId,
+          worldId: this.alert.worldId,
+          discordWebhook: this.transports.discordWebhook,
+          triggerVersion: 0,
+          trigger: {
+            filters: this.filters,
+            mapper: this.mapper,
+            reducer: this.reducer,
+            comparison: this.comparison,
+          },
+        } as Omit<UserAlert, 'id' | 'userId'>),
+        headers: { 'Content-Type': 'application/json' },
+      });
+    } catch (message) {
+      return console.error(message);
+    }
+  }
+
   notifyChanges() {
     this.notifyChange();
   }
@@ -373,6 +396,14 @@ export default function AlertsModal({ isOpen, close }: AlertsModalProps) {
                   </tr>
                 </tbody>
               </table>
+              <button
+                onClick={(e) => {
+                  e.preventDefault();
+                  alert.save();
+                }}
+              >
+                Save
+              </button>
             </details>
           ))}
           <p>
