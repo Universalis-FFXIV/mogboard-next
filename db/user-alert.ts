@@ -12,6 +12,20 @@ export async function getUserAlerts(
   return rows.map(rowToUserAlert);
 }
 
+export function updateUserAlert(alert: UserAlert, conn: mariadb.Connection) {
+  return conn.query(
+    'UPDATE `users_alerts_next` SET `world_id` = ?, `discord_webhook` = ?, `trigger_version` = ?, `trigger` = ? WHERE `id` = ? AND `user_id` = ?',
+    [
+      alert.worldId,
+      alert.discordWebhook,
+      alert.triggerVersion,
+      JSON.stringify(alert.trigger),
+      alert.id,
+      alert.userId,
+    ]
+  );
+}
+
 function rowToUserAlert(row: Record<string, any>): UserAlert {
   return {
     id: row['id'],

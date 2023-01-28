@@ -1,4 +1,10 @@
-import { User, UserCharacter, UserList, UserListCustomType } from '../types/universalis/user';
+import {
+  User,
+  UserAlert,
+  UserCharacter,
+  UserList,
+  UserListCustomType,
+} from '../types/universalis/user';
 import { PHPObject } from './PHPObject';
 import * as UserDatabase from './user';
 import * as UserListDatabase from './user-list';
@@ -152,5 +158,9 @@ export class Database {
 
   static getUserAlerts(userId: string) {
     return rentConnectionForFn((conn) => UserAlertDatabase.getUserAlerts(userId, conn));
+  }
+
+  static updateUserAlert(alert: UserAlert) {
+    return rentConnectionForFn((conn) => UserAlertDatabase.updateUserAlert(alert, conn));
   }
 }
