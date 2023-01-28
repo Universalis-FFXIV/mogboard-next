@@ -16,6 +16,8 @@ import {
 } from '../../../../types/universalis/user';
 import React, { useState, useMemo, useRef } from 'react';
 import { usePopup } from '../../../UniversalisLayout/components/Popup/Popup';
+import { World } from '../../../../types/game/World';
+import { useSWRConfig } from 'swr';
 
 interface TriggerTransports {
   discordWebhook: string | null;
@@ -154,6 +156,8 @@ class AlertBuilder implements UserAlertTrigger {
           : await res.text();
         throw new Error(body);
       }
+
+      return res;
     });
   }
 
@@ -193,10 +197,10 @@ function useAlertBuilders(alerts: UserAlert[] | void): AlertBuilderCollection {
 }
 
 interface SaveButtonProps {
-  alert: AlertBuilder;
+  onSave: () => Promise<void>;
 }
 
-function SaveButton({ alert }: SaveButtonProps) {
+function SaveButton({ onSave }: SaveButtonProps) {
   const { setPopup } = usePopup();
 
   const savingRef = useRef<HTMLButtonElement>(null);
@@ -208,19 +212,21 @@ function SaveButton({ alert }: SaveButtonProps) {
     }
 
     setSaving(true);
-    alert
-      .save()
-      .catch((err) =>
+    onSave()
+      .then(() => {
+        setSaved(true);
+      })
+      .catch((err) => {
         setPopup({
           type: 'error',
           title: 'Error',
           message: err instanceof Error ? err.message : `${err}`,
           isOpen: true,
-        })
-      )
+        });
+        setSaved(false);
+      })
       .finally(() => {
         setSaving(false);
-        setSaved(true);
       });
   };
 
@@ -247,16 +253,203 @@ function SaveButton({ alert }: SaveButtonProps) {
   );
 }
 
+interface AlertFormProps {
+  alert: AlertBuilder;
+  worlds: Record<number, World>;
+  worldIds: Record<string, number>;
+  onSave: () => Promise<void>;
+}
+
+function AlertForm({ alert, worlds, worldIds, onSave }: AlertFormProps) {
+  return (
+    <>
+      <table>
+        <colgroup>
+          <col width="20%" />
+          <col />
+        </colgroup>
+        <tbody>
+          <tr>
+            <td className={styles.alertEditorLabel}>
+              <strong>
+                <Trans>World</Trans>
+              </strong>
+            </td>
+            <td>
+              <WorldOption
+                value={worlds[alert.world()].name}
+                setValue={(world) => {
+                  console.log(world);
+                  alert.setWorld(worldIds[world]);
+                }}
+              />
+            </td>
+          </tr>
+          <tr>
+            <td className={styles.alertEditorLabel}>
+              <strong>
+                <Trans>Filter to</Trans>
+              </strong>
+            </td>
+            <td>
+              {alert.filters.length > 0 &&
+                alert.filters.map((filter, j) => (
+                  <React.Fragment key={filter}>
+                    <select
+                      onChange={(e) => {
+                        alert.addFilter(e.target.value as TriggerFilter, false);
+                        alert.removeFilter(filter, false);
+                        alert.notifyChanges();
+                      }}
+                    >
+                      <option value={filter}>{alert.formatFilter(filter)}</option>
+                      {alert.getRemainingFilters().map((f, k) => (
+                        <option key={k} value={f}>
+                          {alert.formatFilter(f)}
+                        </option>
+                      ))}
+                    </select>
+                    <button
+                      onClick={(e) => {
+                        e.preventDefault();
+                        alert.removeFilter(filter);
+                      }}
+                      className={styles.alertEditorRemoveFilter}
+                    >
+                      <Trans>Remove</Trans>
+                    </button>
+                    {j !== alert.filters.length - 1 && <br />}
+                  </React.Fragment>
+                ))}
+              {alert.getRemainingFilters().length > 0 && (
+                <select value="" onChange={(e) => alert.addFilter(e.target.value as TriggerFilter)}>
+                  <option disabled value="">
+                    <Trans>Filter...</Trans>
+                  </option>
+                  {alert.getRemainingFilters().map((f, j) => (
+                    <option key={j} value={f}>
+                      {alert.formatFilter(f)}
+                    </option>
+                  ))}
+                </select>
+              )}
+            </td>
+          </tr>
+          <tr>
+            <td className={styles.alertEditorLabel}>
+              <strong>
+                <Trans>Using</Trans>
+              </strong>
+            </td>
+            <td>
+              <select
+                value={alert.mapper}
+                onChange={(e) => alert.setMapper(e.target.value as TriggerMapper)}
+              >
+                <option value="pricePerUnit">
+                  <Trans>Unit price</Trans>
+                </option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td className={styles.alertEditorLabel}>
+              <strong>
+                <Trans>Calculate</Trans>
+              </strong>
+            </td>
+            <td>
+              <select
+                value={alert.reducer}
+                onChange={(e) => alert.setReducer(e.target.value as TriggerReducer)}
+              >
+                <option value="min">
+                  <Trans>Minimum</Trans>
+                </option>
+                <option value="max">
+                  <Trans>Maximum</Trans>
+                </option>
+                <option value="mean">
+                  <Trans>Average</Trans>
+                </option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td className={styles.alertEditorLabel}>
+              <strong>
+                <Trans>Compare</Trans>
+              </strong>
+            </td>
+            <td>
+              <select
+                value={alert.comparisonType()}
+                onChange={(e) =>
+                  alert.setComparison(e.target.value as ComparisonType, alert.comparisonTarget())
+                }
+                className={styles.alertEditorComparison}
+              >
+                <option value="lt">
+                  <Trans>Less than</Trans>
+                </option>
+                <option value="gt">
+                  <Trans>Greater than</Trans>
+                </option>
+              </select>
+              <input
+                type="text"
+                value={alert.comparisonTarget()}
+                onChange={(e) => {
+                  const value = parseInt(e.target.value);
+                  if (!isNaN(value)) {
+                    alert.setComparison(alert.comparisonType(), parseInt(e.target.value));
+                  }
+                }}
+              ></input>
+            </td>
+          </tr>
+          <tr>
+            <td className={styles.alertEditorLabel}>
+              <strong>
+                <Trans>Discord Webhook</Trans>
+              </strong>
+            </td>
+            <td>
+              <input
+                type="text"
+                value={alert.transports.discordWebhook ?? ''}
+                onChange={(e) => {
+                  alert.addTransport('discordWebhook', e.target.value);
+                }}
+                className={styles.alertEditorWebhook}
+              ></input>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div style={{ display: 'flex', justifyContent: 'space-around' }}>
+        <SaveButton onSave={onSave} />
+      </div>
+    </>
+  );
+}
+
 interface AlertsModalProps {
+  itemId: number;
+  homeWorldId: number;
   isOpen: boolean;
   close: () => void;
 }
 
-export default function AlertsModal({ isOpen, close }: AlertsModalProps) {
+export default function AlertsModal({ isOpen, close, itemId, homeWorldId }: AlertsModalProps) {
+  const { cache } = useSWRConfig();
   const { data: alerts } = useAlerts();
   const { data: worlds, isLoading: isLoadingWorlds } = useWorlds();
 
   const alertBuilders = useAlertBuilders(alerts);
+
+  const [, notifyChange] = useState(false);
+  const [newAlert, setNewAlert] = useState<AlertBuilder | null>(null);
 
   if (worlds == null || isLoadingWorlds) {
     return <></>;
@@ -266,6 +459,30 @@ export default function AlertsModal({ isOpen, close }: AlertsModalProps) {
     (agg, next) => ({ ...agg, [worlds[parseInt(next)].name]: parseInt(next) }),
     {}
   );
+
+  const createAlert = (alert: AlertBuilder) =>
+    fetch('/api/web/alerts', {
+      method: 'POST',
+      body: JSON.stringify({
+        itemId: alert.alert.itemId,
+        worldId: alert.alert.worldId,
+        discordWebhook: alert.transports.discordWebhook,
+        triggerVersion: alert.alert.triggerVersion,
+        trigger: alert.alert.trigger,
+      } as Omit<UserAlert, 'id' | 'userId'>),
+      headers: { 'Content-Type': 'application/json' },
+    })
+      .then(async (res) => {
+        if (!res.ok) {
+          const body = res.headers.get('Content-Type')?.includes('application/json')
+            ? (await res.json()).message
+            : await res.text();
+          throw new Error(body);
+        }
+
+        return res;
+      })
+      .then((res) => res.json());
 
   return (
     <div className={`modal ${isOpen ? 'open' : ''}`}>
@@ -282,182 +499,59 @@ export default function AlertsModal({ isOpen, close }: AlertsModalProps) {
           <p>
             <Trans>Current alerts for this item: {alertBuilders.size()}</Trans>
           </p>
+          <button
+            onClick={(e) => {
+              e.preventDefault();
+              setNewAlert(
+                new AlertBuilder(
+                  {
+                    id: '',
+                    userId: '',
+                    itemId: itemId,
+                    worldId: homeWorldId,
+                    discordWebhook: null,
+                    triggerVersion: 0,
+                    trigger: {
+                      filters: [],
+                      mapper: 'pricePerUnit',
+                      reducer: 'min',
+                      comparison: {
+                        lt: {
+                          target: 0,
+                        },
+                      },
+                    },
+                  },
+                  () => notifyChange((last) => !last)
+                )
+              );
+              cache.delete('/api/web/alerts');
+            }}
+          >
+            New Alert
+          </button>
+          {newAlert && (
+            <AlertForm
+              alert={newAlert}
+              worlds={worlds}
+              worldIds={worldIds}
+              onSave={async () => {
+                await createAlert(newAlert);
+                setNewAlert(null);
+              }}
+            />
+          )}
           {alertBuilders.toArray().map((alert, i) => (
             <details key={i} className={styles.alertDetails}>
               <summary>Alert {i + 1}</summary>
-              <table>
-                <colgroup>
-                  <col width="20%" />
-                  <col />
-                </colgroup>
-                <tbody>
-                  <tr>
-                    <td className={styles.alertEditorLabel}>
-                      <strong>
-                        <Trans>World</Trans>
-                      </strong>
-                    </td>
-                    <td>
-                      <WorldOption
-                        value={worlds[alert.world()].name}
-                        setValue={(world) => {
-                          console.log(world);
-                          alert.setWorld(worldIds[world]);
-                        }}
-                      />
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className={styles.alertEditorLabel}>
-                      <strong>
-                        <Trans>Filter to</Trans>
-                      </strong>
-                    </td>
-                    <td>
-                      {alert.filters.length > 0 &&
-                        alert.filters.map((filter, j) => (
-                          <React.Fragment key={filter}>
-                            <select
-                              onChange={(e) => {
-                                alert.addFilter(e.target.value as TriggerFilter, false);
-                                alert.removeFilter(filter, false);
-                                alert.notifyChanges();
-                              }}
-                            >
-                              <option value={filter}>{alert.formatFilter(filter)}</option>
-                              {alert.getRemainingFilters().map((f, k) => (
-                                <option key={k} value={f}>
-                                  {alert.formatFilter(f)}
-                                </option>
-                              ))}
-                            </select>
-                            <button
-                              onClick={(e) => {
-                                e.preventDefault();
-                                alert.removeFilter(filter);
-                              }}
-                              className={styles.alertEditorRemoveFilter}
-                            >
-                              <Trans>Remove</Trans>
-                            </button>
-                            {j !== alert.filters.length - 1 && <br />}
-                          </React.Fragment>
-                        ))}
-                      {alert.getRemainingFilters().length > 0 && (
-                        <select
-                          value=""
-                          onChange={(e) => alert.addFilter(e.target.value as TriggerFilter)}
-                        >
-                          <option disabled value="">
-                            <Trans>Filter...</Trans>
-                          </option>
-                          {alert.getRemainingFilters().map((f, j) => (
-                            <option key={j} value={f}>
-                              {alert.formatFilter(f)}
-                            </option>
-                          ))}
-                        </select>
-                      )}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className={styles.alertEditorLabel}>
-                      <strong>
-                        <Trans>Using</Trans>
-                      </strong>
-                    </td>
-                    <td>
-                      <select
-                        value={alert.mapper}
-                        onChange={(e) => alert.setMapper(e.target.value as TriggerMapper)}
-                      >
-                        <option value="pricePerUnit">
-                          <Trans>Unit price</Trans>
-                        </option>
-                      </select>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className={styles.alertEditorLabel}>
-                      <strong>
-                        <Trans>Calculate</Trans>
-                      </strong>
-                    </td>
-                    <td>
-                      <select
-                        value={alert.reducer}
-                        onChange={(e) => alert.setReducer(e.target.value as TriggerReducer)}
-                      >
-                        <option value="min">
-                          <Trans>Minimum</Trans>
-                        </option>
-                        <option value="max">
-                          <Trans>Maximum</Trans>
-                        </option>
-                        <option value="mean">
-                          <Trans>Average</Trans>
-                        </option>
-                      </select>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className={styles.alertEditorLabel}>
-                      <strong>
-                        <Trans>Compare</Trans>
-                      </strong>
-                    </td>
-                    <td>
-                      <select
-                        value={alert.comparisonType()}
-                        onChange={(e) =>
-                          alert.setComparison(
-                            e.target.value as ComparisonType,
-                            alert.comparisonTarget()
-                          )
-                        }
-                        className={styles.alertEditorComparison}
-                      >
-                        <option value="lt">
-                          <Trans>Less than</Trans>
-                        </option>
-                        <option value="gt">
-                          <Trans>Greater than</Trans>
-                        </option>
-                      </select>
-                      <input
-                        type="text"
-                        value={alert.comparisonTarget()}
-                        onChange={(e) => {
-                          const value = parseInt(e.target.value);
-                          if (!isNaN(value)) {
-                            alert.setComparison(alert.comparisonType(), parseInt(e.target.value));
-                          }
-                        }}
-                      ></input>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className={styles.alertEditorLabel}>
-                      <strong>
-                        <Trans>Discord Webhook</Trans>
-                      </strong>
-                    </td>
-                    <td>
-                      <input
-                        type="text"
-                        value={alert.transports.discordWebhook ?? ''}
-                        onChange={(e) => {
-                          alert.addTransport('discordWebhook', e.target.value);
-                        }}
-                        className={styles.alertEditorWebhook}
-                      ></input>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-              <div style={{ display: 'flex', justifyContent: 'space-around' }}>
-                <SaveButton alert={alert} />
-              </div>
+              <AlertForm
+                alert={alert}
+                worlds={worlds}
+                worldIds={worldIds}
+                onSave={async () => {
+                  await alert.save();
+                }}
+              />
             </details>
           ))}
           <p>

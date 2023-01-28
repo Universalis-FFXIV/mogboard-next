@@ -273,9 +273,16 @@ interface MarketNavProps {
   lists: UserList[];
   dispatch: (action: ListsDispatchAction) => void;
   itemId: number;
+  homeWorldId: number;
 }
 
-export default function MarketNav({ hasSession, lists, dispatch, itemId }: MarketNavProps) {
+export default function MarketNav({
+  hasSession,
+  lists,
+  dispatch,
+  itemId,
+  homeWorldId,
+}: MarketNavProps) {
   const { setModalCover } = useModalCover();
 
   const [listsModalOpen, setListsModalOpen] = useState(false);
@@ -349,7 +356,14 @@ export default function MarketNav({ hasSession, lists, dispatch, itemId }: Marke
             close={closeListsModal}
           />
         )}
-        {alertsModalOpen && <AlertsModal isOpen={alertsModalOpen} close={closeAlertsModal} />}
+        {alertsModalOpen && (
+          <AlertsModal
+            itemId={itemId}
+            homeWorldId={homeWorldId}
+            isOpen={alertsModalOpen}
+            close={closeAlertsModal}
+          />
+        )}
       </LoggedIn>
     </div>
   );

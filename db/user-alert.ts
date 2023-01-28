@@ -1,6 +1,8 @@
 import { UserAlert } from '../types/universalis/user';
 import mariadb from 'mariadb';
 
+export const USER_ALERT_MAX = 40;
+
 export async function getUserAlerts(
   userId: string,
   conn: mariadb.Connection
@@ -22,6 +24,21 @@ export function updateUserAlert(alert: UserAlert, conn: mariadb.Connection) {
       JSON.stringify(alert.trigger),
       alert.id,
       alert.userId,
+    ]
+  );
+}
+
+export function createUserAlert(alert: UserAlert, conn: mariadb.Connection) {
+  return conn.query(
+    'INSERT INTO `users_alerts_next` (`id`, `user_id`, `item_id`, `world_id`, `discord_webhook`, `trigger_version`, `trigger`) VALUES (?, ?, ?, ?, ?, ?, ?)',
+    [
+      alert.id,
+      alert.userId,
+      alert.itemId,
+      alert.worldId,
+      alert.discordWebhook,
+      alert.triggerVersion,
+      JSON.stringify(alert.trigger),
     ]
   );
 }

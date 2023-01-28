@@ -163,4 +163,8 @@ export class Database {
   static updateUserAlert(alert: UserAlert) {
     return rentConnectionForFn((conn) => UserAlertDatabase.updateUserAlert(alert, conn));
   }
+
+  static createUserAlert(alert: UserAlert) {
+    return rentConnectionForFn((conn) => UserAlertDatabase.createUserAlert(alert, conn));
+  }
 }
