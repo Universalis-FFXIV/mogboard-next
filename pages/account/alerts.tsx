@@ -131,8 +131,8 @@ function AlertPageEntry({ alert, worlds }: AlertPageEntry) {
             </td>
             <td>
               <input
-                type="text"
-                value={showWebhook ? alert.discordWebhook ?? '' : new Array(24).fill('*').join('')}
+                type={showWebhook ? 'text' : 'password'}
+                value={alert.discordWebhook ?? ''}
                 disabled
               ></input>
               &nbsp;
