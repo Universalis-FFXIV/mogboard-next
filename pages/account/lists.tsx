@@ -160,9 +160,9 @@ const Lists: NextPage = () => {
     <>
       <AccountHead />
       <AccountLayout section="lists" hasSession={hasSession}>
-        <h5>
+        <h1>
           <Trans>Lists</Trans>
-        </h5>
+        </h1>
         <div className="account-panel">
           {(lists ?? [])
             .sort((a, b) => b.updated - a.updated)
