@@ -1,0 +1,52 @@
+.formStyles {
+  line-height: var(--form-field-height);
+
+  input[type='text'],
+  select {
+    height: var(--form-field-height);
+    line-height: var(--form-field-height);
+
+    background-color: var(--color3);
+    border: none;
+    font-size: 16px;
+    border-radius: 3px;
+    color: #333;
+    padding: 0 10px;
+    transition: var(--transition-speed);
+    outline: none;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+
+    &:hover {
+      background-color: #fff;
+    }
+
+    &.full {
+      width: 100%;
+    }
+
+    &.big {
+      height: var(--form-field-height2);
+      line-height: var(--form-field-height2);
+
+      font-size: 20px;
+      padding: 0 15px;
+    }
+
+    &[disabled] {
+      background-color: var(--color4);
+
+      &:hover {
+        background-color: var(--color4);
+      }
+    }
+  }
+}
+
+.alertFieldLabel {
+  line-height: 1;
+  padding-top: 21px;
+
+  strong {
+    color: var(--highlight3x);
+  }
+}

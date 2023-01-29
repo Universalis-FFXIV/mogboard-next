@@ -1,6 +1,5 @@
 import { Trans } from '@lingui/macro';
-import { GetServerSidePropsContext, NextPage } from 'next';
-import { unstable_getServerSession } from 'next-auth';
+import { NextPage } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
 import { useState } from 'react';
