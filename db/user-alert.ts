@@ -43,6 +43,13 @@ export function createUserAlert(alert: UserAlert, conn: mariadb.Connection) {
   );
 }
 
+export function deleteUserAlert(userId: string, alertId: string, conn: mariadb.Connection) {
+  return conn.query('DELETE FROM `users_alerts_next` WHERE id = ? AND user_id = ?', [
+    alertId,
+    userId,
+  ]);
+}
+
 function rowToUserAlert(row: Record<string, any>): UserAlert {
   return {
     id: row['id'],
