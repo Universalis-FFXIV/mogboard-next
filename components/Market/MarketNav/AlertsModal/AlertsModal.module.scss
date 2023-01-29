@@ -4,6 +4,36 @@
 
 .alertDetails {
   margin-bottom: 8px;
+
+  & > summary {
+    display: flex;
+    justify-content: space-between;
+    list-style: none;
+    cursor: pointer;
+
+    padding: 0 10px;
+
+    background-color: var(--default);
+    border-radius: 30px;
+    box-shadow: 0 1px 3px #000;
+  }
+
+  &:hover > summary {
+    background-color: var(--default-2x);
+  }
+
+  &[open] > summary {
+    background-color: var(--default-3x);
+  }
+
+  .arrow {
+    font-size: 20px;
+    margin-top: 8px;
+  }
+
+  .label {
+    margin-left: 8px;
+  }
 }
 
 .alertEditorLabel {
@@ -53,6 +83,29 @@
   }
 }
 
+.btnDelete {
+  height: 38px;
+  line-height: 38px;
+  font-size: 12px;
+  font-weight: bold;
+  text-shadow: 0 1px 2px rgb(0 0 0 / 80%);
+  text-transform: uppercase;
+  box-shadow: none;
+  padding: 0 2px;
+  background-color: transparent !important;
+  border-radius: 3px;
+
+  &:hover {
+    font-size: 13px;
+    color: #bbb;
+  }
+
+  i {
+    margin-bottom: -3px;
+    margin-right: 5px;
+  }
+}
+
 .btnSave {
   height: 38px;
   min-width: 80px;
@@ -74,6 +127,29 @@
     &.on {
       background-color: var(--green-2x);
     }
+  }
+
+  i {
+    margin-bottom: -3px;
+    margin-right: 5px;
+  }
+}
+
+.btnCancel {
+  height: 38px;
+  min-width: 80px;
+  line-height: 38px;
+  font-size: 16px;
+  text-shadow: 0 1px 2px rgb(0 0 0 / 80%);
+  box-shadow: 0 1px 3px rgb(0 0 0 / 50%);
+  padding: 0 10px;
+  background-color: var(--red);
+  border-radius: 3px;
+
+  margin-top: 4px;
+
+  &:hover {
+    background-color: var(--red-2x);
   }
 
   i {

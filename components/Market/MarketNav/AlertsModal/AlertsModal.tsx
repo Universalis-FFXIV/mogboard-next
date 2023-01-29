@@ -14,10 +14,13 @@ import {
   UserAlert,
   UserAlertTrigger,
 } from '../../../../types/universalis/user';
-import React, { useState, useMemo, useRef } from 'react';
+import React, { useState, useMemo, useRef, useEffect } from 'react';
 import { usePopup } from '../../../UniversalisLayout/components/Popup/Popup';
 import { World } from '../../../../types/game/World';
 import { useSWRConfig } from 'swr';
+import { IoIosArrowDropdownCircle, IoIosArrowDroprightCircle } from 'react-icons/io';
+import { nanoid } from 'nanoid';
+import SimpleBar from 'simplebar-react';
 
 interface TriggerTransports {
   discordWebhook: string | null;
@@ -269,14 +272,19 @@ function SaveButton({ onSave }: SaveButtonProps) {
   );
 }
 
-interface AlertFormProps {
-  alert: AlertBuilder;
-  worlds: Record<number, World>;
-  worldIds: Record<string, number>;
+interface OnSaveProps {
   onSave: () => Promise<void>;
 }
 
-function AlertForm({ alert, worlds, worldIds, onSave }: AlertFormProps) {
+interface AlertFormProps extends OnSaveProps {
+  alert: AlertBuilder;
+  worlds: Record<number, World>;
+  worldIds: Record<string, number>;
+  saveComponent?: (props: OnSaveProps) => JSX.Element;
+}
+
+function AlertForm({ alert, worlds, worldIds, onSave, saveComponent }: AlertFormProps) {
+  const Save = saveComponent ?? SaveButton;
   return (
     <>
       <table>
@@ -445,9 +453,64 @@ function AlertForm({ alert, worlds, worldIds, onSave }: AlertFormProps) {
         </tbody>
       </table>
       <div style={{ display: 'flex', justifyContent: 'space-around' }}>
-        <SaveButton onSave={onSave} />
+        <Save onSave={onSave} />
       </div>
     </>
+  );
+}
+
+interface AlertEntryProps {
+  label: string;
+  alert: AlertBuilder;
+  worlds: Record<number, World>;
+  worldIds: Record<string, number>;
+  onDelete: () => void;
+}
+
+function AlertEntry({ label, alert, worlds, worldIds, onDelete }: AlertEntryProps) {
+  const [open, setOpen] = useState(false);
+  const id = useMemo(() => nanoid(), []);
+  useEffect(() => {
+    const details = document.getElementById(id) as HTMLDetailsElement;
+    const callback = () => {
+      setOpen(details.open);
+    };
+    details.addEventListener('toggle', callback);
+    return () => {
+      details.removeEventListener('toggle', callback);
+    };
+  });
+
+  return (
+    <details className={styles.alertDetails} id={id}>
+      <summary>
+        <span style={{ display: 'flex', lineHeight: '38px' }}>
+          {open ? (
+            <IoIosArrowDropdownCircle className={styles.arrow} />
+          ) : (
+            <IoIosArrowDroprightCircle className={styles.arrow} />
+          )}
+          <span className={styles.label}>{label}</span>
+        </span>
+        <button
+          className={styles.btnDelete}
+          onClick={(e) => {
+            e.preventDefault();
+            onDelete();
+          }}
+        >
+          Delete
+        </button>
+      </summary>
+      <AlertForm
+        alert={alert}
+        worlds={worlds}
+        worldIds={worldIds}
+        onSave={async () => {
+          await alert.save();
+        }}
+      />
+    </details>
   );
 }
 
@@ -523,93 +586,109 @@ export default function AlertsModal({ isOpen, close, itemId, homeWorldId }: Aler
       <button type="button" className="modal_close_button" onClick={close}>
         <i className="xiv-NavigationClose"></i>
       </button>
-      <div className="modal_row">
-        <div className="modal_form_row_1">
-          <h1>
-            <Trans>Alerts</Trans>
-          </h1>
-        </div>
-        <form className="modal_form">
-          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-            <span style={{ lineHeight: '38px' }}>
-              <Trans>Current alerts for this item: {alertBuilders.size()}</Trans>
-            </span>
-            <button
-              onClick={(e) => {
-                e.preventDefault();
-                const alert = new AlertBuilder(
-                  {
-                    id: '',
-                    userId: '',
-                    itemId: itemId,
-                    worldId: homeWorldId,
-                    discordWebhook: null,
-                    triggerVersion: 0,
-                    trigger: {
-                      filters: [],
-                      mapper: 'pricePerUnit',
-                      reducer: 'min',
-                      comparison: {
-                        lt: {
-                          target: 0,
+      <SimpleBar style={{ maxHeight: '800px' }}>
+        <div className="modal_row">
+          <div className="modal_form_row_1">
+            <h1>
+              <Trans>Alerts</Trans>
+            </h1>
+          </div>
+          <form className="modal_form">
+            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+              <span style={{ lineHeight: '38px' }}>
+                <Trans>Current alerts for this item: {alertBuilders.size()}</Trans>
+              </span>
+              <button
+                onClick={(e) => {
+                  e.preventDefault();
+                  const alert = new AlertBuilder(
+                    {
+                      id: '',
+                      userId: '',
+                      itemId: itemId,
+                      worldId: homeWorldId,
+                      discordWebhook: null,
+                      triggerVersion: 0,
+                      trigger: {
+                        filters: [],
+                        mapper: 'pricePerUnit',
+                        reducer: 'min',
+                        comparison: {
+                          lt: {
+                            target: 0,
+                          },
                         },
                       },
                     },
-                  },
-                  () => notifyChange((last) => !last)
-                );
-                setNewAlert(alert);
-              }}
-              className={styles.btnCreate}
-            >
-              New Alert
-            </button>
-          </div>
-          <hr />
-          {newAlert && (
-            <AlertForm
-              alert={newAlert}
-              worlds={worlds}
-              worldIds={worldIds}
-              onSave={async () => {
-                const alert = await createAlert(newAlert);
-                setNewAlert(null);
-                await mutate('/api/web/alerts', [alert, ...(alerts ?? [])]);
-              }}
-            />
-          )}
-          <div style={{ marginBottom: '20px' }}>
-            {alertBuilders.toArray().map((alert, i) => (
-              <details key={i} className={styles.alertDetails}>
-                <summary>Alert {i + 1}</summary>
-                <button
-                  onClick={async (e) => {
-                    e.preventDefault();
+                    () => notifyChange((last) => !last)
+                  );
+                  setNewAlert(alert);
+                }}
+                className={styles.btnCreate}
+              >
+                New Alert
+              </button>
+            </div>
+            <hr />
+            <div style={{ marginBottom: '20px' }}>
+              {newAlert && (
+                <>
+                  <h2>
+                    <Trans>Create new alert</Trans>
+                  </h2>
+                  <AlertForm
+                    alert={newAlert}
+                    worlds={worlds}
+                    worldIds={worldIds}
+                    onSave={async () => {
+                      const alert = await createAlert(newAlert);
+                      setNewAlert(null);
+                      await mutate('/api/web/alerts', [alert, ...(alerts ?? [])]);
+                    }}
+                    saveComponent={(props) => (
+                      <div>
+                        <button
+                          className={styles.btnCancel}
+                          style={{ marginRight: '20px' }}
+                          onClick={(e) => {
+                            e.preventDefault();
+                            setNewAlert(null);
+                          }}
+                        >
+                          Cancel
+                        </button>
+                        <SaveButton {...props} />
+                      </div>
+                    )}
+                  />
+                </>
+              )}
+            </div>
+            <div style={{ marginBottom: '20px' }}>
+              {alertBuilders.toArray().map((alert, i) => (
+                <AlertEntry
+                  key={i}
+                  alert={alert}
+                  label={`Alert ${i + 1}`}
+                  worlds={worlds}
+                  worldIds={worldIds}
+                  onDelete={async () => {
                     await deleteAlert(alert);
                     alertBuilders.delete(alert);
                     cache.delete('/api/web/alerts');
                   }}
-                >
-                  Delete
-                </button>
-                <AlertForm
-                  alert={alert}
-                  worlds={worlds}
-                  worldIds={worldIds}
-                  onSave={async () => {
-                    await alert.save();
-                  }}
                 />
-              </details>
-            ))}
-          </div>
-        </form>
-        <p>
-          <Trans>
-            You can view all of your alerts on the <Link href="/account/alerts">Alerts</Link> page.
-          </Trans>
-        </p>
-      </div>
+              ))}
+            </div>
+          </form>
+          <p>
+            <Trans>
+              You can view all of your alerts on the <Link href="/account/alerts">Alerts</Link>{' '}
+              page.
+            </Trans>
+          </p>
+        </div>
+      </SimpleBar>
     </div>
   );
 }
