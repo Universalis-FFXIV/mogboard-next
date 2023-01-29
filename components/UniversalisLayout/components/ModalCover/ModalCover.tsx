@@ -1,4 +1,4 @@
-import { createContext, PropsWithChildren, useContext } from 'react';
+import { createContext, PropsWithChildren, useContext, useEffect } from 'react';
 
 interface ModalCoverProps {
   isOpen: boolean;
@@ -28,7 +28,12 @@ export const ModalCoverProvider = ({
   );
 };
 
-export const useModalCover = () => useContext(ModalCoverContext);
+export const useModalCover = () => {
+  const context = useContext(ModalCoverContext);
+  const { setModalCover } = context;
+  useEffect(() => () => setModalCover({ isOpen: false }), [setModalCover]);
+  return context;
+};
 
 export default function ModalCover({ isOpen }: ModalCoverProps) {
   return <div className={`modal_cover ${isOpen ? 'open' : ''}`} />;
