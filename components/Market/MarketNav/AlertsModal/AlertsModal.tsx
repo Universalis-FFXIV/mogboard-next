@@ -168,7 +168,20 @@ class AlertBuilder implements UserAlertTrigger {
 }
 
 class AlertBuilderCollection {
-  constructor(readonly builders: Record<UserAlert['id'], AlertBuilder>) {}
+  constructor(
+    private readonly builders: Record<UserAlert['id'], AlertBuilder>,
+    private readonly notifyChange: () => void
+  ) {}
+
+  add(builder: AlertBuilder) {
+    this.builders[builder.alert.id] = builder;
+    this.notifyChange();
+  }
+
+  delete(builder: AlertBuilder) {
+    delete this.builders[builder.alert.id];
+    this.notifyChange();
+  }
 
   size() {
     return Object.keys(this.builders).length;
@@ -192,7 +205,9 @@ function useAlertBuilders(alerts: UserAlert[] | void): AlertBuilderCollection {
             }),
             {}
           );
-    const collection = new AlertBuilderCollection(alertBuilders);
+    const collection = new AlertBuilderCollection(alertBuilders, () =>
+      notifyChange((last) => !last)
+    );
     return collection;
   }, [alerts, notifyChange]);
 }
@@ -444,7 +459,7 @@ interface AlertsModalProps {
 }
 
 export default function AlertsModal({ isOpen, close, itemId, homeWorldId }: AlertsModalProps) {
-  const { cache } = useSWRConfig();
+  const { mutate, cache } = useSWRConfig();
   const { data: alerts } = useAlerts();
   const { data: worlds, isLoading: isLoadingWorlds } = useWorlds();
 
@@ -452,7 +467,6 @@ export default function AlertsModal({ isOpen, close, itemId, homeWorldId }: Aler
 
   const [, notifyChange] = useState(false);
   const [newAlert, setNewAlert] = useState<AlertBuilder | null>(null);
-  const [newAlertName, setNewAlertName] = useState<string>('');
 
   if (worlds == null || isLoadingWorlds) {
     return <></>;
@@ -485,6 +499,23 @@ export default function AlertsModal({ isOpen, close, itemId, homeWorldId }: Aler
 
         return res;
       })
+      .then((res) => res.json())
+      .then((res) => res as UserAlert);
+
+  const deleteAlert = (alert: AlertBuilder) =>
+    fetch(`/api/web/alerts/${alert.alert.id}`, {
+      method: 'DELETE',
+    })
+      .then(async (res) => {
+        if (!res.ok) {
+          const body = res.headers.get('Content-Type')?.includes('application/json')
+            ? (await res.json()).message
+            : await res.text();
+          throw new Error(body);
+        }
+
+        return res;
+      })
       .then((res) => res.json());
 
   return (
@@ -506,30 +537,28 @@ export default function AlertsModal({ isOpen, close, itemId, homeWorldId }: Aler
             <button
               onClick={(e) => {
                 e.preventDefault();
-                setNewAlert(
-                  new AlertBuilder(
-                    {
-                      id: '',
-                      userId: '',
-                      itemId: itemId,
-                      worldId: homeWorldId,
-                      discordWebhook: null,
-                      triggerVersion: 0,
-                      trigger: {
-                        filters: [],
-                        mapper: 'pricePerUnit',
-                        reducer: 'min',
-                        comparison: {
-                          lt: {
-                            target: 0,
-                          },
+                const alert = new AlertBuilder(
+                  {
+                    id: '',
+                    userId: '',
+                    itemId: itemId,
+                    worldId: homeWorldId,
+                    discordWebhook: null,
+                    triggerVersion: 0,
+                    trigger: {
+                      filters: [],
+                      mapper: 'pricePerUnit',
+                      reducer: 'min',
+                      comparison: {
+                        lt: {
+                          target: 0,
                         },
                       },
                     },
-                    () => notifyChange((last) => !last)
-                  )
+                  },
+                  () => notifyChange((last) => !last)
                 );
-                cache.delete('/api/web/alerts');
+                setNewAlert(alert);
               }}
               className={styles.btnCreate}
             >
@@ -543,8 +572,9 @@ export default function AlertsModal({ isOpen, close, itemId, homeWorldId }: Aler
               worlds={worlds}
               worldIds={worldIds}
               onSave={async () => {
-                await createAlert(newAlert);
+                const alert = await createAlert(newAlert);
                 setNewAlert(null);
+                await mutate('/api/web/alerts', [alert, ...(alerts ?? [])]);
               }}
             />
           )}
@@ -552,6 +582,16 @@ export default function AlertsModal({ isOpen, close, itemId, homeWorldId }: Aler
             {alertBuilders.toArray().map((alert, i) => (
               <details key={i} className={styles.alertDetails}>
                 <summary>Alert {i + 1}</summary>
+                <button
+                  onClick={async (e) => {
+                    e.preventDefault();
+                    await deleteAlert(alert);
+                    alertBuilders.delete(alert);
+                    cache.delete('/api/web/alerts');
+                  }}
+                >
+                  Delete
+                </button>
                 <AlertForm
                   alert={alert}
                   worlds={worlds}
