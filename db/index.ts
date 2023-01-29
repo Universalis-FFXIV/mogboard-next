@@ -160,6 +160,10 @@ export class Database {
     return rentConnectionForFn((conn) => UserAlertDatabase.getUserAlerts(userId, conn));
   }
 
+  static getUserAlert(userId: string, alertId: string) {
+    return rentConnectionForFn((conn) => UserAlertDatabase.getUserAlert(userId, alertId, conn));
+  }
+
   static updateUserAlert(alert: UserAlert) {
     return rentConnectionForFn((conn) => UserAlertDatabase.updateUserAlert(alert, conn));
   }

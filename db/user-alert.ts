@@ -14,6 +14,23 @@ export async function getUserAlerts(
   return rows.map(rowToUserAlert);
 }
 
+export async function getUserAlert(
+  userId: string,
+  alertId: string,
+  conn: mariadb.Connection
+): Promise<UserAlert | null> {
+  const rows: Record<string, any>[] = await conn.query(
+    'SELECT `id`, `user_id`, `item_id`, `world_id`, `discord_webhook`, `trigger_version`, `trigger` FROM `users_alerts_next` WHERE `id` = ? AND `user_id` = ?',
+    [alertId, userId]
+  );
+
+  if (rows.length === 0) {
+    return null;
+  }
+
+  return rowToUserAlert(rows[0]);
+}
+
 export function updateUserAlert(alert: UserAlert, conn: mariadb.Connection) {
   return conn.query(
     'UPDATE `users_alerts_next` SET `world_id` = ?, `discord_webhook` = ?, `trigger_version` = ?, `trigger` = ? WHERE `id` = ? AND `user_id` = ?',
