@@ -96,7 +96,7 @@ function AlertPageEntry({ alert, worlds }: AlertPageEntry) {
             <td>
               {alert.trigger.filters.length === 0
                 ? t`Any`
-                : alert.trigger.filters.map(formatFilter).join(' ')}
+                : alert.trigger.filters.map(formatFilter).join(', ')}
             </td>
           </tr>
           <tr>
