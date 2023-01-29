@@ -37,7 +37,7 @@
 }
 
 .alertEditorLabel {
-  line-height: 38px;
+  padding-top: 21px;
 
   strong {
     color: var(--highlight3x);
@@ -58,6 +58,10 @@
 
 .alertEditorWebhook {
   min-width: 340px;
+
+  @media (max-width: 500px) {
+    min-width: 100px;
+  }
 }
 
 .btnCreate {
