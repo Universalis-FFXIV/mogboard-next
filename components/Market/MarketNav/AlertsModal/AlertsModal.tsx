@@ -115,6 +115,7 @@ class AlertBuilder implements UserAlertTrigger {
     } else {
       this.comparison = { gt: { target: value } };
     }
+    this.notifyChange();
   }
 
   comparisonType(): ComparisonType {
@@ -265,7 +266,7 @@ function AlertForm({ alert, worlds, worldIds, onSave }: AlertFormProps) {
     <>
       <table>
         <colgroup>
-          <col width="20%" />
+          <col width="30%" />
           <col />
         </colgroup>
         <tbody>
@@ -390,10 +391,10 @@ function AlertForm({ alert, worlds, worldIds, onSave }: AlertFormProps) {
                 className={styles.alertEditorComparison}
               >
                 <option value="lt">
-                  <Trans>Less than</Trans>
+                  <Trans>Result is less than</Trans>
                 </option>
                 <option value="gt">
-                  <Trans>Greater than</Trans>
+                  <Trans>Result is greater than</Trans>
                 </option>
               </select>
               <input
@@ -405,6 +406,7 @@ function AlertForm({ alert, worlds, worldIds, onSave }: AlertFormProps) {
                     alert.setComparison(alert.comparisonType(), parseInt(e.target.value));
                   }
                 }}
+                className={styles.alertEditorComparisonTarget}
               ></input>
             </td>
           </tr>
@@ -450,6 +452,7 @@ export default function AlertsModal({ isOpen, close, itemId, homeWorldId }: Aler
 
   const [, notifyChange] = useState(false);
   const [newAlert, setNewAlert] = useState<AlertBuilder | null>(null);
+  const [newAlertName, setNewAlertName] = useState<string>('');
 
   if (worlds == null || isLoadingWorlds) {
     return <></>;
@@ -485,7 +488,7 @@ export default function AlertsModal({ isOpen, close, itemId, homeWorldId }: Aler
       .then((res) => res.json());
 
   return (
-    <div className={`modal ${isOpen ? 'open' : ''}`}>
+    <div className={`modal ${styles.alertModal} ${isOpen ? 'open' : ''}`}>
       <button type="button" className="modal_close_button" onClick={close}>
         <i className="xiv-NavigationClose"></i>
       </button>
@@ -496,40 +499,44 @@ export default function AlertsModal({ isOpen, close, itemId, homeWorldId }: Aler
           </h1>
         </div>
         <form className="modal_form">
-          <p>
-            <Trans>Current alerts for this item: {alertBuilders.size()}</Trans>
-          </p>
-          <button
-            onClick={(e) => {
-              e.preventDefault();
-              setNewAlert(
-                new AlertBuilder(
-                  {
-                    id: '',
-                    userId: '',
-                    itemId: itemId,
-                    worldId: homeWorldId,
-                    discordWebhook: null,
-                    triggerVersion: 0,
-                    trigger: {
-                      filters: [],
-                      mapper: 'pricePerUnit',
-                      reducer: 'min',
-                      comparison: {
-                        lt: {
-                          target: 0,
+          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+            <span style={{ lineHeight: '38px' }}>
+              <Trans>Current alerts for this item: {alertBuilders.size()}</Trans>
+            </span>
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                setNewAlert(
+                  new AlertBuilder(
+                    {
+                      id: '',
+                      userId: '',
+                      itemId: itemId,
+                      worldId: homeWorldId,
+                      discordWebhook: null,
+                      triggerVersion: 0,
+                      trigger: {
+                        filters: [],
+                        mapper: 'pricePerUnit',
+                        reducer: 'min',
+                        comparison: {
+                          lt: {
+                            target: 0,
+                          },
                         },
                       },
                     },
-                  },
-                  () => notifyChange((last) => !last)
-                )
-              );
-              cache.delete('/api/web/alerts');
-            }}
-          >
-            New Alert
-          </button>
+                    () => notifyChange((last) => !last)
+                  )
+                );
+                cache.delete('/api/web/alerts');
+              }}
+              className={styles.btnCreate}
+            >
+              New Alert
+            </button>
+          </div>
+          <hr />
           {newAlert && (
             <AlertForm
               alert={newAlert}
@@ -541,26 +548,27 @@ export default function AlertsModal({ isOpen, close, itemId, homeWorldId }: Aler
               }}
             />
           )}
-          {alertBuilders.toArray().map((alert, i) => (
-            <details key={i} className={styles.alertDetails}>
-              <summary>Alert {i + 1}</summary>
-              <AlertForm
-                alert={alert}
-                worlds={worlds}
-                worldIds={worldIds}
-                onSave={async () => {
-                  await alert.save();
-                }}
-              />
-            </details>
-          ))}
-          <p>
-            <Trans>
-              You can view all of your alerts on the <Link href="/account/alerts">Alerts</Link>{' '}
-              page.
-            </Trans>
-          </p>
+          <div style={{ marginBottom: '20px' }}>
+            {alertBuilders.toArray().map((alert, i) => (
+              <details key={i} className={styles.alertDetails}>
+                <summary>Alert {i + 1}</summary>
+                <AlertForm
+                  alert={alert}
+                  worlds={worlds}
+                  worldIds={worldIds}
+                  onSave={async () => {
+                    await alert.save();
+                  }}
+                />
+              </details>
+            ))}
+          </div>
         </form>
+        <p>
+          <Trans>
+            You can view all of your alerts on the <Link href="/account/alerts">Alerts</Link> page.
+          </Trans>
+        </p>
       </div>
     </div>
   );
