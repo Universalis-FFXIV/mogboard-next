@@ -160,6 +160,7 @@ const Alerts: NextPage = () => {
   const { data: alerts } = useAlerts();
   const { data: worlds } = useWorlds();
   const [settings] = useSettings();
+  const [selectedAlertGroup, setSelectedAlertGroup] = useState<number | null>(null);
   const lang = settings['mogboard_language'] || 'en';
   const hasSession = sessionStatus === 'authenticated';
 
@@ -218,41 +219,56 @@ const Alerts: NextPage = () => {
             {[...alertGroups.entries()].map(([itemId, alertGroup]) => {
               const item = getItem(itemId, lang)!;
               return (
-                <div key={itemId}>
-                  <div
-                    style={{ display: 'flex', lineHeight: '38px', justifyContent: 'space-between' }}
-                  >
-                    <span style={{ display: 'flex' }}>
-                      <GameIcon id={item.iconId} ext="png" size="1x" width={36} height={36} />
-                      <span style={{ marginLeft: '24px' }}>
-                        {item.levelItem > 1 && <em className="ilv">{item.levelItem}</em>}
-                        <Link href="/market/[itemId]" as={`/market/${item.id}`}>
-                          <a className={`rarity-${item.rarity}`}>{item.name}</a>
-                        </Link>
+                <div
+                  key={itemId}
+                  onClick={() =>
+                    setSelectedAlertGroup(selectedAlertGroup === itemId ? null : itemId)
+                  }
+                >
+                  <div className={styles.alertPanel}>
+                    <div
+                      style={{
+                        display: 'flex',
+                        lineHeight: '38px',
+                        justifyContent: 'space-between',
+                      }}
+                    >
+                      <span style={{ display: 'flex' }}>
+                        <GameIcon id={item.iconId} ext="png" size="1x" width={36} height={36} />
+                        <span style={{ marginLeft: '24px' }}>
+                          {item.levelItem > 1 && <em className="ilv">{item.levelItem}</em>}
+                          <Link href="/market/[itemId]" as={`/market/${item.id}`}>
+                            <a className={`rarity-${item.rarity}`}>{item.name}</a>
+                          </Link>
+                        </span>
                       </span>
-                    </span>
-                    <span>
-                      <small>
-                        {getItemKind(item.itemKind, lang)?.name} -{' '}
-                        {getItemSearchCategory(item.itemSearchCategory, lang)?.name}
-                      </small>
-                    </span>
-                  </div>
-                  <hr />
-                  {alertGroup.map((alert) => (
-                    <div key={alert.id} style={{ maxWidth: '96%', margin: 'auto' }}>
-                      <AlertPageEntry
-                        alert={alert}
-                        worlds={worlds}
-                        onDelete={async (alert) => {
-                          await deleteAlert(alert);
-                          alerts.splice(alerts.indexOf(alert), 1);
-                          await mutate('/api/web/alerts', alerts);
-                        }}
-                      />
-                      <hr />
+                      <span>
+                        <small>
+                          {getItemKind(item.itemKind, lang)?.name} -{' '}
+                          {getItemSearchCategory(item.itemSearchCategory, lang)?.name}
+                        </small>
+                      </span>
                     </div>
-                  ))}
+                    {selectedAlertGroup === itemId && (
+                      <>
+                        <hr />
+                        {alertGroup.map((alert) => (
+                          <div key={alert.id} style={{ maxWidth: '96%', margin: 'auto' }}>
+                            <AlertPageEntry
+                              alert={alert}
+                              worlds={worlds}
+                              onDelete={async (alert) => {
+                                await deleteAlert(alert);
+                                alerts.splice(alerts.indexOf(alert), 1);
+                                await mutate('/api/web/alerts', alerts);
+                              }}
+                            />
+                            <hr />
+                          </div>
+                        ))}
+                      </>
+                    )}
+                  </div>
                 </div>
               );
             })}
