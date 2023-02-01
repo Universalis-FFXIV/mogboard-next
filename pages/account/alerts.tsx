@@ -231,6 +231,7 @@ const Alerts: NextPage = () => {
                         display: 'flex',
                         lineHeight: '38px',
                         justifyContent: 'space-between',
+                        cursor: 'pointer',
                       }}
                     >
                       <span style={{ display: 'flex' }}>
