@@ -219,12 +219,7 @@ const Alerts: NextPage = () => {
             {[...alertGroups.entries()].map(([itemId, alertGroup]) => {
               const item = getItem(itemId, lang)!;
               return (
-                <div
-                  key={itemId}
-                  onClick={() =>
-                    setSelectedAlertGroup(selectedAlertGroup === itemId ? null : itemId)
-                  }
-                >
+                <div key={itemId}>
                   <div className={styles.alertPanel}>
                     <div
                       style={{
@@ -233,6 +228,9 @@ const Alerts: NextPage = () => {
                         justifyContent: 'space-between',
                         cursor: 'pointer',
                       }}
+                      onClick={() =>
+                        setSelectedAlertGroup(selectedAlertGroup === itemId ? null : itemId)
+                      }
                     >
                       <span style={{ display: 'flex' }}>
                         <GameIcon id={item.iconId} ext="png" size="1x" width={36} height={36} />
