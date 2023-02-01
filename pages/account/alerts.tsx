@@ -228,9 +228,7 @@ const Alerts: NextPage = () => {
                         justifyContent: 'space-between',
                         cursor: 'pointer',
                       }}
-                      onClick={() =>
-                        setSelectedAlertGroup(selectedAlertGroup === itemId ? null : itemId)
-                      }
+                      onClick={() => setSelectedAlertGroup(itemId)}
                     >
                       <span style={{ display: 'flex' }}>
                         <GameIcon id={item.iconId} ext="png" size="1x" width={36} height={36} />
