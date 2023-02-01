@@ -4,6 +4,7 @@ import { useSession } from 'next-auth/react';
 import Head from 'next/head';
 import Link from 'next/link';
 import React, { useState } from 'react';
+import { useSWRConfig } from 'swr';
 import AccountLayout from '../../components/AccountLayout/AccountLayout';
 import GameIcon from '../../components/GameIcon/GameIcon';
 import { getItem, getItemKind, getItemSearchCategory } from '../../data/game';
@@ -66,16 +67,17 @@ function formatComparison(comparsion: Comparison) {
 interface AlertPageEntry {
   alert: UserAlert;
   worlds: Record<number, World>;
+  onDelete: (alert: UserAlert) => void;
 }
 
-function AlertPageEntry({ alert, worlds }: AlertPageEntry) {
+function AlertPageEntry({ alert, worlds, onDelete }: AlertPageEntry) {
   const [showWebhook, setShowWebhook] = useState(false);
 
   return (
-    <div key={alert.id} className={styles.formStyles}>
+    <div key={alert.id} className={`${styles.formStyles} ${styles.alertEntry}`}>
       <table>
         <colgroup>
-          <col width="26%" />
+          <col width="28%" />
           <col />
         </colgroup>
         <tbody>
@@ -143,11 +145,17 @@ function AlertPageEntry({ alert, worlds }: AlertPageEntry) {
           </tr>
         </tbody>
       </table>
+      <div className="delete-list-block">
+        <a className="text-red fr" onClick={() => onDelete(alert)}>
+          <Trans>Delete Alert</Trans>
+        </a>
+      </div>
     </div>
   );
 }
 
 const Alerts: NextPage = () => {
+  const { mutate } = useSWRConfig();
   const { status: sessionStatus } = useSession();
   const { data: alerts } = useAlerts();
   const { data: worlds } = useWorlds();
@@ -181,6 +189,22 @@ const Alerts: NextPage = () => {
     }
     return agg;
   }, new Map<ItemId, UserAlert[]>());
+
+  const deleteAlert = (alert: UserAlert) =>
+    fetch(`/api/web/alerts/${alert.id}`, {
+      method: 'DELETE',
+    })
+      .then(async (res) => {
+        if (!res.ok) {
+          const body = res.headers.get('Content-Type')?.includes('application/json')
+            ? (await res.json()).message
+            : await res.text();
+          throw new Error(body);
+        }
+
+        return res;
+      })
+      .then((res) => res.json());
 
   return (
     <>
@@ -217,7 +241,15 @@ const Alerts: NextPage = () => {
                   <hr />
                   {alertGroup.map((alert) => (
                     <div key={alert.id} style={{ maxWidth: '96%', margin: 'auto' }}>
-                      <AlertPageEntry alert={alert} worlds={worlds} />
+                      <AlertPageEntry
+                        alert={alert}
+                        worlds={worlds}
+                        onDelete={async (alert) => {
+                          await deleteAlert(alert);
+                          alerts.splice(alerts.indexOf(alert), 1);
+                          await mutate('/api/web/alerts', alerts);
+                        }}
+                      />
                       <hr />
                     </div>
                   ))}

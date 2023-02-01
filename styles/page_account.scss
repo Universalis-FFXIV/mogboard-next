@@ -509,17 +509,18 @@
       }
     }
   }
+}
 
-  .delete-list-block {
-    padding: 0 15px 15px 0;
-    text-transform: uppercase;
-    font-weight: bold;
-    font-size: 14px;
-    opacity: 0.5;
-    transition: 100ms;
+.delete-list-block {
+  white-space: nowrap;
+  padding: 0 15px 15px 0;
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 14px;
+  opacity: 0.5;
+  transition: 100ms;
 
-    &:hover {
-      opacity: 1;
-    }
+  &:hover {
+    opacity: 1;
   }
 }

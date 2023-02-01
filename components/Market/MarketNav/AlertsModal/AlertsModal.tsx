@@ -36,7 +36,7 @@ class AlertBuilder implements UserAlertTrigger {
 
   public readonly alert: UserAlert;
 
-  constructor(alert: UserAlert, readonly notifyChange: () => void) {
+  constructor(alert: UserAlert, readonly notify: () => void) {
     this.alert = cloneDeep(alert);
 
     this.filters = this.alert.trigger.filters;
@@ -52,17 +52,17 @@ class AlertBuilder implements UserAlertTrigger {
     transport: NonNullable<TriggerTransports[K]>
   ) {
     this.transports[type] = transport;
-    this.notifyChange();
+    this.notify();
   }
 
   removeTransport<K extends keyof TriggerTransports>(type: K) {
     this.transports[type] = null;
-    this.notifyChange();
+    this.notify();
   }
 
   setWorld(worldId: number) {
     this.alert.worldId = worldId;
-    this.notifyChange();
+    this.notify();
   }
 
   world() {
@@ -72,7 +72,7 @@ class AlertBuilder implements UserAlertTrigger {
   addFilter(filter: TriggerFilter, notifyChange: boolean = true) {
     this.filters.push(filter);
     if (notifyChange) {
-      this.notifyChange();
+      this.notify();
     }
   }
 
@@ -81,7 +81,7 @@ class AlertBuilder implements UserAlertTrigger {
     if (idx !== -1) {
       this.filters.splice(idx, 1);
       if (notifyChange) {
-        this.notifyChange();
+        this.notify();
       }
     }
   }
@@ -104,12 +104,12 @@ class AlertBuilder implements UserAlertTrigger {
 
   setMapper(mapper: TriggerMapper) {
     this.mapper = mapper;
-    this.notifyChange();
+    this.notify();
   }
 
   setReducer(reducer: TriggerReducer) {
     this.reducer = reducer;
-    this.notifyChange();
+    this.notify();
   }
 
   setComparison<K extends ComparisonType>(type: K, value: number) {
@@ -118,7 +118,7 @@ class AlertBuilder implements UserAlertTrigger {
     } else {
       this.comparison = { gt: { target: value } };
     }
-    this.notifyChange();
+    this.notify();
   }
 
   comparisonType(): ComparisonType {
@@ -165,8 +165,8 @@ class AlertBuilder implements UserAlertTrigger {
     });
   }
 
-  notifyChanges() {
-    this.notifyChange();
+  notifyChange() {
+    this.notify();
   }
 }
 
@@ -323,7 +323,7 @@ function AlertForm({ alert, worlds, worldIds, onSave, saveComponent }: AlertForm
                       onChange={(e) => {
                         alert.addFilter(e.target.value as TriggerFilter, false);
                         alert.removeFilter(filter, false);
-                        alert.notifyChanges();
+                        alert.notifyChange();
                       }}
                     >
                       <option value={filter}>{alert.formatFilter(filter)}</option>
@@ -499,7 +499,7 @@ function AlertEntry({ label, alert, worlds, worldIds, onDelete }: AlertEntryProp
             onDelete();
           }}
         >
-          Delete
+          <Trans>Delete</Trans>
         </button>
       </summary>
       <AlertForm
