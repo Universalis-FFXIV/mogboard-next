@@ -74,83 +74,86 @@ function AlertPageEntry({ alert, worlds, onDelete }: AlertPageEntry) {
   const [showWebhook, setShowWebhook] = useState(false);
 
   return (
-    <div key={alert.id} className={`${styles.formStyles} ${styles.alertEntry}`}>
-      <table>
-        <colgroup>
-          <col width="28%" />
-          <col />
-        </colgroup>
-        <tbody>
-          <tr>
-            <td className={styles.alertFieldLabel}>
-              <strong>
-                <Trans>World</Trans>
-              </strong>
-            </td>
-            <td>{worlds[alert.worldId].name}</td>
-          </tr>
-          <tr>
-            <td className={styles.alertFieldLabel}>
-              <strong>
-                <Trans>Filter to</Trans>
-              </strong>
-            </td>
-            <td>
-              {alert.trigger.filters.length === 0
-                ? t`Any`
-                : alert.trigger.filters.map(formatFilter).join(', ')}
-            </td>
-          </tr>
-          <tr>
-            <td className={styles.alertFieldLabel}>
-              <strong>
-                <Trans>Using</Trans>
-              </strong>
-            </td>
-            <td>{formatMapper(alert.trigger.mapper)}</td>
-          </tr>
-          <tr>
-            <td className={styles.alertFieldLabel}>
-              <strong>
-                <Trans>Calculate</Trans>
-              </strong>
-            </td>
-            <td>{formatReducer(alert.trigger.reducer)}</td>
-          </tr>
-          <tr>
-            <td className={styles.alertFieldLabel}>
-              <strong>
-                <Trans>Compare</Trans>
-              </strong>
-            </td>
-            <td>{formatComparison(alert.trigger.comparison)}</td>
-          </tr>
-          <tr>
-            <td className={styles.alertFieldLabel}>
-              <strong>
-                <Trans>Discord Webhook</Trans>
-              </strong>
-            </td>
-            <td>
-              <input
-                type={showWebhook ? 'text' : 'password'}
-                value={alert.discordWebhook ?? ''}
-                disabled
-              ></input>
-              &nbsp;
-              <a style={{ fontSize: '12px' }} onClick={() => setShowWebhook((last) => !last)}>
-                {showWebhook ? <Trans>Hide</Trans> : <Trans>Show</Trans>}
-              </a>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <div className="delete-list-block">
-        <a className="text-red fr" onClick={() => onDelete(alert)}>
-          <Trans>Delete Alert</Trans>
-        </a>
+    <>
+      <h3>{alert.name}</h3>
+      <div key={alert.id} className={`${styles.formStyles} ${styles.alertEntry}`}>
+        <table>
+          <colgroup>
+            <col width="28%" />
+            <col />
+          </colgroup>
+          <tbody>
+            <tr>
+              <td className={styles.alertFieldLabel}>
+                <strong>
+                  <Trans>World</Trans>
+                </strong>
+              </td>
+              <td>{worlds[alert.worldId].name}</td>
+            </tr>
+            <tr>
+              <td className={styles.alertFieldLabel}>
+                <strong>
+                  <Trans>Filter to</Trans>
+                </strong>
+              </td>
+              <td>
+                {alert.trigger.filters.length === 0
+                  ? t`Any`
+                  : alert.trigger.filters.map(formatFilter).join(', ')}
+              </td>
+            </tr>
+            <tr>
+              <td className={styles.alertFieldLabel}>
+                <strong>
+                  <Trans>Using</Trans>
+                </strong>
+              </td>
+              <td>{formatMapper(alert.trigger.mapper)}</td>
+            </tr>
+            <tr>
+              <td className={styles.alertFieldLabel}>
+                <strong>
+                  <Trans>Calculate</Trans>
+                </strong>
+              </td>
+              <td>{formatReducer(alert.trigger.reducer)}</td>
+            </tr>
+            <tr>
+              <td className={styles.alertFieldLabel}>
+                <strong>
+                  <Trans>Compare</Trans>
+                </strong>
+              </td>
+              <td>{formatComparison(alert.trigger.comparison)}</td>
+            </tr>
+            <tr>
+              <td className={styles.alertFieldLabel}>
+                <strong>
+                  <Trans>Discord Webhook</Trans>
+                </strong>
+              </td>
+              <td>
+                <input
+                  type={showWebhook ? 'text' : 'password'}
+                  value={alert.discordWebhook ?? ''}
+                  disabled
+                ></input>
+                &nbsp;
+                <a style={{ fontSize: '12px' }} onClick={() => setShowWebhook((last) => !last)}>
+                  {showWebhook ? <Trans>Hide</Trans> : <Trans>Show</Trans>}
+                </a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <div className="delete-list-block">
+          <a className="text-red fr" onClick={() => onDelete(alert)}>
+            <Trans>Delete Alert</Trans>
+          </a>
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 

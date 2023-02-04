@@ -64,6 +64,14 @@
   }
 }
 
+.alertEditorName {
+  min-width: 340px;
+
+  @media (max-width: 500px) {
+    min-width: 100px;
+  }
+}
+
 .btnCreate {
   height: 38px;
   min-width: 80px;

@@ -14,7 +14,6 @@ import {
 } from 'next-api-decorators';
 import { IsUUID } from 'class-validator';
 import { AlertDTO } from '../../../../service/validation';
-import { deleteUserAlert } from '../../../../db/user-alert';
 
 class AlertQueryDTO {
   @IsUUID(4)

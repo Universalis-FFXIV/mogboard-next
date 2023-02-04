@@ -35,6 +35,7 @@ class AlertsHandler {
     const alert: UserAlert = {
       id: uuidv4(),
       userId: session.user.id,
+      name: body.name,
       itemId: body.itemId,
       worldId: body.worldId,
       discordWebhook: body.discordWebhook,

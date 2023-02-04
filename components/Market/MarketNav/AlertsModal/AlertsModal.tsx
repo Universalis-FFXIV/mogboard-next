@@ -1,4 +1,4 @@
-import { Trans } from '@lingui/macro';
+import { t, Trans } from '@lingui/macro';
 import Link from 'next/link';
 import cloneDeep from 'lodash.clonedeep';
 import WorldOption from '../../../WorldOption/WorldOption';
@@ -67,6 +67,23 @@ class AlertBuilder implements UserAlertTrigger {
 
   world() {
     return this.alert.worldId;
+  }
+
+  item() {
+    return this.alert.itemId;
+  }
+
+  triggerVersion() {
+    return this.alert.triggerVersion;
+  }
+
+  setName(name: string) {
+    this.alert.name = name;
+    this.notify();
+  }
+
+  name() {
+    return this.alert.name;
   }
 
   addFilter(filter: TriggerFilter, notifyChange: boolean = true) {
@@ -143,6 +160,7 @@ class AlertBuilder implements UserAlertTrigger {
       body: JSON.stringify({
         itemId: this.alert.itemId,
         worldId: this.alert.worldId,
+        name: this.alert.name,
         discordWebhook: this.transports.discordWebhook,
         triggerVersion: 0,
         trigger: {
@@ -293,6 +311,23 @@ function AlertForm({ alert, worlds, worldIds, onSave, saveComponent }: AlertForm
           <col />
         </colgroup>
         <tbody>
+          <tr>
+            <td className={styles.alertEditorLabel}>
+              <strong>
+                <Trans>Name</Trans>
+              </strong>
+            </td>
+            <td>
+              <input
+                type="text"
+                value={alert.name()}
+                onChange={(e) => {
+                  alert.setName(e.target.value);
+                }}
+                className={styles.alertEditorName}
+              ></input>
+            </td>
+          </tr>
           <tr>
             <td className={styles.alertEditorLabel}>
               <strong>
@@ -544,11 +579,17 @@ export default function AlertsModal({ isOpen, close, itemId, homeWorldId }: Aler
     fetch('/api/web/alerts', {
       method: 'POST',
       body: JSON.stringify({
-        itemId: alert.alert.itemId,
-        worldId: alert.alert.worldId,
+        name: alert.name(),
+        itemId: alert.item(),
+        worldId: alert.world(),
         discordWebhook: alert.transports.discordWebhook,
-        triggerVersion: alert.alert.triggerVersion,
-        trigger: alert.alert.trigger,
+        triggerVersion: alert.triggerVersion(),
+        trigger: {
+          filters: alert.filters,
+          mapper: alert.mapper,
+          reducer: alert.reducer,
+          comparison: alert.comparison,
+        },
       } as Omit<UserAlert, 'id' | 'userId'>),
       headers: { 'Content-Type': 'application/json' },
     })
@@ -605,6 +646,7 @@ export default function AlertsModal({ isOpen, close, itemId, homeWorldId }: Aler
                     {
                       id: '',
                       userId: '',
+                      name: t`New Alert`,
                       itemId: itemId,
                       worldId: homeWorldId,
                       discordWebhook: null,
@@ -669,7 +711,7 @@ export default function AlertsModal({ isOpen, close, itemId, homeWorldId }: Aler
                 <AlertEntry
                   key={i}
                   alert={alert}
-                  label={`Alert ${i + 1}`}
+                  label={alert.alert.name}
                   worlds={worlds}
                   worldIds={worldIds}
                   onDelete={async () => {

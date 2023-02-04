@@ -2,6 +2,7 @@ USE `dalamud`;
 CREATE TABLE `users_alerts_next` (
   `id` CHAR(36) NOT NULL,
   `user_id` CHAR(36) DEFAULT NULL,
+  `name` TEXT NOT NULL,
   `item_id` INT NOT NULL,
   `world_id` INT NOT NULL,
   `discord_webhook` TEXT DEFAULT NULL,

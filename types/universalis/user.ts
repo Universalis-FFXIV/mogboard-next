@@ -76,6 +76,7 @@ export interface UserAlertTrigger {
 export interface UserAlert {
   id: string;
   userId: string | null;
+  name: string;
   itemId: number;
   worldId: number;
   discordWebhook: string | null;

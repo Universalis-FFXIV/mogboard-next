@@ -9,6 +9,7 @@ import {
   IsUrl,
   MaxLength,
   ValidateNested,
+  MinLength,
 } from 'class-validator';
 import {
   TriggerFilter,
@@ -140,6 +141,10 @@ export class AlertDTO implements Omit<UserAlert, 'id' | 'userId'> {
 
   @IsInt()
   worldId!: number;
+
+  @MinLength(1)
+  @MaxLength(200)
+  name!: string;
 
   @MaxLength(200, { message: 'Discord webhook must be less than or equal to 200 characters.' })
   @IsUrl(undefined, { message: 'Discord webhook must be a URL.' })
