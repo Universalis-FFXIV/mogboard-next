@@ -58,7 +58,7 @@ export interface UserCharacter {
 
 export type TriggerFilter = 'hq';
 
-export type TriggerMapper = 'pricePerUnit';
+export type TriggerMapper = 'pricePerUnit' | 'quantity' | 'total';
 
 export type TriggerReducer = 'min' | 'max' | 'mean';
 

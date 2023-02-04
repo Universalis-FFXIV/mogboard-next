@@ -45,6 +45,8 @@ export class IsTriggerMapper implements ValidatorConstraintInterface {
     const mapperMaybe: TriggerMapper = value;
     switch (mapperMaybe) {
       case 'pricePerUnit':
+      case 'quantity':
+      case 'total':
         return true;
       default:
         // Ensure all cases have been handled

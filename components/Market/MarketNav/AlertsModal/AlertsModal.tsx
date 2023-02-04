@@ -408,6 +408,12 @@ function AlertForm({ alert, worlds, worldIds, onSave, saveComponent }: AlertForm
                 <option value="pricePerUnit">
                   <Trans>Unit price</Trans>
                 </option>
+                <option value="quantity">
+                  <Trans>Quantity</Trans>
+                </option>
+                <option value="total">
+                  <Trans>Total</Trans>
+                </option>
               </select>
             </td>
           </tr>

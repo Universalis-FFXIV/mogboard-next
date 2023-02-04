@@ -36,6 +36,10 @@ function formatMapper(mapper: TriggerMapper) {
   switch (mapper) {
     case 'pricePerUnit':
       return t`Unit price`;
+    case 'quantity':
+      return t`Quantity`;
+    case 'total':
+      return t`Total`;
     default:
       return (((x) => x) as (x: never) => never)(mapper);
   }
