@@ -11,6 +11,13 @@ services:
       MYSQL_PASSWORD: dalamud
     volumes:
       - ./sqlinit:/docker-entrypoint-initdb.d
+  jaeger:
+    image: 'jaegertracing/all-in-one:latest'
+    ports:
+      - '6831:6831/udp'
+      - '6832:6832/udp'
+      - '16686:16686'
+      - '14268:14268'
   alerts:
     image: ghcr.io/universalis-ffxiv/universalis-alerts:main
     restart: always
@@ -18,3 +25,4 @@ services:
       UNIVERSALIS_ALERTS_DB: mysql://dalamud:dalamud@mariadb:3306/dalamud
       UNIVERSALIS_ALERTS_WS: wss://universalis.app/api/ws
       UNIVERSALIS_ALERTS_CHANNEL: listings/add{world=74}
+      UNIVERSALIS_ALERTS_JAEGER_AGENT: jaeger:6831
