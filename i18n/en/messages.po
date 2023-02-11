@@ -67,23 +67,23 @@ msgstr ""
 msgid "(Includes 5% GST)"
 msgstr ""
 
-#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:82
+#: components/WorldOption/WorldOption.tsx:36
 msgid "(Unknown)"
 msgstr ""
 
-#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:119
+#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:80
 msgid "- Choose your language -"
 msgstr ""
 
-#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:149
+#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:110
 msgid "- Choose your timezone -"
 msgstr ""
 
-#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:77
+#: components/WorldOption/WorldOption.tsx:33
 msgid "- Please Choose a Server -"
 msgstr ""
 
-#: components/Market/MarketNav/MarketNav.tsx:288
+#: components/Market/MarketNav/MarketNav.tsx:170
 msgid "<span>%s</span>"
 msgstr ""
 
@@ -126,9 +126,16 @@ msgstr ""
 msgid "Add a new character"
 msgstr ""
 
-#: components/Market/MarketNav/MarketNav.tsx:227
-#: components/Market/MarketNav/MarketNav.tsx:256
+#: components/Market/MarketNav/MarketNav.tsx:111
+#: components/Market/MarketNav/MarketNav.tsx:140
 msgid "Add to list"
+msgstr ""
+
+#: components/AccountLayout/AccountLayout.tsx:40
+#: components/Market/MarketNav/AlertsModal/AlertsModal.tsx:640
+#: components/Market/MarketNav/MarketNav.tsx:344
+#: pages/account/alerts.tsx:223
+msgid "Alerts"
 msgstr ""
 
 #: pages/about.tsx:49
@@ -140,12 +147,21 @@ msgid "Also thanks to: Vekien, Miu, Mino and all of our uploaders!"
 msgstr ""
 
 #: components/Market/MarketServerSelector/MarketServerSelector.tsx:32
-#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:47
+#: components/WorldOption/WorldOption.tsx:16
 msgid "America"
+msgstr ""
+
+#: pages/account/alerts.tsx:106
+msgid "Any"
 msgstr ""
 
 #: pages/contribute.tsx:131
 msgid "Are you making your own application?"
+msgstr ""
+
+#: components/Market/MarketNav/AlertsModal/AlertsModal.tsx:438
+#: pages/account/alerts.tsx:55
+msgid "Average"
 msgstr ""
 
 #: components/Market/MarketAverages/MarketAverages.tsx:24
@@ -162,6 +178,11 @@ msgstr ""
 
 #: components/SalesTable/SalesTable.tsx:183
 msgid "Buyer"
+msgstr ""
+
+#: components/Market/MarketNav/AlertsModal/AlertsModal.tsx:423
+#: pages/account/alerts.tsx:121
+msgid "Calculate"
 msgstr ""
 
 #: pages/about.tsx:61
@@ -192,6 +213,11 @@ msgstr ""
 msgid "Collaborative crafting tool"
 msgstr ""
 
+#: components/Market/MarketNav/AlertsModal/AlertsModal.tsx:446
+#: pages/account/alerts.tsx:129
+msgid "Compare"
+msgstr ""
+
 #: components/Home/HomeNews/HomeNews.tsx:23
 msgid "Contribute to market board data"
 msgstr ""
@@ -202,6 +228,10 @@ msgstr ""
 
 #: components/Home/HomeLoggedOut/HomeLoggedOut.tsx:23
 msgid "Create alerts, make lists, add your retainers and get a personalised home page feed!"
+msgstr ""
+
+#: components/Market/MarketNav/AlertsModal/AlertsModal.tsx:685
+msgid "Create new alert"
 msgstr ""
 
 #: components/ListingsTable/ListingsTable.tsx:192
@@ -225,6 +255,10 @@ msgstr ""
 msgid "Current Market Tax Rates on %s"
 msgstr ""
 
+#: components/Market/MarketNav/AlertsModal/AlertsModal.tsx:646
+msgid "Current alerts for this item: {0}"
+msgstr ""
+
 #: pages/list/[listId].tsx:141
 msgid "Custom Universalis list by %s"
 msgstr ""
@@ -246,11 +280,19 @@ msgstr ""
 msgid "Date"
 msgstr ""
 
-#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:198
+#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:159
 msgid "Default Home World"
 msgstr ""
 
-#: pages/account/lists.tsx:103
+#: components/Market/MarketNav/AlertsModal/AlertsModal.tsx:543
+msgid "Delete"
+msgstr ""
+
+#: pages/account/alerts.tsx:156
+msgid "Delete Alert"
+msgstr ""
+
+#: pages/account/lists.tsx:102
 msgid "Delete List"
 msgstr ""
 
@@ -258,12 +300,17 @@ msgstr ""
 msgid "Discord"
 msgstr ""
 
+#: components/Market/MarketNav/AlertsModal/AlertsModal.tsx:480
+#: pages/account/alerts.tsx:137
+msgid "Discord Webhook"
+msgstr ""
+
 #: pages/contribute.tsx:36
 msgid "Download"
 msgstr ""
 
 #: components/Market/MarketServerSelector/MarketServerSelector.tsx:30
-#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:45
+#: components/WorldOption/WorldOption.tsx:14
 msgid "Europe"
 msgstr ""
 
@@ -283,12 +330,21 @@ msgstr ""
 msgid "FINAL FANTASY XIV © 2010 - 2020 SQUARE ENIX CO., LTD. All Rights Reserved."
 msgstr ""
 
-#: components/Market/MarketNav/MarketNav.tsx:210
+#: components/Market/MarketNav/MarketNav.tsx:265
 msgid "Faved"
 msgstr ""
 
-#: components/Market/MarketNav/MarketNav.tsx:212
+#: components/Market/MarketNav/MarketNav.tsx:265
 msgid "Favourite"
+msgstr ""
+
+#: components/Market/MarketNav/AlertsModal/AlertsModal.tsx:350
+#: pages/account/alerts.tsx:101
+msgid "Filter to"
+msgstr ""
+
+#: components/Market/MarketNav/AlertsModal/AlertsModal.tsx:386
+msgid "Filter..."
 msgstr ""
 
 #: components/UniversalisLayout/components/SearchResults/SearchResults.tsx:31
@@ -322,7 +378,12 @@ msgstr ""
 
 #: components/ListingsTable/ListingsTable.tsx:199
 #: components/SalesTable/SalesTable.tsx:166
+#: pages/account/alerts.tsx:29
 msgid "HQ"
+msgstr ""
+
+#: pages/account/alerts.tsx:148
+msgid "Hide"
 msgstr ""
 
 #: pages/account/characters.tsx:240
@@ -384,13 +445,13 @@ msgstr ""
 msgid "Item has no HQ variant."
 msgstr ""
 
-#: components/Market/MarketNav/MarketNav.tsx:282
-#: pages/account/lists.tsx:64
+#: components/Market/MarketNav/MarketNav.tsx:164
+#: pages/account/lists.tsx:63
 msgid "Items:"
 msgstr ""
 
 #: components/Market/MarketServerSelector/MarketServerSelector.tsx:31
-#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:46
+#: components/WorldOption/WorldOption.tsx:15
 msgid "Japan"
 msgstr ""
 
@@ -398,7 +459,7 @@ msgstr ""
 msgid "LIST"
 msgstr ""
 
-#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:97
+#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:58
 msgid "Language"
 msgstr ""
 
@@ -428,7 +489,7 @@ msgstr ""
 msgid "Least recently updated on {server}"
 msgstr ""
 
-#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:166
+#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:127
 msgid "Left Navigation"
 msgstr ""
 
@@ -443,8 +504,8 @@ msgstr ""
 
 #: components/AccountLayout/AccountLayout.tsx:35
 #: components/Home/HomeNavbar/HomeNavBar.tsx:34
-#: components/Market/MarketNav/MarketNav.tsx:187
-#: pages/account/lists.tsx:164
+#: components/Market/MarketNav/MarketNav.tsx:340
+#: pages/account/lists.tsx:163
 msgid "Lists"
 msgstr ""
 
@@ -464,7 +525,7 @@ msgstr ""
 msgid "Login via Discord"
 msgstr ""
 
-#: components/AccountLayout/AccountLayout.tsx:40
+#: components/AccountLayout/AccountLayout.tsx:45
 msgid "Logout"
 msgstr ""
 
@@ -480,20 +541,38 @@ msgstr ""
 msgid "Mat"
 msgstr ""
 
-#: pages/market/[itemId].tsx:166
+#: components/Market/MarketNav/AlertsModal/AlertsModal.tsx:435
+#: pages/account/alerts.tsx:53
+msgid "Maximum"
+msgstr ""
+
+#: pages/market/[itemId].tsx:169
 msgid "Menu"
+msgstr ""
+
+#: components/Market/MarketNav/AlertsModal/AlertsModal.tsx:432
+#: pages/account/alerts.tsx:51
+msgid "Minimum"
 msgstr ""
 
 #: components/UniversalisLayout/components/UniversalisHeader/UniversalisHeader.tsx:42
 msgid "My Account"
 msgstr ""
 
+#: components/Market/MarketNav/AlertsModal/AlertsModal.tsx:317
+msgid "Name"
+msgstr ""
+
 #: pages/account/characters.tsx:251
 msgid "Name, ID, or Lodestone URL"
 msgstr ""
 
-#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:188
-#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:221
+#: components/Market/MarketNav/AlertsModal/AlertsModal.tsx:655
+msgid "New Alert"
+msgstr ""
+
+#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:149
+#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:182
 msgid "No"
 msgstr ""
 
@@ -521,19 +600,19 @@ msgid "Not Sellable"
 msgstr ""
 
 #: components/Market/MarketServerSelector/MarketServerSelector.tsx:33
-#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:48
+#: components/WorldOption/WorldOption.tsx:17
 msgid "Oceania"
 msgstr ""
 
-#: components/AccountLayout/AccountLayout.tsx:50
+#: components/AccountLayout/AccountLayout.tsx:55
 msgid "Oops!"
 msgstr ""
 
-#: components/Market/MarketNav/MarketNav.tsx:232
+#: components/Market/MarketNav/MarketNav.tsx:116
 msgid "Option 1) Create a new list:"
 msgstr ""
 
-#: components/Market/MarketNav/MarketNav.tsx:269
+#: components/Market/MarketNav/MarketNav.tsx:151
 msgid "Option 2) Use an existing list:"
 msgstr ""
 
@@ -555,7 +634,12 @@ msgstr ""
 msgid "QTY"
 msgstr ""
 
-#: components/Market/MarketNav/MarketNav.tsx:288
+#: components/Market/MarketNav/AlertsModal/AlertsModal.tsx:412
+#: pages/account/alerts.tsx:40
+msgid "Quantity"
+msgstr ""
+
+#: components/Market/MarketNav/MarketNav.tsx:170
 #: pages/account/characters.tsx:183
 msgid "REMOVE"
 msgstr ""
@@ -566,6 +650,10 @@ msgstr ""
 
 #: pages/index.tsx:184
 msgid "Recent Updates"
+msgstr ""
+
+#: components/Market/MarketNav/AlertsModal/AlertsModal.tsx:378
+msgid "Remove"
 msgstr ""
 
 #: components/List/ListItem/ListItem.tsx:40
@@ -579,6 +667,22 @@ msgstr ""
 #: components/List/ListRenameModal/ListRenameModal.tsx:34
 #: components/List/ListRenameModal/ListRenameModal.tsx:74
 msgid "Rename List"
+msgstr ""
+
+#: components/Market/MarketNav/AlertsModal/AlertsModal.tsx:461
+msgid "Result is greater than"
+msgstr ""
+
+#: pages/account/alerts.tsx:65
+msgid "Result is greater than {0}"
+msgstr ""
+
+#: components/Market/MarketNav/AlertsModal/AlertsModal.tsx:458
+msgid "Result is less than"
+msgstr ""
+
+#: pages/account/alerts.tsx:63
+msgid "Result is less than {0}"
 msgstr ""
 
 #: components/ListingsTable/ListingsTable.tsx:219
@@ -599,8 +703,16 @@ msgstr ""
 msgid "Sales"
 msgstr ""
 
-#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:245
+#: components/Market/MarketNav/AlertsModal/AlertsModal.tsx:288
+msgid "Save"
+msgstr ""
+
+#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:206
 msgid "Save Settings"
+msgstr ""
+
+#: components/Market/MarketNav/AlertsModal/AlertsModal.tsx:288
+msgid "Saved"
 msgstr ""
 
 #: components/UniversalisLayout/components/SearchBar/SearchBar.tsx:90
@@ -627,6 +739,10 @@ msgstr ""
 msgid "Set character as MAIN."
 msgstr ""
 
+#: pages/account/alerts.tsx:148
+msgid "Show"
+msgstr ""
+
 #: components/List/ListHeader/ListHeader.tsx:41
 msgid "Show Cross-World"
 msgstr ""
@@ -635,11 +751,11 @@ msgstr ""
 msgid "Show Home Server Only"
 msgstr ""
 
-#: components/Market/MarketNav/MarketNav.tsx:173
+#: components/Market/MarketNav/MarketNav.tsx:326
 msgid "Show on GarlandTools"
 msgstr ""
 
-#: components/Market/MarketNav/MarketNav.tsx:182
+#: components/Market/MarketNav/MarketNav.tsx:335
 msgid "Show on Teamcraft"
 msgstr ""
 
@@ -663,7 +779,7 @@ msgstr ""
 msgid "Special thanks"
 msgstr ""
 
-#: components/Market/MarketItemHeader/MarketItemHeader.tsx:59
+#: components/Market/MarketItemHeader/MarketItemHeader.tsx:67
 msgid "Stack:"
 msgstr ""
 
@@ -695,7 +811,7 @@ msgstr ""
 msgid "There is currently no recorded history for this item on Universalis."
 msgstr ""
 
-#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:170
+#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:131
 msgid "This enables a quick-access left-navigation of all market categories."
 msgstr ""
 
@@ -707,11 +823,11 @@ msgstr ""
 #~ msgid "This is a regular ACT plugin that runs next to the always-used FFXIV_ACT_PLUGIN - just drop it into your ACT plugins folder, add it to ACT and you\\'re good to go! No configuration needed."
 #~ msgstr ""
 
-#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:202
+#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:163
 msgid "This will show prices/history on your home world by default instead of cross-world."
 msgstr ""
 
-#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:135
+#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:96
 msgid "Timezone"
 msgstr ""
 
@@ -728,13 +844,20 @@ msgid "Top 5 cheapest"
 msgstr ""
 
 #: components/ListingsTable/ListingsTable.tsx:211
+#: components/Market/MarketNav/AlertsModal/AlertsModal.tsx:415
 #: components/SalesTable/SalesTable.tsx:175
+#: pages/account/alerts.tsx:42
 msgid "Total"
 msgstr ""
 
 #: components/Home/HomeUserList/HomeUserList.tsx:37
 #: components/Market/MarketCheapest/MarketCheapest.tsx:27
 msgid "Total:"
+msgstr ""
+
+#: components/Market/MarketNav/AlertsModal/AlertsModal.tsx:409
+#: pages/account/alerts.tsx:38
+msgid "Unit price"
 msgstr ""
 
 #: components/Market/NoMarketData/NoMarketData.tsx:13
@@ -762,6 +885,11 @@ msgstr ""
 msgid "Uploads today"
 msgstr ""
 
+#: components/Market/MarketNav/AlertsModal/AlertsModal.tsx:400
+#: pages/account/alerts.tsx:113
+msgid "Using"
+msgstr ""
+
 #: components/UniversalisLayout/components/CategoriesNavbar/CategoriesNavbar.tsx:93
 #: components/UniversalisLayout/components/SearchCategories/SearchCategories.tsx:62
 msgid "WEAPONS"
@@ -783,17 +911,26 @@ msgstr ""
 msgid "What is <strong>Universalis</strong>?"
 msgstr ""
 
-#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:191
-#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:224
+#: components/Market/MarketNav/AlertsModal/AlertsModal.tsx:334
+#: pages/account/alerts.tsx:93
+msgid "World"
+msgstr ""
+
+#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:152
+#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:185
 msgid "Yes"
 msgstr ""
 
-#: components/AccountLayout/AccountLayout.tsx:56
+#: components/AccountLayout/AccountLayout.tsx:61
 msgid "You can <0>login via Discord</0> to get that juicy access!"
 msgstr ""
 
 #: components/MoreQuestions/MoreQuestions.tsx:25
 msgid "You can also PM me: <span class=\"text-yellow\">%s</span> if you prefer :)"
+msgstr ""
+
+#: components/Market/MarketNav/AlertsModal/AlertsModal.tsx:733
+msgid "You can view all of your alerts on the <0>Alerts</0> page."
 msgstr ""
 
 #: pages/account/characters.tsx:204
@@ -804,11 +941,11 @@ msgstr ""
 msgid "You have no items in this list."
 msgstr ""
 
-#: components/Market/MarketNav/MarketNav.tsx:298
+#: components/Market/MarketNav/MarketNav.tsx:180
 msgid "You have no lists! <br> Create one by entering in a new name above."
 msgstr ""
 
-#: pages/account/lists.tsx:189
+#: pages/account/lists.tsx:188
 msgid "You have no lists, visit some items and create some!"
 msgstr ""
 
@@ -816,15 +953,15 @@ msgstr ""
 msgid "You have no lists."
 msgstr ""
 
-#: components/Market/MarketNav/MarketNav.tsx:262
+#: components/Market/MarketNav/MarketNav.tsx:146
 msgid "You have reached the maximum of 12 lists. You cannot create any more."
 msgstr ""
 
-#: components/AccountLayout/AccountLayout.tsx:53
+#: components/AccountLayout/AccountLayout.tsx:58
 msgid "You must be logged in to view this area."
 msgstr ""
 
-#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:63
+#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:49
 msgid "Your Server"
 msgstr ""
 
@@ -841,6 +978,6 @@ msgid "{0} - {1} items"
 msgstr ""
 
 #: components/Market/MarketServerSelector/MarketServerSelector.tsx:34
-#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:49
+#: components/WorldOption/WorldOption.tsx:18
 msgid "中国"
 msgstr ""
