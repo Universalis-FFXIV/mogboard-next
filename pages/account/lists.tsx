@@ -1,6 +1,5 @@
 import { Trans } from '@lingui/macro';
-import { GetServerSidePropsContext, NextPage } from 'next';
-import { unstable_getServerSession } from 'next-auth';
+import { NextPage } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
 import { useState } from 'react';
@@ -160,9 +159,9 @@ const Lists: NextPage = () => {
     <>
       <AccountHead />
       <AccountLayout section="lists" hasSession={hasSession}>
-        <h5>
+        <h1>
           <Trans>Lists</Trans>
-        </h5>
+        </h1>
         <div className="account-panel">
           {(lists ?? [])
             .sort((a, b) => b.updated - a.updated)

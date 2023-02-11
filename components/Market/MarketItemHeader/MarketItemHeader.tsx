@@ -16,6 +16,7 @@ import { Language } from '../../../types/universalis/lang';
 interface MarketItemHeaderProps {
   hasSession: boolean;
   item: Item;
+  homeWorldId: number;
   stateLists: UserList[];
   lang: Language;
   dispatch: (action: ListsDispatchAction) => void;
@@ -24,6 +25,7 @@ interface MarketItemHeaderProps {
 export default function MarketItemHeader({
   hasSession,
   item,
+  homeWorldId,
   stateLists,
   lang,
   dispatch,
@@ -34,7 +36,13 @@ export default function MarketItemHeader({
   const itemKind = getItemKind(item.itemKind, lang);
   return (
     <div className="item_header">
-      <MarketNav hasSession={hasSession} lists={stateLists} dispatch={dispatch} itemId={item.id} />
+      <MarketNav
+        hasSession={hasSession}
+        lists={stateLists}
+        dispatch={dispatch}
+        itemId={item.id}
+        homeWorldId={homeWorldId}
+      />
       <div>
         <GameItemIcon id={item.id} width={100} height={100} className="item-icon" priority={true} />
       </div>

@@ -7,7 +7,7 @@ import LoggedOut from '../LoggedOut/LoggedOut';
 
 interface AccountLayoutProps {
   hasSession: boolean;
-  section: 'account' | 'characters' | 'lists';
+  section: 'account' | 'characters' | 'lists' | 'alerts';
 }
 
 export default function AccountLayout({
@@ -33,6 +33,11 @@ export default function AccountLayout({
             <Link href="/account/lists">
               <a className={section === 'lists' ? 'active' : ''}>
                 <Trans>Lists</Trans>
+              </a>
+            </Link>
+            <Link href="/account/alerts">
+              <a className={section === 'alerts' ? 'active' : ''}>
+                <Trans>Alerts</Trans>
               </a>
             </Link>
             <hr />

@@ -1,8 +1,15 @@
-import { User, UserCharacter, UserList, UserListCustomType } from '../types/universalis/user';
+import {
+  User,
+  UserAlert,
+  UserCharacter,
+  UserList,
+  UserListCustomType,
+} from '../types/universalis/user';
 import { PHPObject } from './PHPObject';
 import * as UserDatabase from './user';
 import * as UserListDatabase from './user-list';
 import * as UserCharacterDatabase from './user-character';
+import * as UserAlertDatabase from './user-alert';
 import { rentConnectionForFn } from './util';
 
 export class Database {
@@ -147,5 +154,25 @@ export class Database {
     return rentConnectionForFn((conn) =>
       UserCharacterDatabase.getUserCharacterByLodestoneId(lodestoneId, conn)
     );
+  }
+
+  static getUserAlerts(userId: string) {
+    return rentConnectionForFn((conn) => UserAlertDatabase.getUserAlerts(userId, conn));
+  }
+
+  static getUserAlert(userId: string, alertId: string) {
+    return rentConnectionForFn((conn) => UserAlertDatabase.getUserAlert(userId, alertId, conn));
+  }
+
+  static updateUserAlert(alert: UserAlert) {
+    return rentConnectionForFn((conn) => UserAlertDatabase.updateUserAlert(alert, conn));
+  }
+
+  static createUserAlert(alert: UserAlert) {
+    return rentConnectionForFn((conn) => UserAlertDatabase.createUserAlert(alert, conn));
+  }
+
+  static deleteUserAlert(userId: string, alertId: string) {
+    return rentConnectionForFn((conn) => UserAlertDatabase.deleteUserAlert(userId, alertId, conn));
   }
 }

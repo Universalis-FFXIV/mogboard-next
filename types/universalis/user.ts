@@ -55,3 +55,31 @@ export interface UserCharacter {
   confirmed: boolean;
   updated: number;
 }
+
+export type TriggerFilter = 'hq';
+
+export type TriggerMapper = 'pricePerUnit' | 'quantity' | 'total';
+
+export type TriggerReducer = 'min' | 'max' | 'mean';
+
+export type ComparisonType = 'lt' | 'gt';
+
+export type Comparison = { lt: { target: number } } | { gt: { target: number } };
+
+export interface UserAlertTrigger {
+  filters: TriggerFilter[];
+  mapper: TriggerMapper;
+  reducer: TriggerReducer;
+  comparison: Comparison;
+}
+
+export interface UserAlert {
+  id: string;
+  userId: string | null;
+  name: string;
+  itemId: number;
+  worldId: number;
+  discordWebhook: string | null;
+  triggerVersion: number;
+  trigger: UserAlertTrigger;
+}

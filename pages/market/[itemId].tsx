@@ -61,6 +61,8 @@ const Market: NextPage<MarketProps> = ({
   const lang = settings['mogboard_language'] || 'en';
   const showHomeWorld = settings['mogboard_homeworld'] === 'yes';
   const homeWorld = settings['mogboard_server'] || 'Phoenix';
+  const homeWorldId =
+    dcs.flatMap((dc) => dc.worlds).find((world) => world.name === homeWorld)?.id ?? 56;
   const lastSelectedServer = settings['mogboard_last_selected_server'] || null;
 
   const findServer: (s: string | null) => Server = (s: string | null) => {
@@ -156,6 +158,7 @@ const Market: NextPage<MarketProps> = ({
               <MarketItemHeader
                 hasSession={hasSession}
                 item={item}
+                homeWorldId={homeWorldId}
                 stateLists={stateLists}
                 lang={lang}
                 dispatch={dispatch}
