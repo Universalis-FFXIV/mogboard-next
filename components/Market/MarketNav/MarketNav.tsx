@@ -318,6 +318,15 @@ export default function MarketNav({
       <div className="box_form">
         <div className="box_flex form">
           <a
+            href={`https://saddlebagexchange.com/queries/item-data/${itemId}`}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <button type="button" className="btn btn_gt">
+              <Trans>Show on Saddlebag Exchange</Trans>
+            </button>
+          </a>
+          <a
             href={`https://www.garlandtools.org/db/#item/${itemId}`}
             target="_blank"
             rel="noopener noreferrer"

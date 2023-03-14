@@ -246,7 +246,7 @@ msgstr "Ajouter à une liste"
 
 #: components/AccountLayout/AccountLayout.tsx:40
 #: components/Market/MarketNav/AlertsModal/AlertsModal.tsx:640
-#: components/Market/MarketNav/MarketNav.tsx:344
+#: components/Market/MarketNav/MarketNav.tsx:353
 #: pages/account/alerts.tsx:223
 msgid "Alerts"
 msgstr "Alertes"
@@ -777,7 +777,7 @@ msgstr ""
 
 #: components/AccountLayout/AccountLayout.tsx:35
 #: components/Home/HomeNavbar/HomeNavBar.tsx:34
-#: components/Market/MarketNav/MarketNav.tsx:340
+#: components/Market/MarketNav/MarketNav.tsx:349
 #: pages/account/lists.tsx:163
 msgid "Lists"
 msgstr "Listes"
@@ -1164,11 +1164,15 @@ msgstr "Afficher Inter-Monde"
 msgid "Show Home Server Only"
 msgstr "Afficher seulement le Monde d'origine"
 
-#: components/Market/MarketNav/MarketNav.tsx:326
+#: components/Market/MarketNav/MarketNav.tsx:335
 msgid "Show on GarlandTools"
 msgstr "Afficher sur GarlandTools"
 
-#: components/Market/MarketNav/MarketNav.tsx:335
+#: components/Market/MarketNav/MarketNav.tsx:326
+msgid "Show on Saddlebag Exchange"
+msgstr ""
+
+#: components/Market/MarketNav/MarketNav.tsx:344
 msgid "Show on Teamcraft"
 msgstr "Afficher sur Teamcraft"
 
