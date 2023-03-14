@@ -247,7 +247,7 @@ msgstr "添加到清单"
 
 #: components/AccountLayout/AccountLayout.tsx:40
 #: components/Market/MarketNav/AlertsModal/AlertsModal.tsx:640
-#: components/Market/MarketNav/MarketNav.tsx:344
+#: components/Market/MarketNav/MarketNav.tsx:353
 #: pages/account/alerts.tsx:223
 msgid "Alerts"
 msgstr "提醒"
@@ -778,7 +778,7 @@ msgstr ""
 
 #: components/AccountLayout/AccountLayout.tsx:35
 #: components/Home/HomeNavbar/HomeNavBar.tsx:34
-#: components/Market/MarketNav/MarketNav.tsx:340
+#: components/Market/MarketNav/MarketNav.tsx:349
 #: pages/account/lists.tsx:163
 msgid "Lists"
 msgstr "清单"
@@ -1165,11 +1165,15 @@ msgstr "显示跨服"
 msgid "Show Home Server Only"
 msgstr "只显示主服务器"
 
-#: components/Market/MarketNav/MarketNav.tsx:326
+#: components/Market/MarketNav/MarketNav.tsx:335
 msgid "Show on GarlandTools"
 msgstr "GarlandTools中显示"
 
-#: components/Market/MarketNav/MarketNav.tsx:335
+#: components/Market/MarketNav/MarketNav.tsx:326
+msgid "Show on Saddlebag Exchange"
+msgstr ""
+
+#: components/Market/MarketNav/MarketNav.tsx:344
 msgid "Show on Teamcraft"
 msgstr "Teamcraft中显示"
 
