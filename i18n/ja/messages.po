@@ -342,6 +342,10 @@ msgstr ""
 #~ msgid "Check entire Data Center"
 #~ msgstr ""
 
+#: components/Home/HomeGuides/HomeGuides.tsx:7
+msgid "Check out the guides!"
+msgstr ""
+
 #: components/Home/HomeUserList/HomeUserList.tsx:90
 msgid "Click on the list title to view market information for this list."
 msgstr ""
@@ -671,6 +675,10 @@ msgstr ""
 #~ msgid "If you wish to contribute to <strong>Universalis</strong> with your own application, please contact us on our <a href=\"%s\">Discord</a>. Let\\'s work together!"
 #~ msgstr ""
 
+#: components/Home/HomeGuides/HomeGuides.tsx:11
+msgid "If you're new to the site, have a look at the <0>wiki</0> to read our community-contributed guides for making the most of Universalis and the broader ecosystem around it."
+msgstr ""
+
 #: pages/account/characters.tsx:236
 msgid "In the text box, enter in your <strong>AUTH CODE</strong>, then click on Confirm (twice)."
 msgstr ""
@@ -996,11 +1004,15 @@ msgstr "分量"
 msgid "REMOVE"
 msgstr ""
 
+#: components/Home/HomeGuides/HomeGuides.tsx:20
+msgid "Read the guides here"
+msgstr ""
+
 #: components/SalesTable/SalesTable.tsx:191
 msgid "Really rare!?"
 msgstr "レアってマジか？？"
 
-#: pages/index.tsx:184
+#: pages/index.tsx:186
 msgid "Recent Updates"
 msgstr ""
 
@@ -1209,7 +1221,7 @@ msgstr "スペシャルサンクス"
 msgid "Stack:"
 msgstr ""
 
-#: pages/index.tsx:194
+#: pages/index.tsx:196
 msgid "Thank you!"
 msgstr "ありがとうございました！"
 

@@ -348,6 +348,10 @@ msgstr "Moins cher %s"
 #~ msgid "Check entire Data Center"
 #~ msgstr "Surveiller le centre de données"
 
+#: components/Home/HomeGuides/HomeGuides.tsx:7
+msgid "Check out the guides!"
+msgstr ""
+
 #: components/Home/HomeUserList/HomeUserList.tsx:90
 msgid "Click on the list title to view market information for this list."
 msgstr "Clique sur le titre de la liste pour voir les informations du marché pour cette liste."
@@ -677,6 +681,10 @@ msgstr "Si tu veux contribuer à <strong>Universalis</strong> grâce à ta propr
 #~ msgid "If you wish to contribute to <strong>Universalis</strong> with your own application, please contact us on our <a href=\"%s\">Discord</a>. Let\\'s work together!"
 #~ msgstr "Si tu veux contribuer à <strong>Universalis</strong> grâce à ta propre application, n'hésite pas à nous contacter sur notre <a href=\"%s\">Discord</a>. Allons-y ensemble !"
 
+#: components/Home/HomeGuides/HomeGuides.tsx:11
+msgid "If you're new to the site, have a look at the <0>wiki</0> to read our community-contributed guides for making the most of Universalis and the broader ecosystem around it."
+msgstr ""
+
 #: pages/account/characters.tsx:236
 msgid "In the text box, enter in your <strong>AUTH CODE</strong>, then click on Confirm (twice)."
 msgstr "Dans le champ de texte, entre ton <strong>CODE D'AUTHENTIFICATION</strong>, puis clique sur Confirmer (deux fois)."
@@ -1002,11 +1010,15 @@ msgstr "Quantité"
 msgid "REMOVE"
 msgstr "RETIRER"
 
+#: components/Home/HomeGuides/HomeGuides.tsx:20
+msgid "Read the guides here"
+msgstr ""
+
 #: components/SalesTable/SalesTable.tsx:191
 msgid "Really rare!?"
 msgstr "Vraiment rare!?"
 
-#: pages/index.tsx:184
+#: pages/index.tsx:186
 msgid "Recent Updates"
 msgstr "Mises à jour récentes"
 
@@ -1215,7 +1227,7 @@ msgstr "Remerciements particuliers"
 msgid "Stack:"
 msgstr "Pile :"
 
-#: pages/index.tsx:194
+#: pages/index.tsx:196
 msgid "Thank you!"
 msgstr "Merci !"
 

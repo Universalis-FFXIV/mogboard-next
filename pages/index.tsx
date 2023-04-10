@@ -25,6 +25,7 @@ import useSWRImmutable from 'swr/immutable';
 import { useSession } from 'next-auth/react';
 import useDataCenters from '../hooks/useDataCenters';
 import ErrorBoundary from '../components/ErrorBoundary/ErrorBoundary';
+import HomeGuides from '../components/Home/HomeGuides/HomeGuides';
 
 function sum(arr: number[], start: number, end: number) {
   return arr.slice(start, end).reduce((a, b) => a + b, 0);
@@ -164,6 +165,7 @@ const Home: NextPage = () => {
         />
         <div>
           <HomeNews />
+          <HomeGuides />
           {selectedList && <HomeUserList dcs={dcs ?? []} list={selectedList} />}
           <LoggedOut hasSession={sessionStatus === 'authenticated'}>
             <HomeLoggedOut />
