@@ -349,6 +349,10 @@ msgstr "%s 最低价"
 #~ msgid "Check entire Data Center"
 #~ msgstr ""
 
+#: components/Home/HomeGuides/HomeGuides.tsx:7
+msgid "Check out the guides!"
+msgstr ""
+
 #: components/Home/HomeUserList/HomeUserList.tsx:90
 msgid "Click on the list title to view market information for this list."
 msgstr "单击清单标题以查看此清单的市场信息。"
@@ -678,6 +682,10 @@ msgstr "如果您希望使用自己的应用程序为 <strong>Universalis</stron
 #~ msgid "If you wish to contribute to <strong>Universalis</strong> with your own application, please contact us on our <a href=\"%s\">Discord</a>. Let\\'s work together!"
 #~ msgstr "如果您希望使用自己的应用程序为 <strong>Universalis</strong> 做出贡献，请通过我们的 <a href=\"%s\">Discord</a> 与我们联系。一起搞事吧！"
 
+#: components/Home/HomeGuides/HomeGuides.tsx:11
+msgid "If you're new to the site, have a look at the <0>wiki</0> to read our community-contributed guides for making the most of Universalis and the broader ecosystem around it."
+msgstr ""
+
 #: pages/account/characters.tsx:236
 msgid "In the text box, enter in your <strong>AUTH CODE</strong>, then click on Confirm (twice)."
 msgstr "在文本框中，输入您的<strong>认证码</strong>，然后单击“确认”（两次）。"
@@ -1003,11 +1011,15 @@ msgstr "数量"
 msgid "REMOVE"
 msgstr "删除"
 
+#: components/Home/HomeGuides/HomeGuides.tsx:20
+msgid "Read the guides here"
+msgstr ""
+
 #: components/SalesTable/SalesTable.tsx:191
 msgid "Really rare!?"
 msgstr "十分稀有！？"
 
-#: pages/index.tsx:184
+#: pages/index.tsx:186
 msgid "Recent Updates"
 msgstr "最近更新"
 
@@ -1216,7 +1228,7 @@ msgstr "特别感谢"
 msgid "Stack:"
 msgstr "每组个数："
 
-#: pages/index.tsx:194
+#: pages/index.tsx:196
 msgid "Thank you!"
 msgstr "感谢您！"
 
