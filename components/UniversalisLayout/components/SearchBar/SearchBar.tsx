@@ -30,7 +30,7 @@ export default function SearchBar({ onResults, onMarketClicked }: SearchBarProps
     }
 
     // Defensively avoids sending excessively long search requests
-    q = q.slice(0, 32);
+    q = q.slice(0, 40).normalize();
 
     if (q.trim().length === 0) {
       setSearching(false);
