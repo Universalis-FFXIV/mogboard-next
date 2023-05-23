@@ -1,6 +1,5 @@
 ﻿using System.Text;
 using System.Text.Json;
-using System.Text.RegularExpressions;
 using CommandLine;
 using Lumina;
 using Lumina.Data;
@@ -40,6 +39,7 @@ public class Program
                         new LuminaOptions
                         {
                             DefaultExcelLanguage = lang,
+                            PanicOnSheetChecksumMismatch = false,
                         }) ?? throw new InvalidOperationException();
 
                     Directory.CreateDirectory(Path.Combine(o.Output, langStr));
@@ -197,6 +197,7 @@ public class Program
                         Console.WriteLine($"Chunk type: {chunkType}\nChunk length: {chunkLength}");
                         throw;
                     }
+
                     break;
             }
 
@@ -214,12 +215,12 @@ public class Program
 
         marker = (marker + 1) & 0b1111;
 
-        var ret = new byte[4];
+        Span<byte> ret = stackalloc byte[4];
         for (var i = 3; i >= 0; i--)
         {
             ret[i] = (marker & (1 << i)) == 0 ? (byte)0 : input.ReadByte();
         }
 
-        return BitConverter.ToUInt32(ret, 0);
+        return BitConverter.ToUInt32(ret);
     }
 }
