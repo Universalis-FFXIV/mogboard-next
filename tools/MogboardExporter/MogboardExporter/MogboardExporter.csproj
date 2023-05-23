@@ -9,8 +9,8 @@
 
     <ItemGroup>
       <PackageReference Include="CommandLineParser" Version="2.9.1" />
-      <PackageReference Include="Lumina" Version="3.8.0" />
-      <PackageReference Include="Lumina.Excel" Version="6.1.1" />
+      <PackageReference Include="Lumina" Version="3.10.2" />
+      <PackageReference Include="Lumina.Excel" Version="6.3.2" />
     </ItemGroup>
 
     <ItemGroup>
