@@ -6,6 +6,7 @@ import useClickOutside from '../../../../hooks/useClickOutside';
 import useSettings from '../../../../hooks/useSettings';
 import ErrorBoundary from '../../../ErrorBoundary/ErrorBoundary';
 import WorldOption from '../../../WorldOption/WorldOption';
+import { Language } from '../../../../types/universalis/lang';
 
 interface SettingsModalProps {
   isOpen: boolean;
@@ -196,7 +197,7 @@ export default function SettingsModal({ isOpen, closeModal, onSave }: SettingsMo
             className="btn-green"
             onClick={() => {
               setSetting('mogboard_server', server);
-              setSetting('mogboard_language', lang);
+              setSetting('mogboard_language', lang as Language);
               setSetting('mogboard_timezone', timezone);
               setSetting('mogboard_leftnav', showLeftNav);
               setSetting('mogboard_homeworld', showDefaultHomeWorld);
