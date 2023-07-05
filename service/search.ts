@@ -45,7 +45,8 @@ function getRepositoryUrl(lang: string) {
 export async function searchItems(
   query: string,
   lang: string,
-  algorithm?: string
+  algorithm?: string,
+  abort?: AbortController
 ): Promise<ItemSearchResults> {
   const baseUrl = getRepositoryUrl(lang);
 
@@ -54,7 +55,9 @@ export async function searchItems(
     searchUrl += `&string_algo=${algorithm}`;
   }
 
-  const data: XIVAPISearchResults = await fetch(searchUrl).then((res) => res.json());
+  const data: XIVAPISearchResults = await fetch(searchUrl, {
+    signal: abort?.signal,
+  }).then((res) => res.json());
 
   return {
     resultsReturned: data.Pagination.Results,

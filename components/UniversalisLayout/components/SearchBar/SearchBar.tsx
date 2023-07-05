@@ -1,5 +1,5 @@
 import { t, Trans } from '@lingui/macro';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { SearchItem, searchItems } from '../../../../service/search';
 import useClickOutside from '../../../../hooks/useClickOutside';
 import useSettings from '../../../../hooks/useSettings';
@@ -23,7 +23,11 @@ export default function SearchBar({ onResults, onMarketClicked }: SearchBarProps
     setComplete(false);
   });
 
+  const abort = useRef<AbortController | null>(null);
   const search = async (q: string) => {
+    abort.current?.abort();
+    abort.current = new AbortController();
+
     if (q.length === 0) {
       setTyping(false);
       setComplete(false);
@@ -43,8 +47,8 @@ export default function SearchBar({ onResults, onMarketClicked }: SearchBarProps
 
     try {
       if (lang !== 'chs') {
-        const res1 = await searchItems(q, lang, 'wildcard');
-        const res2 = await searchItems(q, lang, 'fuzzy');
+        const res1 = await searchItems(q, lang, 'wildcard', abort.current);
+        const res2 = await searchItems(q, lang, 'fuzzy', abort.current);
 
         const res = res1;
         let shownResults = res1.resultsReturned + res2.resultsReturned;
@@ -63,11 +67,14 @@ export default function SearchBar({ onResults, onMarketClicked }: SearchBarProps
 
         onResults(res.results, res.resultsTotal, q);
       } else {
-        const res = await searchItems(q, lang);
+        const res = await searchItems(q, lang, undefined, abort.current);
         onResults(res.results, res.resultsTotal, q);
       }
     } catch (err) {
-      console.error(err);
+      if (!(err instanceof DOMException)) {
+        // fetch throws a DOMException when it receives an abort signal
+        console.error(err);
+      }
     }
 
     setSearching(false);
