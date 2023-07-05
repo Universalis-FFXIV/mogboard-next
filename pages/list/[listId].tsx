@@ -115,15 +115,17 @@ const List: NextPage<ListProps> = ({ list, reqIsOwner, ownerName }) => {
   };
 
   const showHqOnly = settings.listHqOnly === 'yes';
-  const showHomeWorld = settings['mogboard_homeworld'] === 'yes';
+  const [showHomeWorld, setShowHomeWorld] = useState(settings['mogboard_homeworld'] === 'yes');
+  const showCrossDc = settings.listCrossDc === 'yes';
   const world = settings['mogboard_server'] || 'Phoenix';
   const dc = (dcs ?? []).find((x) => x.worlds.some((y) => y.name === world));
   const server = showHomeWorld ? world : dc?.name ?? 'Chaos';
+  const region = dc?.region ?? 'Europe';
 
   const itemIds = list.items.length <= 1 ? `0,${list.items[0]}` : list.items.join();
 
   const { data: market } = useSWR(
-    `${getBaseUrl()}/v2/${server}/${itemIds}?listings=5&entries=5${
+    `${getBaseUrl()}/v2/${showCrossDc ? region : server}/${itemIds}?listings=5&entries=5${
       showHqOnly ? '&hq=1' : ''
     }` as string,
     (url) => fetch(url).then((res) => res.json())
@@ -162,9 +164,11 @@ const List: NextPage<ListProps> = ({ list, reqIsOwner, ownerName }) => {
           reqIsOwner={reqIsOwner}
           openRenameModal={openRenameModal}
           showHomeWorld={showHomeWorld}
-          setShowHomeWorld={(value) => setSetting('mogboard_homeworld', value ? 'yes' : 'no')}
+          setShowHomeWorld={setShowHomeWorld}
           showHqOnly={showHqOnly}
           setShowHqOnly={(value) => setSetting('listHqOnly', value ? 'yes' : 'no')}
+          showCrossDc={showCrossDc}
+          setShowCrossDc={(value) => setSetting('listCrossDc', value ? 'yes' : 'no')}
         />
         {stateList.items.map((itemId) => (
           <ErrorBoundary key={itemId}>
@@ -173,7 +177,7 @@ const List: NextPage<ListProps> = ({ list, reqIsOwner, ownerName }) => {
               item={items[itemId]}
               market={market}
               reqIsOwner={reqIsOwner}
-              showHomeWorld={showHomeWorld}
+              showHomeWorld={showHomeWorld && !showCrossDc}
               removeItem={(itemId) => updateList({ type: 'removeItem', itemId })}
               lang={lang}
             />

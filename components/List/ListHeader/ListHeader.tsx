@@ -10,6 +10,8 @@ interface ListHeaderProps {
   setShowHomeWorld: (homeWorld: boolean) => void;
   showHqOnly: boolean;
   setShowHqOnly: (value: boolean) => void;
+  showCrossDc: boolean;
+  setShowCrossDc: (value: boolean) => void;
 }
 
 export default function ListHeader({
@@ -20,6 +22,8 @@ export default function ListHeader({
   setShowHomeWorld,
   showHqOnly,
   setShowHqOnly,
+  showCrossDc,
+  setShowCrossDc,
 }: ListHeaderProps) {
   const nOfMItems = sprintf(t`%d / %d items`, list.items.length, 100);
   return (
@@ -40,14 +44,56 @@ export default function ListHeader({
           )}
           {nOfMItems}
           &nbsp;&nbsp;|&nbsp;&nbsp;
-          {showHomeWorld ? (
-            <a onClick={() => setShowHomeWorld(false)}>
-              <Trans>Show Cross-World</Trans>
-            </a>
+          {showCrossDc ? (
+            <>
+              <a
+                onClick={() => {
+                  setShowCrossDc(false);
+                  setShowHomeWorld(false);
+                }}
+              >
+                <Trans>Show Cross-World</Trans>
+              </a>
+              &nbsp;&nbsp;|&nbsp;&nbsp;
+              <a
+                onClick={() => {
+                  setShowCrossDc(false);
+                  setShowHomeWorld(true);
+                }}
+              >
+                <Trans>Show Home Server Only</Trans>
+              </a>
+            </>
+          ) : showHomeWorld ? (
+            <>
+              <a onClick={() => setShowCrossDc(true)}>
+                <Trans>Show Cross-DC</Trans>
+              </a>
+              &nbsp;&nbsp;|&nbsp;&nbsp;
+              <a
+                onClick={() => {
+                  setShowCrossDc(false);
+                  setShowHomeWorld(false);
+                }}
+              >
+                <Trans>Show Cross-World</Trans>
+              </a>
+            </>
           ) : (
-            <a onClick={() => setShowHomeWorld(true)}>
-              <Trans>Show Home Server Only</Trans>
-            </a>
+            <>
+              <a onClick={() => setShowCrossDc(true)}>
+                <Trans>Show Cross-DC</Trans>
+              </a>
+              &nbsp;&nbsp;|&nbsp;&nbsp;
+              <a
+                onClick={() => {
+                  setShowCrossDc(false);
+                  setShowHomeWorld(true);
+                }}
+              >
+                <Trans>Show Home Server Only</Trans>
+              </a>
+            </>
           )}
           &nbsp;&nbsp;|&nbsp;&nbsp;
           {showHqOnly ? (
