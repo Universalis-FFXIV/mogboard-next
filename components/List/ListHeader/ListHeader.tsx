@@ -8,6 +8,8 @@ interface ListHeaderProps {
   openRenameModal: () => void;
   showHomeWorld: boolean;
   setShowHomeWorld: (homeWorld: boolean) => void;
+  showHqOnly: boolean;
+  setShowHqOnly: (value: boolean) => void;
 }
 
 export default function ListHeader({
@@ -16,6 +18,8 @@ export default function ListHeader({
   openRenameModal,
   showHomeWorld,
   setShowHomeWorld,
+  showHqOnly,
+  setShowHqOnly,
 }: ListHeaderProps) {
   const nOfMItems = sprintf(t`%d / %d items`, list.items.length, 100);
   return (
@@ -43,6 +47,16 @@ export default function ListHeader({
           ) : (
             <a onClick={() => setShowHomeWorld(true)}>
               <Trans>Show Home Server Only</Trans>
+            </a>
+          )}
+          &nbsp;&nbsp;|&nbsp;&nbsp;
+          {showHqOnly ? (
+            <a onClick={() => setShowHqOnly(false)}>
+              <Trans>Show NQ and HQ</Trans>
+            </a>
+          ) : (
+            <a onClick={() => setShowHqOnly(true)}>
+              <Trans>Show HQ Only</Trans>
             </a>
           )}
         </span>
