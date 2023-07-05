@@ -8,10 +8,11 @@ interface LegacySettings {
   mogboard_language: Language;
   mogboard_timezone: string;
   mogboard_leftnav: 'on' | 'off';
-  mogboard_homeworld: 'yes' | 'no';
+  mogboard_homeworld: 'yes' | 'no'; // Booleans get coerced to strings in localStorage anyways; this is less confusing
 }
 
 interface Settings extends LegacySettings {
+  listCrossDc: 'yes' | 'no';
   listHqOnly: 'yes' | 'no';
 }
 
@@ -41,6 +42,7 @@ export default function useSettings(): [
     'mogboard_leftnav',
     'mogboard_homeworld',
     'listHqOnly',
+    'listCrossDc',
   ];
 
   const [cookies, setCookie] = useCookies<keyof Settings, Partial<Settings>>(keys);
