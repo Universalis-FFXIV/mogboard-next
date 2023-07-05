@@ -13,14 +13,12 @@ import { usePopup } from '../../components/UniversalisLayout/components/Popup/Po
 import { getItem } from '../../data/game';
 import { Database } from '../../db';
 import useSettings from '../../hooks/useSettings';
-import { getServers } from '../../service/servers';
 import { getBaseUrl } from '../../service/universalis';
 import { DataCenter } from '../../types/game/DataCenter';
 import { Item } from '../../types/game/Item';
 import { UserList } from '../../types/universalis/user';
 import { authOptions } from '../api/auth/[...nextauth]';
 import useSWR from 'swr';
-import useSWRImmutable from 'swr/immutable';
 import useDataCenters from '../../hooks/useDataCenters';
 
 interface ListProps {
@@ -33,7 +31,7 @@ interface ListProps {
 type ListsAction = { type: 'removeItem'; itemId: number } | { type: 'renameList'; name: string };
 
 const List: NextPage<ListProps> = ({ list, reqIsOwner, ownerName }) => {
-  const [settings] = useSettings();
+  const [settings, setSetting] = useSettings();
   const lang = settings['mogboard_language'] || 'en';
 
   const [newName, setNewName] = useState(list.name);
@@ -116,7 +114,8 @@ const List: NextPage<ListProps> = ({ list, reqIsOwner, ownerName }) => {
       .finally(() => setUpdating(false));
   };
 
-  const [showHomeWorld, setShowHomeWorld] = useState(settings['mogboard_homeworld'] === 'yes');
+  const showHqOnly = settings.listHqOnly === 'yes';
+  const showHomeWorld = settings['mogboard_homeworld'] === 'yes';
   const world = settings['mogboard_server'] || 'Phoenix';
   const dc = (dcs ?? []).find((x) => x.worlds.some((y) => y.name === world));
   const server = showHomeWorld ? world : dc?.name ?? 'Chaos';
@@ -124,7 +123,9 @@ const List: NextPage<ListProps> = ({ list, reqIsOwner, ownerName }) => {
   const itemIds = list.items.length <= 1 ? `0,${list.items[0]}` : list.items.join();
 
   const { data: market } = useSWR(
-    `${getBaseUrl()}/v2/${server}/${itemIds}?listings=5&entries=5`,
+    `${getBaseUrl()}/v2/${server}/${itemIds}?listings=5&entries=5${
+      showHqOnly ? '&hq=1' : ''
+    }` as string,
     (url) => fetch(url).then((res) => res.json())
   );
 
@@ -161,7 +162,9 @@ const List: NextPage<ListProps> = ({ list, reqIsOwner, ownerName }) => {
           reqIsOwner={reqIsOwner}
           openRenameModal={openRenameModal}
           showHomeWorld={showHomeWorld}
-          setShowHomeWorld={setShowHomeWorld}
+          setShowHomeWorld={(value) => setSetting('mogboard_homeworld', value ? 'yes' : 'no')}
+          showHqOnly={showHqOnly}
+          setShowHqOnly={(value) => setSetting('listHqOnly', value ? 'yes' : 'no')}
         />
         {stateList.items.map((itemId) => (
           <ErrorBoundary key={itemId}>

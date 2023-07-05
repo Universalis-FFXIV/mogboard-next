@@ -2,13 +2,17 @@ import { useEffect } from 'react';
 import { useCookies } from 'react-cookie';
 import { Language } from '../types/universalis/lang';
 
-interface Settings {
+interface LegacySettings {
   mogboard_server: string;
   mogboard_last_selected_server: string;
   mogboard_language: Language;
   mogboard_timezone: string;
   mogboard_leftnav: 'on' | 'off';
   mogboard_homeworld: 'yes' | 'no';
+}
+
+interface Settings extends LegacySettings {
+  listHqOnly: 'yes' | 'no';
 }
 
 function validateLanguage(
@@ -27,7 +31,7 @@ function validateLanguage(
  */
 export default function useSettings(): [
   Partial<Settings>,
-  (name: keyof Settings, value: any) => void
+  <K extends keyof Settings>(name: K, value: Settings[K]) => void
 ] {
   const keys: (keyof Settings)[] = [
     'mogboard_server',
@@ -36,6 +40,7 @@ export default function useSettings(): [
     'mogboard_timezone',
     'mogboard_leftnav',
     'mogboard_homeworld',
+    'listHqOnly',
   ];
 
   const [cookies, setCookie] = useCookies<keyof Settings, Partial<Settings>>(keys);
