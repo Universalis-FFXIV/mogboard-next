@@ -39,7 +39,7 @@ class ArrayWithEnd<T> extends Array<T> {
 }
 
 export class PHPObject extends ArrayWithEnd<any> {
-  public constructor(..._errorProne: never) {
+  public constructor(..._errorProne: never | never[]) {
     super();
   }
 
