@@ -39,7 +39,7 @@ public class ItemKind
                     { Language.French, "Armes" },
                     { Language.German, "Waffen" },
                     { Language.ChineseSimplified, "武器" },
-                    { Language.Korean, "" },
+                    { Language.Korean, "무기" },
                 }
             },
             {
@@ -50,7 +50,7 @@ public class ItemKind
                     { Language.French, "Outils" },
                     { Language.German, "Werkzeuge" },
                     { Language.ChineseSimplified, "道具" },
-                    { Language.Korean, "" },
+                    { Language.Korean, "도구" },
                 }
             },
             {
@@ -61,7 +61,7 @@ public class ItemKind
                     { Language.French, "Armures" },
                     { Language.German, "Rüstung" },
                     { Language.ChineseSimplified, "防具" },
-                    { Language.Korean, "" },
+                    { Language.Korean, "방어구" },
                 }
             },
             {
@@ -72,7 +72,7 @@ public class ItemKind
                     { Language.French, "Accessoires" },
                     { Language.German, "Accessoires" },
                     { Language.ChineseSimplified, "饰品" },
-                    { Language.Korean, "" },
+                    { Language.Korean, "장신구" },
                 }
             },
             {
@@ -83,7 +83,7 @@ public class ItemKind
                     { Language.French, "Consommables" },
                     { Language.German, "Arznei/Gerichte" },
                     { Language.ChineseSimplified, "药品食品" },
-                    { Language.Korean, "" },
+                    { Language.Korean, "약품 및 식품" },
                 }
             },
             {
@@ -94,7 +94,7 @@ public class ItemKind
                     { Language.French, "Matériaux" },
                     { Language.German, "Materialien" },
                     { Language.ChineseSimplified, "素材" },
-                    { Language.Korean, "" },
+                    { Language.Korean, "재료" },
                 }
             },
             {
@@ -105,7 +105,7 @@ public class ItemKind
                     { Language.French, "Autres" },
                     { Language.German, "Anderes" },
                     { Language.ChineseSimplified, "其它" },
-                    { Language.Korean, "" },
+                    { Language.Korean, "기타" },
                 }
             },
         };
