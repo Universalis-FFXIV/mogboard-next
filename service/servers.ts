@@ -60,6 +60,7 @@ export function getServerRegionNameMap(regionStrings: {
   america: string;
   oceania: string;
   china: string;
+  korea: string;
 }) {
   return new Map<string, string>([
     ['Japan', regionStrings.japan],
@@ -67,5 +68,6 @@ export function getServerRegionNameMap(regionStrings: {
     ['Europe', regionStrings.europe],
     ['Oceania', regionStrings.oceania],
     ['中国', regionStrings.china],
+    ['한국', regionStrings.korea],
   ]);
 }

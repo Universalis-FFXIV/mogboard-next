@@ -16,6 +16,7 @@ export default function WorldOption({ value, setValue }: WorldOptionProps) {
     america: t`America`,
     oceania: t`Oceania`,
     china: t`中国`,
+    korea: t`한국`,
   });
 
   return (

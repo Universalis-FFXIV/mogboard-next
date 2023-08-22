@@ -42,7 +42,7 @@ import { Materia } from '../../types/game/Materia';
 
 type DataIndex<T> = Record<number, T>;
 
-type Language = 'ja' | 'en' | 'de' | 'fr' | 'chs';
+type Language = 'ja' | 'en' | 'de' | 'fr' | 'chs' | 'ko';
 
 const classJobCategories: Record<Language, DataIndex<ClassJobCategory>> = {
   ja: classJobCategoriesJa as DataIndex<ClassJobCategory>,
@@ -50,6 +50,7 @@ const classJobCategories: Record<Language, DataIndex<ClassJobCategory>> = {
   de: classJobCategoriesDe as DataIndex<ClassJobCategory>,
   fr: classJobCategoriesFr as DataIndex<ClassJobCategory>,
   chs: classJobCategoriesZhHans as DataIndex<ClassJobCategory>,
+  ko: classJobCategoriesEn as DataIndex<ClassJobCategory>,
 };
 
 const itemUiCategories: Record<Language, DataIndex<ItemUICategory>> = {
@@ -58,6 +59,7 @@ const itemUiCategories: Record<Language, DataIndex<ItemUICategory>> = {
   de: itemUiCategoriesDe as DataIndex<ItemUICategory>,
   fr: itemUiCategoriesFr as DataIndex<ItemUICategory>,
   chs: itemUiCategoriesZhHans as DataIndex<ItemUICategory>,
+  ko: itemUiCategoriesEn as DataIndex<ItemUICategory>,
 };
 
 const itemSearchCategories: Record<Language, DataIndex<ItemSearchCategory>> = {
@@ -66,6 +68,7 @@ const itemSearchCategories: Record<Language, DataIndex<ItemSearchCategory>> = {
   de: itemSearchCategoriesDe as DataIndex<ItemSearchCategory>,
   fr: itemSearchCategoriesFr as DataIndex<ItemSearchCategory>,
   chs: itemSearchCategoriesZhHans as DataIndex<ItemSearchCategory>,
+  ko: itemSearchCategoriesEn as DataIndex<ItemSearchCategory>,
 };
 
 const itemKinds: Record<Language, DataIndex<ItemKind>> = {
@@ -74,6 +77,7 @@ const itemKinds: Record<Language, DataIndex<ItemKind>> = {
   de: itemKindsDe as DataIndex<ItemKind>,
   fr: itemKindsFr as DataIndex<ItemKind>,
   chs: itemKindsZhHans as DataIndex<ItemKind>,
+  ko: itemKindsEn as DataIndex<ItemKind>,
 };
 
 const items: Record<Language, DataIndex<Item>> = {
@@ -82,6 +86,7 @@ const items: Record<Language, DataIndex<Item>> = {
   de: itemsDe as DataIndex<Item>,
   fr: itemsFr as DataIndex<Item>,
   chs: itemsZhHans as DataIndex<Item>,
+  ko: itemsEn as DataIndex<Item>,
 };
 
 const materia: Record<Language, DataIndex<Materia>> = {
@@ -90,6 +95,7 @@ const materia: Record<Language, DataIndex<Materia>> = {
   de: materiaDe as DataIndex<Materia>,
   fr: materiaFr as DataIndex<Materia>,
   chs: materiaZhHans as DataIndex<Materia>,
+  ko: materiaEn as DataIndex<Materia>,
 };
 
 export function getItemSearchCategories(lang: Language): ItemSearchCategory[] {
