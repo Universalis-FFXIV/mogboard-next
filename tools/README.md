@@ -25,3 +25,12 @@ project directory:
 ```bash
 dotnet run -- -o ..\..\..\data\game
 ```
+
+## MogboardExporter.XIVAPI.KR
+
+The XIVAPI.KR sub-project exports data from a local instance of [Lalafell.API](https://github.com/kokose1234/Lalafell.API) for use
+in the Korean version of the website. It is used as follows, from its project directory:
+
+```bash
+dotnet run -- -o ..\..\..\data\game
+```

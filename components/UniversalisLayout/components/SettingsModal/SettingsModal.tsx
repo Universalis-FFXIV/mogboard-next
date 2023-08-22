@@ -65,14 +65,7 @@ export default function SettingsModal({ isOpen, closeModal, onSave }: SettingsMo
                   className="languages"
                   onChange={(e) => {
                     const val = e.target.value;
-                    if (
-                      lang !== val &&
-                      (val === 'en' ||
-                        val === 'fr' ||
-                        val === 'de' ||
-                        val === 'ja' ||
-                        val === 'chs')
-                    ) {
+                    if (lang !== val) {
                       setLang(val);
                     }
                   }}
@@ -84,7 +77,7 @@ export default function SettingsModal({ isOpen, closeModal, onSave }: SettingsMo
                   <option value="fr">Français</option>
                   <option value="de">Deutsch</option>
                   <option value="ja">日本語</option>
-                  {/* <option value="kr">한국어</option> */}
+                  <option value="ko">한국어</option>
                   <option value="chs">中文</option>
                 </select>
               </div>
