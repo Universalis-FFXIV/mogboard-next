@@ -15,12 +15,13 @@ import HighchartsStock from 'highcharts/modules/stock';
 import HighchartsHistogram from 'highcharts/modules/histogram-bellcurve';
 import { i18n } from '@lingui/core';
 import { I18nProvider } from '@lingui/react';
-import { en, ja, de, fr, zh } from 'make-plural/plurals';
+import { en, ja, de, fr, zh, ko } from 'make-plural/plurals';
 import { messages as messagesEn } from '../i18n/en/messages';
 import { messages as messagesJa } from '../i18n/ja/messages';
 import { messages as messagesDe } from '../i18n/de/messages';
 import { messages as messagesFr } from '../i18n/fr/messages';
 import { messages as messagesZhHans } from '../i18n/zh-HANS/messages';
+import { messages as messagesKo } from '../i18n/ko/messages';
 import App from 'next/app';
 import { useEffect, useState } from 'react';
 import { PopupData, PopupProvider } from '../components/UniversalisLayout/components/Popup/Popup';
@@ -30,7 +31,7 @@ import {
 } from '../components/UniversalisLayout/components/ModalCover/ModalCover';
 import MogboardHighchartsTheme from '../theme/highcharts';
 
-function parseLang(lang: any): 'ja' | 'en' | 'de' | 'fr' | 'zh-HANS' {
+function parseLang(lang: any): 'ja' | 'en' | 'de' | 'fr' | 'zh-HANS' | 'ko' {
   if (lang === 'chs') {
     return 'zh-HANS';
   }
@@ -41,6 +42,8 @@ function parseLang(lang: any): 'ja' | 'en' | 'de' | 'fr' | 'zh-HANS' {
     return 'fr';
   } else if (lang === 'de') {
     return 'de';
+  } else if (lang === 'ko') {
+    return 'ko';
   } else {
     return 'en';
   }
@@ -52,6 +55,7 @@ i18n.load({
   de: messagesDe,
   fr: messagesFr,
   'zh-HANS': messagesZhHans,
+  ko: messagesKo,
 });
 
 i18n.loadLocaleData({
@@ -60,6 +64,7 @@ i18n.loadLocaleData({
   de: { plurals: de },
   fr: { plurals: fr },
   'zh-HANS': { plurals: zh },
+  ko: { plurals: ko },
 });
 
 // This needs to be here so that it runs on the server

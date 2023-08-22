@@ -1,7 +1,19 @@
 {
-  "locales": ["en", "ja", "fr", "de", "zh-HANS"],
-  "catalogs": [{
-    "path": "i18n/{locale}/messages",
-    "include": ["pages", "components"]
-  }]
+  "locales": [
+    "en",
+    "ja",
+    "fr",
+    "de",
+    "zh-HANS",
+    "ko"
+  ],
+  "catalogs": [
+    {
+      "path": "i18n/{locale}/messages",
+      "include": [
+        "pages",
+        "components"
+      ]
+    }
+  ]
 }
