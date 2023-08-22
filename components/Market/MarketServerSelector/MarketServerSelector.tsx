@@ -32,6 +32,7 @@ export default function MarketServerSelector({
     america: t`America`,
     oceania: t`Oceania`,
     china: t`中国`,
+    korea: t`한국`,
   });
 
   return (
