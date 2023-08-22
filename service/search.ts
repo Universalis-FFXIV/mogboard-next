@@ -39,7 +39,13 @@ export interface SearchItem {
 }
 
 function getRepositoryUrl(lang: string) {
-  return lang === 'chs' ? 'https://cafemaker.wakingsands.com' : 'https://xivapi.com';
+  if (lang === 'chs') {
+    return 'https://cafemaker.wakingsands.com';
+  } else if (lang === 'ko') {
+    return 'http://lalafell-api';
+  } else {
+    return 'https://xivapi.com';
+  }
 }
 
 export async function searchItems(
