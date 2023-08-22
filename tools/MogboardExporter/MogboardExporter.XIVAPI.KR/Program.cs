@@ -17,7 +17,7 @@ public class Program
         public string Output { get; set; }
     }
 
-    private const string URL = "https://localhost:7023"; //TODO: Change this to the real URL
+    private const string URL = "https://localhost:44341"; //TODO: Change this to the real URL
 
     public static void Main(string[] args)
     {
@@ -25,8 +25,8 @@ public class Program
               .WithParsed(o =>
               {
                   Console.WriteLine("Beginning export.");
-                  Console.WriteLine("Exporting language kr...");
-                  const string langStr = "kr";
+                  Console.WriteLine("Exporting language ko...");
+                  const string langStr = "ko";
                   Directory.CreateDirectory(Path.Combine(o.Output, langStr));
 
                   using var http = new HttpClient();
