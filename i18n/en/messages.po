@@ -23,7 +23,7 @@ msgstr ""
 msgid "%Diff"
 msgstr ""
 
-#: components/List/ListHeader/ListHeader.tsx:20
+#: components/List/ListHeader/ListHeader.tsx:28
 msgid "%d / %d items"
 msgstr ""
 
@@ -67,19 +67,19 @@ msgstr ""
 msgid "(Includes 5% GST)"
 msgstr ""
 
-#: components/WorldOption/WorldOption.tsx:36
+#: components/WorldOption/WorldOption.tsx:37
 msgid "(Unknown)"
 msgstr ""
 
-#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:80
+#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:74
 msgid "- Choose your language -"
 msgstr ""
 
-#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:110
+#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:104
 msgid "- Choose your timezone -"
 msgstr ""
 
-#: components/WorldOption/WorldOption.tsx:33
+#: components/WorldOption/WorldOption.tsx:34
 msgid "- Please Choose a Server -"
 msgstr ""
 
@@ -263,7 +263,7 @@ msgstr ""
 msgid "Current alerts for this item: {0}"
 msgstr ""
 
-#: pages/list/[listId].tsx:141
+#: pages/list/[listId].tsx:144
 msgid "Custom Universalis list by %s"
 msgstr ""
 
@@ -284,7 +284,7 @@ msgstr ""
 msgid "Date"
 msgstr ""
 
-#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:159
+#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:153
 msgid "Default Home World"
 msgstr ""
 
@@ -463,11 +463,11 @@ msgstr ""
 msgid "Japan"
 msgstr ""
 
-#: components/List/ListHeader/ListHeader.tsx:24
+#: components/List/ListHeader/ListHeader.tsx:32
 msgid "LIST"
 msgstr ""
 
-#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:58
+#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:59
 msgid "Language"
 msgstr ""
 
@@ -497,11 +497,11 @@ msgstr ""
 msgid "Least recently updated on {server}"
 msgstr ""
 
-#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:127
+#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:121
 msgid "Left Navigation"
 msgstr ""
 
-#: pages/list/[listId].tsx:140
+#: pages/list/[listId].tsx:143
 msgid "List"
 msgstr ""
 
@@ -537,7 +537,7 @@ msgstr ""
 msgid "Logout"
 msgstr ""
 
-#: components/UniversalisLayout/components/SearchBar/SearchBar.tsx:106
+#: components/UniversalisLayout/components/SearchBar/SearchBar.tsx:113
 msgid "Market"
 msgstr ""
 
@@ -579,8 +579,8 @@ msgstr ""
 msgid "New Alert"
 msgstr ""
 
-#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:149
-#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:182
+#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:143
+#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:176
 msgid "No"
 msgstr ""
 
@@ -672,7 +672,7 @@ msgstr ""
 msgid "Remove item from list"
 msgstr ""
 
-#: components/List/ListHeader/ListHeader.tsx:32
+#: components/List/ListHeader/ListHeader.tsx:40
 msgid "Rename"
 msgstr ""
 
@@ -719,7 +719,7 @@ msgstr ""
 msgid "Save"
 msgstr ""
 
-#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:206
+#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:200
 msgid "Save Settings"
 msgstr ""
 
@@ -727,7 +727,7 @@ msgstr ""
 msgid "Saved"
 msgstr ""
 
-#: components/UniversalisLayout/components/SearchBar/SearchBar.tsx:90
+#: components/UniversalisLayout/components/SearchBar/SearchBar.tsx:97
 #: pages/account/characters.tsx:311
 msgid "Search"
 msgstr ""
@@ -755,12 +755,27 @@ msgstr ""
 msgid "Show"
 msgstr ""
 
-#: components/List/ListHeader/ListHeader.tsx:41
+#: components/List/ListHeader/ListHeader.tsx:70
+#: components/List/ListHeader/ListHeader.tsx:85
+msgid "Show Cross-DC"
+msgstr ""
+
+#: components/List/ListHeader/ListHeader.tsx:55
+#: components/List/ListHeader/ListHeader.tsx:79
 msgid "Show Cross-World"
 msgstr ""
 
-#: components/List/ListHeader/ListHeader.tsx:45
+#: components/List/ListHeader/ListHeader.tsx:105
+msgid "Show HQ Only"
+msgstr ""
+
+#: components/List/ListHeader/ListHeader.tsx:64
+#: components/List/ListHeader/ListHeader.tsx:94
 msgid "Show Home Server Only"
+msgstr ""
+
+#: components/List/ListHeader/ListHeader.tsx:101
+msgid "Show NQ and HQ"
 msgstr ""
 
 #: components/Market/MarketNav/MarketNav.tsx:335
@@ -827,7 +842,7 @@ msgstr ""
 msgid "There is currently no recorded history for this item on Universalis."
 msgstr ""
 
-#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:131
+#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:125
 msgid "This enables a quick-access left-navigation of all market categories."
 msgstr ""
 
@@ -839,11 +854,11 @@ msgstr ""
 #~ msgid "This is a regular ACT plugin that runs next to the always-used FFXIV_ACT_PLUGIN - just drop it into your ACT plugins folder, add it to ACT and you\\'re good to go! No configuration needed."
 #~ msgstr ""
 
-#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:163
+#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:157
 msgid "This will show prices/history on your home world by default instead of cross-world."
 msgstr ""
 
-#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:96
+#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:90
 msgid "Timezone"
 msgstr ""
 
@@ -932,8 +947,8 @@ msgstr ""
 msgid "World"
 msgstr ""
 
-#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:152
-#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:185
+#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:146
+#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:179
 msgid "Yes"
 msgstr ""
 
@@ -953,7 +968,7 @@ msgstr ""
 msgid "You have no characters, why not add one below!"
 msgstr ""
 
-#: pages/list/[listId].tsx:181
+#: pages/list/[listId].tsx:188
 msgid "You have no items in this list."
 msgstr ""
 
@@ -977,7 +992,7 @@ msgstr ""
 msgid "You must be logged in to view this area."
 msgstr ""
 
-#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:49
+#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:50
 msgid "Your Server"
 msgstr ""
 
@@ -996,4 +1011,9 @@ msgstr ""
 #: components/Market/MarketServerSelector/MarketServerSelector.tsx:34
 #: components/WorldOption/WorldOption.tsx:18
 msgid "中国"
+msgstr ""
+
+#: components/Market/MarketServerSelector/MarketServerSelector.tsx:35
+#: components/WorldOption/WorldOption.tsx:19
+msgid "한국"
 msgstr ""
