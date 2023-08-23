@@ -42,7 +42,7 @@ function getRepositoryUrl(lang: string) {
   if (lang === 'chs') {
     return 'https://cafemaker.wakingsands.com';
   } else if (lang === 'ko') {
-    return 'https://lalafell-api.universalis.app';
+    return 'https://lalafell-api.universalis.app/api';
   } else {
     return 'https://xivapi.com';
   }
