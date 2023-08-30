@@ -17,7 +17,7 @@ public class Program
         public string Output { get; set; }
     }
 
-    private const string URL = "https://localhost:44341"; //TODO: Change this to the real URL
+    private const string URL = "https://lalafell-api.universalis.app";
 
     public static void Main(string[] args)
     {
