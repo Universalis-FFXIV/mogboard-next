@@ -44,7 +44,7 @@ export default function MarketRegion({
     .sort((a, b) => b.timestamp - a.timestamp);
 
   const hqListings = allListings?.filter((listing: any) => listing.hq) ?? [];
-  const nqListings = allListings.filter((listing: any) => !listing.hq) ?? [];
+  const nqListings = allListings?.filter((listing: any) => !listing.hq) ?? [];
   const hqSales = allSales?.filter((sale: any) => sale.hq) ?? [];
   const nqSales = allSales?.filter((sale: any) => !sale.hq) ?? [];
 
@@ -75,22 +75,22 @@ export default function MarketRegion({
   const hqSalesAveragePpu =
     Math.ceil(
       hqSales.map((sale: any) => sale.pricePerUnit).reduce((agg: any, next: any) => agg + next, 0) /
-      hqSales.length
+        hqSales.length
     ) || 0;
   const nqSalesAveragePpu =
     Math.ceil(
       nqSales.map((sale: any) => sale.pricePerUnit).reduce((agg: any, next: any) => agg + next, 0) /
-      nqSales.length
+        nqSales.length
     ) || 0;
   const hqSalesAverageTotal =
     Math.ceil(
       hqSales.map((sale: any) => sale.total).reduce((agg: any, next: any) => agg + next, 0) /
-      hqSales.length
+        hqSales.length
     ) || 0;
   const nqSalesAverageTotal =
     Math.ceil(
       nqSales.map((sale: any) => sale.total).reduce((agg: any, next: any) => agg + next, 0) /
-      nqSales.length
+        nqSales.length
     ) || 0;
 
   return (

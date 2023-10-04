@@ -33,11 +33,13 @@ async function getServersInternal(): Promise<Servers> {
 
     const worlds: World[] = await fetch(`${getBaseUrl()}/v3/game/worlds`).then((res) => res.json());
 
-    const dcs = dcData.map((dc) => ({
-      name: dc.name,
-      region: dc.region,
-      worlds: dc.worlds.map((worldId) => worlds.find((w) => w.id === worldId)!),
-    }));
+    const dcs = dcData
+      .filter((region) => !region.name.includes('Beta'))
+      .map((dc) => ({
+        name: dc.name,
+        region: dc.region,
+        worlds: dc.worlds.map((worldId) => worlds.find((w) => w.id === worldId)!),
+      }));
 
     cache.servers = {
       value: { dcs, worlds },
