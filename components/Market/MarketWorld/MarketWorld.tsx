@@ -39,8 +39,7 @@ export default function MarketWorld({ item, world, market, lang, open }: MarketW
             <Trans>PRICES</Trans>{' '}
             <small>
               <Suspense>
-                <Trans>Updated:</Trans> {ago(new Date(market.lastUploadTime))}{' '}
-                {t`(Includes 5% GST)`}
+                <Trans>Updated:</Trans> {ago(new Date(market.lastUploadTime))}
               </Suspense>
             </small>
           </h4>

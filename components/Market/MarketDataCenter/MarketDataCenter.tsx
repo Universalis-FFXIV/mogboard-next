@@ -56,22 +56,22 @@ export default function MarketDataCenter({ item, dc, market, lang, open }: Marke
   const hqSalesAveragePpu =
     Math.ceil(
       hqSales.map((sale: any) => sale.pricePerUnit).reduce((agg: any, next: any) => agg + next, 0) /
-      hqSales.length
+        hqSales.length
     ) || 0;
   const nqSalesAveragePpu =
     Math.ceil(
       nqSales.map((sale: any) => sale.pricePerUnit).reduce((agg: any, next: any) => agg + next, 0) /
-      nqSales.length
+        nqSales.length
     ) || 0;
   const hqSalesAverageTotal =
     Math.ceil(
       hqSales.map((sale: any) => sale.total).reduce((agg: any, next: any) => agg + next, 0) /
-      hqSales.length
+        hqSales.length
     ) || 0;
   const nqSalesAverageTotal =
     Math.ceil(
       nqSales.map((sale: any) => sale.total).reduce((agg: any, next: any) => agg + next, 0) /
-      nqSales.length
+        nqSales.length
     ) || 0;
 
   return (
@@ -88,7 +88,7 @@ export default function MarketDataCenter({ item, dc, market, lang, open }: Marke
             <>
               <h6>
                 <Image src="/i/game/hq.png" alt="High Quality" height={15} width={15} />{' '}
-                {sprintf(t`%s Prices`, 'HQ')} {t`(Includes 5% GST)`}
+                {sprintf(t`%s Prices`, 'HQ')}
               </h6>
               <ListingsTable
                 listings={hqListings}
@@ -103,9 +103,7 @@ export default function MarketDataCenter({ item, dc, market, lang, open }: Marke
               <br />
             </>
           )}
-          <h6>
-            {sprintf(t`%s Prices`, 'NQ')} {t`(Includes 5% GST)`}
-          </h6>
+          <h6>{sprintf(t`%s Prices`, 'NQ')}</h6>
           <ListingsTable
             listings={nqListings}
             averageHq={hqListingsAveragePpu}
