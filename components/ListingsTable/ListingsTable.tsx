@@ -33,6 +33,7 @@ type ListingRow = {
   pricePerUnit: number;
   quantity: number;
   total: number;
+  totalTax: number;
   retainerName: string;
   retainerCity: number;
   creatorName: string;
@@ -85,6 +86,7 @@ function ListingsTableRow({ listing }: { listing: ListingRow }) {
       <td className="price-current">{listing.pricePerUnit.toLocaleString()}</td>
       <td className="price-qty">{listing.quantity.toLocaleString()}</td>
       <td className="price-total">{listing.total.toLocaleString()}</td>
+      <td className="price-total">{listing.totalTax.toLocaleString()}</td>
       {listing.diff != null && (
         <td
           className={`price-diff ${
@@ -159,6 +161,7 @@ export default function ListingsTable({
         pricePerUnit: listing.pricePerUnit,
         quantity: listing.quantity,
         total: listing.total,
+        totalTax: listing.total + listing.tax,
         retainerName: listing.retainerName,
         retainerCity: listing.retainerCity,
         creatorName: listing.creatorName ? listing.creatorName : '?',
@@ -209,6 +212,9 @@ export default function ListingsTable({
               </ListingsTableHeader>
               <ListingsTableHeader onSelected={() => ctx.intSort('total')}>
                 <Trans>Total</Trans>
+              </ListingsTableHeader>
+              <ListingsTableHeader onSelected={() => ctx.intSort('totalTax')}>
+                <Trans>Total (+GST)</Trans>
               </ListingsTableHeader>
               {includeDiff && (
                 <ListingsTableHeader onSelected={() => ctx.intSort('diff')}>
