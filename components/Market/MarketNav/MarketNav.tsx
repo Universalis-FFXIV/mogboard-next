@@ -323,7 +323,7 @@ export default function MarketNav({
             rel="noopener noreferrer"
           >
             <button type="button" className="btn btn_gt">
-              <Trans>Show on Saddlebag Exchange</Trans>
+              <Trans>Saddlebag Exchange</Trans>
             </button>
           </a>
           <a
@@ -332,7 +332,7 @@ export default function MarketNav({
             rel="noopener noreferrer"
           >
             <button type="button" className="btn btn_gt">
-              <Trans>Show on GarlandTools</Trans>
+              <Trans>GarlandTools</Trans>
             </button>
           </a>
           <a
@@ -341,7 +341,7 @@ export default function MarketNav({
             rel="noopener noreferrer"
           >
             <button type="button" className="btn btn_gt">
-              <Trans>Show on Teamcraft</Trans>
+              <Trans>Teamcraft</Trans>
             </button>
           </a>
           <LoggedIn hasSession={hasSession}>
