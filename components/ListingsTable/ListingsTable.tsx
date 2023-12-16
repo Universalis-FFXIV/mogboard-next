@@ -1,12 +1,13 @@
 import { Trans } from '@lingui/macro';
 import Image from 'next/image';
-import { Fragment, PropsWithChildren } from 'react';
+import { CSSProperties, Fragment, PropsWithChildren, useCallback } from 'react';
 import { DataCenter } from '../../types/game/DataCenter';
 import { Language } from '../../types/universalis/lang';
 import GameCityIcon from '../GameCityIcon/GameCityIcon';
 import GameMateria from '../GameMateria/GameMateria';
 import SortTable from '../SortTable/SortTable';
 import Tooltip from '../Tooltip/Tooltip';
+import useSettings from '../../hooks/useSettings';
 
 interface ListingsTableProps {
   listings: any[];
@@ -33,7 +34,6 @@ type ListingRow = {
   pricePerUnit: number;
   quantity: number;
   total: number;
-  totalTax: number;
   retainerName: string;
   retainerCity: number;
   creatorName: string;
@@ -57,7 +57,12 @@ function ListingsTableHeader({
   );
 }
 
-function ListingsTableRow({ listing }: { listing: ListingRow }) {
+interface ListingsTableRowProps {
+  listing: ListingRow;
+  includeGst: boolean;
+}
+
+function ListingsTableRow({ listing, includeGst }: ListingsTableRowProps) {
   return (
     <tr>
       <td className="price-num tac">{listing.n}</td>
@@ -83,10 +88,19 @@ function ListingsTableRow({ listing }: { listing: ListingRow }) {
           </Tooltip>
         )}
       </td>
-      <td className="price-current">{listing.pricePerUnit.toLocaleString()}</td>
+      <td className="price-current">
+        {listing.pricePerUnit.toLocaleString(
+          undefined,
+          includeGst
+            ? {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              }
+            : undefined
+        )}
+      </td>
       <td className="price-qty">{listing.quantity.toLocaleString()}</td>
       <td className="price-total">{listing.total.toLocaleString()}</td>
-      <td className="price-total">{listing.totalTax.toLocaleString()}</td>
       {listing.diff != null && (
         <td
           className={`price-diff ${
@@ -141,6 +155,9 @@ export default function ListingsTable({
   start,
   end,
 }: ListingsTableProps) {
+  const [settings] = useSettings();
+  const includeGst = settings.includeGst === 'yes';
+
   const listingRows: ListingRow[] = listings
     .sort((a, b) => a.pricePerUnit - b.pricePerUnit)
     .map((listing, i) => {
@@ -158,10 +175,11 @@ export default function ListingsTable({
             <br />
           </Fragment>
         )),
-        pricePerUnit: listing.pricePerUnit,
+        pricePerUnit: includeGst
+          ? (listing.total + listing.tax) / listing.quantity
+          : listing.pricePerUnit,
         quantity: listing.quantity,
-        total: listing.total,
-        totalTax: listing.total + listing.tax,
+        total: includeGst ? listing.total + listing.tax : listing.total,
         retainerName: listing.retainerName,
         retainerCity: listing.retainerCity,
         creatorName: listing.creatorName ? listing.creatorName : '?',
@@ -175,6 +193,7 @@ export default function ListingsTable({
         diff: includeDiff ? (listing.pricePerUnit / avgForQuality!) * 100 - 100 : null,
       };
     });
+
   return (
     <div className="table product_table">
       <SortTable
@@ -213,9 +232,6 @@ export default function ListingsTable({
               <ListingsTableHeader onSelected={() => ctx.intSort('total')}>
                 <Trans>Total</Trans>
               </ListingsTableHeader>
-              <ListingsTableHeader onSelected={() => ctx.intSort('totalTax')}>
-                <Trans>Total (+GST)</Trans>
-              </ListingsTableHeader>
               {includeDiff && (
                 <ListingsTableHeader onSelected={() => ctx.intSort('diff')}>
                   <Trans>%Diff</Trans>
@@ -239,7 +255,7 @@ export default function ListingsTable({
           </tr>
         }
       >
-        {(listing) => <ListingsTableRow listing={listing} />}
+        {(listing) => <ListingsTableRow listing={listing} includeGst={includeGst} />}
       </SortTable>
     </div>
   );
