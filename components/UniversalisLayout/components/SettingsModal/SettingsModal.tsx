@@ -25,6 +25,7 @@ export default function SettingsModal({ isOpen, closeModal, onSave }: SettingsMo
   const [showDefaultHomeWorld, setShowDefaultHomeWorld] = useState(
     settings['mogboard_homeworld'] ?? 'no'
   );
+  const [includeGst, setIncludeGst] = useState(settings.includeGst ?? 'no');
 
   const [settingsData, setSettingsData] = useState<{ timezones: TimeZone[] }>({
     timezones: [],
@@ -183,6 +184,40 @@ export default function SettingsModal({ isOpen, closeModal, onSave }: SettingsMo
             </div>
           </div>
         </div>
+        <div className="row row_top">
+          <div className="flex">
+            <div className="flex_50">
+              <label htmlFor="includegst">
+                <Trans>Include GST</Trans>
+              </label>
+              <div style={{ paddingBottom: 10 }}>
+                <small>
+                  <Trans>This will show listing prices with GST included.</Trans>
+                </small>
+              </div>
+              <div className="form">
+                <select
+                  value={includeGst}
+                  id="includegst"
+                  className="leftnav"
+                  onChange={(e) => {
+                    const val = e.target.value;
+                    if (includeGst !== val && (val === 'yes' || val === 'no')) {
+                      setIncludeGst(val);
+                    }
+                  }}
+                >
+                  <option value="no">
+                    <Trans>No</Trans>
+                  </option>
+                  <option value="yes">
+                    <Trans>Yes</Trans>
+                  </option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
 
         <div className="row form tac">
           <button
@@ -194,6 +229,7 @@ export default function SettingsModal({ isOpen, closeModal, onSave }: SettingsMo
               setSetting('mogboard_timezone', timezone);
               setSetting('mogboard_leftnav', showLeftNav);
               setSetting('mogboard_homeworld', showDefaultHomeWorld);
+              setSetting('includeGst', includeGst);
               onSave();
             }}
           >

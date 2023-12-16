@@ -14,6 +14,7 @@ interface LegacySettings {
 interface Settings extends LegacySettings {
   listCrossDc: 'yes' | 'no';
   listHqOnly: 'yes' | 'no';
+  includeGst: 'yes' | 'no';
 }
 
 function validateLanguage(
@@ -43,6 +44,7 @@ export default function useSettings(): [
     'mogboard_homeworld',
     'listHqOnly',
     'listCrossDc',
+    'includeGst',
   ];
 
   const [cookies, setCookie] = useCookies<keyof Settings, Partial<Settings>>(keys);
