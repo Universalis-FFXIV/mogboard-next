@@ -12,6 +12,11 @@ export interface Servers {
   worlds: World[];
 }
 
+export type Server =
+  | { type: 'region'; region: Region }
+  | { type: 'dc'; dc: DataCenter }
+  | { type: 'world'; world: World };
+
 export async function getServers(): Promise<Servers> {
   return retry(getServersInternal, {
     max: 5,
