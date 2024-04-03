@@ -1,6 +1,5 @@
-import { t, Trans } from '@lingui/macro';
+import { Trans } from '@lingui/macro';
 import { useEffect, useState } from 'react';
-import { getServers, getServerRegionNameMap, Servers } from '../../../../service/servers';
 import { getTimeZones, TimeZone } from '../../../../service/timezones';
 import useClickOutside from '../../../../hooks/useClickOutside';
 import useSettings from '../../../../hooks/useSettings';

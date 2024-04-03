@@ -14,6 +14,8 @@ const getSortedServers = () =>
 
 export default function useDataCenters(region?: string) {
   return useSWRImmutable(`$servers-${region}`, () =>
-    getSortedServers().then((servers) => servers.filter((server) => server.region === region))
+    getSortedServers().then((servers) =>
+      servers.filter((server) => !region || server.region === region)
+    )
   );
 }
