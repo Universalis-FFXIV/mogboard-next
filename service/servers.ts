@@ -56,6 +56,10 @@ async function getServersInternal(): Promise<Servers> {
   return cache.servers.value;
 }
 
+export type Region = 'Japan' | 'North-America' | 'Europe' | 'Oceania' | '中国' | '한국';
+
+export const REGIONS = ['Japan', 'North-America', 'Europe', 'Oceania', '中国', '한국'] as const;
+
 export function getServerRegionNameMap(regionStrings: {
   europe: string;
   japan: string;
@@ -64,7 +68,7 @@ export function getServerRegionNameMap(regionStrings: {
   china: string;
   korea: string;
 }) {
-  return new Map<string, string>([
+  return new Map<Region, string>([
     ['Japan', regionStrings.japan],
     ['North-America', regionStrings.america],
     ['Europe', regionStrings.europe],
