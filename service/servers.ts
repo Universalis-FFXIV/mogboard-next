@@ -37,7 +37,7 @@ async function getServersInternal(): Promise<Servers> {
       .filter((region) => !region.name.includes('Beta'))
       .map((dc) => ({
         name: dc.name,
-        region: dc.region,
+        region: dc.region as Region,
         worlds: dc.worlds.map((worldId) => worlds.find((w) => w.id === worldId)!),
       }));
 
