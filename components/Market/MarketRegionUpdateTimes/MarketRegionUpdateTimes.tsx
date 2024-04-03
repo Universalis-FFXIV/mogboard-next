@@ -5,12 +5,12 @@ import { DataCenter } from '../../../types/game/DataCenter';
 
 interface MarketRegionUpdateTimesProps {
   dcs: DataCenter[];
-  dcWorldUploadTimes: Record<string, Record<number, number>>;
+  worldUploadTimes: Record<number, number>;
 }
 
 export default function MarketRegionUpdateTimes({
   dcs,
-  dcWorldUploadTimes,
+  worldUploadTimes,
 }: MarketRegionUpdateTimesProps) {
   return (
     <div className="region_update_times">
@@ -21,8 +21,8 @@ export default function MarketRegionUpdateTimes({
               <h4>{world.name}</h4>
               <div>
                 <Suspense>
-                  {dcWorldUploadTimes[dc.name][world.id]
-                    ? ago(new Date(dcWorldUploadTimes[dc.name][world.id]))
+                  {worldUploadTimes[world.id]
+                    ? ago(new Date(worldUploadTimes[world.id]))
                     : t`No data`}
                 </Suspense>
               </div>

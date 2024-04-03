@@ -10,6 +10,10 @@ import MarketAverages from '../MarketAverages/MarketAverages';
 import MarketCheapest from '../MarketCheapest/MarketCheapest';
 import MarketHistoryGraph from '../MarketHistoryGraph/MarketHistoryGraph';
 import MarketStackSizeHistogram from '../MarketStackSizeHistogram/MarketStackSizeHistogram';
+import { useDataCenterMarkets } from '../../../hooks/market';
+import ErrorBoundary from '../../ErrorBoundary/ErrorBoundary';
+import { Suspense } from 'react';
+import MarketWorld from '../MarketWorld/MarketWorld';
 
 interface MarketRegionProps {
   item: Item;
@@ -218,3 +222,17 @@ export default function MarketRegion({
     </>
   );
 }
+
+export interface DynamicMarketRegionProps extends Omit<MarketRegionProps, 'dcMarkets'> {}
+
+MarketRegion.Dynamic = function DynamicMarketRegion(props: DynamicMarketRegionProps) {
+  const { data: markets } = useDataCenterMarkets(
+    props.dcs.map((dc) => dc.name),
+    props.item.id
+  );
+  if (!markets) {
+    return <MarketWorld.Skeleton />;
+  }
+
+  return <MarketRegion {...props} dcMarkets={markets} />;
+};

@@ -10,6 +10,8 @@ import MarketAverages from '../MarketAverages/MarketAverages';
 import MarketCheapest from '../MarketCheapest/MarketCheapest';
 import MarketHistoryGraph from '../MarketHistoryGraph/MarketHistoryGraph';
 import MarketStackSizeHistogram from '../MarketStackSizeHistogram/MarketStackSizeHistogram';
+import { useDataCenterMarket } from '../../../hooks/market';
+import MarketWorld from '../MarketWorld/MarketWorld';
 
 interface MarketDataCenterProps {
   item: Item;
@@ -191,3 +193,14 @@ export default function MarketDataCenter({ item, dc, market, lang, open }: Marke
     </>
   );
 }
+
+export interface DynamicMarketDataCenterProps extends Omit<MarketDataCenterProps, 'market'> {}
+
+MarketDataCenter.Dynamic = function DynamicMarketDataCenter(props: DynamicMarketDataCenterProps) {
+  const { data: market } = useDataCenterMarket(props.dc.name, props.item.id);
+  if (!market) {
+    return <MarketWorld.Skeleton />;
+  }
+
+  return <MarketDataCenter {...props} market={market} />;
+};

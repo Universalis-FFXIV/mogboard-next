@@ -2,7 +2,7 @@ import { Trans } from '@lingui/macro';
 import { GetServerSidePropsContext, NextPage } from 'next';
 import { unstable_getServerSession } from 'next-auth';
 import Head from 'next/head';
-import { useReducer, useState } from 'react';
+import { useCallback, useReducer, useState } from 'react';
 import { Database } from '../../db';
 import { RecentlyViewedList, USER_LIST_MAX_ITEMS } from '../../db/user-list';
 import useSettings from '../../hooks/useSettings';
@@ -19,7 +19,7 @@ import MarketItemHeader from '../../components/Market/MarketItemHeader/MarketIte
 import { getItem } from '../../data/game';
 import { Cookies } from 'react-cookie';
 import { World } from '../../types/game/World';
-import { getServers } from '../../service/servers';
+import { REGIONS, getServers } from '../../service/servers';
 import { ParsedUrlQuery } from 'querystring';
 import MarketServerUpdateTimes from '../../components/Market/MarketServerUpdateTimes/MarketServerUpdateTimes';
 import MarketRegion from '../../components/Market/MarketRegion/MarketRegion';
@@ -27,8 +27,222 @@ import MarketRegionUpdateTimes from '../../components/Market/MarketRegionUpdateT
 import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary';
 import { getBaseUrl } from '../../service/universalis';
 import retry, { Options } from 'retry-as-promised';
+import Spacing from '../../components/Spacing/Spacing';
+import { Item } from '../../types/game/Item';
+import { Language } from '../../types/universalis/lang';
+import { useRegionMarket } from '../../hooks/market';
+import useDataCenters from '../../hooks/useDataCenters';
 
 const isDev = process.env['APP_ENV'] !== 'prod';
+
+type Server =
+  | { type: 'region'; region: string }
+  | { type: 'dc'; dc: DataCenter }
+  | { type: 'world'; world: World };
+
+interface StaticMarketsProps {
+  item: Item;
+  region: string;
+  markets: Record<number | string, any>;
+  homeDc: DataCenter;
+  dcs: DataCenter[];
+  selectedServer: Server;
+  lang: Language;
+}
+
+/**
+ * Market data baked into the initial page load.
+ */
+const StaticMarkets = ({
+  lang,
+  item,
+  region,
+  markets,
+  homeDc,
+  dcs,
+  selectedServer,
+}: StaticMarketsProps) => {
+  return (
+    <div className="tab">
+      <div
+        className={`tab-page tab-summary ${
+          selectedServer.type === 'region' && selectedServer.region === region ? 'open' : ''
+        }`}
+      >
+        <ErrorBoundary>
+          <MarketRegionUpdateTimes
+            dcs={dcs}
+            worldUploadTimes={dcs.reduce((agg, next) => {
+              const nextMarket = markets[next.name];
+              Object.entries(nextMarket.worldUploadTimes).forEach(([worldId, lastUploadTime]) => {
+                agg[worldId] = lastUploadTime as number;
+              });
+              return agg;
+            }, {} as Record<string | number, number>)}
+          />
+        </ErrorBoundary>
+        <ErrorBoundary>
+          <MarketRegion
+            item={item}
+            region={region}
+            dcs={dcs}
+            dcMarkets={markets}
+            lang={lang}
+            open={selectedServer.type === 'region' && selectedServer.region === region}
+          />
+        </ErrorBoundary>
+      </div>
+      {dcs.map((dc, i) => (
+        <div
+          key={i}
+          className={`tab-page tab-summary ${
+            selectedServer.type === 'dc' && selectedServer.dc.name === dc.name ? 'open' : ''
+          }`}
+        >
+          <ErrorBoundary>
+            <MarketServerUpdateTimes
+              worlds={dc.worlds.sort((a, b) => a.name.localeCompare(b.name))}
+              worldUploadTimes={markets[dc.name]?.worldUploadTimes ?? dc.worlds.map(() => 0)}
+            />
+          </ErrorBoundary>
+          <ErrorBoundary>
+            <MarketDataCenter
+              item={item}
+              dc={dc}
+              market={markets[dc.name]}
+              lang={lang}
+              open={selectedServer.type === 'dc' && selectedServer.dc.name === dc.name}
+            />
+          </ErrorBoundary>
+        </div>
+      ))}
+      {homeDc.worlds.map((world) => (
+        <div
+          key={world.id}
+          className={`tab-page tab-cw ${
+            selectedServer.type === 'world' && selectedServer.world.name === world.name
+              ? 'open'
+              : ''
+          }`}
+        >
+          <ErrorBoundary>
+            <MarketWorld
+              item={item}
+              world={world}
+              market={markets[world.id]}
+              lang={lang}
+              open={selectedServer.type === 'world' && selectedServer.world.name === world.name}
+            />
+          </ErrorBoundary>
+        </div>
+      ))}
+    </div>
+  );
+};
+
+interface DynamicMarketsProps {
+  item: Item;
+  region: string;
+  selectedServer: Server;
+  lang: Language;
+}
+
+/**
+ * Market data on-demand.
+ */
+const DynamicMarkets = ({ item, selectedServer, region, lang }: DynamicMarketsProps) => {
+  const { data: market } = useRegionMarket(region, item.id);
+  const { data: dcs } = useDataCenters(region);
+
+  const getWorldUploadTimes = useCallback(
+    (dc?: DataCenter) => {
+      const allUploadTimes = market?.worldUploadTimes ?? {};
+      if (dc) {
+        return Object.fromEntries(
+          Object.entries(allUploadTimes).filter(([worldId]) =>
+            dc?.worlds.find((w) => `${w.id}` === worldId)
+          )
+        );
+      } else {
+        return allUploadTimes;
+      }
+    },
+    [market]
+  );
+
+  if (!market || !dcs) {
+    return (
+      <div className="tab-page tab-summary open">
+        <MarketWorld.Skeleton />
+      </div>
+    );
+  }
+
+  const worlds = dcs.flatMap((dc) => dc.worlds);
+  switch (selectedServer.type) {
+    case 'region':
+      return (
+        <div className="tab">
+          <div className="tab-page tab-summary open">
+            <ErrorBoundary>
+              <MarketServerUpdateTimes
+                worlds={worlds.sort((a, b) => a.name.localeCompare(b.name))}
+                worldUploadTimes={getWorldUploadTimes()}
+              />
+            </ErrorBoundary>
+            <ErrorBoundary>
+              <MarketRegion.Dynamic item={item} region={region} dcs={dcs} lang={lang} open />
+            </ErrorBoundary>
+          </div>
+        </div>
+      );
+    case 'dc':
+      const { dc } = selectedServer;
+      return (
+        <div className="tab">
+          <div className="tab-page tab-summary open">
+            <ErrorBoundary>
+              <MarketServerUpdateTimes
+                worlds={dc.worlds.sort((a, b) => a.name.localeCompare(b.name))}
+                worldUploadTimes={getWorldUploadTimes(dc)}
+              />
+            </ErrorBoundary>
+            <ErrorBoundary>
+              <MarketDataCenter.Dynamic item={item} dc={dc} lang={lang} open />
+            </ErrorBoundary>
+          </div>
+        </div>
+      );
+    case 'world':
+      const { world } = selectedServer;
+      return (
+        <div className="tab-page tab-summary open">
+          <ErrorBoundary>
+            <MarketWorld.Dynamic item={item} world={world} lang={lang} open />
+          </ErrorBoundary>
+        </div>
+      );
+  }
+};
+
+interface MarketsProps {
+  item: Item;
+  region: string;
+  markets?: Record<number | string, any>;
+  homeDc: DataCenter;
+  dcs: DataCenter[];
+  selectedServer: Server;
+  lang: Language;
+}
+
+const Markets = (props: MarketsProps) => {
+  if (props.markets !== undefined) {
+    const markets = props.markets; // Help TS out a bit
+    return <StaticMarkets {...props} markets={markets} />;
+  } else {
+    return <DynamicMarkets {...props} />;
+  }
+};
 
 interface MarketProps {
   hasSession: boolean;
@@ -40,11 +254,6 @@ interface MarketProps {
   dcs: DataCenter[];
   queryServer: string | null;
 }
-
-type Server =
-  | { type: 'region'; region: string }
-  | { type: 'dc'; dc: DataCenter }
-  | { type: 'world'; world: World };
 
 const Market: NextPage<MarketProps> = ({
   hasSession,
@@ -67,7 +276,7 @@ const Market: NextPage<MarketProps> = ({
 
   const findServer: (s: string | null) => Server = (s: string | null) => {
     // Match region
-    if (s === region) {
+    if ((REGIONS as readonly (string | null)[]).includes(s)) {
       return { type: 'region', region };
     }
 
@@ -98,9 +307,12 @@ const Market: NextPage<MarketProps> = ({
     return result;
   });
 
-  const setLastSelectedServer = (x: string) => {
-    setSetting('mogboard_last_selected_server', x);
-  };
+  const setLastSelectedServer = useCallback(
+    (x: string) => {
+      setSetting('mogboard_last_selected_server', x);
+    },
+    [setSetting]
+  );
 
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
 
@@ -128,6 +340,28 @@ const Market: NextPage<MarketProps> = ({
         return action.lists;
     }
   }, lists);
+
+  const selectServer = useCallback(
+    (s: Server) => {
+      // Set the new last-selected server for future page loads
+      if (s.type === 'region') {
+        setLastSelectedServer(s.region);
+      } else if (s.type === 'dc') {
+        setLastSelectedServer(s.dc.name);
+      } else if (s.type === 'world') {
+        setLastSelectedServer(s.world.name);
+      }
+
+      setDynamicServer(null);
+      setSelectedServer(s);
+    },
+    [setLastSelectedServer]
+  );
+
+  // This gets special treatment, and isn't loaded into the page by default.
+  // Typically, all data is loaded ahead of time to support scrapers/sheets,
+  // but for this part of the UI we're not bound to that decision.
+  const [dynamicServer, setDynamicServer] = useState<Server | null>(null);
 
   const item = getItem(itemId, lang)!;
 
@@ -175,96 +409,34 @@ const Market: NextPage<MarketProps> = ({
                 homeDc={homeDc}
                 dcs={dcs}
                 homeWorldName={settings['mogboard_server']}
-                selectedServer={selectedServer}
-                setSelectedServer={(s) => {
-                  // Set the new last-selected server for future page loads
-                  if (s.type === 'region') {
-                    setLastSelectedServer(s.region);
-                  } else if (s.type === 'dc') {
-                    setLastSelectedServer(s.dc.name);
-                  } else if (s.type === 'world') {
-                    setLastSelectedServer(s.world.name);
-                  }
-
-                  setSelectedServer(s);
-                }}
+                selectedServer={dynamicServer ?? selectedServer}
+                setSelectedServer={selectServer}
               />
             </div>
+            {region !== 'Oceania' && (
+              <>
+                <Spacing size={10} />
+                <div className={`item_nav ${mobileNavOpen ? 'open' : ''}`}>
+                  <ErrorBoundary>
+                    <MarketServerSelector.Dynamic
+                      region="Oceania"
+                      selectedServer={dynamicServer ?? selectedServer}
+                      setSelectedServer={setDynamicServer}
+                    />
+                  </ErrorBoundary>
+                </div>
+              </>
+            )}
           </div>
-          <div className="tab">
-            <div
-              className={`tab-page tab-summary ${
-                selectedServer.type === 'region' && selectedServer.region === region ? 'open' : ''
-              }`}
-            >
-              <ErrorBoundary>
-                <MarketRegionUpdateTimes
-                  dcs={dcs}
-                  dcWorldUploadTimes={dcs.reduce((agg, next) => {
-                    const nextMarket = markets[next.name];
-                    agg[next.name] = nextMarket?.worldUploadTimes ?? 0;
-                    return agg;
-                  }, {} as Record<string, Record<number, number>>)}
-                />
-              </ErrorBoundary>
-              <ErrorBoundary>
-                <MarketRegion
-                  item={item}
-                  region={region}
-                  dcs={dcs}
-                  dcMarkets={markets}
-                  lang={lang}
-                  open={selectedServer.type === 'region' && selectedServer.region === region}
-                />
-              </ErrorBoundary>
-            </div>
-            {dcs.map((dc, i) => (
-              <div
-                key={i}
-                className={`tab-page tab-summary ${
-                  selectedServer.type === 'dc' && selectedServer.dc.name === dc.name ? 'open' : ''
-                }`}
-              >
-                <ErrorBoundary>
-                  <MarketServerUpdateTimes
-                    worlds={dc.worlds.sort((a, b) => a.name.localeCompare(b.name))}
-                    worldUploadTimes={markets[dc.name]?.worldUploadTimes ?? dc.worlds.map(() => 0)}
-                  />
-                </ErrorBoundary>
-                <ErrorBoundary>
-                  <MarketDataCenter
-                    item={item}
-                    dc={dc}
-                    market={markets[dc.name]}
-                    lang={lang}
-                    open={selectedServer.type === 'dc' && selectedServer.dc.name === dc.name}
-                  />
-                </ErrorBoundary>
-              </div>
-            ))}
-            {homeDc.worlds.map((world) => (
-              <div
-                key={world.id}
-                className={`tab-page tab-cw ${
-                  selectedServer.type === 'world' && selectedServer.world.name === world.name
-                    ? 'open'
-                    : ''
-                }`}
-              >
-                <ErrorBoundary>
-                  <MarketWorld
-                    item={item}
-                    world={world}
-                    market={markets[world.id]}
-                    lang={lang}
-                    open={
-                      selectedServer.type === 'world' && selectedServer.world.name === world.name
-                    }
-                  />
-                </ErrorBoundary>
-              </div>
-            ))}
-          </div>
+          <Markets
+            item={item}
+            region={dynamicServer ? 'Oceania' : region}
+            markets={dynamicServer ? undefined : markets}
+            homeDc={homeDc}
+            dcs={dcs}
+            selectedServer={dynamicServer ?? selectedServer}
+            lang={lang}
+          />
         </div>
       </div>
     </>

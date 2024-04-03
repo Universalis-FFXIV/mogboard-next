@@ -9,6 +9,8 @@ import SalesTable from '../../SalesTable/SalesTable';
 import MarketHistoryGraph from '../MarketHistoryGraph/MarketHistoryGraph';
 import MarketStackSizeHistogram from '../MarketStackSizeHistogram/MarketStackSizeHistogram';
 import NoMarketData from '../NoMarketData/NoMarketData';
+import { useWorldMarket } from '../../../hooks/market';
+import ContentLoader from 'react-content-loader';
 
 interface MarketWorldProps {
   item: Item;
@@ -88,3 +90,54 @@ export default function MarketWorld({ item, world, market, lang, open }: MarketW
     </>
   );
 }
+
+MarketWorld.Skeleton = function SkeletonMarketWorld() {
+  return (
+    <div className="tab-market-tables">
+      <div className="cw-table cw-prices">
+        <h4>
+          <Trans>PRICES</Trans>{' '}
+          <small>
+            <Suspense>
+              <Trans>Updated:</Trans>
+            </Suspense>
+          </small>
+        </h4>
+        <ContentLoader
+          uniqueKey="market-world-listings-table"
+          width="100%"
+          height="400"
+          backgroundColor="#282b34"
+          foregroundColor="#434856"
+        >
+          <rect rx="2" ry="2" width="100%" height="400" />
+        </ContentLoader>
+      </div>
+      <div className="cw-table cw-history">
+        <h4>
+          <Trans>HISTORY</Trans>
+        </h4>
+        <ContentLoader
+          uniqueKey="market-world-sales-table"
+          width="100%"
+          height="400"
+          backgroundColor="#282b34"
+          foregroundColor="#434856"
+        >
+          <rect rx="2" ry="2" width="100%" height="400" />
+        </ContentLoader>
+      </div>
+    </div>
+  );
+};
+
+export interface DynamicMarketWorldProps extends Omit<MarketWorldProps, 'market'> {}
+
+MarketWorld.Dynamic = function DynamicMarketWorld(props: DynamicMarketWorldProps) {
+  const { data: market } = useWorldMarket(props.world.id, props.item.id);
+  if (!market) {
+    return <MarketWorld.Skeleton />;
+  }
+
+  return <MarketWorld {...props} market={market} />;
+};
