@@ -1,18 +1,12 @@
 import { t } from '@lingui/macro';
 import SimpleBar from 'simplebar-react';
-import { getServerRegionNameMap } from '../../../service/servers';
+import { Region, Server, getServerRegionNameMap } from '../../../service/servers';
 import { DataCenter } from '../../../types/game/DataCenter';
-import { World } from '../../../types/game/World';
 import useDataCenters from '../../../hooks/useDataCenters';
 import ContentLoader from 'react-content-loader';
 
-type Server =
-  | { type: 'region'; region: string }
-  | { type: 'dc'; dc: DataCenter }
-  | { type: 'world'; world: World };
-
 interface MarketServerSelectorProps {
-  region: string;
+  region: Region;
   homeDc?: DataCenter;
   dcs: DataCenter[];
   homeWorldName?: string;

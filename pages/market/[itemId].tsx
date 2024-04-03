@@ -19,7 +19,7 @@ import MarketItemHeader from '../../components/Market/MarketItemHeader/MarketIte
 import { getItem } from '../../data/game';
 import { Cookies } from 'react-cookie';
 import { World } from '../../types/game/World';
-import { REGIONS, getServers } from '../../service/servers';
+import { REGIONS, Region, Server, getServers } from '../../service/servers';
 import { ParsedUrlQuery } from 'querystring';
 import MarketServerUpdateTimes from '../../components/Market/MarketServerUpdateTimes/MarketServerUpdateTimes';
 import MarketRegion from '../../components/Market/MarketRegion/MarketRegion';
@@ -34,11 +34,6 @@ import { useRegionMarket } from '../../hooks/market';
 import useDataCenters from '../../hooks/useDataCenters';
 
 const isDev = process.env['APP_ENV'] !== 'prod';
-
-type Server =
-  | { type: 'region'; region: string }
-  | { type: 'dc'; dc: DataCenter }
-  | { type: 'world'; world: World };
 
 interface StaticMarketsProps {
   item: Item;
@@ -249,7 +244,7 @@ interface MarketProps {
   lists: UserList[];
   markets: Record<number | string, any>;
   itemId: number;
-  region: string;
+  region: Region;
   homeDc: DataCenter;
   dcs: DataCenter[];
   queryServer: string | null;
