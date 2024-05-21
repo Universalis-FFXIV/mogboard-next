@@ -69,9 +69,11 @@ const StaticMarkets = ({
             dcs={dcs}
             worldUploadTimes={dcs.reduce((agg, next) => {
               const nextMarket = markets[next.name];
-              Object.entries(nextMarket.worldUploadTimes).forEach(([worldId, lastUploadTime]) => {
-                agg[worldId] = lastUploadTime as number;
-              });
+              Object.entries(nextMarket.worldUploadTimes ?? {}).forEach(
+                ([worldId, lastUploadTime]) => {
+                  agg[worldId] = lastUploadTime as number;
+                }
+              );
               return agg;
             }, {} as Record<string | number, number>)}
           />
