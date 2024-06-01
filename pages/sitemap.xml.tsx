@@ -34,6 +34,11 @@ export const getServerSideProps: GetServerSideProps = async ({ res }) => {
     <lastmod>${new Date().toISOString()}</lastmod>
     <priority>0.80</priority>
   </url>
+  <url>
+    <loc>${baseUrl}/robots.txt</loc>
+    <lastmod>${new Date().toISOString()}</lastmod>
+    <priority>0.80</priority>
+  </url>
   </urlset>`;
 
   res.setHeader('Content-Type', 'application/xml');
