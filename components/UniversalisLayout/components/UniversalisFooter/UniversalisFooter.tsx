@@ -30,9 +30,11 @@ const UniversalisFooter = () => {
             <Trans>Discord</Trans>
           </a>
           &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-          <a href="/items" className="btn-menu">
-            <Trans>Items</Trans>
-          </a>
+          <Link href="/items">
+            <a className="btn-menu">
+              <Trans>Items</Trans>
+            </a>
+          </Link>
         </div>
         <div>
           <Trans>FINAL FANTASY XIV © 2010 - 2020 SQUARE ENIX CO., LTD. All Rights Reserved.</Trans>
