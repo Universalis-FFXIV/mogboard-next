@@ -1,6 +1,5 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
-import Link from 'next/link';
 import HomeAction from '../components/Home/HomeAction/HomeAction';
 import HomeLoggedOut from '../components/Home/HomeLoggedOut/HomeLoggedOut';
 import HomeNavbar from '../components/Home/HomeNavbar/HomeNavBar';
@@ -195,11 +194,6 @@ const Home: NextPage = () => {
           />
           <p className="mog-honorable" style={{ textAlign: 'center', marginTop: 5 }}>
             <Trans>Thank you!</Trans>
-          </p>
-          <p style={{ textAlign: 'center', marginTop: 20 }}>
-            <Link href="/items">
-              <a>View Marketable Items</a>
-            </Link>
           </p>
         </div>
       </div>
