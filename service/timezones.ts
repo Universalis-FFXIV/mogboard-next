@@ -26,10 +26,12 @@ async function getTimeZonesInternal(): Promise<TimeZone[]> {
   }
 
   try {
-    const timezones = await fetch(`${getBaseUrl()}/v3/misc/time-zones`).then((res) => res.json());
+    const timezones: TimeZone[] =
+      (await fetch(`${getBaseUrl()}/v3/misc/time-zones`).then((res) => res.json())) ?? [];
+    const timezonesClean = timezones.filter((tz) => tz != null); // Just in case?
 
     cache.timezones = {
-      value: timezones,
+      value: timezonesClean,
       cachedAt: new Date(),
     };
   } catch (err) {
