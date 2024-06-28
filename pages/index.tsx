@@ -70,7 +70,7 @@ const Home: NextPage = () => {
   const showHomeWorld = settings['mogboard_homeworld'] === 'yes';
   const server = showHomeWorld
     ? world
-    : (dcs ?? []).find((dc) => dc.worlds.some((w) => w.name.toLowerCase() === world.toLowerCase()))
+    : (dcs ?? []).find((dc) => dc.worlds.some((w) => w?.name.toLowerCase() === world.toLowerCase()))
         ?.name || world;
 
   const { data: taxes } = useSWR<Record<City, number>>(
