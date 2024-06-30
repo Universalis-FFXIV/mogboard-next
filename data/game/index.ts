@@ -132,6 +132,24 @@ export function getItem(id: number, lang: Language): Item | undefined {
   return (items[lang] ?? items['en'])[id];
 }
 
+export function getFallbackItem(id: number): Item {
+  return {
+    id: id,
+    name: 'Failed to retrieve',
+    description: '',
+    iconId: 20000,
+    levelItem: 1,
+    levelEquip: 1,
+    rarity: 1,
+    itemKind: 7,
+    stackSize: 9999,
+    canBeHq: false,
+    itemSearchCategory: 58,
+    itemUiCategory: 59,
+    classJobCategory: 0,
+  };
+}
+
 export function getMateria(id: number, lang: Language): Materia | undefined {
   return (materia[lang] ?? materia['en'])[id];
 }

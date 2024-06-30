@@ -7,7 +7,7 @@ import React, { useState } from 'react';
 import { useSWRConfig } from 'swr';
 import AccountLayout from '../../components/AccountLayout/AccountLayout';
 import GameIcon from '../../components/GameIcon/GameIcon';
-import { getItem, getItemKind, getItemSearchCategory } from '../../data/game';
+import { getFallbackItem, getItem, getItemKind, getItemSearchCategory } from '../../data/game';
 import useAlerts from '../../hooks/useAlerts';
 import useSettings from '../../hooks/useSettings';
 import useWorlds from '../../hooks/useWorlds';
@@ -224,7 +224,7 @@ const Alerts: NextPage = () => {
           </h1>
           <div className="account-panel">
             {[...alertGroups.entries()].map(([itemId, alertGroup]) => {
-              const item = getItem(itemId, lang)!;
+              const item = getItem(itemId, lang) ?? getFallbackItem(itemId);
               return (
                 <div key={itemId}>
                   <div className={styles.alertPanel}>

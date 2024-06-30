@@ -14,7 +14,7 @@ import { UserList } from '../types/universalis/user';
 import HomeUserList from '../components/Home/HomeUserList/HomeUserList';
 import { useState } from 'react';
 import { Trans } from '@lingui/macro';
-import { getItem } from '../data/game';
+import { getFallbackItem, getItem } from '../data/game';
 import useSettings from '../hooks/useSettings';
 import { getServers } from '../service/servers';
 import { TaxRates } from '../types/universalis/TaxRates';
@@ -185,7 +185,9 @@ const Home: NextPage = () => {
           <h4>
             <Trans>Recent Updates</Trans>
           </h4>
-          <RecentUpdatesPanel items={(recent ?? []).map((itemId) => getItem(itemId, lang)!)} />
+          <RecentUpdatesPanel
+            items={(recent ?? []).map((itemId) => getItem(itemId, lang) ?? getFallbackItem(itemId))}
+          />
           <TaxRatesPanel data={taxes ?? zeroTaxRates()} world={world} />
           <WorldUploadCountsPanel data={worldUploads ?? []} world={world} />
           <UploadCountPanel
