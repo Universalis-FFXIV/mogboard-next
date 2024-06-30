@@ -40,6 +40,7 @@ function convertTaxRates(taxRates: TaxRates): Record<City, number> {
     [City.Kugane]: taxRates['Kugane'] ?? 0,
     [City.Crystarium]: taxRates['Crystarium'] ?? 0,
     [City.OldSharlayan]: taxRates['Old Sharlayan'] ?? 0,
+    [City.Tuliyollal]: taxRates['Tuliyollal'] ?? 0,
   };
 }
 
@@ -52,6 +53,7 @@ function zeroTaxRates(): Record<City, number> {
     [City.Kugane]: 0,
     [City.Crystarium]: 0,
     [City.OldSharlayan]: 0,
+    [City.Tuliyollal]: 0,
   };
 }
 
