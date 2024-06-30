@@ -6,4 +6,5 @@ export interface TaxRates {
   Kugane: number;
   Crystarium: number;
   'Old Sharlayan': number;
+  Tuliyollal: number;
 }
