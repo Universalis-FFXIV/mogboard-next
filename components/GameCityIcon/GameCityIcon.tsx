@@ -23,6 +23,9 @@ const icons = {
   [City.OldSharlayan]: {
     id: 60887,
   },
+  [City.Tuliyollal]: {
+    id: 60888,
+  },
 };
 
 interface GameCityIconProps {
@@ -33,16 +36,21 @@ interface GameCityIconProps {
 }
 
 const GameCityIcon = ({ city, width, height, className }: GameCityIconProps) => {
-  return (
-    <GameIcon
-      ext="png"
-      size="1x"
-      width={width}
-      height={height}
-      className={className}
-      {...icons[city]}
-    />
-  );
+  const cityIconInfo = icons[city];
+  if (cityIconInfo) {
+    return (
+      <GameIcon
+        ext="png"
+        size="1x"
+        width={width}
+        height={height}
+        className={className}
+        {...cityIconInfo}
+      />
+    );
+  } else {
+    return <div className={className} />;
+  }
 };
 
 export default GameCityIcon;

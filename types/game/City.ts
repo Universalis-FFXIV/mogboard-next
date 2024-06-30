@@ -6,4 +6,5 @@ export enum City {
   Kugane = 7,
   Crystarium = 10,
   OldSharlayan = 12,
+  Tuliyollal = 14,
 }
