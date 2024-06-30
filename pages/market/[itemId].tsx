@@ -360,9 +360,9 @@ const Market: NextPage<MarketProps> = ({
   // but for this part of the UI we're not bound to that decision.
   const [dynamicServer, setDynamicServer] = useState<Server | null>(null);
 
-  const item = getItem(itemId, lang)!;
+  const item = getItem(itemId, lang);
 
-  const title = `${item.name ?? ''} - Universalis`;
+  const title = `${item?.name ?? ''} - Universalis`;
   const description =
     'Final Fantasy XIV Online: Market Board aggregator. Find Prices, track Item History and create Price Alerts. Anywhere, anytime.';
 
