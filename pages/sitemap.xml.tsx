@@ -1,4 +1,5 @@
 import { GetServerSideProps } from 'next';
+import { FETCH_OPTIONS } from '../service/universalis';
 
 const Sitemap = () => {
   return null;
@@ -8,17 +9,21 @@ export const getServerSideProps: GetServerSideProps = async ({ res }) => {
   const baseUrl = 'https://universalis.app';
 
   // Fetch item IDs from the API
-  const response = await fetch(`${baseUrl}/api/v2/marketable`);
+  const response = await fetch(`${baseUrl}/api/v2/marketable`, FETCH_OPTIONS);
   const itemIds = await response.json();
 
   // Generate dynamic URLs for item pages
-  const itemUrls = itemIds.map((id: number) => `
+  const itemUrls = itemIds
+    .map(
+      (id: number) => `
     <url>
       <loc>${baseUrl}/market/${id}</loc>
       <lastmod>${new Date().toISOString()}</lastmod>
       <priority>0.80</priority>
     </url>
-  `).join('');
+  `
+    )
+    .join('');
 
   const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
   <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">

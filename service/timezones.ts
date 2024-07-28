@@ -1,7 +1,7 @@
 import { differenceInMinutes } from 'date-fns';
 import retry from 'retry-as-promised';
 import { cache } from './cache';
-import { getBaseUrl } from './universalis';
+import { FETCH_OPTIONS, getBaseUrl } from './universalis';
 
 const isDev = process.env['APP_ENV'] !== 'prod';
 
@@ -27,7 +27,9 @@ async function getTimeZonesInternal(): Promise<TimeZone[]> {
 
   try {
     const timezones: TimeZone[] =
-      (await fetch(`${getBaseUrl()}/v3/misc/time-zones`).then((res) => res.json())) ?? [];
+      (await fetch(`${getBaseUrl()}/v3/misc/time-zones`, FETCH_OPTIONS).then((res) =>
+        res.json()
+      )) ?? [];
     const timezonesClean = timezones.filter((tz) => tz != null); // Just in case?
 
     cache.timezones = {

@@ -5,7 +5,7 @@ import ago from 's-ago';
 import { sprintf } from 'sprintf-js';
 import { getItem, getItemKind, getItemSearchCategories } from '../../../data/game';
 import useSettings from '../../../hooks/useSettings';
-import { getBaseUrl } from '../../../service/universalis';
+import { FETCH_OPTIONS, getBaseUrl } from '../../../service/universalis';
 import { DataCenter } from '../../../types/game/DataCenter';
 import { ItemSearchCategory } from '../../../types/game/ItemSearchCategory';
 import { UserList } from '../../../types/universalis/user';
@@ -53,12 +53,12 @@ export default function HomeUserList({ dcs, list }: HomeUserListProps) {
 
   const { data: marketNq } = useSWR(
     `${getBaseUrl()}/v2/${dc?.name || 'Chaos'}/${itemIdsStr}?listings=1&entries=0&hq=0`,
-    (url) => fetch(url).then((res) => res.json())
+    (url) => fetch(url, FETCH_OPTIONS).then((res) => res.json())
   );
 
   const { data: marketHq } = useSWR(
     `${getBaseUrl()}/v2/${dc?.name || 'Chaos'}/${itemIdsStr}?listings=1&entries=0&hq=1`,
-    (url) => fetch(url).then((res) => res.json())
+    (url) => fetch(url, FETCH_OPTIONS).then((res) => res.json())
   );
 
   const itemSearchCategories = getItemSearchCategories(lang);

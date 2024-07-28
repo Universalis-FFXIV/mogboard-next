@@ -4,7 +4,7 @@ import HighchartsReact from 'highcharts-react-official';
 import { useEffect, useRef, useState } from 'react';
 import useSWR from 'swr';
 import { sprintf } from 'sprintf-js';
-import { getBaseUrl } from '../../../service/universalis';
+import { FETCH_OPTIONS, getBaseUrl } from '../../../service/universalis';
 
 interface MarketHistoryGraphProps {
   server: string;
@@ -143,7 +143,7 @@ export default function MarketHistoryGraph({ server, itemId, entries }: MarketHi
   const { data: options } = useSWR(
     `${getBaseUrl()}/history/${server}/${itemId}?entries=${entries ?? 1800}`,
     (url) =>
-      fetch(url)
+      fetch(url, FETCH_OPTIONS)
         .then((res) => res.json())
         .then((market) => market.entries.sort((a: any, b: any) => a.timestamp - b.timestamp))
         .then((sales) => createSalesOptions(sales))

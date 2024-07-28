@@ -19,7 +19,7 @@ import useSettings from '../hooks/useSettings';
 import { getServers } from '../service/servers';
 import { TaxRates } from '../types/universalis/TaxRates';
 import HomeLeastRecentlyUpdated from '../components/Home/HomeLeastRecentlyUpdated/HomeLeastRecentlyUpdated';
-import { getBaseUrl } from '../service/universalis';
+import { FETCH_OPTIONS, getBaseUrl } from '../service/universalis';
 import useSWR from 'swr';
 import useSWRImmutable from 'swr/immutable';
 import { useSession } from 'next-auth/react';
@@ -78,7 +78,7 @@ const Home: NextPage = () => {
   const { data: taxes } = useSWR<Record<City, number>>(
     `${getBaseUrl()}/tax-rates?world=${world}`,
     (url) =>
-      fetch(url)
+      fetch(url, FETCH_OPTIONS)
         .then((res) => res.json())
         .then((res) => convertTaxRates(res))
   );
@@ -86,13 +86,13 @@ const Home: NextPage = () => {
   const { data: dailyUploads } = useSWR<number[]>(
     `${getBaseUrl()}/extra/stats/upload-history`,
     (url) =>
-      fetch(url)
+      fetch(url, FETCH_OPTIONS)
         .then((res) => res.json())
         .then((res) => res.uploadCountByDay)
   );
 
   const { data: recent } = useSWR<number[]>(`${getBaseUrl()}/extra/stats/recently-updated`, (url) =>
-    fetch(url)
+    fetch(url, FETCH_OPTIONS)
       .then((res) => res.json())
       .then((res) => res.items.slice(0, 6))
   );
@@ -100,7 +100,7 @@ const Home: NextPage = () => {
   const { data: worldUploads } = useSWR<{ world: string; count: number }[]>(
     `${getBaseUrl()}/extra/stats/world-upload-counts`,
     (url) =>
-      fetch(url)
+      fetch(url, FETCH_OPTIONS)
         .then((res) => res.json())
         .then((res) =>
           Object.keys(res).map((k) => ({
@@ -115,7 +115,7 @@ const Home: NextPage = () => {
       server.toLowerCase() === world.toLowerCase() ? 'world' : 'dcName'
     }=${server}`,
     (url) =>
-      fetch(url)
+      fetch(url, FETCH_OPTIONS)
         .then((res) => res.json())
         .then((res) =>
           res.items.slice(0, 20).map((entry: { [x: string]: string | number }) => ({
@@ -127,7 +127,7 @@ const Home: NextPage = () => {
   );
 
   const { data: lists } = useSWR<UserList[]>('/api/web/lists', (url) =>
-    fetch(url)
+    fetch(url, FETCH_OPTIONS)
       .then((res) => res.json())
       .then((res) => {
         if ('message' in res) {
