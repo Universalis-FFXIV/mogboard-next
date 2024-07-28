@@ -3,6 +3,7 @@ import { GetStaticProps } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
 import React from 'react';
+import { FETCH_OPTIONS } from '../service/universalis';
 
 interface ItemsPageProps {
   items: number[];
@@ -27,10 +28,7 @@ const Items: React.FC<ItemsPageProps> = ({ items }) => {
     <>
       <Head>
         <title>Marketable Items - Universalis</title>
-        <meta
-          name="description"
-          content="List of all marketable items available on Universalis."
-        />
+        <meta name="description" content="List of all marketable items available on Universalis." />
       </Head>
       <div className="page">
         <h1>Marketable Items</h1>
@@ -41,7 +39,7 @@ const Items: React.FC<ItemsPageProps> = ({ items }) => {
 };
 
 export const getStaticProps: GetStaticProps = async () => {
-  const response = await fetch('https://universalis.app/api/v2/marketable');
+  const response = await fetch('https://universalis.app/api/v2/marketable', FETCH_OPTIONS);
   const items: number[] = await response.json();
 
   return {

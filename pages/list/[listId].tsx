@@ -13,7 +13,7 @@ import { usePopup } from '../../components/UniversalisLayout/components/Popup/Po
 import { getItem } from '../../data/game';
 import { Database } from '../../db';
 import useSettings from '../../hooks/useSettings';
-import { getBaseUrl } from '../../service/universalis';
+import { FETCH_OPTIONS, getBaseUrl } from '../../service/universalis';
 import { DataCenter } from '../../types/game/DataCenter';
 import { Item } from '../../types/game/Item';
 import { UserList } from '../../types/universalis/user';
@@ -128,7 +128,7 @@ const List: NextPage<ListProps> = ({ list, reqIsOwner, ownerName }) => {
     `${getBaseUrl()}/v2/${showCrossDc ? region : server}/${itemIds}?listings=5&entries=5${
       showHqOnly ? '&hq=1' : ''
     }` as string,
-    (url) => fetch(url).then((res) => res.json())
+    (url) => fetch(url, FETCH_OPTIONS).then((res) => res.json())
   );
 
   const items = stateList.items.reduce<Record<number, Item>>((agg, next) => {

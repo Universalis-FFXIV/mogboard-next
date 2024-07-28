@@ -25,7 +25,7 @@ import MarketServerUpdateTimes from '../../components/Market/MarketServerUpdateT
 import MarketRegion from '../../components/Market/MarketRegion/MarketRegion';
 import MarketRegionUpdateTimes from '../../components/Market/MarketRegionUpdateTimes/MarketRegionUpdateTimes';
 import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary';
-import { getBaseUrl } from '../../service/universalis';
+import { FETCH_OPTIONS, getBaseUrl } from '../../service/universalis';
 import retry, { Options } from 'retry-as-promised';
 import Spacing from '../../components/Spacing/Spacing';
 import { Item } from '../../types/game/Item';
@@ -569,7 +569,9 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
       (async () => {
         const market = await retry(
           () =>
-            fetch(`${getBaseUrl()}/v2/${world.id}/${itemId}?entries=20`).then((res) => res.json()),
+            fetch(`${getBaseUrl()}/v2/${world.id}/${itemId}?entries=20`, FETCH_OPTIONS).then(
+              (res) => res.json()
+            ),
           retryOptions
         ).catch(console.error);
         markets[world.id] = market || dummyMarket(itemId, world.name);
@@ -582,8 +584,8 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
       (async () => {
         const market = await retry(
           () =>
-            fetch(`${getBaseUrl()}/v2/${regionDc.name}/${itemId}?entries=20`).then((res) =>
-              res.json()
+            fetch(`${getBaseUrl()}/v2/${regionDc.name}/${itemId}?entries=20`, FETCH_OPTIONS).then(
+              (res) => res.json()
             ),
           retryOptions
         ).catch(console.error);
