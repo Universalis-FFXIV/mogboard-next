@@ -1,3 +1,47 @@
+import { z } from 'zod';
+
+function BoilmasterSheetRow<T extends z.ZodTypeAny>(fieldsShape: T) {
+  return z.object({
+    fields: fieldsShape,
+    row_id: z.number().int().min(0),
+    sheet: z.string(),
+  });
+}
+
+const BoilmasterIcon = z.object({
+  id: z.number().int(),
+  path: z.string(),
+  path_hr1: z.string(),
+});
+
+type BoilmasterIcon = z.TypeOf<typeof BoilmasterIcon>;
+
+const BoilmasterItemSearchResult = z.object({
+  Icon: BoilmasterIcon,
+  ItemSearchCategory: BoilmasterSheetRow(
+    z.object({
+      Name: z.string(),
+    })
+  ),
+  LevelItem: BoilmasterSheetRow(z.object({})),
+  Rarity: z.number().int(),
+  Name: z.string(),
+});
+
+const BoilmasterItemSearchResults = z.object({
+  next: z.string(),
+  results: z.array(
+    BoilmasterSheetRow(BoilmasterItemSearchResult).merge(
+      z.object({
+        score: z.number(),
+      })
+    )
+  ),
+  schema: z.string(),
+});
+
+export type BoilmasterItemSearchResults = z.TypeOf<typeof BoilmasterItemSearchResults>;
+
 interface XIVAPISearchResults {
   Pagination: {
     Results: number;
@@ -44,11 +88,11 @@ function getRepositoryUrl(lang: string) {
   } else if (lang === 'ko') {
     return 'https://lalafell-api.universalis.app/api';
   } else {
-    return 'https://xivapi.com';
+    throw new Error(`Out of range: ${lang}`);
   }
 }
 
-export async function searchItems(
+export async function searchItemsV1(
   query: string,
   lang: string,
   algorithm?: string,
@@ -80,5 +124,60 @@ export async function searchItems(
       name: item.Name,
       rarity: item.Rarity,
     })),
+  };
+}
+
+function iconUrlV2(icon: BoilmasterIcon): string {
+  return `https://beta.xivapi.com/api/1/asset/${icon.path}?format=png`;
+}
+
+export async function searchItemsV2(
+  query: string,
+  lang: string,
+  abort?: AbortController
+): Promise<ItemSearchResults> {
+  const searchUrl = 'https://beta.xivapi.com/api/1/search';
+  const params = new URLSearchParams({
+    sheets: 'Item',
+    query: `Name~"${query}" ItemSearchCategory>=1`,
+    language: lang,
+    limit: '100',
+    // LevelItem.todo is a nonexistent field, but using that causes an empty fields
+    // property to be returned, which is useful for reducing the response size.
+    // TODO: use @raw once it exists
+    fields: 'Name,ItemSearchCategory.Name,Icon,LevelItem.todo,Rarity',
+  });
+
+  const data = await fetch(`${searchUrl}?${params.toString()}`, {
+    signal: abort?.signal,
+  })
+    .then((res) => res.json())
+    .then((res) => BoilmasterItemSearchResults.parse(res))
+    .catch((err) => {
+      if (err instanceof z.ZodError) {
+        console.error('Failed to parse search results:', err.message);
+      }
+
+      throw err;
+    });
+
+  return {
+    resultsReturned: data.results.length,
+    resultsTotal: data.results.length,
+    results: data.results
+      .filter((result) => result.fields.ItemSearchCategory.row_id >= 1)
+      .map((result) => ({
+        id: result.row_id,
+        icon: iconUrlV2(result.fields.Icon),
+        itemKind: result.fields.ItemSearchCategory.fields.Name,
+        itemSearchCategory: {
+          id: result.fields.ItemSearchCategory.row_id,
+          name: result.fields.ItemSearchCategory.fields.Name,
+        },
+        levelItem: result.fields.LevelItem.row_id,
+        name: result.fields.Name,
+        rarity: result.fields.Rarity,
+      }))
+      .sort((a, b) => b.levelItem - a.levelItem),
   };
 }
