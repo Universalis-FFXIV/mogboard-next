@@ -1,8 +1,9 @@
 import { t, Trans } from '@lingui/macro';
-import { useRef, useState } from 'react';
+import { useRef, useState, useCallback } from 'react';
 import { SearchItem, searchItemsV1, searchItemsV2 } from '../../../../service/search';
 import useClickOutside from '../../../../hooks/useClickOutside';
 import useSettings from '../../../../hooks/useSettings';
+import debounce from 'lodash.debounce';
 
 interface SearchBarProps {
   onResults: (results: SearchItem[], totalResults: number, searchTerm: string) => void;
@@ -24,65 +25,76 @@ export default function SearchBar({ onResults, onMarketClicked }: SearchBarProps
   });
 
   const abort = useRef<AbortController | null>(null);
-  const search = async (q: string) => {
-    abort.current?.abort();
-    abort.current = new AbortController();
 
-    if (q.length === 0) {
-      setTyping(false);
+  const searchImmediate = useCallback(
+    async (q: string) => {
+      abort.current?.abort();
+      abort.current = new AbortController();
+
+      if (q.length === 0) {
+        setTyping(false);
+        setComplete(false);
+      }
+
+      // Defensively avoids sending excessively long search requests
+      q = q.slice(0, 40).normalize();
+
+      if (q.trim().length === 0) {
+        setSearching(false);
+        return;
+      }
+
+      setTyping(true);
+      setSearching(true);
       setComplete(false);
-    }
 
-    // Defensively avoids sending excessively long search requests
-    q = q.slice(0, 40).normalize();
+      try {
+        if (lang === 'ko') {
+          const res1 = await searchItemsV1(q, lang, 'wildcard', abort.current);
+          const res2 = await searchItemsV1(q, lang, 'fuzzy', abort.current);
 
-    if (q.trim().length === 0) {
+          const res = res1;
+          let shownResults = res1.resultsReturned + res2.resultsReturned;
+          let totalResults = res1.resultsTotal + res2.resultsTotal;
+          res2.results.forEach((result) => {
+            if (!res.results.find((item) => item.id === result.id)) {
+              res.results.push(result);
+            } else {
+              shownResults--;
+              totalResults--;
+            }
+          });
+          res.results.sort((a, b) => b.levelItem - a.levelItem);
+          res.resultsReturned = shownResults;
+          res.resultsTotal = totalResults;
+
+          onResults(res.results, res.resultsTotal, q);
+        } else if (lang === 'chs') {
+          const res = await searchItemsV1(q, lang, undefined, abort.current);
+          onResults(res.results, res.resultsTotal, q);
+        } else {
+          const res = await searchItemsV2(q, lang, abort.current);
+          onResults(res.results, res.resultsTotal, q);
+        }
+      } catch (err) {
+        if (!(err instanceof DOMException)) {
+          // fetch throws a DOMException when it receives an abort signal
+          console.error(err);
+        }
+      }
+
       setSearching(false);
-      return;
-    }
+      setComplete(true);
+    },
+    [lang, onResults]
+  );
 
-    setTyping(true);
-    setSearching(true);
-    setComplete(false);
-
-    try {
-      if (lang === 'ko') {
-        const res1 = await searchItemsV1(q, lang, 'wildcard', abort.current);
-        const res2 = await searchItemsV1(q, lang, 'fuzzy', abort.current);
-
-        const res = res1;
-        let shownResults = res1.resultsReturned + res2.resultsReturned;
-        let totalResults = res1.resultsTotal + res2.resultsTotal;
-        res2.results.forEach((result) => {
-          if (!res.results.find((item) => item.id === result.id)) {
-            res.results.push(result);
-          } else {
-            shownResults--;
-            totalResults--;
-          }
-        });
-        res.results.sort((a, b) => b.levelItem - a.levelItem);
-        res.resultsReturned = shownResults;
-        res.resultsTotal = totalResults;
-
-        onResults(res.results, res.resultsTotal, q);
-      } else if (lang === 'chs') {
-        const res = await searchItemsV1(q, lang, undefined, abort.current);
-        onResults(res.results, res.resultsTotal, q);
-      } else {
-        const res = await searchItemsV2(q, lang, abort.current);
-        onResults(res.results, res.resultsTotal, q);
-      }
-    } catch (err) {
-      if (!(err instanceof DOMException)) {
-        // fetch throws a DOMException when it receives an abort signal
-        console.error(err);
-      }
-    }
-
-    setSearching(false);
-    setComplete(true);
-  };
+  // The debounce function needs to maintain its identity between renders - we can ensure deps are
+  // correct by using a "pure" useCallback for the search function itself and then using a second
+  // one here - we can then see immediately that searchImmediate is the only meaningful dep of
+  // this hook.
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const search = useCallback(debounce(searchImmediate, 500), [searchImmediate]);
 
   return (
     <div className="header-nav">
