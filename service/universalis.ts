@@ -1,9 +1,13 @@
 import { MarketV2 } from '../types/universalis/MarketV2';
 
+const isDev = process.env['APP_ENV'] !== 'prod';
+
 export const FETCH_OPTIONS: RequestInit = {
-  headers: {
-    'User-Agent': 'mogboard/2.0',
-  },
+  headers: isDev
+    ? undefined
+    : {
+        'User-Agent': 'mogboard/2.0',
+      },
 };
 
 export function getBaseUrl(): string {

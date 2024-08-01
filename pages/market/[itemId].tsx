@@ -18,7 +18,6 @@ import MarketServerSelector from '../../components/Market/MarketServerSelector/M
 import MarketItemHeader from '../../components/Market/MarketItemHeader/MarketItemHeader';
 import { getItem } from '../../data/game';
 import { Cookies } from 'react-cookie';
-import { World } from '../../types/game/World';
 import { REGIONS, Region, Server, getServers } from '../../service/servers';
 import { ParsedUrlQuery } from 'querystring';
 import MarketServerUpdateTimes from '../../components/Market/MarketServerUpdateTimes/MarketServerUpdateTimes';
@@ -469,13 +468,17 @@ async function addToRecentlyViewed(userId: string, itemId: number) {
 }
 
 const retryOptions: Options = {
-  max: 5,
-  backoffBase: 1000,
+  max: 3,
+  backoffBase: 500,
   report: (message) => isDev && console.warn(message),
   name: '/market/[itemId]#getServerSideProps',
 };
 
-function dummyMarket(itemId: number, worldName?: string, dcName?: string) {
+function dummyMarket(
+  itemId: number,
+  worldName: string | null = null,
+  dcName: string | null = null
+) {
   return {
     itemID: itemId,
     lastUploadTime: 0,
@@ -564,34 +567,48 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
 
   const markets: Record<number | string, any> = {};
   const marketFetches: Promise<void>[] = [];
+  const addToFetches = async function (fn: () => Promise<void>) {
+    const p = fn();
+    if (isDev) {
+      // Do calls sequentially to avoid being rate-limited
+      await p;
+    }
+
+    marketFetches.push(p);
+  };
+
+  const responseHandler = (res: Response) => {
+    if (!res.ok) {
+      throw new Error(`Failed to fetch market data: url=${res.url} status=${res.status}`);
+    }
+
+    return res.json();
+  };
+
   for (const world of dc.worlds) {
-    marketFetches.push(
-      (async () => {
-        const market = await retry(
-          () =>
-            fetch(`${getBaseUrl()}/v2/${world.id}/${itemId}?entries=20`, FETCH_OPTIONS).then(
-              (res) => res.json()
-            ),
-          retryOptions
-        ).catch(console.error);
-        markets[world.id] = market || dummyMarket(itemId, world.name);
-      })()
-    );
+    await addToFetches(async () => {
+      const marketUrl = `${getBaseUrl()}/v2/${world.id}/${itemId}?entries=20`;
+      console.log(`Fetching data from ${marketUrl}`);
+      const market = await retry(
+        () => fetch(marketUrl, FETCH_OPTIONS).then(responseHandler),
+        retryOptions
+      ).catch(console.error);
+      console.log(`Requests to ${marketUrl} complete`);
+      markets[world.id] = market || dummyMarket(itemId, world.name);
+    });
   }
 
   for (const regionDc of regionDcs) {
-    marketFetches.push(
-      (async () => {
-        const market = await retry(
-          () =>
-            fetch(`${getBaseUrl()}/v2/${regionDc.name}/${itemId}?entries=20`, FETCH_OPTIONS).then(
-              (res) => res.json()
-            ),
-          retryOptions
-        ).catch(console.error);
-        markets[regionDc.name] = market || dummyMarket(itemId, undefined, regionDc.name);
-      })()
-    );
+    await addToFetches(async () => {
+      const marketUrl = `${getBaseUrl()}/v2/${regionDc.name}/${itemId}?entries=20`;
+      console.log(`Fetching data from ${marketUrl}`);
+      const market = await retry(
+        () => fetch(marketUrl, FETCH_OPTIONS).then(responseHandler),
+        retryOptions
+      ).catch(console.error);
+      console.log(`Requests to ${marketUrl} complete`);
+      markets[regionDc.name] = market || dummyMarket(itemId, undefined, regionDc.name);
+    });
   }
 
   await Promise.all(marketFetches);
