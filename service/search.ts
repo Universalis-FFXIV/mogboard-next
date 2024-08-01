@@ -141,7 +141,7 @@ export async function searchItemsV2(
     sheets: 'Item',
     query: `Name~"${query}" ItemSearchCategory>=1`,
     language: lang,
-    limit: '100',
+    limit: '30',
     // LevelItem.todo is a nonexistent field, but using that causes an empty fields
     // property to be returned, which is useful for reducing the response size.
     // TODO: use @raw once it exists
