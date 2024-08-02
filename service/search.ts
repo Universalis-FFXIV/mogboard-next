@@ -29,7 +29,7 @@ const BoilmasterItemSearchResult = z.object({
 });
 
 const BoilmasterItemSearchResults = z.object({
-  next: z.string(),
+  next: z.string().optional(),
   results: z.array(
     BoilmasterSheetRow(BoilmasterItemSearchResult).merge(
       z.object({
@@ -139,7 +139,7 @@ export async function searchItemsV2(
   const searchUrl = 'https://beta.xivapi.com/api/1/search';
   const params = new URLSearchParams({
     sheets: 'Item',
-    query: `Name~"${query}" ItemSearchCategory>=1`,
+    query: `+Name~"${query}" +ItemSearchCategory>=1`,
     language: lang,
     limit: '30',
     // LevelItem.todo is a nonexistent field, but using that causes an empty fields
