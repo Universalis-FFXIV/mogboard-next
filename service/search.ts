@@ -137,9 +137,13 @@ export async function searchItemsV2(
   abort?: AbortController
 ): Promise<ItemSearchResults> {
   const searchUrl = 'https://beta.xivapi.com/api/1/search';
+  const keywords = query
+    .split(' ')
+    .map((term) => `+Name~"${term}"`)
+    .join(' ');
   const params = new URLSearchParams({
     sheets: 'Item',
-    query: `+Name~"${query}" +ItemSearchCategory>=1`,
+    query: `${keywords} +ItemSearchCategory>=1`,
     language: lang,
     limit: '30',
     // LevelItem.todo is a nonexistent field, but using that causes an empty fields
