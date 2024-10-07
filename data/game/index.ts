@@ -128,11 +128,34 @@ export function getItemKind(id: number, lang: Language): ItemKind | undefined {
   return (itemKinds[lang] ?? itemKinds['en'])[id];
 }
 
-export function getItem(id: number, lang: Language): Item | undefined {
-  return (items[lang] ?? items['en'])[id];
+export function getItem(id: number, lang: Language): Item {
+  const itemLang = getItemCore(id, lang);
+  if (itemLang) {
+    return itemLang;
+  }
+
+  console.warn(`Missing data for item ${id} in language ${lang}, falling back to English`);
+
+  const itemEn = getItemCore(id, 'en');
+  if (itemEn) {
+    return itemEn;
+  }
+
+  console.warn(`Missing data for item ${id} in English, falling back to placeholder data`);
+
+  return getFallbackItem(id);
 }
 
-export function getFallbackItem(id: number): Item {
+function getItemCore(id: number, lang: Language): Item | undefined {
+  const langItems = items[lang];
+  if (!langItems) {
+    return undefined;
+  }
+
+  return langItems[id];
+}
+
+function getFallbackItem(id: number): Item {
   return {
     id: id,
     name: 'Failed to retrieve',
