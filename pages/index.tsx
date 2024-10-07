@@ -14,17 +14,14 @@ import { UserList } from '../types/universalis/user';
 import HomeUserList from '../components/Home/HomeUserList/HomeUserList';
 import { useState } from 'react';
 import { Trans } from '@lingui/macro';
-import { getFallbackItem, getItem } from '../data/game';
+import { getItem } from '../data/game';
 import useSettings from '../hooks/useSettings';
-import { getServers } from '../service/servers';
 import { TaxRates } from '../types/universalis/TaxRates';
 import HomeLeastRecentlyUpdated from '../components/Home/HomeLeastRecentlyUpdated/HomeLeastRecentlyUpdated';
 import { FETCH_OPTIONS, getBaseUrl } from '../service/universalis';
 import useSWR from 'swr';
-import useSWRImmutable from 'swr/immutable';
 import { useSession } from 'next-auth/react';
 import useDataCenters from '../hooks/useDataCenters';
-import ErrorBoundary from '../components/ErrorBoundary/ErrorBoundary';
 import HomeGuides from '../components/Home/HomeGuides/HomeGuides';
 
 function sum(arr: number[], start: number, end: number) {
@@ -187,9 +184,7 @@ const Home: NextPage = () => {
           <h4>
             <Trans>Recent Updates</Trans>
           </h4>
-          <RecentUpdatesPanel
-            items={(recent ?? []).map((itemId) => getItem(itemId, lang) ?? getFallbackItem(itemId))}
-          />
+          <RecentUpdatesPanel items={(recent ?? []).map((itemId) => getItem(itemId, lang))} />
           <TaxRatesPanel data={taxes ?? zeroTaxRates()} world={world} />
           <WorldUploadCountsPanel data={worldUploads ?? []} world={world} />
           <UploadCountPanel
