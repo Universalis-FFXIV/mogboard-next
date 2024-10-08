@@ -150,6 +150,7 @@ export async function searchItemsV2(
     // property to be returned, which is useful for reducing the response size.
     // TODO: use @raw once it exists
     fields: 'Name,ItemSearchCategory.Name,Icon,LevelItem.todo,Rarity',
+    version: '7.05x1',
   });
 
   const data = await fetch(`${searchUrl}?${params.toString()}`, {
