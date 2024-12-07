@@ -37,6 +37,7 @@ export default function MarketAverages({
         </div>
       </div>
       <div>
+        {/* TODO: Why is this useful? Maybe it should just be removed. */}
         <h5>
           <Trans>Avg. Total</Trans>
         </h5>

@@ -11,11 +11,13 @@ import MarketStackSizeHistogram from '../MarketStackSizeHistogram/MarketStackSiz
 import NoMarketData from '../NoMarketData/NoMarketData';
 import { useWorldMarket } from '../../../hooks/market';
 import ContentLoader from 'react-content-loader';
+import { MarketV2 } from '../../../types/universalis/MarketV2';
+import { calculateReferencePrice, Quality } from '../utils';
 
 interface MarketWorldProps {
   item: Item;
   world: World;
-  market: any;
+  market: MarketV2;
   lang: Language;
   open: boolean;
 }
@@ -33,6 +35,9 @@ export default function MarketWorld({ item, world, market, lang, open }: MarketW
     return <NoMarketData worldName={world.name} />;
   }
 
+  const nqReferencePrice = calculateReferencePrice(market, Quality.NormalQuality);
+  const hqReferencePrice = calculateReferencePrice(market, Quality.HighQuality);
+
   return (
     <>
       <div className="tab-market-tables">
@@ -47,8 +52,8 @@ export default function MarketWorld({ item, world, market, lang, open }: MarketW
           </h4>
           <ListingsTable
             listings={market.listings}
-            averageHq={market.currentAveragePriceHQ}
-            averageNq={market.currentAveragePriceNQ}
+            averageHq={hqReferencePrice}
+            averageNq={nqReferencePrice}
             crossWorld={false}
             includeDiff={true}
             lang={lang}
@@ -62,8 +67,8 @@ export default function MarketWorld({ item, world, market, lang, open }: MarketW
           </h4>
           <SalesTable
             sales={market.recentHistory}
-            averageHq={market.averagePriceHQ}
-            averageNq={market.averagePriceNQ}
+            averageHq={hqReferencePrice}
+            averageNq={nqReferencePrice}
             crossWorld={false}
             includeDiff={true}
             start={0}

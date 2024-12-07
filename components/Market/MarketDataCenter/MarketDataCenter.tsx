@@ -12,11 +12,13 @@ import MarketHistoryGraph from '../MarketHistoryGraph/MarketHistoryGraph';
 import MarketStackSizeHistogram from '../MarketStackSizeHistogram/MarketStackSizeHistogram';
 import { useDataCenterMarket } from '../../../hooks/market';
 import MarketWorld from '../MarketWorld/MarketWorld';
+import { MarketV2 } from '../../../types/universalis/MarketV2';
+import { calculateReferencePrice, Quality } from '../utils';
 
 interface MarketDataCenterProps {
   item: Item;
   dc: DataCenter;
-  market: any;
+  market: MarketV2;
   lang: Language;
   open: boolean;
 }
@@ -26,55 +28,50 @@ function entriesToShow(entries: {}[]) {
 }
 
 export default function MarketDataCenter({ item, dc, market, lang, open }: MarketDataCenterProps) {
-  const hqListings = market.listings?.filter((listing: any) => listing.hq) ?? [];
-  const nqListings = market.listings?.filter((listing: any) => !listing.hq) ?? [];
-  const hqSales = market.recentHistory?.filter((sale: any) => sale.hq) ?? [];
-  const nqSales = market.recentHistory?.filter((sale: any) => !sale.hq) ?? [];
+  const hqListings = market.listings?.filter((listing) => listing.hq) ?? [];
+  const nqListings = market.listings?.filter((listing) => !listing.hq) ?? [];
+  const hqSales = market.recentHistory?.filter((sale) => sale.hq) ?? [];
+  const nqSales = market.recentHistory?.filter((sale) => !sale.hq) ?? [];
 
   const hqListingsAveragePpu =
     Math.ceil(
-      hqListings
-        .map((listing: any) => listing.pricePerUnit)
-        .reduce((agg: any, next: any) => agg + next, 0) / hqListings.length
+      hqListings.map((listing) => listing.pricePerUnit).reduce((agg, next) => agg + next, 0) /
+        hqListings.length
     ) || 0;
   const nqListingsAveragePpu =
     Math.ceil(
-      nqListings
-        .map((listing: any) => listing.pricePerUnit)
-        .reduce((agg: any, next: any) => agg + next, 0) / nqListings.length
+      nqListings.map((listing) => listing.pricePerUnit).reduce((agg, next) => agg + next, 0) /
+        nqListings.length
     ) || 0;
   const hqListingsAverageTotal =
     Math.ceil(
-      hqListings
-        .map((listing: any) => listing.total)
-        .reduce((agg: any, next: any) => agg + next, 0) / hqListings.length
+      hqListings.map((listing) => listing.total).reduce((agg, next) => agg + next, 0) /
+        hqListings.length
     ) || 0;
   const nqListingsAverageTotal =
     Math.ceil(
-      nqListings
-        .map((listing: any) => listing.total)
-        .reduce((agg: any, next: any) => agg + next, 0) / nqListings.length
+      nqListings.map((listing) => listing.total).reduce((agg, next) => agg + next, 0) /
+        nqListings.length
     ) || 0;
   const hqSalesAveragePpu =
     Math.ceil(
-      hqSales.map((sale: any) => sale.pricePerUnit).reduce((agg: any, next: any) => agg + next, 0) /
-        hqSales.length
+      hqSales.map((sale) => sale.pricePerUnit).reduce((agg, next) => agg + next, 0) / hqSales.length
     ) || 0;
   const nqSalesAveragePpu =
     Math.ceil(
-      nqSales.map((sale: any) => sale.pricePerUnit).reduce((agg: any, next: any) => agg + next, 0) /
-        nqSales.length
+      nqSales.map((sale) => sale.pricePerUnit).reduce((agg, next) => agg + next, 0) / nqSales.length
     ) || 0;
   const hqSalesAverageTotal =
     Math.ceil(
-      hqSales.map((sale: any) => sale.total).reduce((agg: any, next: any) => agg + next, 0) /
-        hqSales.length
+      hqSales.map((sale) => sale.total).reduce((agg, next) => agg + next, 0) / hqSales.length
     ) || 0;
   const nqSalesAverageTotal =
     Math.ceil(
-      nqSales.map((sale: any) => sale.total).reduce((agg: any, next: any) => agg + next, 0) /
-        nqSales.length
+      nqSales.map((sale) => sale.total).reduce((agg, next) => agg + next, 0) / nqSales.length
     ) || 0;
+
+  const nqReferencePrice = calculateReferencePrice(market, Quality.NormalQuality);
+  const hqReferencePrice = calculateReferencePrice(market, Quality.HighQuality);
 
   return (
     <>
@@ -94,8 +91,8 @@ export default function MarketDataCenter({ item, dc, market, lang, open }: Marke
               </h6>
               <ListingsTable
                 listings={hqListings}
-                averageHq={hqListingsAveragePpu}
-                averageNq={nqListingsAveragePpu}
+                averageHq={hqReferencePrice}
+                averageNq={nqReferencePrice}
                 crossWorld={true}
                 includeDiff={true}
                 lang={lang}
@@ -108,8 +105,8 @@ export default function MarketDataCenter({ item, dc, market, lang, open }: Marke
           <h6>{sprintf(t`%s Prices`, 'NQ')}</h6>
           <ListingsTable
             listings={nqListings}
-            averageHq={hqListingsAveragePpu}
-            averageNq={nqListingsAveragePpu}
+            averageHq={hqReferencePrice}
+            averageNq={nqReferencePrice}
             crossWorld={true}
             includeDiff={true}
             lang={lang}
@@ -126,8 +123,8 @@ export default function MarketDataCenter({ item, dc, market, lang, open }: Marke
               </h6>
               <SalesTable
                 sales={hqSales}
-                averageHq={hqSalesAveragePpu}
-                averageNq={nqSalesAveragePpu}
+                averageHq={hqReferencePrice}
+                averageNq={nqReferencePrice}
                 crossWorld={true}
                 includeDiff={true}
                 start={0}
@@ -139,8 +136,8 @@ export default function MarketDataCenter({ item, dc, market, lang, open }: Marke
           <h6>{sprintf(t`%s Purchase History`, 'NQ')}</h6>
           <SalesTable
             sales={nqSales}
-            averageHq={hqSalesAveragePpu}
-            averageNq={nqSalesAveragePpu}
+            averageHq={hqReferencePrice}
+            averageNq={nqReferencePrice}
             crossWorld={true}
             includeDiff={true}
             start={0}
