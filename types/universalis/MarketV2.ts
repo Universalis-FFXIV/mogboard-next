@@ -32,4 +32,11 @@ export interface MarketV2 {
   dcName?: string;
   regionName?: string;
   worldUploadTimes?: Record<number, number>;
+  currentAveragePriceNQ: number;
+  currentAveragePriceHQ: number;
+  averagePriceNQ: number;
+  averagePriceHQ: number;
+  stackSizeHistogram: Record<`${number}`, number>;
+  stackSizeHistogramNQ: Record<`${number}`, number>;
+  stackSizeHistogramHQ: Record<`${number}`, number>;
 }
