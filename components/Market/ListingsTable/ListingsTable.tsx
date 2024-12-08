@@ -1,13 +1,13 @@
 import { Trans } from '@lingui/macro';
 import Image from 'next/image';
 import { CSSProperties, Fragment, PropsWithChildren, useCallback } from 'react';
-import { DataCenter } from '../../types/game/DataCenter';
-import { Language } from '../../types/universalis/lang';
-import GameCityIcon from '../GameCityIcon/GameCityIcon';
-import GameMateria from '../GameMateria/GameMateria';
-import SortTable from '../SortTable/SortTable';
-import Tooltip from '../Tooltip/Tooltip';
-import useSettings from '../../hooks/useSettings';
+import { DataCenter } from '../../../types/game/DataCenter';
+import { Language } from '../../../types/universalis/lang';
+import GameCityIcon from '../../GameCityIcon/GameCityIcon';
+import GameMateria from '../../GameMateria/GameMateria';
+import SortTable from '../../SortTable/SortTable';
+import Tooltip from '../../Tooltip/Tooltip';
+import useSettings from '../../../hooks/useSettings';
 
 interface ListingsTableProps {
   listings: any[];

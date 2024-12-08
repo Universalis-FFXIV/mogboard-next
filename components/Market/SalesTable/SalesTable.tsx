@@ -1,10 +1,10 @@
 import { Trans } from '@lingui/macro';
 import { PropsWithChildren, Suspense } from 'react';
-import SortTable from '../SortTable/SortTable';
-import Tooltip from '../Tooltip/Tooltip';
+import SortTable from '../../SortTable/SortTable';
+import Tooltip from '../../Tooltip/Tooltip';
 import Image from 'next/image';
 import ago from 's-ago';
-import { DataCenter } from '../../types/game/DataCenter';
+import { DataCenter } from '../../../types/game/DataCenter';
 
 interface SalesTableProps {
   sales: any[];
