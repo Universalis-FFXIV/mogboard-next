@@ -5,8 +5,8 @@ import { sprintf } from 'sprintf-js';
 import { Item } from '../../../types/game/Item';
 import { Language } from '../../../types/universalis/lang';
 import ErrorBoundary from '../../ErrorBoundary/ErrorBoundary';
-import ListingsTable from '../../ListingsTable/ListingsTable';
-import SalesTable from '../../SalesTable/SalesTable';
+import ListingsTable from '../../Market/ListingsTable/ListingsTable';
+import SalesTable from '../../Market/SalesTable/SalesTable';
 
 interface ListItemMarketProps {
   item?: Item;

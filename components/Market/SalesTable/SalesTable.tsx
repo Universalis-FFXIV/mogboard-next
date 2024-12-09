@@ -1,10 +1,17 @@
 import { Trans } from '@lingui/macro';
 import { PropsWithChildren, Suspense } from 'react';
-import SortTable from '../SortTable/SortTable';
-import Tooltip from '../Tooltip/Tooltip';
+import SortTable from '../../SortTable/SortTable';
+import Tooltip from '../../Tooltip/Tooltip';
 import Image from 'next/image';
 import ago from 's-ago';
-import { DataCenter } from '../../types/game/DataCenter';
+import { DataCenter } from '../../../types/game/DataCenter';
+import {
+  formatPercentDiffSimple,
+  getPercentDiffLabelClass,
+  PercentDiffTooltipBody,
+  Quality,
+  shouldDisplayDiffTooltopEver,
+} from '../utils';
 
 interface SalesTableProps {
   sales: any[];
@@ -72,31 +79,22 @@ function SalesTableRow({ sale }: { sale: SaleRow }) {
       <td className="price-qty">{sale.quantity.toLocaleString()}</td>
       <td className="price-total">{sale.total.toLocaleString()}</td>
       {sale.diff != null && (
-        <td
-          className={`price-diff ${
-            Math.ceil(sale.diff) >= 20
-              ? 'price-diff-bad'
-              : Math.ceil(sale.diff) < -10
-              ? 'price-diff-good'
-              : ''
-          }`}
-        >
+        <td className={`price-diff ${getPercentDiffLabelClass(sale.diff)}`}>
           <Tooltip
+            enabled={shouldDisplayDiffTooltopEver(sale.diff)}
             label={
-              <div style={{ textAlign: 'center' }}>
-                This listing is {sale.diff > 0 ? '+' : ''}
-                {sale.diff === 0 ? '-' : Math.round(sale.diff).toLocaleString() + '%'}{' '}
-                {sale.diff > 0 ? 'more' : 'less'} than the current <br />
-                <strong>Avg. Price Per Unit</strong>: {sale.hq ? '(HQ)' : '(NQ)'}{' '}
-                {Math.round(sale.average!).toLocaleString()}
+              <div style={{ textAlign: 'center', width: '200px' }}>
+                <PercentDiffTooltipBody
+                  diff={sale.diff}
+                  nounSingular="sale"
+                  price={sale.pricePerUnit}
+                  referencePrice={sale.average!}
+                  quality={sale.hq ? Quality.HighQuality : Quality.NormalQuality}
+                />
               </div>
             }
           >
-            <span style={{ width: '100%' }}>
-              {sale.diff == 0
-                ? '-'
-                : (sale.diff > 0 ? '+' : '') + Math.ceil(sale.diff).toLocaleString() + '%'}
-            </span>
+            <span style={{ width: '100%' }}>{formatPercentDiffSimple(sale.diff)}</span>
           </Tooltip>
         </td>
       )}
