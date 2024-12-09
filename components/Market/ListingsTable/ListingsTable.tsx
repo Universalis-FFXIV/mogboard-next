@@ -8,6 +8,13 @@ import GameMateria from '../../GameMateria/GameMateria';
 import SortTable from '../../SortTable/SortTable';
 import Tooltip from '../../Tooltip/Tooltip';
 import useSettings from '../../../hooks/useSettings';
+import {
+  formatPercentDiffSimple,
+  getPercentDiffLabelClass,
+  PercentDiffTooltipBody,
+  Quality,
+  shouldDisplayDiffTooltopEver,
+} from '../utils';
 
 interface ListingsTableProps {
   listings: any[];
@@ -102,31 +109,22 @@ function ListingsTableRow({ listing, includeGst }: ListingsTableRowProps) {
       <td className="price-qty">{listing.quantity.toLocaleString()}</td>
       <td className="price-total">{listing.total.toLocaleString()}</td>
       {listing.diff != null && (
-        <td
-          className={`price-diff ${
-            Math.ceil(listing.diff) >= 20
-              ? 'price-diff-bad'
-              : Math.ceil(listing.diff) < -10
-              ? 'price-diff-good'
-              : ''
-          }`}
-        >
+        <td className={`price-diff ${getPercentDiffLabelClass(listing.diff)}`}>
           <Tooltip
+            enabled={shouldDisplayDiffTooltopEver(listing.diff)}
             label={
               <div style={{ textAlign: 'center' }}>
-                This listing is {listing.diff > 0 ? '+' : ''}
-                {listing.diff === 0 ? '-' : Math.round(listing.diff).toLocaleString() + '%'}{' '}
-                {listing.diff > 0 ? 'more' : 'less'} than the current <br />
-                <strong>Avg. Price Per Unit</strong>: {listing.hq ? '(HQ)' : '(NQ)'}{' '}
-                {Math.round(listing.average!).toLocaleString()}
+                <PercentDiffTooltipBody
+                  diff={listing.diff}
+                  nounSingular="listing"
+                  price={listing.pricePerUnit}
+                  referencePrice={listing.average!}
+                  quality={listing.hq ? Quality.HighQuality : Quality.NormalQuality}
+                />
               </div>
             }
           >
-            <span style={{ width: '100%' }}>
-              {listing.diff == 0
-                ? '-'
-                : (listing.diff > 0 ? '+' : '') + Math.ceil(listing.diff).toLocaleString() + '%'}
-            </span>
+            <span style={{ width: '100%' }}>{formatPercentDiffSimple(listing.diff)}</span>
           </Tooltip>
         </td>
       )}

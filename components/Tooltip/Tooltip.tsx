@@ -17,12 +17,13 @@ import { motion, AnimatePresence } from 'framer-motion';
 interface TooltipProps {
   label?: string | JSX.Element;
   placement?: Placement;
+  enabled?: boolean;
   children: JSX.Element;
 }
 
 // https://codesandbox.io/s/winter-tree-wmmffl?file=/src/AnimatedTooltip.tsx
 
-export default function Tooltip({ children, label, placement = 'top' }: TooltipProps) {
+export default function Tooltip({ children, label, enabled, placement = 'top' }: TooltipProps) {
   const [open, setOpen] = useState(false);
 
   const { x, y, reference, floating, strategy, context } = useFloating({
@@ -39,6 +40,10 @@ export default function Tooltip({ children, label, placement = 'top' }: TooltipP
     useRole(context, { role: 'tooltip' }),
     useDismiss(context),
   ]);
+
+  if (!enabled) {
+    return <>{children}</>;
+  }
 
   return (
     <>
