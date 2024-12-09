@@ -113,7 +113,7 @@ function ListingsTableRow({ listing, includeGst }: ListingsTableRowProps) {
           <Tooltip
             enabled={shouldDisplayDiffTooltopEver(listing.diff)}
             label={
-              <div style={{ textAlign: 'center' }}>
+              <div style={{ textAlign: 'center', width: '200px' }}>
                 <PercentDiffTooltipBody
                   diff={listing.diff}
                   nounSingular="listing"

@@ -46,30 +46,26 @@ export function PercentDiffTooltipBody({
   referencePrice,
   quality,
 }: PercentDiffTooltipBodyProps) {
-  const ReferencePriceLabel = () => (
-    <strong>
-      Median Price Per Unit {quality === Quality.HighQuality ? '(HQ)' : '(NQ)'}:{' '}
-      {referencePrice.toLocaleString()}
-    </strong>
-  );
+  const qualityStr = quality === Quality.HighQuality ? 'HQ' : 'NQ';
 
   if (price === referencePrice) {
     return (
       <>
-        This {nounSingular} is equal to the current <br />
-        <ReferencePriceLabel />
+        This {nounSingular} is equal to the <strong>Median Unit Sale Price ({qualityStr})</strong>{' '}
+        over the past 7 days: <strong>{referencePrice.toLocaleString()}</strong>
       </>
     );
   }
 
+  const percentDiffStr = formatPercentDiff(diff / 100, 4, false);
   return (
     <>
       This {nounSingular} is{' '}
       <strong>
-        {formatPercentDiff(diff / 100, 4, false)} {diff > 0 ? 'more' : 'less'}
+        {percentDiffStr} {diff > 0 ? 'more' : 'less'}
       </strong>{' '}
-      than the current <br />
-      <ReferencePriceLabel />
+      than the <strong>Median Unit Sale Price ({qualityStr})</strong> over the past 7 days:{' '}
+      <strong>{referencePrice.toLocaleString()}</strong>
     </>
   );
 }

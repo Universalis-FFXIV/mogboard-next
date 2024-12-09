@@ -83,7 +83,7 @@ function SalesTableRow({ sale }: { sale: SaleRow }) {
           <Tooltip
             enabled={shouldDisplayDiffTooltopEver(sale.diff)}
             label={
-              <div style={{ textAlign: 'center' }}>
+              <div style={{ textAlign: 'center', width: '200px' }}>
                 <PercentDiffTooltipBody
                   diff={sale.diff}
                   nounSingular="sale"
