@@ -2,7 +2,11 @@ import NextAuth, { NextAuthOptions } from 'next-auth';
 import DiscordProvider from 'next-auth/providers/discord';
 import { acquireConn, releaseConn } from '../../../db/connect';
 import DalamudAdapter from '../../../db/DalamudAdapter';
-import { getUser } from '../../../db/user';
+import { Database } from '../../../db';
+import { Logger } from '../../../service/logger';
+import { User } from '../../../types/universalis/user';
+
+const AuthLogger = Logger.child({ location: '/api/auth' });
 
 export const authOptions: NextAuthOptions = {
   adapter: DalamudAdapter(),
@@ -18,46 +22,64 @@ export const authOptions: NextAuthOptions = {
   secret: process.env['NEXTAUTH_SECRET'],
   callbacks: {
     async jwt({ token, account }) {
-      if (account) {
-        if (
-          token.sub &&
-          account.provider === 'discord' &&
-          !token.picture?.includes('cdn.discordapp.com')
-        ) {
-          const conn = await acquireConn();
-          try {
-            const user = await getUser(token.sub, conn);
-            token.picture = user?.ssoDiscordAvatar;
-          } catch (err) {
-            console.error(err);
-          } finally {
-            await releaseConn(conn);
-          }
+      const userId = token.sub;
+
+      if (account && userId) {
+        AuthLogger.info(`Creating JWT for user with ID [${userId}]`);
+
+        AuthLogger.info(`Retrieving database information for user [${userId}]`);
+        const user = await Database.getUser(userId);
+        AuthLogger.info(`Successfully retrieved database information for user [${userId}]`);
+
+        // Fix basic information using the database
+        if (account.provider === 'discord' && !token.picture?.includes('cdn.discordapp.com')) {
+          token.picture = user?.ssoDiscordAvatar;
         }
 
-        if (
-          (!token.picture || token.picture.includes('null.webp')) &&
-          account.provider === 'discord' &&
-          account.access_token
-        ) {
+        // If we have an access token, also attempt to sync with the OAuth2 provider service
+        if (account.provider === 'discord' && account.access_token) {
+          AuthLogger.info(`Syncing account information for user [${userId}] with Discord`);
           try {
             const res = await fetch('https://discord.com/api/v9/users/@me', {
               headers: { Authorization: `Bearer ${account.access_token}` },
             });
-            if (!res.ok) {
+
+            if (res.ok) {
+              const me = await res.json();
+              AuthLogger.info(
+                `Successfully fetched Discord profile information for user [${userId}]`
+              );
+
+              const discordAvatar = me.avatar
+                ? `https://cdn.discordapp.com/avatars/${me.id}/${me.avatar}.webp?size=96`
+                : user?.ssoDiscordAvatar;
+              if (discordAvatar) {
+                // Update the JWT so the user gets the updated profile picture
+                token.picture = discordAvatar;
+              } else {
+                AuthLogger.warn(`Unable to get profile picture for user [${userId}]`);
+              }
+
+              const username = me.username ?? user?.username;
+              const email = me.email ?? user?.email;
+
+              AuthLogger.info(`Updating account information for user [${userId}]`);
+              await Database.updateUserBasic(
+                userId,
+                username,
+                email,
+                user?.avatar ?? null,
+                discordAvatar ?? null
+              );
+              AuthLogger.info(`Successfully updated account information for user [${userId}]`);
+            } else {
               const body = res.headers.get('Content-Type')?.includes('application/json')
                 ? (await res.json()).message
                 : await res.text();
               throw new Error(body);
-            } else {
-              const me = await res.json();
-              const avatar: string | null = me.avatar;
-              if (avatar) {
-                token.picture = `https://cdn.discordapp.com/avatars/${me.id}/${me.avatar}.webp?size=96`;
-              }
             }
           } catch (err) {
-            console.error(err);
+            AuthLogger.error(err);
           }
         }
 
@@ -66,8 +88,12 @@ export const authOptions: NextAuthOptions = {
       return token;
     },
     async session({ session, token }) {
+      const userId = token.sub;
+
       if (session.user != null) {
-        session.user.id = token.sub;
+        AuthLogger.info(`Creating session context for user [${userId}]`);
+
+        session.user.id = userId;
         session.user.sso = token.sso;
 
         if (token.picture) {

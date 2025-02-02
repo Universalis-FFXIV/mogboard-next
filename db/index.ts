@@ -17,9 +17,15 @@ export class Database {
     return rentConnectionForFn((conn) => UserDatabase.createUser(user, conn));
   }
 
-  static updateUserBasic(id: string, username: string, email: string, avatar: string) {
+  static updateUserBasic(
+    id: string,
+    username: string,
+    email: string,
+    avatar: string | null,
+    discordAvatar: string | null
+  ) {
     return rentConnectionForFn((conn) =>
-      UserDatabase.updateUserBasic(id, username, email, avatar, conn)
+      UserDatabase.updateUserBasic(id, username, email, avatar, discordAvatar, conn)
     );
   }
 

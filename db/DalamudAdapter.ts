@@ -5,6 +5,9 @@ import { v4 as uuidv4 } from 'uuid';
 import { unix } from './util';
 import { PHPObject } from './PHPObject';
 import { FavouritesList, RecentlyViewedList } from './user-list';
+import { Logger } from '../service/logger';
+
+const AdapterLogger = Logger.child({ location: 'DalamudAdapter' });
 
 export default function DalamudAdapter(): Adapter {
   return {
@@ -12,6 +15,11 @@ export default function DalamudAdapter(): Adapter {
       const id = uuidv4();
       const username = typeof user.name === 'string' ? user.name : '';
       const email = typeof user.email === 'string' ? user.email : '';
+
+      AdapterLogger.info(
+        `Creating new user with id=[${id}], username=[${username}], email=[${email}]`
+      );
+
       const mogUser: User = {
         id,
         added: unix(),
@@ -57,6 +65,8 @@ export default function DalamudAdapter(): Adapter {
       } as AdapterUser;
     },
     async getUser(id) {
+      AdapterLogger.info(`Fetching user with ID [${id}]`);
+
       const user = await Database.getUser(id);
       if (user == null) {
         return null;
@@ -71,6 +81,8 @@ export default function DalamudAdapter(): Adapter {
       };
     },
     async getUserByEmail(email) {
+      AdapterLogger.info(`Fetching user with email [${email}]`);
+
       const user = await Database.getUserByEmail(email);
       if (user == null) {
         return null;
@@ -87,6 +99,7 @@ export default function DalamudAdapter(): Adapter {
     async getUserByAccount(account) {
       let user: User | null = null;
       if (account.provider === 'discord') {
+        AdapterLogger.info(`Fetching user for Discord account [${account.providerAccountId}]`);
         user = await Database.getUserByDiscordId(account.providerAccountId);
       } else {
         return null;
@@ -106,6 +119,9 @@ export default function DalamudAdapter(): Adapter {
     },
     async linkAccount(account) {
       if (account.provider === 'discord') {
+        AdapterLogger.info(
+          `Linking Discord account [${account.providerAccountId}] to user [${account.userId}]`
+        );
         await Database.updateUserDiscord(
           account.userId,
           account.providerAccountId,
@@ -128,6 +144,8 @@ export default function DalamudAdapter(): Adapter {
       throw new Error('Using JWT-based sessions.');
     },
     async updateUser(user) {
+      AdapterLogger.info(`Updating information for user [${user.id}]`);
+
       const mogUser = await Database.getUser(user.id!);
       if (mogUser == null) {
         throw new Error('User was not found.');
@@ -136,9 +154,10 @@ export default function DalamudAdapter(): Adapter {
       const id = user.id!;
       const username = user.name ?? mogUser.username;
       const email = user.email ?? mogUser.email;
-      const avatar = user.image || mogUser.avatar || '';
+      const avatar = user.image || mogUser.avatar || null;
+      const discordAvatar = mogUser.ssoDiscordAvatar || null;
 
-      await Database.updateUserBasic(id, username, email, avatar ?? '');
+      await Database.updateUserBasic(id, username, email, avatar, discordAvatar);
 
       return {
         id,
@@ -149,10 +168,12 @@ export default function DalamudAdapter(): Adapter {
       };
     },
     async deleteUser(id) {
+      AdapterLogger.info(`Deleting user [${id}]`);
       await Database.deleteUser(id);
     },
     async unlinkAccount(account) {
       if (account.provider === 'discord') {
+        AdapterLogger.info(`Unlinking Discord account [${account.providerAccountId}]`);
         await Database.removeUserDiscord(account.providerAccountId);
       }
     },
