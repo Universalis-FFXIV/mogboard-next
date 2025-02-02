@@ -32,6 +32,10 @@ export const authOptions: NextAuthOptions = {
         AuthLogger.info(`Successfully retrieved database information for user [${userId}]`);
 
         // Fix basic information using the database
+        if (user?.email) {
+          token.email = user.email;
+        }
+
         if (account.provider === 'discord' && !token.picture?.includes('cdn.discordapp.com')) {
           token.picture = user?.ssoDiscordAvatar;
         }
@@ -98,6 +102,10 @@ export const authOptions: NextAuthOptions = {
 
         if (token.picture) {
           session.user.image = token.picture;
+        }
+
+        if (token.email) {
+          session.user.email = token.email;
         }
       }
       return session;
