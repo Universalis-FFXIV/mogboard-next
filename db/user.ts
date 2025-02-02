@@ -37,15 +37,14 @@ export function updateUserBasic(
   id: string,
   username: string,
   email: string,
-  avatar: string,
+  avatar: string | null,
+  discordAvatar: string | null,
   conn: mariadb.Connection
 ) {
-  return conn.execute('UPDATE users SET username = ?, email = ?, avatar = ? WHERE id = ?', [
-    username,
-    email,
-    avatar,
-    id,
-  ]);
+  return conn.execute(
+    'UPDATE users SET username = ?, email = ?, avatar = ?, sso_discord_avatar = ? WHERE id = ?',
+    [username, email, avatar, discordAvatar, id]
+  );
 }
 
 export function updateUserDiscord(

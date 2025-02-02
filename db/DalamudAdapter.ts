@@ -154,9 +154,10 @@ export default function DalamudAdapter(): Adapter {
       const id = user.id!;
       const username = user.name ?? mogUser.username;
       const email = user.email ?? mogUser.email;
-      const avatar = user.image || mogUser.avatar || '';
+      const avatar = user.image || mogUser.avatar || null;
+      const discordAvatar = mogUser.ssoDiscordAvatar || null;
 
-      await Database.updateUserBasic(id, username, email, avatar ?? '');
+      await Database.updateUserBasic(id, username, email, avatar, discordAvatar);
 
       return {
         id,
