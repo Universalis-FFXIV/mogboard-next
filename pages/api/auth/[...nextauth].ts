@@ -3,6 +3,9 @@ import DiscordProvider from 'next-auth/providers/discord';
 import { acquireConn, releaseConn } from '../../../db/connect';
 import DalamudAdapter from '../../../db/DalamudAdapter';
 import { getUser } from '../../../db/user';
+import { Logger } from '../../../service/logger';
+
+const AuthLogger = Logger.child({ location: '/api/auth' });
 
 export const authOptions: NextAuthOptions = {
   adapter: DalamudAdapter(),
@@ -19,11 +22,14 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     async jwt({ token, account }) {
       if (account) {
+        AuthLogger.info(`Creating JWT for user with ID [${token.sub}]`);
+
         if (
           token.sub &&
           account.provider === 'discord' &&
           !token.picture?.includes('cdn.discordapp.com')
         ) {
+          AuthLogger.info(`Retrieving profile picture for user [${token.sub}]`);
           const conn = await acquireConn();
           try {
             const user = await getUser(token.sub, conn);
@@ -40,6 +46,10 @@ export const authOptions: NextAuthOptions = {
           account.provider === 'discord' &&
           account.access_token
         ) {
+          AuthLogger.info(
+            `User with ID [${account.userId}] has no profile picture, fetching from Discord`
+          );
+
           try {
             const res = await fetch('https://discord.com/api/v9/users/@me', {
               headers: { Authorization: `Bearer ${account.access_token}` },
@@ -67,6 +77,8 @@ export const authOptions: NextAuthOptions = {
     },
     async session({ session, token }) {
       if (session.user != null) {
+        AuthLogger.info(`Updating session information for user [${token.sub}]`);
+
         session.user.id = token.sub;
         session.user.sso = token.sso;
 
