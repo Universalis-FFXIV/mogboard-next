@@ -11,7 +11,7 @@ const nextConfig = {
     unoptimized: true,
     domains: [
       'xivapi.com',
-      'beta.xivapi.com',
+      'v2.xivapi.com',
       'universalis-ffxiv.github.io',
       'img2.finalfantasyxiv.com',
       'cdn.discordapp.com',

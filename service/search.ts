@@ -128,7 +128,7 @@ export async function searchItemsV1(
 }
 
 function iconUrlV2(icon: BoilmasterIcon): string {
-  return `https://beta.xivapi.com/api/1/asset/${icon.path}?format=png`;
+  return `https://v2.xivapi.com/api/asset/${icon.path}?format=png`;
 }
 
 export async function searchItemsV2(
@@ -136,7 +136,7 @@ export async function searchItemsV2(
   lang: string,
   abort?: AbortController
 ): Promise<ItemSearchResults> {
-  const searchUrl = 'https://beta.xivapi.com/api/1/search';
+  const searchUrl = 'https://v2.xivapi.com/api/search';
   const keywords = query
     .split(' ')
     .map((term) => `+Name~"${term}"`)
