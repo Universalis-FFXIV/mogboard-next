@@ -1,10 +1,8 @@
 import NextAuth, { NextAuthOptions } from 'next-auth';
 import DiscordProvider from 'next-auth/providers/discord';
-import { acquireConn, releaseConn } from '../../../db/connect';
 import DalamudAdapter from '../../../db/DalamudAdapter';
 import { Database } from '../../../db';
 import { Logger } from '../../../service/logger';
-import { User } from '../../../types/universalis/user';
 
 const AuthLogger = Logger.child({ location: '/api/auth' });
 
