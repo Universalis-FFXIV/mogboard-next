@@ -25,7 +25,7 @@ yarn dev
 | ----------------------- | --------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `APP_ENV`               | Makes the favicon red when not set to `prod`.       | `dev`                                                                                                                                                           |
 | `DISCORD_CLIENT_ID`     | Discord application client ID, used for OAuth2.     | Create a Discord Application, register `http://localhost:3000/api/auth/callback/discord` as an OAuth2 callback URL, and paste the application's client ID here. |
-| `DISCORD_CLIENT_SECRET` | Discord application client secret, used for OAuth2. |
+| `DISCORD_CLIENT_SECRET` | Discord application client secret, used for OAuth2. | |
 | `NEXTAUTH_URL`          | Website base URL.                                   | `http://localhost:3000`                                                                                                                                         |
 | `NEXTAUTH_SECRET`       | JWT secret.                                         | Whatever you want, as long as it's not empty.                                                                                                                   |
 | `PATREON_ACCESS_TOKEN`  | Patreon API access token.                           | Your Patreon Creator's Access Token. Not required.                                                                                                              |

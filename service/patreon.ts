@@ -76,9 +76,15 @@ export async function getPatreonSubscribers(): Promise<PatreonSubscriber[]> {
         }
       }
 
-      // Check for next page
-      const links = (pledgesResponse as any).links;
-      nextUrl = links?.next ? new URL(links.next).pathname + new URL(links.next).search : null;
+      // Check for next page via cursor
+      const cursors = (pledgesResponse as any).meta?.pagination?.cursors;
+      if (cursors?.next) {
+        nextUrl = `/campaigns/${campaignId}/pledges` +
+          `?include=patron&fields[user]=full_name` +
+          `&page[count]=100&page[cursor]=${cursors.next}`;
+      } else {
+        nextUrl = null;
+      }
     }
 
     // Cache the result
