@@ -63,6 +63,20 @@ const mockPatrons: Patron[] = [
     vanity: 'jane',
     about: 'A loyal supporter',
   },
+  {
+    id: 'patron-3',
+    _type: 'user',
+    full_name: 'Bob Johnson',
+    first_name: 'Bob',
+    last_name: 'Johnson',
+    email: 'bob@example.com',
+    created: '2023-01-03T00:00:00Z',
+    url: 'https://patreon.com/bob',
+    image_url: 'https://example.com/bob.jpg',
+    thumb_url: 'https://example.com/bob_thumb.jpg',
+    vanity: null,
+    about: null,
+  },
 ];
 
 const mockPledges: Pledge[] = [
@@ -101,29 +115,41 @@ const mockPledges: Pledge[] = [
   },
 ];
 
-const mockPatreonClient = {
-  '/current_user': {
-    store: {
-      findAll: jest.fn((type: string) => {
-        if (type === 'campaign') return [mockCampaign];
-        return [];
-      }),
-    },
-  },
-  '/campaigns/campaign-123/pledges': {
-    store: {
-      findAll: jest.fn((type: string) => {
-        if (type === 'pledge') return mockPledges;
-        return [];
-      }),
-      find: jest.fn((type: string, id: string) => {
-        if (type === 'user') {
-          return mockPatrons.find((patron) => patron.id === id);
-        }
-        return null;
-      }),
-    },
-  },
+const createMockPatreonClient = () => {
+  return jest.fn((endpoint: string) => {
+    if (endpoint === '/current_user') {
+      return Promise.resolve({
+        store: {
+          findAll: jest.fn((type: string) => {
+            if (type === 'campaign') return [mockCampaign];
+            return [];
+          }),
+        },
+      });
+    }
+
+    if (endpoint.startsWith('/campaigns/campaign-123/pledges')) {
+      return Promise.resolve({
+        store: {
+          findAll: jest.fn((type: string) => {
+            if (type === 'pledge') return mockPledges;
+            return [];
+          }),
+          find: jest.fn((type: string, id: string) => {
+            if (type === 'user') {
+              return mockPatrons.find((patron) => patron.id === id);
+            }
+            return null;
+          }),
+        },
+        links: {
+          next: null, // No pagination for test
+        },
+      });
+    }
+
+    return Promise.resolve({});
+  });
 };
 
 beforeEach(() => {
@@ -155,11 +181,7 @@ describe('getPatreonSubscribers', () => {
     process.env.PATREON_ACCESS_TOKEN = 'test-access-token';
 
     const patreon = require('patreon').patreon as jest.MockedFunction<any>;
-    patreon.mockReturnValue(
-      jest.fn((endpoint: string) => {
-        return Promise.resolve(mockPatreonClient[endpoint as keyof typeof mockPatreonClient] || {});
-      })
-    );
+    patreon.mockReturnValue(createMockPatreonClient());
 
     const { getPatreonSubscribers } = require('./patreon');
     const subscribers = await getPatreonSubscribers();
@@ -201,6 +223,75 @@ describe('getPatreonSubscribers', () => {
     const subscribers = await getPatreonSubscribers();
 
     expect(subscribers).toEqual([]);
+  });
+
+  test('handles pagination correctly', async () => {
+    process.env.PATREON_ACCESS_TOKEN = 'test-access-token';
+
+    const page1Pledges = [mockPledges[0]];
+    const page2Pledges = [mockPledges[1]];
+
+    const mockClient = jest.fn((endpoint: string) => {
+      if (endpoint === '/current_user') {
+        return Promise.resolve({
+          store: {
+            findAll: jest.fn((type: string) => {
+              if (type === 'campaign') return [mockCampaign];
+              return [];
+            }),
+          },
+        });
+      }
+
+      if (endpoint.includes('page[count]=100')) {
+        // First page
+        return Promise.resolve({
+          store: {
+            findAll: jest.fn(() => page1Pledges),
+            find: jest.fn((type: string, id: string) => {
+              if (type === 'user') {
+                return mockPatrons.find((patron) => patron.id === id);
+              }
+              return null;
+            }),
+          },
+          links: {
+            next: 'https://patreon.com/api/oauth2/v2/campaigns/campaign-123/pledges?page[cursor]=next_page',
+          },
+        });
+      }
+
+      if (endpoint.includes('page[cursor]=next_page')) {
+        // Second page
+        return Promise.resolve({
+          store: {
+            findAll: jest.fn(() => page2Pledges),
+            find: jest.fn((type: string, id: string) => {
+              if (type === 'user') {
+                return mockPatrons.find((patron) => patron.id === id);
+              }
+              return null;
+            }),
+          },
+          links: {
+            next: null, // No more pages
+          },
+        });
+      }
+
+      return Promise.resolve({});
+    });
+
+    const patreon = require('patreon').patreon as jest.MockedFunction<any>;
+    patreon.mockReturnValue(mockClient);
+
+    const { getPatreonSubscribers } = require('./patreon');
+    const subscribers = await getPatreonSubscribers();
+
+    expect(subscribers).toHaveLength(2);
+    expect(subscribers[0]).toEqual({ name: 'John Doe' });
+    expect(subscribers[1]).toEqual({ name: 'Jane Smith' });
+    expect(mockClient).toHaveBeenCalledTimes(3); // current_user + 2 pages
   });
 });
 

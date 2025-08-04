@@ -51,25 +51,34 @@ export async function getPatreonSubscribers(): Promise<PatreonSubscriber[]> {
 
     const campaignId = campaigns[0].id;
 
-    // Get pledges for the campaign
-    const pledgesResponse = await patreonClient(`/campaigns/${campaignId}/pledges`);
-    const pledges = pledgesResponse.store.findAll('pledge') as Pledge[];
-
-    // Extract active subscribers
+    // Get all pledges for the campaign with pagination
     const subscribers: PatreonSubscriber[] = [];
+    let nextUrl:
+      | string
+      | null = `/campaigns/${campaignId}/pledges?include=patron&fields[user]=full_name&page[count]=100`;
 
-    for (const pledge of pledges) {
-      // Only include active pledges (not declined)
-      if (!pledge.declined_since) {
-        const patronId = pledge.patron.id;
-        const patron = pledgesResponse.store.find('user', patronId) as Patron;
+    while (nextUrl) {
+      const pledgesResponse = await patreonClient(nextUrl);
+      const pledges = pledgesResponse.store.findAll('pledge') as Pledge[];
 
-        if (patron) {
-          subscribers.push({
-            name: patron.full_name.trim(),
-          });
+      // Extract active subscribers from this page
+      for (const pledge of pledges) {
+        // Only include active pledges (not declined)
+        if (!pledge.declined_since) {
+          const patronId = pledge.patron.id;
+          const patron = pledgesResponse.store.find('user', patronId) as Patron;
+
+          if (patron) {
+            subscribers.push({
+              name: patron.full_name.trim(),
+            });
+          }
         }
       }
+
+      // Check for next page
+      const links = (pledgesResponse as any).links;
+      nextUrl = links?.next ? new URL(links.next).pathname + new URL(links.next).search : null;
     }
 
     // Cache the result

@@ -28,8 +28,8 @@ class PatreonHandler {
           : null,
       };
 
-      // Add cache headers for client-side caching (5 minutes)
-      res.setHeader('Cache-Control', 'public, max-age=300, stale-while-revalidate=600');
+      // Add cache headers for client-side caching (1 minute)
+      res.setHeader('Cache-Control', 'public, max-age=60, stale-while-revalidate=120');
 
       return res.json(response);
     } catch (error) {

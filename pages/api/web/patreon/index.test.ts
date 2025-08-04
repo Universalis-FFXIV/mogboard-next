@@ -54,7 +54,7 @@ describe('/api/web/patreon', () => {
 
     expect(res._getStatusCode()).toBe(200);
     expect(res._getHeaders()).toMatchObject({
-      'cache-control': 'public, max-age=300, stale-while-revalidate=600',
+      'cache-control': 'public, max-age=60, stale-while-revalidate=120',
     });
 
     const responseData = JSON.parse(res._getData()) as PatreonRandomSubscriberResponse;
@@ -86,7 +86,7 @@ describe('/api/web/patreon', () => {
 
     expect(res._getStatusCode()).toBe(200);
     expect(res._getHeaders()).toMatchObject({
-      'cache-control': 'public, max-age=300, stale-while-revalidate=600',
+      'cache-control': 'public, max-age=60, stale-while-revalidate=120',
     });
 
     const responseData = JSON.parse(res._getData()) as PatreonRandomSubscriberResponse;
@@ -175,7 +175,7 @@ describe('/api/web/patreon', () => {
     expect(res._getStatusCode()).toBe(200);
 
     const cacheHeader = res._getHeaders()['cache-control'];
-    expect(cacheHeader).toBe('public, max-age=300, stale-while-revalidate=600');
+    expect(cacheHeader).toBe('public, max-age=60, stale-while-revalidate=120');
   });
 
   test('handles edge case where getRandomSubscriber returns different subscriber', async () => {
