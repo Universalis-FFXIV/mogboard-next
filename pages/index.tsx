@@ -23,6 +23,7 @@ import useSWR from 'swr';
 import { useSession } from 'next-auth/react';
 import useDataCenters from '../hooks/useDataCenters';
 import HomeGuides from '../components/Home/HomeGuides/HomeGuides';
+import PatreonThanks from '../components/Home/PatreonThanks/PatreonThanks';
 
 function sum(arr: number[], start: number, end: number) {
   return arr.slice(start, end).reduce((a, b) => a + b, 0);
@@ -181,6 +182,7 @@ const Home: NextPage = () => {
         </div>
         <div>
           <HomeAction />
+          <PatreonThanks />
           <h4>
             <Trans>Recent Updates</Trans>
           </h4>
