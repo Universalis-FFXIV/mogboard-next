@@ -1,12 +1,5 @@
 import useSWR from 'swr';
-
-interface PatreonSubscriber {
-  name: string;
-}
-
-interface PatreonRandomSubscriberResponse {
-  subscriber: PatreonSubscriber | null;
-}
+import type { PatreonRandomSubscriberResponse } from '../pages/api/web/patreon';
 
 export default function usePatreonSubscriber() {
   return useSWR('/api/web/patreon', (url) =>
