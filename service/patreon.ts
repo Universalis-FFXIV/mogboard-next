@@ -70,7 +70,7 @@ export async function getPatreonSubscribers(): Promise<PatreonSubscriber[]> {
 
           if (patron) {
             subscribers.push({
-              name: patron.full_name.trim(),
+              name: (patron.discord_vanity || patron.full_name).trim(),
             });
           }
         }

@@ -25,6 +25,7 @@ declare module 'patreon' {
     thumb_url: string;
     vanity: string | null;
     about: string | null;
+    discord_vanity: string | null;
   }
 
   export interface Pledge {

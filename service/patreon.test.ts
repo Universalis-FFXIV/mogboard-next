@@ -48,6 +48,7 @@ const mockPatrons: Patron[] = [
     thumb_url: 'https://example.com/john_thumb.jpg',
     vanity: null,
     about: null,
+    discord_vanity: 'johndoe#1234',
   },
   {
     id: 'patron-2',
@@ -62,6 +63,7 @@ const mockPatrons: Patron[] = [
     thumb_url: 'https://example.com/jane_thumb.jpg',
     vanity: 'jane',
     about: 'A loyal supporter',
+    discord_vanity: null,
   },
   {
     id: 'patron-3',
@@ -76,6 +78,7 @@ const mockPatrons: Patron[] = [
     thumb_url: 'https://example.com/bob_thumb.jpg',
     vanity: null,
     about: null,
+    discord_vanity: null,
   },
 ];
 
@@ -188,10 +191,10 @@ describe('getPatreonSubscribers', () => {
 
     expect(subscribers).toHaveLength(2); // Only active pledges (not declined)
     expect(subscribers[0]).toEqual({
-      name: 'John Doe',
+      name: 'johndoe#1234', // Uses discord_vanity when available
     });
     expect(subscribers[1]).toEqual({
-      name: 'Jane Smith',
+      name: 'Jane Smith', // Falls back to full_name when discord_vanity is null
     });
   });
 
@@ -289,9 +292,64 @@ describe('getPatreonSubscribers', () => {
     const subscribers = await getPatreonSubscribers();
 
     expect(subscribers).toHaveLength(2);
-    expect(subscribers[0]).toEqual({ name: 'John Doe' });
-    expect(subscribers[1]).toEqual({ name: 'Jane Smith' });
+    expect(subscribers[0]).toEqual({ name: 'johndoe#1234' }); // Uses discord_vanity
+    expect(subscribers[1]).toEqual({ name: 'Jane Smith' }); // Falls back to full_name
     expect(mockClient).toHaveBeenCalledTimes(3); // current_user + 2 pages
+  });
+
+  test('prefers discord_vanity over full_name when available', async () => {
+    process.env.PATREON_ACCESS_TOKEN = 'test-access-token';
+
+    // Create patrons with different discord_vanity scenarios
+    const testPatrons = [
+      { ...mockPatrons[0], discord_vanity: 'discord_user' }, // Has discord_vanity
+      { ...mockPatrons[1], discord_vanity: null }, // No discord_vanity
+      { ...mockPatrons[2], discord_vanity: '' }, // Empty discord_vanity
+    ];
+
+    const testPledges = [
+      { ...mockPledges[0], patron: testPatrons[0] },
+      { ...mockPledges[1], patron: testPatrons[1] },
+      { ...mockPledges[2], patron: testPatrons[2], declined_since: null }, // Make active
+    ];
+
+    const mockClient = jest.fn((endpoint: string) => {
+      if (endpoint === '/current_user') {
+        return Promise.resolve({
+          store: {
+            findAll: jest.fn(() => [mockCampaign]),
+          },
+        });
+      }
+
+      if (endpoint.startsWith('/campaigns/campaign-123/pledges')) {
+        return Promise.resolve({
+          store: {
+            findAll: jest.fn(() => testPledges),
+            find: jest.fn((type: string, id: string) => {
+              if (type === 'user') {
+                return testPatrons.find((patron) => patron.id === id);
+              }
+              return null;
+            }),
+          },
+          links: { next: null },
+        });
+      }
+
+      return Promise.resolve({});
+    });
+
+    const patreon = require('patreon').patreon as jest.MockedFunction<any>;
+    patreon.mockReturnValue(mockClient);
+
+    const { getPatreonSubscribers } = require('./patreon');
+    const subscribers = await getPatreonSubscribers();
+
+    expect(subscribers).toHaveLength(3);
+    expect(subscribers[0]).toEqual({ name: 'discord_user' }); // Uses discord_vanity
+    expect(subscribers[1]).toEqual({ name: 'Jane Smith' }); // Falls back to full_name (null)
+    expect(subscribers[2]).toEqual({ name: 'Bob Johnson' }); // Falls back to full_name (empty string)
   });
 });
 
