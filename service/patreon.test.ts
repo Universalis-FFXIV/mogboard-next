@@ -145,8 +145,12 @@ const createMockPatreonClient = () => {
             return null;
           }),
         },
-        links: {
-          next: null, // No pagination for test
+        meta: {
+          pagination: {
+            cursors: {
+              next: null, // No pagination for test
+            },
+          },
         },
       });
     }
@@ -246,7 +250,7 @@ describe('getPatreonSubscribers', () => {
         });
       }
 
-      if (endpoint.includes('page[count]=100')) {
+      if (endpoint.includes('page[count]=100') && !endpoint.includes('page[cursor]')) {
         // First page
         return Promise.resolve({
           store: {
@@ -258,13 +262,17 @@ describe('getPatreonSubscribers', () => {
               return null;
             }),
           },
-          links: {
-            next: 'https://patreon.com/api/oauth2/v2/campaigns/campaign-123/pledges?page[cursor]=next_page',
+          meta: {
+            pagination: {
+              cursors: {
+                next: 'next_page_cursor',
+              },
+            },
           },
         });
       }
 
-      if (endpoint.includes('page[cursor]=next_page')) {
+      if (endpoint.includes('page[cursor]=next_page_cursor')) {
         // Second page
         return Promise.resolve({
           store: {
@@ -276,8 +284,12 @@ describe('getPatreonSubscribers', () => {
               return null;
             }),
           },
-          links: {
-            next: null, // No more pages
+          meta: {
+            pagination: {
+              cursors: {
+                next: null, // No more pages
+              },
+            },
           },
         });
       }
@@ -333,7 +345,13 @@ describe('getPatreonSubscribers', () => {
               return null;
             }),
           },
-          links: { next: null },
+          meta: {
+            pagination: {
+              cursors: {
+                next: null,
+              },
+            },
+          },
         });
       }
 

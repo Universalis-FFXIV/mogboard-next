@@ -65,7 +65,9 @@ export async function getPatreonSubscribers(): Promise<PatreonSubscriber[]> {
       for (const pledge of pledges) {
         // Only include active pledges (not declined)
         if (!pledge.declined_since) {
-          const patronId = pledge.patron.id;
+          const patronId = pledge.patron?.id;
+          if (!patronId) continue;
+
           const patron = pledgesResponse.store.find('user', patronId) as Patron;
 
           if (patron) {
@@ -79,7 +81,8 @@ export async function getPatreonSubscribers(): Promise<PatreonSubscriber[]> {
       // Check for next page via cursor
       const cursors = (pledgesResponse as any).meta?.pagination?.cursors;
       if (cursors?.next) {
-        nextUrl = `/campaigns/${campaignId}/pledges` +
+        nextUrl =
+          `/campaigns/${campaignId}/pledges` +
           `?include=patron&fields[user]=full_name` +
           `&page[count]=100&page[cursor]=${cursors.next}`;
       } else {
