@@ -1,4 +1,4 @@
-import { patreon, Patron, Pledge, Campaign } from 'patreon';
+import { patreon, Patron, Pledge, Campaign, APIResponse } from 'patreon';
 import { MogboardCacheItem } from './cache';
 import { Logger } from './logger';
 
@@ -42,7 +42,7 @@ export async function getPatreonSubscribers(): Promise<PatreonSubscriber[]> {
     const patreonClient = patreon(accessToken);
 
     // Get current user to find their campaign
-    const currentUserResponse = await patreonClient('/current_user');
+    const currentUserResponse: APIResponse = await patreonClient('/current_user');
     const campaigns = currentUserResponse.store.findAll('campaign') as Campaign[];
 
     if (campaigns.length === 0) {
@@ -58,7 +58,7 @@ export async function getPatreonSubscribers(): Promise<PatreonSubscriber[]> {
       | null = `/campaigns/${campaignId}/pledges?include=patron&fields[user]=full_name&page[count]=100`;
 
     while (nextUrl) {
-      const pledgesResponse = await patreonClient(nextUrl);
+      const pledgesResponse: APIResponse = await patreonClient(nextUrl);
       const pledges = pledgesResponse.store.findAll('pledge') as Pledge[];
 
       // Extract active subscribers from this page
