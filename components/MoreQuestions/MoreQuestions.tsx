@@ -22,8 +22,8 @@ export default function MoreQuestions() {
         <p
           dangerouslySetInnerHTML={{
             __html: sprintf(
-              t`You can also PM me: <span class="text-yellow">%s</span> if you prefer :)`,
-              'meeboo'
+              t`You can also DM me on Discord: <span class="text-yellow">%s</span> if you prefer :)`,
+              'karashiiro'
             ),
           }}
         ></p>
