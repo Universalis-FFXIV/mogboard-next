@@ -187,11 +187,11 @@ export default function SettingsModal({ isOpen, closeModal, onSave }: SettingsMo
           <div className="flex">
             <div className="flex_50">
               <label htmlFor="includegst">
-                <Trans>Include GST</Trans>
+                <Trans>Include Tax</Trans>
               </label>
               <div style={{ paddingBottom: 10 }}>
                 <small>
-                  <Trans>This will show listing prices with GST included.</Trans>
+                  <Trans>This will show listing prices with tax included.</Trans>
                 </small>
               </div>
               <div className="form">

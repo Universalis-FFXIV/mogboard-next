@@ -13,13 +13,13 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
-#: components/ListingsTable/ListingsTable.tsx:186
-#: components/SalesTable/SalesTable.tsx:153
+#: components/Market/ListingsTable/ListingsTable.tsx:206
+#: components/Market/SalesTable/SalesTable.tsx:151
 msgid "#"
 msgstr "#"
 
-#: components/ListingsTable/ListingsTable.tsx:215
-#: components/SalesTable/SalesTable.tsx:179
+#: components/Market/ListingsTable/ListingsTable.tsx:235
+#: components/Market/SalesTable/SalesTable.tsx:177
 msgid "%Diff"
 msgstr "%차이"
 
@@ -36,17 +36,17 @@ msgstr "아이템 %d / %d"
 msgid "%d items in this list"
 msgstr "해당 목록의 아이템 %d"
 
-#: components/Market/MarketDataCenter/MarketDataCenter.tsx:91
-#: components/Market/MarketDataCenter/MarketDataCenter.tsx:107
-#: components/Market/MarketRegion/MarketRegion.tsx:110
-#: components/Market/MarketRegion/MarketRegion.tsx:128
+#: components/Market/MarketDataCenter/MarketDataCenter.tsx:90
+#: components/Market/MarketDataCenter/MarketDataCenter.tsx:105
+#: components/Market/MarketRegion/MarketRegion.tsx:109
+#: components/Market/MarketRegion/MarketRegion.tsx:126
 msgid "%s Prices"
 msgstr "가격 %s"
 
-#: components/Market/MarketDataCenter/MarketDataCenter.tsx:125
-#: components/Market/MarketDataCenter/MarketDataCenter.tsx:139
-#: components/Market/MarketRegion/MarketRegion.tsx:148
-#: components/Market/MarketRegion/MarketRegion.tsx:164
+#: components/Market/MarketDataCenter/MarketDataCenter.tsx:122
+#: components/Market/MarketDataCenter/MarketDataCenter.tsx:136
+#: components/Market/MarketRegion/MarketRegion.tsx:145
+#: components/Market/MarketRegion/MarketRegion.tsx:161
 msgid "%s Purchase History"
 msgstr "거래 이력 %s"
 
@@ -79,8 +79,8 @@ msgstr "거래당 개수 (%s)"
 #: components/Market/MarketRegion/MarketRegion.tsx:110
 #: components/Market/MarketRegion/MarketRegion.tsx:128
 #: components/Market/MarketWorld/MarketWorld.tsx:43
-msgid "(Includes 5% GST)"
-msgstr ""
+#~ msgid "(Includes 5% GST)"
+#~ msgstr ""
 
 #: components/WorldOption/WorldOption.tsx:37
 msgid "(Unknown)"
@@ -269,7 +269,7 @@ msgstr "시세, 재료, 집사명, 제작자명, 심지어 구매자 이력까�
 msgid "Also thanks to: Vekien, Miu, Mino and all of our uploaders!"
 msgstr "또한 Vekien, Miu, Mino, 그리고 모든 업로더분들에게 감사합니다!"
 
-#: components/Market/MarketServerSelector/MarketServerSelector.tsx:32
+#: components/Market/MarketServerSelector/MarketServerSelector.tsx:20
 #: components/WorldOption/WorldOption.tsx:16
 msgid "America"
 msgstr ""
@@ -301,7 +301,7 @@ msgstr ""
 msgid "Avg. Per Unit"
 msgstr "평균 개당 가격"
 
-#: components/Market/MarketAverages/MarketAverages.tsx:41
+#: components/Market/MarketAverages/MarketAverages.tsx:42
 msgid "Avg. Total"
 msgstr "평균 합계 가격"
 
@@ -309,7 +309,7 @@ msgstr "평균 합계 가격"
 msgid "Become a member!"
 msgstr "멤버가 되어보세요!"
 
-#: components/SalesTable/SalesTable.tsx:183
+#: components/Market/SalesTable/SalesTable.tsx:181
 msgid "Buyer"
 msgstr "구매자명"
 
@@ -405,8 +405,8 @@ msgstr "Credits"
 #~ msgid "Cross-World"
 #~ msgstr "모든 서버"
 
-#: components/Market/MarketDataCenter/MarketDataCenter.tsx:154
-#: components/Market/MarketRegion/MarketRegion.tsx:181
+#: components/Market/MarketDataCenter/MarketDataCenter.tsx:151
+#: components/Market/MarketRegion/MarketRegion.tsx:178
 msgid "Cross-World Purchase history (500 sales)"
 msgstr "모든 서버 거래 내역 (최근 거래 500번)"
 
@@ -436,8 +436,8 @@ msgstr "사용자 지정 Universalis 목록 %s"
 msgid "DISCORD"
 msgstr "디스코드"
 
-#: components/ListingsTable/ListingsTable.tsx:195
-#: components/SalesTable/SalesTable.tsx:162
+#: components/Market/ListingsTable/ListingsTable.tsx:215
+#: components/Market/SalesTable/SalesTable.tsx:160
 msgid "Data Center"
 msgstr "데이터 센터"
 
@@ -445,7 +445,7 @@ msgstr "데이터 센터"
 msgid "Database API, server maintenance"
 msgstr "데이터베이스 API, 서버 유지 관리"
 
-#: components/SalesTable/SalesTable.tsx:186
+#: components/Market/SalesTable/SalesTable.tsx:184
 msgid "Date"
 msgstr "날짜"
 
@@ -493,7 +493,7 @@ msgstr "다운로드"
 #~ msgid "Email"
 #~ msgstr "이메일"
 
-#: components/Market/MarketServerSelector/MarketServerSelector.tsx:30
+#: components/Market/MarketServerSelector/MarketServerSelector.tsx:18
 #: components/WorldOption/WorldOption.tsx:14
 msgid "Europe"
 msgstr ""
@@ -525,7 +525,7 @@ msgstr "팀크래프트(Teamcraft)는 파이널 판타지14 제작/채집을 도
 msgid "FFXIVQuickLauncher is a faster launcher for FFXIV aims to fix the slowness and tediousness of the regular launcher and adds a lot of QoL features to the game. A Universalis uploader that can be disabled is built into the launcher."
 msgstr ""
 
-#: components/UniversalisLayout/components/UniversalisFooter/UniversalisFooter.tsx:34
+#: components/UniversalisLayout/components/UniversalisFooter/UniversalisFooter.tsx:40
 msgid "FINAL FANTASY XIV © 2010 - 2020 SQUARE ENIX CO., LTD. All Rights Reserved."
 msgstr "FINAL FANTASY XIV © 2010 - 2020 SQUARE ENIX CO., LTD. All Rights Reserved."
 
@@ -568,6 +568,10 @@ msgstr "게임 데이터 출처 <a href=\"%s\">XIVAPI</a> and <a href=\"%s\">FFC
 msgid "Game stuff, stealing mogboard"
 msgstr "게임 아이템, 모그보드 훔치기"
 
+#: components/Market/MarketNav/MarketNav.tsx:335
+msgid "GarlandTools"
+msgstr ""
+
 #: 
 #~ msgctxt "generic_gil"
 #~ msgid "Gil"
@@ -591,7 +595,8 @@ msgstr "GitHub"
 msgid "Go to Lodestone and Login with your character. Then <a href=\"%s\">click here to edit your profile</a>."
 msgstr "로드스톤으로 이동하여 계정에 로그인하세요. 그 후 <a href=\"%s\">프로필 수정을 클릭하세요</a>."
 
-#: components/Market/MarketWorld/MarketWorld.tsx:60
+#: components/Market/MarketWorld/MarketWorld.tsx:66
+#: components/Market/MarketWorld/MarketWorld.tsx:123
 msgid "HISTORY"
 msgstr ""
 
@@ -600,8 +605,8 @@ msgstr ""
 msgid "HOUSING"
 msgstr "하우징"
 
-#: components/ListingsTable/ListingsTable.tsx:199
-#: components/SalesTable/SalesTable.tsx:166
+#: components/Market/ListingsTable/ListingsTable.tsx:219
+#: components/Market/SalesTable/SalesTable.tsx:164
 #: pages/account/alerts.tsx:29
 msgid "HQ"
 msgstr "HQ"
@@ -696,6 +701,10 @@ msgstr "텍스트 상자 안에 <strong>인증 코드</strong>를 입력하고 �
 msgid "In-Game addon"
 msgstr "인게임 애드온"
 
+#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:190
+msgid "Include Tax"
+msgstr ""
+
 #: 
 #~ msgctxt "generic_information"
 #~ msgid "Information"
@@ -714,12 +723,16 @@ msgstr "이러한 데이터를 저장하고, 저장된 데이터를 시각화하
 msgid "Item has no HQ variant."
 msgstr "해당 아이템은 HQ가 없습니다."
 
+#: components/UniversalisLayout/components/UniversalisFooter/UniversalisFooter.tsx:35
+msgid "Items"
+msgstr ""
+
 #: components/Market/MarketNav/MarketNav.tsx:164
 #: pages/account/lists.tsx:63
 msgid "Items:"
 msgstr "아이템:"
 
-#: components/Market/MarketServerSelector/MarketServerSelector.tsx:31
+#: components/Market/MarketServerSelector/MarketServerSelector.tsx:19
 #: components/WorldOption/WorldOption.tsx:15
 msgid "Japan"
 msgstr ""
@@ -777,8 +790,8 @@ msgstr "좌측 네비게이션 활성화"
 msgid "List"
 msgstr "목록"
 
-#: components/Market/MarketDataCenter/MarketDataCenter.tsx:170
-#: components/Market/MarketRegion/MarketRegion.tsx:197
+#: components/Market/MarketDataCenter/MarketDataCenter.tsx:167
+#: components/Market/MarketRegion/MarketRegion.tsx:194
 msgid "Listings"
 msgstr "목록"
 
@@ -824,7 +837,7 @@ msgstr "디스코드 로그인"
 msgid "Logout"
 msgstr "로그아웃"
 
-#: components/UniversalisLayout/components/SearchBar/SearchBar.tsx:113
+#: components/UniversalisLayout/components/SearchBar/SearchBar.tsx:128
 msgid "Market"
 msgstr "장터"
 
@@ -837,7 +850,7 @@ msgstr "장터"
 msgid "Market info could not be fetched for: %s at this time."
 msgstr "%s 시간의 장터 정보를 가져올 수 없습니다."
 
-#: components/ListingsTable/ListingsTable.tsx:202
+#: components/Market/ListingsTable/ListingsTable.tsx:222
 msgid "Mat"
 msgstr "재료"
 
@@ -856,7 +869,7 @@ msgstr "재료"
 msgid "Maximum"
 msgstr ""
 
-#: pages/market/[itemId].tsx:169
+#: pages/market/[itemId].tsx:399
 msgid "Menu"
 msgstr "메뉴"
 
@@ -898,6 +911,7 @@ msgstr "새 알림"
 
 #: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:143
 #: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:176
+#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:210
 msgid "No"
 msgstr "아니오"
 
@@ -906,7 +920,7 @@ msgstr "아니오"
 msgid "No %s for sale."
 msgstr "판매 중인 %s가 없습니다."
 
-#: components/ListingsTable/ListingsTable.tsx:224
+#: components/Market/ListingsTable/ListingsTable.tsx:244
 msgid "No Listings"
 msgstr "목록 없음"
 
@@ -939,7 +953,7 @@ msgstr "판매 불가"
 #~ msgid "Notification"
 #~ msgstr "알림"
 
-#: components/Market/MarketServerSelector/MarketServerSelector.tsx:33
+#: components/Market/MarketServerSelector/MarketServerSelector.tsx:21
 #: components/WorldOption/WorldOption.tsx:17
 msgid "Oceania"
 msgstr ""
@@ -956,7 +970,8 @@ msgstr "방법 1) 새 목록 만들기:"
 msgid "Option 2) Use an existing list:"
 msgstr "방법 2) 기존 목록 사용하기:"
 
-#: components/Market/MarketWorld/MarketWorld.tsx:39
+#: components/Market/MarketWorld/MarketWorld.tsx:46
+#: components/Market/MarketWorld/MarketWorld.tsx:104
 msgid "PRICES"
 msgstr "가격"
 
@@ -965,8 +980,8 @@ msgstr "가격"
 #~ msgid "Position unknown, go hunt for them!"
 #~ msgstr "구매 위치를 알 수 없으니 그들을 잡으러 가세요!"
 
-#: components/ListingsTable/ListingsTable.tsx:205
-#: components/SalesTable/SalesTable.tsx:169
+#: components/Market/ListingsTable/ListingsTable.tsx:225
+#: components/Market/SalesTable/SalesTable.tsx:167
 msgid "Price"
 msgstr "가격"
 
@@ -985,12 +1000,12 @@ msgstr "가격"
 #~ msgid "Purchasable from NPC Vendors"
 #~ msgstr "NPC 상인에게 구매 가능"
 
-#: components/Market/MarketWorld/MarketWorld.tsx:76
+#: components/Market/MarketWorld/MarketWorld.tsx:82
 msgid "Purchase history (500 sales)"
 msgstr ""
 
-#: components/ListingsTable/ListingsTable.tsx:208
-#: components/SalesTable/SalesTable.tsx:172
+#: components/Market/ListingsTable/ListingsTable.tsx:228
+#: components/Market/SalesTable/SalesTable.tsx:170
 msgid "QTY"
 msgstr "수량"
 
@@ -1013,11 +1028,11 @@ msgstr "제거"
 msgid "Read the guides here"
 msgstr ""
 
-#: components/SalesTable/SalesTable.tsx:191
+#: components/Market/SalesTable/SalesTable.tsx:189
 msgid "Really rare!?"
 msgstr "이거 희귀한 건가요!?"
 
-#: pages/index.tsx:186
+#: pages/index.tsx:187
 msgid "Recent Updates"
 msgstr "최근 업데이트"
 
@@ -1069,7 +1084,7 @@ msgstr ""
 msgid "Result is less than {0}"
 msgstr ""
 
-#: components/ListingsTable/ListingsTable.tsx:219
+#: components/Market/ListingsTable/ListingsTable.tsx:239
 msgid "Retainer"
 msgstr "집사"
 
@@ -1078,17 +1093,21 @@ msgstr "집사"
 #~ msgid "Retainers"
 #~ msgstr "집사"
 
-#: components/Market/MarketDataCenter/MarketDataCenter.tsx:160
-#: components/Market/MarketRegion/MarketRegion.tsx:187
+#: components/Market/MarketDataCenter/MarketDataCenter.tsx:157
+#: components/Market/MarketRegion/MarketRegion.tsx:184
 msgid "STACK SIZE HISTOGRAM"
 msgstr ""
 
-#: components/Market/MarketWorld/MarketWorld.tsx:83
+#: components/Market/MarketWorld/MarketWorld.tsx:89
 msgid "STACK SIZE HISTOGRAM <small>Last 20 Sales</small>"
 msgstr "스택 사이즈 히스토그램 <small>최근 거래 20번</small>"
 
-#: components/Market/MarketDataCenter/MarketDataCenter.tsx:182
-#: components/Market/MarketRegion/MarketRegion.tsx:209
+#: components/Market/MarketNav/MarketNav.tsx:326
+msgid "Saddlebag Exchange"
+msgstr ""
+
+#: components/Market/MarketDataCenter/MarketDataCenter.tsx:179
+#: components/Market/MarketRegion/MarketRegion.tsx:206
 msgid "Sales"
 msgstr "판매"
 
@@ -1101,7 +1120,7 @@ msgstr ""
 #~ msgid "Save Alert"
 #~ msgstr "알림 저장"
 
-#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:200
+#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:235
 msgid "Save Settings"
 msgstr "설정 저장"
 
@@ -1109,7 +1128,7 @@ msgstr "설정 저장"
 msgid "Saved"
 msgstr ""
 
-#: components/UniversalisLayout/components/SearchBar/SearchBar.tsx:97
+#: components/UniversalisLayout/components/SearchBar/SearchBar.tsx:112
 #: pages/account/characters.tsx:311
 msgid "Search"
 msgstr "검색"
@@ -1134,8 +1153,8 @@ msgstr "검색"
 #~ msgid "Sent Today"
 #~ msgstr "당일 전송"
 
-#: components/ListingsTable/ListingsTable.tsx:190
-#: components/SalesTable/SalesTable.tsx:157
+#: components/Market/ListingsTable/ListingsTable.tsx:210
+#: components/Market/SalesTable/SalesTable.tsx:155
 #: pages/account/characters.tsx:265
 msgid "Server"
 msgstr "서버"
@@ -1191,16 +1210,16 @@ msgid "Show NQ and HQ"
 msgstr ""
 
 #: components/Market/MarketNav/MarketNav.tsx:335
-msgid "Show on GarlandTools"
-msgstr "GarlandTools에서 보기"
+#~ msgid "Show on GarlandTools"
+#~ msgstr "GarlandTools에서 보기"
 
 #: components/Market/MarketNav/MarketNav.tsx:326
-msgid "Show on Saddlebag Exchange"
-msgstr ""
+#~ msgid "Show on Saddlebag Exchange"
+#~ msgstr ""
 
 #: components/Market/MarketNav/MarketNav.tsx:344
-msgid "Show on Teamcraft"
-msgstr "Teamcraft에서 보기"
+#~ msgid "Show on Teamcraft"
+#~ msgstr "Teamcraft에서 보기"
 
 #: pages/about.tsx:97
 msgid "So, how does it actually work? Get Technical."
@@ -1237,11 +1256,19 @@ msgstr "장터 정보가 없습니다, 죄송합니다!"
 msgid "Special thanks"
 msgstr "Special thanks"
 
+#: components/Home/PatreonThanks/PatreonThanks.tsx:23
+msgid "Special thanks to"
+msgstr ""
+
 #: components/Market/MarketItemHeader/MarketItemHeader.tsx:67
 msgid "Stack:"
 msgstr "스택:"
 
-#: pages/index.tsx:196
+#: components/Market/MarketNav/MarketNav.tsx:344
+msgid "Teamcraft"
+msgstr ""
+
+#: pages/index.tsx:197
 msgid "Thank you!"
 msgstr "감사합니다!"
 
@@ -1257,7 +1284,7 @@ msgstr "언제 어디서나 여러 출처의 크라우드 소싱 데이터를 �
 msgid "There are multiple ways to contribute to <strong>Universalis</strong>. All of your contributions are anonymous - no one will be able to refer back to your character or account to know that you have uploaded any data. The applications below are tested by us to make sure that they don't endanger your account or your characters."
 msgstr "<strong>Universalis</strong>에 기여하는 방법은 여러 가지가 있습니다. 모든 기여된 데이터는 익명으로 처리됩니다 - 누구도 여러분들의 어떤 캐릭터나 계정으로 데이터를 업로드했는지 알 수 없습니다. 아래에 서술할 애플리케이션들은 여러분들의 계정이나 캐릭터에 위험이 없도록 테스트를 끝냈습니다."
 
-#: components/ListingsTable/ListingsTable.tsx:231
+#: components/Market/ListingsTable/ListingsTable.tsx:251
 msgid "There are no listings for this item, check back later!"
 msgstr "이 아이템에 대한 목록이 없으니 나중에 다시 확인하세요!"
 
@@ -1265,7 +1292,7 @@ msgstr "이 아이템에 대한 목록이 없으니 나중에 다시 확인하�
 msgid "There can be a few reasons for this, here are some:"
 msgstr "여기에는 몇 가지 이유가 있을 수 있습니다:"
 
-#: components/SalesTable/SalesTable.tsx:198
+#: components/Market/SalesTable/SalesTable.tsx:196
 msgid "There is currently no recorded history for this item on Universalis."
 msgstr "현재까지 Universalis에 해당 아이템이 집계된 기록이 없습니다."
 
@@ -1286,6 +1313,10 @@ msgstr ""
 #~ msgctxt "contribute_description_act_plugin"
 #~ msgid "This is a regular ACT plugin that runs next to the always-used FFXIV_ACT_PLUGIN - just drop it into your ACT plugins folder, add it to ACT and you\\'re good to go! No configuration needed."
 #~ msgstr "이 플러그인은 항상 사용되는 FFXIV_ACT_PLUGIN 과 함께 실행되는 일반적인 ACT 플러그인이며, ACT 플러그인 폴더에 넣고 ACT에 추가하면 바로 사용할 수 있습니다! 별도의 설정도 필요 없습니다."
+
+#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:194
+msgid "This will show listing prices with tax included."
+msgstr ""
 
 #: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:157
 msgid "This will show prices/history on your home world by default instead of cross-world."
@@ -1312,9 +1343,9 @@ msgstr ""
 #~ msgid "Top 5 cheapest - Total for sale: %d"
 #~ msgstr "상위 최저가 Top 5 - 총 판매: %d"
 
-#: components/ListingsTable/ListingsTable.tsx:211
+#: components/Market/ListingsTable/ListingsTable.tsx:231
 #: components/Market/MarketNav/AlertsModal/AlertsModal.tsx:415
-#: components/SalesTable/SalesTable.tsx:175
+#: components/Market/SalesTable/SalesTable.tsx:173
 #: pages/account/alerts.tsx:42
 msgid "Total"
 msgstr "합계 가격"
@@ -1362,7 +1393,8 @@ msgstr "Universalis에서 <strong>%s</strong> 서버의 해당 아이템 정보�
 msgid "Universalis is a market board data site with crowd sourced information, based on mogboard. It can aggregate market board information from multiple sources, so if you want to help out, please check out our contributing page."
 msgstr "Universalis는 모그보드를 기반으로 크라우드 소싱된 정보를 제공하는 장터 게시판 사이트입니다. 다양한 방식으로 장터 게시판 정보를 집계할 수 있으며, 데이터 집계에 도움을 주고 싶으시다면 기여하기 페이지를 확인해 주세요."
 
-#: components/Market/MarketWorld/MarketWorld.tsx:42
+#: components/Market/MarketWorld/MarketWorld.tsx:49
+#: components/Market/MarketWorld/MarketWorld.tsx:107
 #: pages/account/characters.tsx:189
 msgid "Updated:"
 msgstr "업데이트됨:"
@@ -1437,6 +1469,7 @@ msgstr ""
 
 #: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:146
 #: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:179
+#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:213
 msgid "Yes"
 msgstr "예"
 
@@ -1475,8 +1508,12 @@ msgstr ""
 #~ msgstr "아이템 페이지에서 알림을 추가할 수 있습니다."
 
 #: components/MoreQuestions/MoreQuestions.tsx:25
-msgid "You can also PM me: <span class=\"text-yellow\">%s</span> if you prefer :)"
-msgstr "아니면 저에게 PM을 주세요 :) : <span class=\"text-yellow\">%s</span>"
+msgid "You can also DM me on Discord: <span class=\"text-yellow\">%s</span> if you prefer :)"
+msgstr ""
+
+#: components/MoreQuestions/MoreQuestions.tsx:25
+#~ msgid "You can also PM me: <span class=\"text-yellow\">%s</span> if you prefer :)"
+#~ msgstr "아니면 저에게 PM을 주세요 :) : <span class=\"text-yellow\">%s</span>"
 
 #: 
 #~ msgctxt "alerts_useraccount_quota"
@@ -1544,6 +1581,10 @@ msgstr "이 곳을 보기 위해서는 로그인을 해야합니다."
 msgid "Your Server"
 msgstr "나의 서버"
 
+#: components/Home/PatreonThanks/PatreonThanks.tsx:25
+msgid "and all of our other Patreon supporters!"
+msgstr ""
+
 #: components/UniversalisLayout/components/UniversalisFooter/UniversalisFooter.tsx:9
 msgid "based on"
 msgstr "소스 기반"
@@ -1557,12 +1598,12 @@ msgstr "소스 기반"
 msgid "{0} - {1} items"
 msgstr ""
 
-#: components/Market/MarketServerSelector/MarketServerSelector.tsx:34
+#: components/Market/MarketServerSelector/MarketServerSelector.tsx:22
 #: components/WorldOption/WorldOption.tsx:18
 msgid "中国"
 msgstr ""
 
-#: components/Market/MarketServerSelector/MarketServerSelector.tsx:35
+#: components/Market/MarketServerSelector/MarketServerSelector.tsx:23
 #: components/WorldOption/WorldOption.tsx:19
 msgid "한국"
 msgstr ""
