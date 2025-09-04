@@ -35,7 +35,7 @@ public class Program
 
                     Console.WriteLine("Exporting item search categories...");
                     var itemSearchCategories = new Dictionary<uint, ItemSearchCategoryDump>();
-                    var iscData = GetData<ItemSearchCategory>(http,
+                    var iscData = GetData<ItemSearchCategory>(http, lang,
                         "https://v2.xivapi.com/api/sheet/ItemSearchCategory?fields=Name,Category,Order&limit=999999");
                     foreach (var isc in iscData)
                     {
@@ -53,7 +53,7 @@ public class Program
 
                     Console.WriteLine("Exporting item UI categories...");
                     var itemUICategories = new Dictionary<uint, ItemUICategoryDump>();
-                    var itemUICategoryData = GetData<ItemUICategory>(http,
+                    var itemUICategoryData = GetData<ItemUICategory>(http, lang,
                         "https://v2.xivapi.com/api/sheet/ItemUICategory?fields=Name&limit=999999");
                     ;
                     foreach (var iuc in itemUICategoryData)
@@ -70,7 +70,7 @@ public class Program
 
                     Console.WriteLine("Exporting classjob categories...");
                     var classJobCategories = new Dictionary<uint, ClassJobCategoryDump>();
-                    var classJobCategoryData = GetData<ClassJobCategory>(http,
+                    var classJobCategoryData = GetData<ClassJobCategory>(http, lang,
                         "https://v2.xivapi.com/api/sheet/ClassJobCategory?fields=Name&limit=999999");
                     foreach (var cjc in classJobCategoryData)
                     {
@@ -100,7 +100,7 @@ public class Program
 
                     Console.WriteLine("Exporting materia...");
                     var allMateria = new Dictionary<uint, MateriaDump>();
-                    var materiaData = GetData<Materia>(http, "https://v2.xivapi.com/api/sheet/Materia?fields=Item,Value&limit=999999");
+                    var materiaData = GetData<Materia>(http, lang, "https://v2.xivapi.com/api/sheet/Materia?fields=Item,Value&limit=999999");
                     foreach (var materia in materiaData)
                     {
                         allMateria.Add(materia.Id, new MateriaDump
@@ -116,7 +116,7 @@ public class Program
 
                     Console.WriteLine("Exporting items...");
                     var items = new Dictionary<uint, ItemDump>();
-                    var itemData = GetData<Item>(http,
+                    var itemData = GetData<Item>(http, lang,
                         "https://v2.xivapi.com/api/sheet/Item?fields=Icon,Name,Description,LevelItem,LevelEquip,Rarity,StackSize,ItemKind,CanBeHq,ItemSearchCategory,ItemUICategory,ClassJobCategory&limit=999999");
                     foreach (var item in itemData.Where(item => item.Fields!.ItemSearchCategory is { Id: > 0 }))
                     {
@@ -143,14 +143,14 @@ public class Program
             });
     }
 
-    private static XIVAPIRowWrapper<T>[] GetData<T>(HttpClient http, string uri)
+    private static XIVAPIRowWrapper<T>[] GetData<T>(HttpClient http, Language language, string uri)
     {
         uint? lastRow = 0;
         var data = new List<XIVAPIRowWrapper<T>>();
         do
         {
             var pageData = JsonSerializer.Deserialize<XIVAPIIndex<T>>(http
-                .GetStringAsync(uri + $"&after={lastRow}")
+                .GetStringAsync(uri + $"&after={lastRow}&language={LanguageUtil.GetLanguageStr(language)}")
                 .GetAwaiter()
                 .GetResult());
             data.AddRange(pageData!.Rows!);
