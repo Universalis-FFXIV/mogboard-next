@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MogboardExporter", "Mogboar
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MogboardExporter.Data", "MogboardExporter.Data\MogboardExporter.Data.csproj", "{89848DF9-3D30-42F0-8C08-B5BD48DF7E08}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MogboardExporter.XIVAPI", "MogboardExporter.XIVAPI\MogboardExporter.XIVAPI.csproj", "{E3DE3B25-C99D-4658-8420-21D1A64926F6}"
+EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MogboardExporter.XIVAPI.KR", "MogboardExporter.XIVAPI.KR\MogboardExporter.XIVAPI.KR.csproj", "{A4C5A661-4EF2-412E-B24A-629FFC59092F}"
 EndProject
 Global
@@ -29,6 +31,10 @@ Global
 		{89848DF9-3D30-42F0-8C08-B5BD48DF7E08}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{89848DF9-3D30-42F0-8C08-B5BD48DF7E08}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{89848DF9-3D30-42F0-8C08-B5BD48DF7E08}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E3DE3B25-C99D-4658-8420-21D1A64926F6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E3DE3B25-C99D-4658-8420-21D1A64926F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E3DE3B25-C99D-4658-8420-21D1A64926F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E3DE3B25-C99D-4658-8420-21D1A64926F6}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A4C5A661-4EF2-412E-B24A-629FFC59092F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A4C5A661-4EF2-412E-B24A-629FFC59092F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A4C5A661-4EF2-412E-B24A-629FFC59092F}.Release|Any CPU.ActiveCfg = Release|Any CPU

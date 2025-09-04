@@ -41,3 +41,4 @@ yarn-error.log*
 
 # NPM lockfile (use Yarn's only)
 package-lock.json
+.fake
