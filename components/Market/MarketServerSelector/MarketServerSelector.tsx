@@ -129,3 +129,111 @@ MarketServerSelector.Dynamic = function DynamicMarketServerSelector(
 
   return <MarketServerSelector {...props} dcs={dcs} />;
 };
+
+export interface MultiRegionMarketServerSelectorProps {
+  regions: readonly Region[];
+  selectedServer: Server;
+  setSelectedServer: (server: Server) => void;
+  homeWorldName?: string;
+}
+
+MarketServerSelector.MultiRegion = function MultiRegionMarketServerSelector({
+  regions,
+  selectedServer,
+  setSelectedServer,
+  homeWorldName,
+}: MultiRegionMarketServerSelectorProps) {
+  // Fetch data centers for all regions - we need to call hooks at the top level
+  // Since regions array is limited to max 3 items (Japan, North-America, Europe, Oceania minus current),
+  // we'll conditionally call hooks based on array length
+  const query0 = useDataCenters(regions[0]);
+  const query1 = useDataCenters(regions[1] ?? regions[0]);
+  const query2 = useDataCenters(regions[2] ?? regions[0]);
+
+  // Check if all necessary queries are loaded
+  const allLoaded =
+    query0.data !== undefined &&
+    (regions.length < 2 || query1.data !== undefined) &&
+    (regions.length < 3 || query2.data !== undefined);
+
+  if (!allLoaded) {
+    // Show skeleton for the first region while loading
+    return <MarketServerSelector.Skeleton region={regions[0]} selectedServer={selectedServer} setSelectedServer={setSelectedServer} />;
+  }
+
+  // Combine all data centers from all regions
+  const allDcs = [
+    ...(query0.data ?? []),
+    ...(regions.length >= 2 ? query1.data ?? [] : []),
+    ...(regions.length >= 3 ? query2.data ?? [] : []),
+  ];
+
+  // Determine which region is currently selected
+  const currentSelectedRegion =
+    selectedServer.type === 'region'
+      ? selectedServer.region
+      : selectedServer.type === 'dc'
+      ? selectedServer.dc.region
+      : selectedServer.type === 'world'
+      ? allDcs.find((dc) => dc.worlds.some((w) => w.id === selectedServer.world.id))?.region
+      : undefined;
+
+  // Filter DCs and worlds to only show those from the currently selected region
+  const filteredDcs = currentSelectedRegion
+    ? allDcs.filter((dc) => dc.region === currentSelectedRegion)
+    : [];
+
+  // Flatten all worlds from all data centers and sort them alphabetically
+  const filteredWorlds = filteredDcs.flatMap((dc) => dc.worlds).sort((a, b) => a.name.localeCompare(b.name));
+
+  return (
+    <SimpleBar style={{ width: '100%' }}>
+      <div className="item_nav_servers">
+        {regions.map((region) => (
+          <button
+            key={region}
+            type="button"
+            className={`btn-summary ${
+              selectedServer.type === 'region' && region === selectedServer.region ? 'open' : ''
+            }`}
+            onClick={() => setSelectedServer({ type: 'region', region })}
+          >
+            <i className="xiv-CrossWorld cw-summary"></i> {regionNameMapping.get(region)}
+          </button>
+        ))}
+        {filteredDcs.map((dc, i) => (
+          <button
+            key={i}
+            type="button"
+            className={`btn-summary ${
+              selectedServer.type === 'dc' && dc.name === selectedServer.dc.name ? 'open' : ''
+            }`}
+            onClick={() => setSelectedServer({ type: 'dc', dc })}
+          >
+            <i className="xiv-CrossWorld cw-summary"></i> {dc.name}
+          </button>
+        ))}
+        {filteredWorlds.map((world, i) => {
+          const homeWorld = world.name === homeWorldName;
+          const icon = homeWorld ? 'xiv-ItemShard cw-home' : '';
+          const className = homeWorld ? 'home-world' : '';
+          return (
+            <button
+              key={i}
+              type="button"
+              className={`${className} ${
+                selectedServer.type === 'world' && world.name === selectedServer.world.name
+                  ? 'open'
+                  : ''
+              }`}
+              onClick={() => setSelectedServer({ type: 'world', world })}
+            >
+              {homeWorld && <i className={icon}></i>}
+              {world.name}
+            </button>
+          );
+        })}
+      </div>
+    </SimpleBar>
+  );
+};

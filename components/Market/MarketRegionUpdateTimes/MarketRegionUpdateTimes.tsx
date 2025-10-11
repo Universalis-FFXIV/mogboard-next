@@ -1,6 +1,7 @@
 import { t } from '@lingui/macro';
 import { Suspense } from 'react';
 import ago from 's-ago';
+import SimpleBar from 'simplebar-react';
 import { DataCenter } from '../../../types/game/DataCenter';
 
 interface MarketRegionUpdateTimesProps {
@@ -13,23 +14,25 @@ export default function MarketRegionUpdateTimes({
   worldUploadTimes,
 }: MarketRegionUpdateTimesProps) {
   return (
-    <div className="region_update_times">
-      {dcs.map((dc) => (
-        <div key={dc.name}>
-          {dc.worlds.map((world) => (
-            <div key={world.id}>
-              <h4>{world.name}</h4>
-              <div>
-                <Suspense>
-                  {worldUploadTimes[world.id]
-                    ? ago(new Date(worldUploadTimes[world.id]))
-                    : t`No data`}
-                </Suspense>
+    <SimpleBar style={{ width: '100%' }}>
+      <div className="region_update_times">
+        {dcs.map((dc) => (
+          <div key={dc.name}>
+            {dc.worlds.map((world) => (
+              <div key={world.id}>
+                <h4>{world.name}</h4>
+                <div>
+                  <Suspense>
+                    {worldUploadTimes[world.id]
+                      ? ago(new Date(worldUploadTimes[world.id]))
+                      : t`No data`}
+                  </Suspense>
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
-      ))}
-    </div>
+            ))}
+          </div>
+        ))}
+      </div>
+    </SimpleBar>
   );
 }
