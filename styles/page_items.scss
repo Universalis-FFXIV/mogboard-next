@@ -228,6 +228,11 @@
       font-weight: 500;
       cursor: pointer;
       text-align: center;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
 
       @include mq($until: desktop) {
         display: block;
@@ -246,9 +251,7 @@
 
       i {
         font-size: 18px;
-        display: inline-block;
-        vertical-align: bottom;
-        margin: 0 3px -3px 0;
+        flex-shrink: 0;
       }
 
       &:hover {
