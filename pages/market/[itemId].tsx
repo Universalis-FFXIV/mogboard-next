@@ -174,15 +174,14 @@ const DynamicMarkets = ({ item, selectedServer, region, lang }: DynamicMarketsPr
     );
   }
 
-  const worlds = dcs.flatMap((dc) => dc.worlds);
   switch (selectedServer.type) {
     case 'region':
       return (
         <div className="tab">
           <div className="tab-page tab-summary open">
             <ErrorBoundary>
-              <MarketServerUpdateTimes
-                worlds={worlds.sort((a, b) => a.name.localeCompare(b.name))}
+              <MarketRegionUpdateTimes
+                dcs={dcs}
                 worldUploadTimes={getWorldUploadTimes()}
               />
             </ErrorBoundary>
@@ -409,24 +408,33 @@ const Market: NextPage<MarketProps> = ({
                 setSelectedServer={selectServer}
               />
             </div>
-            {region !== 'Oceania' && (
-              <>
-                <Spacing size={10} />
-                <div className={`item_nav ${mobileNavOpen ? 'open' : ''}`}>
-                  <ErrorBoundary>
-                    <MarketServerSelector.Dynamic
-                      region="Oceania"
-                      selectedServer={dynamicServer ?? selectedServer}
-                      setSelectedServer={setDynamicServer}
-                    />
-                  </ErrorBoundary>
-                </div>
-              </>
-            )}
+            {region !== '中国' &&
+              region !== '한국' &&
+              REGIONS.filter((r) => r !== region && r !== '中国' && r !== '한국').length > 0 && (
+                <>
+                  <Spacing size={10} />
+                  <div className={`item_nav ${mobileNavOpen ? 'open' : ''}`}>
+                    <ErrorBoundary>
+                      <MarketServerSelector.MultiRegion
+                        regions={REGIONS.filter((r) => r !== region && r !== '中国' && r !== '한국')}
+                        selectedServer={dynamicServer ?? selectedServer}
+                        setSelectedServer={setDynamicServer}
+                        homeWorldName={settings['mogboard_server']}
+                      />
+                    </ErrorBoundary>
+                  </div>
+                </>
+              )}
           </div>
           <Markets
             item={item}
-            region={dynamicServer ? 'Oceania' : region}
+            region={
+              dynamicServer && dynamicServer.type === 'region'
+                ? dynamicServer.region
+                : dynamicServer && dynamicServer.type === 'dc'
+                ? dynamicServer.dc.region
+                : region
+            }
             markets={dynamicServer ? undefined : markets}
             homeDc={homeDc}
             dcs={dcs}
