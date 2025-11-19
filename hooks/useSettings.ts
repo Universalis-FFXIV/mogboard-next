@@ -15,6 +15,7 @@ interface Settings extends LegacySettings {
   listCrossDc: 'yes' | 'no';
   listHqOnly: 'yes' | 'no';
   includeGst: 'yes' | 'no';
+  hidePriceCents: 'yes' | 'no';
 }
 
 function validateLanguage(
@@ -45,6 +46,7 @@ export default function useSettings(): [
     'listHqOnly',
     'listCrossDc',
     'includeGst',
+    'hidePriceCents',
   ];
 
   const [cookies, setCookie] = useCookies<keyof Settings, Partial<Settings>>(keys);

@@ -67,9 +67,10 @@ function ListingsTableHeader({
 interface ListingsTableRowProps {
   listing: ListingRow;
   includeGst: boolean;
+  hidePriceCents: boolean;
 }
 
-function ListingsTableRow({ listing, includeGst }: ListingsTableRowProps) {
+function ListingsTableRow({ listing, includeGst, hidePriceCents }: ListingsTableRowProps) {
   return (
     <tr>
       <td className="price-num tac">{listing.n}</td>
@@ -98,7 +99,7 @@ function ListingsTableRow({ listing, includeGst }: ListingsTableRowProps) {
       <td className="price-current">
         {listing.pricePerUnit.toLocaleString(
           undefined,
-          includeGst
+          includeGst && !hidePriceCents
             ? {
                 minimumFractionDigits: 2,
                 maximumFractionDigits: 2,
@@ -155,6 +156,7 @@ export default function ListingsTable({
 }: ListingsTableProps) {
   const [settings] = useSettings();
   const includeGst = settings.includeGst === 'yes';
+  const hidePriceCents = settings.hidePriceCents === 'yes';
 
   const listingRows: ListingRow[] = listings
     .sort((a, b) => a.pricePerUnit - b.pricePerUnit)
@@ -253,7 +255,7 @@ export default function ListingsTable({
           </tr>
         }
       >
-        {(listing) => <ListingsTableRow listing={listing} includeGst={includeGst} />}
+        {(listing) => <ListingsTableRow listing={listing} includeGst={includeGst} hidePriceCents={hidePriceCents} />}
       </SortTable>
     </div>
   );
