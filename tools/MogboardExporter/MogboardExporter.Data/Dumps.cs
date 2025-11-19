@@ -50,7 +50,7 @@ public class ItemDump
     [JsonPropertyName("name")] public string? Name { get; init; }
 
     [JsonPropertyName("description")] public string? Description { get; init; }
-    
+
     [JsonPropertyName("iconId")] public uint IconId { get; init; }
 
     [JsonPropertyName("levelItem")] public uint LevelItem { get; init; }
@@ -71,4 +71,6 @@ public class ItemDump
     [JsonPropertyName("itemUiCategory")] public uint ItemUICategory { get; init; }
 
     [JsonPropertyName("classJobCategory")] public uint ClassJobCategory { get; init; }
+
+    [JsonPropertyName("isUsedInRecipe")] public bool IsUsedInRecipe { get; init; }
 }
