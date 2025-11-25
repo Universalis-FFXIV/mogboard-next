@@ -25,6 +25,7 @@ export default function SettingsModal({ isOpen, closeModal, onSave }: SettingsMo
     settings['mogboard_homeworld'] ?? 'no'
   );
   const [includeGst, setIncludeGst] = useState(settings.includeGst ?? 'no');
+  const [hidePriceCents, setHidePriceCents] = useState(settings.hidePriceCents ?? 'no');
 
   const [settingsData, setSettingsData] = useState<{ timezones: TimeZone[] }>({
     timezones: [],
@@ -215,6 +216,36 @@ export default function SettingsModal({ isOpen, closeModal, onSave }: SettingsMo
                 </select>
               </div>
             </div>
+            <div className="flex_50">
+              <label htmlFor="hidepricecents">
+                <Trans>Hide Price Cents</Trans>
+              </label>
+              <div style={{ paddingBottom: 10 }}>
+                <small>
+                  <Trans>This will hide the decimal point and cents values in price displays.</Trans>
+                </small>
+              </div>
+              <div className="form">
+                <select
+                  value={hidePriceCents}
+                  id="hidepricecents"
+                  className="hidepricecents"
+                  onChange={(e) => {
+                    const val = e.target.value;
+                    if (hidePriceCents !== val && (val === 'yes' || val === 'no')) {
+                      setHidePriceCents(val);
+                    }
+                  }}
+                >
+                  <option value="no">
+                    <Trans>No</Trans>
+                  </option>
+                  <option value="yes">
+                    <Trans>Yes</Trans>
+                  </option>
+                </select>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -229,6 +260,7 @@ export default function SettingsModal({ isOpen, closeModal, onSave }: SettingsMo
               setSetting('mogboard_leftnav', showLeftNav);
               setSetting('mogboard_homeworld', showDefaultHomeWorld);
               setSetting('includeGst', includeGst);
+              setSetting('hidePriceCents', hidePriceCents);
               onSave();
             }}
           >
