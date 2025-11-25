@@ -99,10 +99,10 @@ function ListingsTableRow({ listing, includeGst, hidePriceCents }: ListingsTable
       <td className="price-current">
         {listing.pricePerUnit.toLocaleString(
           undefined,
-          includeGst && !hidePriceCents
+          includeGst
             ? {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2,
+                minimumFractionDigits: !hidePriceCents ? 2 : 0,
+                maximumFractionDigits: !hidePriceCents ? 2 : 0,
               }
             : undefined
         )}
@@ -255,7 +255,13 @@ export default function ListingsTable({
           </tr>
         }
       >
-        {(listing) => <ListingsTableRow listing={listing} includeGst={includeGst} hidePriceCents={hidePriceCents} />}
+        {(listing) => (
+          <ListingsTableRow
+            listing={listing}
+            includeGst={includeGst}
+            hidePriceCents={hidePriceCents}
+          />
+        )}
       </SortTable>
     </div>
   );
