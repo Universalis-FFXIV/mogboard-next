@@ -21,6 +21,7 @@ const regionNameMapping = getServerRegionNameMap({
   oceania: t`Oceania`,
   china: t`中国`,
   korea: t`한국`,
+  traditionalChinese: t`繁中服`,
 });
 
 export default function MarketServerSelector({
