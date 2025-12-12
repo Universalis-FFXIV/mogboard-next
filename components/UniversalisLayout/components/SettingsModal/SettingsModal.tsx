@@ -80,6 +80,7 @@ export default function SettingsModal({ isOpen, closeModal, onSave }: SettingsMo
                   <option value="ja">日本語</option>
                   <option value="ko">한국어</option>
                   <option value="chs">中文</option>
+                  <option value="tc">繁體中文</option>
                 </select>
               </div>
             </div>

@@ -3,8 +3,9 @@ using System.Text.Json;
 using CommandLine;
 using Lumina;
 using Lumina.Data;
-using Lumina.Excel.GeneratedSheets;
+using Lumina.Excel.Sheets;
 using Lumina.Text.Payloads;
+using Lumina.Text.ReadOnly;
 using MogboardExporter.Data;
 
 namespace MogboardExporter;
@@ -14,13 +15,13 @@ public class Program
     public class Options
     {
         [Option('s', "sqpack", Required = true, HelpText = "The path to your sqpack folder.")]
-        public string SqPack { get; set; }
+        public string SqPack { get; set; } = null!;
 
         [Option('o', "output", Required = true, HelpText = "The path to the output directory.")]
-        public string Output { get; set; }
+        public string Output { get; set; } = null!;
 
         [Option('l', "languages", Required = true, HelpText = "The languages to export data for.")]
-        public IList<string> Languages { get; set; }
+        public IList<string> Languages { get; set; } = null!;
     }
 
     public static void Main(string[] args)
@@ -51,7 +52,7 @@ public class Program
                         itemSearchCategories.Add(isc.RowId, new ItemSearchCategoryDump
                         {
                             Id = isc.RowId,
-                            Name = isc.Name.RawString,
+                            Name = isc.Name.ExtractText(),
                             Category = isc.Category,
                             Order = isc.Order,
                         });
@@ -67,7 +68,7 @@ public class Program
                         itemUICategories.Add(iuc.RowId, new ItemUICategoryDump
                         {
                             Id = iuc.RowId,
-                            Name = PayloadsToString(iuc.Name.Payloads, gameData),
+                            Name = SeStringToHtml(iuc.Name, gameData),
                         });
                     }
 
@@ -81,7 +82,7 @@ public class Program
                         classJobCategories.Add(cjc.RowId, new ClassJobCategoryDump
                         {
                             Id = cjc.RowId,
-                            Name = cjc.Name.RawString,
+                            Name = cjc.Name.ExtractText(),
                         });
                     }
 
@@ -109,8 +110,8 @@ public class Program
                         allMateria.Add(materia.RowId, new MateriaDump
                         {
                             Id = materia.RowId,
-                            Slots = materia.Value,
-                            Items = materia.Item.Select(item => item.Row).ToArray(),
+                            Slots = materia.Value.ToArray(),
+                            Items = materia.Item.Select(item => item.RowId).ToArray(),
                         });
                     }
 
@@ -119,23 +120,23 @@ public class Program
 
                     Console.WriteLine("Exporting items...");
                     var items = new Dictionary<uint, ItemDump>();
-                    foreach (var item in gameData.GetExcelSheet<Item>()!.Where(item => item.ItemSearchCategory.Row > 0))
+                    foreach (var item in gameData.GetExcelSheet<Item>()!.Where(item => item.ItemSearchCategory.RowId > 0))
                     {
                         items.Add(item.RowId, new ItemDump
                         {
                             Id = item.RowId,
-                            Name = PayloadsToString(item.Name.Payloads, gameData),
-                            Description = PayloadsToString(item.Description.Payloads, gameData),
+                            Name = SeStringToHtml(item.Name, gameData),
+                            Description = SeStringToHtml(item.Description, gameData),
                             IconId = item.Icon,
-                            LevelItem = item.LevelItem.Row,
+                            LevelItem = item.LevelItem.RowId,
                             LevelEquip = item.LevelEquip,
                             Rarity = item.Rarity,
                             StackSize = item.StackSize,
-                            ItemKind = ItemKind.GetItemKind(item.ItemUICategory.Row, lang).Id,
+                            ItemKind = ItemKind.GetItemKind(item.ItemUICategory.RowId, lang).Id,
                             CanBeHq = item.CanBeHq,
-                            ItemSearchCategory = item.ItemSearchCategory.Row,
-                            ItemUICategory = item.ItemUICategory.Row,
-                            ClassJobCategory = item.ClassJobCategory.Row,
+                            ItemSearchCategory = item.ItemSearchCategory.RowId,
+                            ItemUICategory = item.ItemUICategory.RowId,
+                            ClassJobCategory = item.ClassJobCategory.RowId,
                         });
                     }
 
@@ -144,83 +145,39 @@ public class Program
             });
     }
 
-    private static string PayloadsToString(IEnumerable<BasePayload> payloads, GameData gameData)
+    private static string SeStringToHtml(ReadOnlySeString seString, GameData gameData)
     {
-        return payloads.Aggregate("", (text, payload) =>
+        var sb = new StringBuilder();
+        foreach (var payload in seString)
         {
-            var raw = payload.Data;
-            if (raw.Length < 3)
+            switch (payload.Type)
             {
-                return text + payload.RawString;
-            }
-
-            using var ms = new MemoryStream(raw.ToArray());
-            var bytes = new BinaryReader(ms);
-            var startByte = bytes.ReadByte();
-            if (startByte != 0x02)
-            {
-                bytes.BaseStream.Seek(-1, SeekOrigin.Current);
-            }
-
-            var chunkType = startByte == 0x02 ? bytes.ReadByte() : 0;
-            var chunkLength = startByte == 0x02 ? GetInteger(bytes) : (uint)raw.Length;
-
-            string next;
-            switch (chunkType)
-            {
-                case 0x48:
-                {
-                    var uiColorId = GetInteger(bytes);
-                    if (uiColorId == 0)
-                    {
-                        return text + "</span>";
-                    }
-
-                    var uiColor = gameData.GetExcelSheet<UIColor>()!.GetRow(uiColorId)!;
-                    var html = $"<span style=\"color:#{uiColor.UIForeground >> 8:X6}\">";
-                    next = html;
-                }
+                case ReadOnlySePayloadType.Text:
+                    sb.Append(Encoding.UTF8.GetString(payload.Body.ToArray()));
                     break;
-                case 0x49: // 0x49 == UIGlow
-                    next = "";
-                    break;
-                case 0x10:
-                    next = "\n";
-                    break;
-                default:
-                    try
+                case ReadOnlySePayloadType.Macro:
+                    switch (payload.MacroCode)
                     {
-                        next = Encoding.UTF8.GetString(bytes.ReadBytes(Convert.ToInt32(chunkLength)));
+                        case MacroCode.Color:
+                            if (payload.TryGetExpression(out var expr) && expr.TryGetUInt(out var colorId))
+                            {
+                                if (colorId == 0)
+                                {
+                                    sb.Append("</span>");
+                                }
+                                else if (gameData.GetExcelSheet<UIColor>()!.TryGetRow(colorId, out var uiColor))
+                                {
+                                    sb.Append($"<span style=\"color:#{uiColor.Dark >> 8:X6}\">");
+                                }
+                            }
+                            break;
+                        case MacroCode.NewLine:
+                            sb.Append("\n");
+                            break;
                     }
-                    catch
-                    {
-                        Console.WriteLine($"Chunk type: {chunkType}\nChunk length: {chunkLength}");
-                        throw;
-                    }
-
                     break;
             }
-
-            ms.Seek(0, SeekOrigin.End);
-            return text + next;
-        });
-    }
-
-    // ripped from Dalamud
-    private static uint GetInteger(BinaryReader input)
-    {
-        uint marker = input.ReadByte();
-        if (marker < 0xD0)
-            return marker - 1;
-
-        marker = (marker + 1) & 0b1111;
-
-        Span<byte> ret = stackalloc byte[4];
-        for (var i = 3; i >= 0; i--)
-        {
-            ret[i] = (marker & (1 << i)) == 0 ? (byte)0 : input.ReadByte();
         }
-
-        return BitConverter.ToUInt32(ret);
+        return sb.ToString();
     }
 }

@@ -22,6 +22,7 @@ import { messages as messagesDe } from '../i18n/de/messages';
 import { messages as messagesFr } from '../i18n/fr/messages';
 import { messages as messagesZhHans } from '../i18n/zh-HANS/messages';
 import { messages as messagesKo } from '../i18n/ko/messages';
+import { messages as messagesZhHant } from '../i18n/zh-HANT/messages';
 import App from 'next/app';
 import { useEffect, useState } from 'react';
 import { PopupData, PopupProvider } from '../components/UniversalisLayout/components/Popup/Popup';
@@ -31,7 +32,10 @@ import {
 } from '../components/UniversalisLayout/components/ModalCover/ModalCover';
 import MogboardHighchartsTheme from '../theme/highcharts';
 
-function parseLang(lang: any): 'ja' | 'en' | 'de' | 'fr' | 'zh-HANS' | 'ko' {
+function parseLang(lang: any): 'ja' | 'en' | 'de' | 'fr' | 'zh-HANS' | 'ko' | 'zh-HANT' {
+  if (lang === 'tc') {
+    return 'zh-HANT';
+  }
   if (lang === 'chs') {
     return 'zh-HANS';
   }
@@ -55,6 +59,7 @@ i18n.load({
   de: messagesDe,
   fr: messagesFr,
   'zh-HANS': messagesZhHans,
+  'zh-HANT': messagesZhHant,
   ko: messagesKo,
 });
 
@@ -64,6 +69,7 @@ i18n.loadLocaleData({
   de: { plurals: de },
   fr: { plurals: fr },
   'zh-HANS': { plurals: zh },
+  'zh-HANT': { plurals: zh },
   ko: { plurals: ko },
 });
 
