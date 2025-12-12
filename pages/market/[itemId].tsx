@@ -18,7 +18,7 @@ import MarketServerSelector from '../../components/Market/MarketServerSelector/M
 import MarketItemHeader from '../../components/Market/MarketItemHeader/MarketItemHeader';
 import { getItem } from '../../data/game';
 import { Cookies } from 'react-cookie';
-import { REGIONS, Region, Server, getServers } from '../../service/servers';
+import { REGIONS, Region, Server, getServers, isGlobalServerRegion } from '../../service/servers';
 import { ParsedUrlQuery } from 'querystring';
 import MarketServerUpdateTimes from '../../components/Market/MarketServerUpdateTimes/MarketServerUpdateTimes';
 import MarketRegion from '../../components/Market/MarketRegion/MarketRegion';
@@ -180,10 +180,7 @@ const DynamicMarkets = ({ item, selectedServer, region, lang }: DynamicMarketsPr
         <div className="tab">
           <div className="tab-page tab-summary open">
             <ErrorBoundary>
-              <MarketRegionUpdateTimes
-                dcs={dcs}
-                worldUploadTimes={getWorldUploadTimes()}
-              />
+              <MarketRegionUpdateTimes dcs={dcs} worldUploadTimes={getWorldUploadTimes()} />
             </ErrorBoundary>
             <ErrorBoundary>
               <MarketRegion.Dynamic item={item} region={region} dcs={dcs} lang={lang} open />
@@ -408,15 +405,14 @@ const Market: NextPage<MarketProps> = ({
                 setSelectedServer={selectServer}
               />
             </div>
-            {region !== '中国' &&
-              region !== '한국' &&
-              REGIONS.filter((r) => r !== region && r !== '中国' && r !== '한국').length > 0 && (
+            {isGlobalServerRegion(region) &&
+              REGIONS.filter((r) => r !== region && isGlobalServerRegion(r)).length > 0 && (
                 <>
                   <Spacing size={10} />
                   <div className={`item_nav ${mobileNavOpen ? 'open' : ''}`}>
                     <ErrorBoundary>
                       <MarketServerSelector.MultiRegion
-                        regions={REGIONS.filter((r) => r !== region && r !== '中国' && r !== '한국')}
+                        regions={REGIONS.filter((r) => r !== region && isGlobalServerRegion(r))}
                         selectedServer={dynamicServer ?? selectedServer}
                         setSelectedServer={setDynamicServer}
                         homeWorldName={settings['mogboard_server']}

@@ -63,7 +63,21 @@ async function getServersInternal(): Promise<Servers> {
 
 export type Region = 'Japan' | 'North-America' | 'Europe' | 'Oceania' | '中国' | '한국' | '繁中服';
 
-export const REGIONS = ['Japan', 'North-America', 'Europe', 'Oceania', '中国', '한국', '繁中服'] as const;
+export const REGIONS = [
+  'Japan',
+  'North-America',
+  'Europe',
+  'Oceania',
+  '中国',
+  '한국',
+  '繁中服',
+] as const;
+
+export function isGlobalServerRegion(region: Region): boolean {
+  return (
+    region === 'Japan' || region === 'North-America' || region === 'Europe' || region === 'Oceania'
+  );
+}
 
 export function getServerRegionNameMap(regionStrings: {
   europe: string;
