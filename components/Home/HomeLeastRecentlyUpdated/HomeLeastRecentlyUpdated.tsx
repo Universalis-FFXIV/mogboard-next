@@ -8,6 +8,36 @@ import styles from './HomeLeastRecentlyUpdated.module.scss';
 import ago from 's-ago';
 import SimpleBar from 'simplebar-react';
 
+// Item search categories for crafting materials where we filter out items not used in recipes
+const CRAFTING_MATERIAL_CATEGORIES = new Set([
+  44, // Ingredients
+  46, // Seafood
+  47, // Stone
+  48, // Metal
+  49, // Lumber
+  50, // Cloth
+  51, // Leather
+  52, // Bone
+  53, // Reagents
+  55, // Weapon Parts
+  58, // Crystals
+  59, // Catalysts
+]);
+
+/**
+ * Determines if an item should be shown in the least recently updated list.
+ * Filters out obsolete crafting materials that are no longer used in any recipes.
+ */
+function shouldShowItem(item: Item): boolean {
+  // Only filter items in crafting material categories
+  if (!CRAFTING_MATERIAL_CATEGORIES.has(item.itemSearchCategory)) {
+    return true;
+  }
+
+  // For crafting materials, only show if they're used in at least one recipe
+  return item.isUsedInRecipe;
+}
+
 function ItemEntryCrossWorld({
   item,
   date,
@@ -117,7 +147,7 @@ export default function HomeLeastRecentlyUpdated({
           <SimpleBar style={{ height: '40vh' }}>
             {leastRecents
               .map((lr) => ({ item: getItem(lr.id, lang), date: lr.date, world: lr.world }))
-              .filter((entry) => entry.item != null)
+              .filter((entry) => entry.item != null && shouldShowItem(entry.item))
               .map((entry, i) => (
                 <ItemEntryCrossWorld
                   key={i}
@@ -143,7 +173,7 @@ export default function HomeLeastRecentlyUpdated({
           <SimpleBar style={{ height: '40vh' }}>
             {leastRecents
               .map((lr) => ({ item: getItem(lr.id, lang), date: lr.date, world: lr.world }))
-              .filter((entry) => entry.item != null)
+              .filter((entry) => entry.item != null && shouldShowItem(entry.item))
               .map((entry, i) => (
                 <ItemEntryWorld key={i} item={entry.item!} date={entry.date} lang={lang} />
               ))}

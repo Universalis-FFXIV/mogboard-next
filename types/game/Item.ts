@@ -12,4 +12,5 @@ export interface Item {
   itemSearchCategory: number;
   itemUiCategory: number;
   classJobCategory: number;
+  isUsedInRecipe: boolean;
 }

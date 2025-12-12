@@ -117,6 +117,48 @@ public class Program
                     File.WriteAllText(Path.Combine(o.Output, langStr, "materia.json"),
                         JsonSerializer.Serialize(allMateria));
 
+                    Console.WriteLine("Building recipe usage index...");
+                    var itemsUsedInRecipes = new HashSet<uint>();
+                    var recipeType = typeof(Recipe);
+
+                    foreach (var recipe in gameData.GetExcelSheet<Recipe>()!)
+                    {
+                        // Recipes have up to 10 ingredient slots (Item{Ingredient}[0-9])
+                        // We use reflection to access these properties dynamically
+                        for (int i = 0; i < 10; i++)
+                        {
+                            try
+                            {
+                                var propertyName = $"Item{{Ingredient}}[{i}]";
+                                var property = recipeType.GetProperty(propertyName);
+
+                                if (property != null)
+                                {
+                                    var value = property.GetValue(recipe);
+                                    if (value != null)
+                                    {
+                                        // LazyRow<Item> has a Row property that contains the item ID
+                                        var rowProperty = value.GetType().GetProperty("Row");
+                                        if (rowProperty != null)
+                                        {
+                                            var itemId = (uint)rowProperty.GetValue(value)!;
+                                            if (itemId > 0)
+                                            {
+                                                itemsUsedInRecipes.Add(itemId);
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            catch
+                            {
+                                // If property doesn't exist or can't be accessed, continue
+                                continue;
+                            }
+                        }
+                    }
+                    Console.WriteLine($"Found {itemsUsedInRecipes.Count} unique items used in recipes.");
+
                     Console.WriteLine("Exporting items...");
                     var items = new Dictionary<uint, ItemDump>();
                     foreach (var item in gameData.GetExcelSheet<Item>()!.Where(item => item.ItemSearchCategory.Row > 0))
@@ -136,6 +178,7 @@ public class Program
                             ItemSearchCategory = item.ItemSearchCategory.Row,
                             ItemUICategory = item.ItemUICategory.Row,
                             ClassJobCategory = item.ClassJobCategory.Row,
+                            IsUsedInRecipe = itemsUsedInRecipes.Contains(item.RowId),
                         });
                     }
 
