@@ -5,7 +5,7 @@ This folder contains tools used for development of the website.
 ## MogboardExporter
 
 The mogboard exporter exports game data from the game files (and from CafeMaker for the Chinese game version) for use in the website.
-~~The main exporter is used as follows, from the `MogboardExporter` project directory:~~ This is deprecated and will be replaced with `MogboardExporter.XIVAPI`.
+The main exporter is used as follows, from the `MogboardExporter` project directory:
 
 ```bash
 dotnet run -- -s <sqpack> -o ..\..\..\data\game -l <languages>
@@ -24,6 +24,15 @@ project directory:
 
 ```bash
 dotnet run -- -o ..\..\..\data\game
+```
+
+## MogboardExporter.XIVAPI
+
+The XIVAPI sub-project exports data from XIVAPI as a backup for when the game data-based exporter fails. It is used as follows, from its
+project directory:
+
+```bash
+dotnet run -- -o ..\..\..\data\game -l ja en fr de
 ```
 
 ## MogboardExporter.XIVAPI.KR
