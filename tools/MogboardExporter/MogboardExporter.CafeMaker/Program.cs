@@ -84,7 +84,7 @@ public class Program
                     itemKinds.Add(id, new ItemKindDump
                     {
                         Id = id,
-                        Name = names[Language.English],
+                        Name = names[Language.ChineseSimplified],
                     });
                 }
 
