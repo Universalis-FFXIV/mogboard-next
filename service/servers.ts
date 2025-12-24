@@ -24,13 +24,27 @@ export type Server =
   | { type: 'dc'; dc: DataCenter }
   | { type: 'world'; world: World };
 
+// Deduplicate concurrent requests
+let inFlightRequest: Promise<Servers> | null = null;
+
 export async function getServers(): Promise<Servers> {
-  return retry(getServersInternal, {
+  if (inFlightRequest) {
+    if (isDev) {
+      console.log('[getServers] returning in-flight request');
+    }
+    return inFlightRequest;
+  }
+
+  inFlightRequest = retry(getServersInternal, {
     max: 5,
     backoffBase: 1000,
     report: (message) => isDev && console.warn(message),
     name: 'getServers',
+  }).finally(() => {
+    inFlightRequest = null;
   });
+
+  return inFlightRequest;
 }
 
 async function getServersInternal(): Promise<Servers> {
