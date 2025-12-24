@@ -123,7 +123,13 @@ export interface DynamicMarketServerSelectorProps extends Omit<MarketServerSelec
 MarketServerSelector.Dynamic = function DynamicMarketServerSelector(
   props: DynamicMarketServerSelectorProps
 ) {
-  const { data: dcs } = useDataCenters(props.region);
+  const { data: dcs, error, isLoading } = useDataCenters(props.region);
+
+  // Debug logging
+  if (typeof window !== 'undefined') {
+    console.log('[MarketServerSelector] region:', props.region, 'dcs:', dcs, 'error:', error, 'isLoading:', isLoading);
+  }
+
   if (!dcs) {
     return <MarketServerSelector.Skeleton {...props} />;
   }

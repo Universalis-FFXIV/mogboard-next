@@ -7,6 +7,13 @@ import retry from 'retry-as-promised';
 
 const isDev = process.env['APP_ENV'] !== 'prod';
 
+function fetchWithTimeout(url: string, timeout = 3000): Promise<Response> {
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), timeout);
+
+  return fetch(url, { signal: controller.signal }).finally(() => clearTimeout(timeoutId));
+}
+
 export interface Servers {
   dcs: DataCenter[];
   worlds: World[];
@@ -27,16 +34,30 @@ export async function getServers(): Promise<Servers> {
 }
 
 async function getServersInternal(): Promise<Servers> {
-  if (cache.servers && differenceInMinutes(cache.servers.cachedAt, new Date()) <= 5) {
+  const cacheAge = cache.servers ? differenceInMinutes(new Date(), cache.servers.cachedAt) : null;
+  if (isDev) {
+    console.log('[getServersInternal] cache age (minutes):', cacheAge);
+  }
+
+  if (cache.servers && cacheAge !== null && cacheAge <= 5) {
+    if (isDev) {
+      console.log('[getServersInternal] returning cached data');
+    }
     return cache.servers.value;
   }
 
+  if (isDev) {
+    console.log('[getServersInternal] fetching fresh data');
+  }
+
   try {
-    const dcData: { name: string; region: string; worlds: number[] }[] = await fetch(
+    const dcData: { name: string; region: string; worlds: number[] }[] = await fetchWithTimeout(
       `${getBaseUrl()}/v3/game/data-centers`
     ).then((res) => res.json());
 
-    const worlds: World[] = await fetch(`${getBaseUrl()}/v3/game/worlds`).then((res) => res.json());
+    const worlds: World[] = await fetchWithTimeout(`${getBaseUrl()}/v3/game/worlds`).then((res) =>
+      res.json()
+    );
 
     const dcs = dcData
       .filter((region) => !region.name.includes('Beta'))
@@ -50,8 +71,19 @@ async function getServersInternal(): Promise<Servers> {
       value: { dcs, worlds },
       cachedAt: new Date(),
     };
+
+    if (isDev) {
+      console.log('[getServersInternal] cached data:', { dcsCount: dcs.length, worldsCount: worlds.length });
+    }
   } catch (err) {
+    if (isDev) {
+      console.error('[getServersInternal] fetch failed:', err);
+    }
+
     if (cache.servers) {
+      if (isDev) {
+        console.log('[getServersInternal] returning stale cache due to error');
+      }
       return cache.servers.value;
     }
 
