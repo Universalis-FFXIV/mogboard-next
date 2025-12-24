@@ -1,4 +1,4 @@
-import useSWRImmutable from 'swr/immutable';
+import useSWR from 'swr';
 import { getServers } from '../service/servers';
 
 const getSortedServers = () =>
@@ -22,7 +22,7 @@ const getSortedServers = () =>
     });
 
 export default function useDataCenters(region?: string) {
-  return useSWRImmutable(`$servers-${region}`, () => {
+  return useSWR(`$servers-${region}`, () => {
     console.log('[useDataCenters] fetching for region:', region);
     return getSortedServers()
       .then((servers) => {
@@ -34,5 +34,12 @@ export default function useDataCenters(region?: string) {
         console.error('[useDataCenters] error for region:', region, err);
         throw err;
       });
+  }, {
+    // Only revalidate when explicitly requested, not on focus/reconnect
+    revalidateOnFocus: false,
+    revalidateOnReconnect: false,
+    revalidateIfStale: false,
+    // Dedupe requests within 5 minutes
+    dedupingInterval: 300000,
   });
 }
