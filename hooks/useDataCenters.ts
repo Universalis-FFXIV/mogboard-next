@@ -2,25 +2,20 @@ import useSWR from 'swr';
 import { getServers } from '../service/servers';
 
 const getSortedServers = () =>
-  getServers().then((servers) => {
-    const sorted = (servers.dcs ?? [])
+  getServers().then((servers) =>
+    (servers.dcs ?? [])
       .map((dc) => ({
         name: dc.name,
         region: dc.region,
         worlds: (dc.worlds ?? []).sort((a, b) => a.name.localeCompare(b.name)),
       }))
-      .sort((a, b) => a.region.localeCompare(b.region));
-    return sorted;
-  });
+      .sort((a, b) => a.region.localeCompare(b.region))
+  );
 
 export default function useDataCenters(region?: string) {
   return useSWR(
     `$servers-${region}`,
-    () =>
-      getSortedServers().then((servers) => {
-        const filtered = servers.filter((server) => !region || server.region === region);
-        return filtered;
-      }),
+    () => getSortedServers().then((servers) => servers.filter((server) => !region || server.region === region)),
     {
       // Only revalidate when explicitly requested, not on focus/reconnect
       revalidateOnFocus: false,
