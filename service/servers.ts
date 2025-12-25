@@ -29,6 +29,9 @@ let inFlightRequest: Promise<Servers> | null = null;
 
 export async function getServers(): Promise<Servers> {
   if (inFlightRequest) {
+    if (isDev) {
+      console.log('[getServers] returning in-flight request');
+    }
     return inFlightRequest;
   }
 
@@ -46,9 +49,19 @@ export async function getServers(): Promise<Servers> {
 
 async function getServersInternal(): Promise<Servers> {
   const cacheAge = cache.servers ? differenceInMinutes(new Date(), cache.servers.cachedAt) : null;
+  if (isDev) {
+    console.log('[getServersInternal] cache age (minutes):', cacheAge);
+  }
 
   if (cache.servers && cacheAge !== null && cacheAge <= 5) {
+    if (isDev) {
+      console.log('[getServersInternal] returning cached data');
+    }
     return cache.servers.value;
+  }
+
+  if (isDev) {
+    console.log('[getServersInternal] fetching fresh data');
   }
 
   try {
@@ -72,8 +85,19 @@ async function getServersInternal(): Promise<Servers> {
       value: { dcs, worlds },
       cachedAt: new Date(),
     };
+
+    if (isDev) {
+      console.log('[getServersInternal] cached data:', { dcsCount: dcs.length, worldsCount: worlds.length });
+    }
   } catch (err) {
+    if (isDev) {
+      console.error('[getServersInternal] fetch failed:', err);
+    }
+
     if (cache.servers) {
+      if (isDev) {
+        console.log('[getServersInternal] returning stale cache due to error');
+      }
       return cache.servers.value;
     }
 

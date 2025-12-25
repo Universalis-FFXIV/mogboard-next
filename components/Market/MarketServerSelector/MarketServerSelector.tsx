@@ -123,12 +123,25 @@ export interface DynamicMarketServerSelectorProps extends Omit<MarketServerSelec
 MarketServerSelector.Dynamic = function DynamicMarketServerSelector(
   props: DynamicMarketServerSelectorProps
 ) {
-  const { data: dcs } = useDataCenters(props.region);
+  const swrResult = useDataCenters(props.region);
+  const { data: dcs, error, isLoading } = swrResult;
+
+  // Debug logging - log everything
+  console.log('[MarketServerSelector.Dynamic] RENDER', {
+    region: props.region,
+    dcs: dcs,
+    dcsLength: dcs?.length,
+    error: error,
+    isLoading: isLoading,
+    swrKeys: Object.keys(swrResult),
+  });
 
   if (!dcs) {
+    console.log('[MarketServerSelector.Dynamic] returning skeleton');
     return <MarketServerSelector.Skeleton {...props} />;
   }
 
+  console.log('[MarketServerSelector.Dynamic] returning real component');
   return <MarketServerSelector {...props} dcs={dcs} />;
 };
 
@@ -145,6 +158,8 @@ MarketServerSelector.MultiRegion = function MultiRegionMarketServerSelector({
   setSelectedServer,
   homeWorldName,
 }: MultiRegionMarketServerSelectorProps) {
+  console.log('[MarketServerSelector.MultiRegion] RENDER', { regions });
+
   // Fetch data centers for all regions - we need to call hooks at the top level
   // Since regions array is limited to max 3 items (Japan, North-America, Europe, Oceania minus current),
   // we'll conditionally call hooks based on array length
@@ -152,16 +167,27 @@ MarketServerSelector.MultiRegion = function MultiRegionMarketServerSelector({
   const query1 = useDataCenters(regions[1] ?? regions[0]);
   const query2 = useDataCenters(regions[2] ?? regions[0]);
 
+  console.log('[MarketServerSelector.MultiRegion] queries', {
+    query0: { data: query0.data?.length, error: query0.error, isLoading: query0.isLoading },
+    query1: { data: query1.data?.length, error: query1.error, isLoading: query1.isLoading },
+    query2: { data: query2.data?.length, error: query2.error, isLoading: query2.isLoading },
+  });
+
   // Check if all necessary queries are loaded
   const allLoaded =
     query0.data !== undefined &&
     (regions.length < 2 || query1.data !== undefined) &&
     (regions.length < 3 || query2.data !== undefined);
 
+  console.log('[MarketServerSelector.MultiRegion] allLoaded:', allLoaded);
+
   if (!allLoaded) {
+    console.log('[MarketServerSelector.MultiRegion] returning skeleton');
     // Show skeleton for the first region while loading
     return <MarketServerSelector.Skeleton region={regions[0]} selectedServer={selectedServer} setSelectedServer={setSelectedServer} />;
   }
+
+  console.log('[MarketServerSelector.MultiRegion] returning real component');
 
   // Combine all data centers from all regions
   const allDcs = [
