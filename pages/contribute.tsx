@@ -11,9 +11,11 @@ interface ContributorProps {
   description: string;
   intlUrl: string;
   cnUrl?: string;
+  tcUrl?: string;
 }
 
-function Contributor({ name, kind, description, intlUrl, cnUrl }: ContributorProps) {
+function Contributor({ name, kind, description, intlUrl, cnUrl, tcUrl }: ContributorProps) {
+  const hasMultipleButtons = cnUrl || tcUrl;
   return (
     <>
       <div className="page-short">
@@ -24,13 +26,16 @@ function Contributor({ name, kind, description, intlUrl, cnUrl }: ContributorPro
         <br />
         <br />
         <br />
-        <div style={{ width: '100%', overflow: 'hidden' }}>
-          <div
-            style={{
-              textAlign: 'center',
-              ...(cnUrl ? { float: 'left', marginLeft: '19%' } : {}),
-            }}
-          >
+        <div
+          style={{
+            width: '100%',
+            display: 'flex',
+            justifyContent: hasMultipleButtons ? 'space-evenly' : 'center',
+            flexWrap: 'wrap',
+            gap: '10px',
+          }}
+        >
+          <div style={{ textAlign: 'center' }}>
             <a href={intlUrl} target="_blank" rel="noreferrer">
               <button type="button" className="btn btn-green btn-download">
                 <span className="icon-heart" /> <Trans>Download</Trans>
@@ -38,10 +43,19 @@ function Contributor({ name, kind, description, intlUrl, cnUrl }: ContributorPro
             </a>
           </div>
           {cnUrl && (
-            <div style={{ textAlign: 'center', float: 'right', marginRight: '19%' }}>
+            <div style={{ textAlign: 'center' }}>
               <a href={cnUrl} target="_blank" rel="noreferrer">
                 <button type="button" className="btn btn-green btn-download">
                   <span className="icon-heart" /> 下载
+                </button>
+              </a>
+            </div>
+          )}
+          {tcUrl && (
+            <div style={{ textAlign: 'center' }}>
+              <a href={tcUrl} target="_blank" rel="noreferrer">
+                <button type="button" className="btn btn-green btn-download">
+                  <span className="icon-heart" /> 下載
                 </button>
               </a>
             </div>
@@ -103,6 +117,7 @@ const Contribute: NextPage = () => {
             description={t`FFXIVQuickLauncher is a faster launcher for FFXIV aims to fix the slowness and tediousness of the regular launcher and adds a lot of QoL features to the game. A Universalis uploader that can be disabled is built into the launcher.`}
             intlUrl="https://github.com/goaaats/FFXIVQuickLauncher/"
             cnUrl="https://gitee.com/bluefissure/Dalamud/releases/v4.9.8.2-beta.5"
+            tcUrl="https://github.com/cycleapple/XIVTCLauncher"
           />
           <br />
           <Contributor
