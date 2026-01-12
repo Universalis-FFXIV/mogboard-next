@@ -40,6 +40,24 @@ const BoilmasterItemSearchResults = z.object({
   schema: z.string(),
 });
 
+const TcItemSearchResult = z.object({
+  id: z.number(),
+  icon: z.string(),
+  itemKind: z.string(),
+  itemSearchCategory: z.object({
+    id: z.number(),
+    name: z.string(),
+  }),
+  levelItem: z.number(),
+  name: z.string(),
+  rarity: z.number(),
+});
+
+const TcItemSearchResults = z.object({
+  total: z.number(),
+  items: z.array(TcItemSearchResult),
+});
+
 export type BoilmasterItemSearchResults = z.TypeOf<typeof BoilmasterItemSearchResults>;
 
 interface XIVAPISearchResults {
@@ -139,17 +157,27 @@ export async function searchItemsTc(
     limit: '100',  
     field: 'Name,ItemSearchCategory.Name,Icon,LevelItem.todo,Rarity',  
   });  
+
   const searchUrl = `https://tc-ffxiv-item-search-service.onrender.com/items/search?${params.toString()}`;  
-  const data = await fetch(searchUrl, {  
-    signal: abort?.signal,  
-  }).then((res) => res.json());
+  const data = await fetch(searchUrl, {
+    signal: abort?.signal,
+  })
+    .then((res) => res.json())
+    .then((res) => TcItemSearchResults.parse(res))
+    .catch((err) => {
+      if (err instanceof z.ZodError) {
+        console.error('Failed to parse TC search results:', err.message);
+      }
+      throw err;
+    });
+
   return {
     resultsReturned: data.items.length,
     resultsTotal: data.items.length,
     results: data.items
-      .map((result: SearchItem) => ({
+      .map((result) => ({
         id: result.id,
-        icon: `https://v2.xivapi.com/api/asset${result.icon}?format=png`,
+        icon: `https://v2.xivapi.com/api/asset/${result.icon}?format=png`,
         itemKind: result.itemKind,
         itemSearchCategory: {
           id: result.itemSearchCategory.id,
@@ -159,7 +187,7 @@ export async function searchItemsTc(
         name: result.name,
         rarity: result.rarity,
       }))
-      .sort((a: SearchItem, b: SearchItem) => b.levelItem - a.levelItem),
+      .sort((a, b) => b.levelItem - a.levelItem),
   }
 }
 
