@@ -40,6 +40,24 @@ const BoilmasterItemSearchResults = z.object({
   schema: z.string(),
 });
 
+const TcItemSearchResult = z.object({
+  id: z.number(),
+  icon: z.string(),
+  itemKind: z.string(),
+  itemSearchCategory: z.object({
+    id: z.number(),
+    name: z.string(),
+  }),
+  levelItem: z.number(),
+  name: z.string(),
+  rarity: z.number(),
+});
+
+const TcItemSearchResults = z.object({
+  total: z.number(),
+  items: z.array(TcItemSearchResult),
+});
+
 export type BoilmasterItemSearchResults = z.TypeOf<typeof BoilmasterItemSearchResults>;
 
 interface XIVAPISearchResults {
@@ -125,6 +143,52 @@ export async function searchItemsV1(
       rarity: item.Rarity,
     })),
   };
+}
+
+export async function searchItemsTc(
+  query: string,
+  lang: string,
+  abort?: AbortController
+): Promise<ItemSearchResults> {
+  const params = new URLSearchParams({  
+    sheets: 'Items',  
+    query: query,  
+    language: lang,  
+    limit: '100',  
+    field: 'Name,ItemSearchCategory.Name,Icon,LevelItem.todo,Rarity',  
+  });  
+
+  const searchUrl = `https://tc-ffxiv-item-search-service.onrender.com/items/search?${params.toString()}`;  
+  const data = await fetch(searchUrl, {
+    signal: abort?.signal,
+  })
+    .then((res) => res.json())
+    .then((res) => TcItemSearchResults.parse(res))
+    .catch((err) => {
+      if (err instanceof z.ZodError) {
+        console.error('Failed to parse TC search results:', err.message);
+      }
+      throw err;
+    });
+
+  return {
+    resultsReturned: data.items.length,
+    resultsTotal: data.items.length,
+    results: data.items
+      .map((result) => ({
+        id: result.id,
+        icon: `https://v2.xivapi.com/api/asset/${result.icon}?format=png`,
+        itemKind: result.itemKind,
+        itemSearchCategory: {
+          id: result.itemSearchCategory.id,
+          name: result.itemSearchCategory.name,
+        },
+        levelItem: result.levelItem,
+        name: result.name,
+        rarity: result.rarity,
+      }))
+      .sort((a, b) => b.levelItem - a.levelItem),
+  }
 }
 
 function iconUrlV2(icon: BoilmasterIcon): string {

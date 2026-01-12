@@ -1,6 +1,6 @@
 import { t, Trans } from '@lingui/macro';
 import { useRef, useState, useCallback } from 'react';
-import { SearchItem, searchItemsV1, searchItemsV2 } from '../../../../service/search';
+import { SearchItem, searchItemsV1, searchItemsV2, searchItemsTc } from '../../../../service/search';
 import useClickOutside from '../../../../hooks/useClickOutside';
 import useSettings from '../../../../hooks/useSettings';
 import debounce from 'lodash.debounce';
@@ -71,6 +71,9 @@ export default function SearchBar({ onResults, onMarketClicked }: SearchBarProps
           onResults(res.results, res.resultsTotal, q);
         } else if (lang === 'chs') {
           const res = await searchItemsV1(q, lang, undefined, abort.current);
+          onResults(res.results, res.resultsTotal, q);
+        } else if (lang === 'tc') {
+          const res = await searchItemsTc(q, lang, abort.current);
           onResults(res.results, res.resultsTotal, q);
         } else {
           const res = await searchItemsV2(q, lang, abort.current);
