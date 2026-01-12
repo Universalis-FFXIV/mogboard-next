@@ -132,12 +132,17 @@ export async function searchItemsTc(
   lang: string,
   abort?: AbortController
 ): Promise<ItemSearchResults> {
-
-  const searchUrl = `https://tc-ffxiv-item-search-service.onrender.com/items/search?sheets=Items&query=${query}&language=${lang}&limit=100&field=Name,ItemSearchCategory.Name,Icon,LevelItem.todo,Rarity`;
-  const data = await fetch(searchUrl, {
-    signal: abort?.signal,
+  const params = new URLSearchParams({  
+    sheets: 'Items',  
+    query: query,  
+    language: lang,  
+    limit: '100',  
+    field: 'Name,ItemSearchCategory.Name,Icon,LevelItem.todo,Rarity',  
+  });  
+  const searchUrl = `https://tc-ffxiv-item-search-service.onrender.com/items/search?${params.toString()}`;  
+  const data = await fetch(searchUrl, {  
+    signal: abort?.signal,  
   }).then((res) => res.json());
-
   return {
     resultsReturned: data.items.length,
     resultsTotal: data.items.length,
