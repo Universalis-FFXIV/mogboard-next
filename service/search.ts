@@ -127,6 +127,37 @@ export async function searchItemsV1(
   };
 }
 
+export async function searchItemsTc(
+  query: string,
+  lang: string,
+  abort?: AbortController
+): Promise<ItemSearchResults> {
+
+  const searchUrl = `https://tc-ffxiv-item-search-service.onrender.com/items/search?sheets=Items&query=${query}&language=${lang}&limit=100&field=Name,ItemSearchCategory.Name,Icon,LevelItem.todo,Rarity`;
+  const data = await fetch(searchUrl, {
+    signal: abort?.signal,
+  }).then((res) => res.json());
+
+  return {
+    resultsReturned: data.items.length,
+    resultsTotal: data.items.length,
+    results: data.items
+      .map((result: SearchItem) => ({
+        id: result.id,
+        icon: `https://v2.xivapi.com/api/asset${result.icon}?format=png`,
+        itemKind: result.itemKind,
+        itemSearchCategory: {
+          id: result.itemSearchCategory.id,
+          name: result.itemSearchCategory.name,
+        },
+        levelItem: result.levelItem,
+        name: result.name,
+        rarity: result.rarity,
+      }))
+      .sort((a: SearchItem, b: SearchItem) => b.levelItem - a.levelItem),
+  }
+}
+
 function iconUrlV2(icon: BoilmasterIcon): string {
   return `https://v2.xivapi.com/api/asset/${icon.path}?format=png`;
 }
