@@ -1,13 +1,13 @@
 import { Trans } from '@lingui/macro';
 import { NextPage } from 'next';
-import { useSession } from 'next-auth/react';
+import useDemoSession from '../../hooks/useDemoSession';
 import Head from 'next/head';
 import Image from 'next/image';
 import AccountLayout from '../../components/AccountLayout/AccountLayout';
 import useSettings from '../../hooks/useSettings';
 
 const Account: NextPage = () => {
-  const { data: sessionData, status: sessionStatus } = useSession();
+  const { data: sessionData, status: sessionStatus } = useDemoSession();
   const [settings] = useSettings();
 
   const user = {

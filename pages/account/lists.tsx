@@ -11,7 +11,7 @@ import useSettings from '../../hooks/useSettings';
 import { Item } from '../../types/game/Item';
 import { UserList } from '../../types/universalis/user';
 import useSWR, { useSWRConfig } from 'swr';
-import { useSession } from 'next-auth/react';
+import useDemoSession from '../../hooks/useDemoSession';
 
 interface ListOverviewProps {
   list: UserList;
@@ -109,7 +109,7 @@ function ListOverview({ list, items, selected, onSelected, dispatch }: ListOverv
 }
 
 const Lists: NextPage = () => {
-  const { status: sessionStatus } = useSession();
+  const { status: sessionStatus } = useDemoSession();
 
   const [settings] = useSettings();
   const lang = settings['mogboard_language'] || 'en';

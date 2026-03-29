@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import Tooltip from '../../../Tooltip/Tooltip';
-import { useSession, signIn } from 'next-auth/react';
+import { signIn } from 'next-auth/react';
+import useDemoSession from '../../../../hooks/useDemoSession';
 import LoggedOut from '../../../LoggedOut/LoggedOut';
 import LoggedIn from '../../../LoggedIn/LoggedIn';
 import { Trans } from '@lingui/macro';
@@ -11,7 +12,7 @@ interface UniversalisHeaderProps {
 }
 
 const UniversalisHeader = ({ onSettingsClicked, children }: UniversalisHeaderProps) => {
-  const { data: session } = useSession();
+  const { data: session } = useDemoSession();
   return (
     <header>
       <div>

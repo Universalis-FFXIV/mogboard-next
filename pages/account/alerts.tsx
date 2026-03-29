@@ -1,6 +1,6 @@
 import { t, Trans } from '@lingui/macro';
 import { NextPage } from 'next';
-import { useSession } from 'next-auth/react';
+import useDemoSession from '../../hooks/useDemoSession';
 import Head from 'next/head';
 import Link from 'next/link';
 import React, { useState } from 'react';
@@ -163,7 +163,7 @@ function AlertPageEntry({ alert, worlds, onDelete }: AlertPageEntry) {
 
 const Alerts: NextPage = () => {
   const { mutate } = useSWRConfig();
-  const { status: sessionStatus } = useSession();
+  const { status: sessionStatus } = useDemoSession();
   const { data: alerts } = useAlerts();
   const { data: worlds } = useWorlds();
   const [settings] = useSettings();
