@@ -13,12 +13,12 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
-#: components/Market/ListingsTable/ListingsTable.tsx:206
+#: components/Market/ListingsTable/ListingsTable.tsx:208
 #: components/Market/SalesTable/SalesTable.tsx:151
 msgid "#"
 msgstr "＃"
 
-#: components/Market/ListingsTable/ListingsTable.tsx:235
+#: components/Market/ListingsTable/ListingsTable.tsx:237
 #: components/Market/SalesTable/SalesTable.tsx:177
 msgid "%Diff"
 msgstr ""
@@ -82,19 +82,19 @@ msgstr ""
 #~ msgid "(Includes 5% GST)"
 #~ msgstr ""
 
-#: components/WorldOption/WorldOption.tsx:37
+#: components/WorldOption/WorldOption.tsx:38
 msgid "(Unknown)"
 msgstr ""
 
-#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:74
+#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:75
 msgid "- Choose your language -"
 msgstr "- 言語を設定してください -"
 
-#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:104
+#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:106
 msgid "- Choose your timezone -"
 msgstr ""
 
-#: components/WorldOption/WorldOption.tsx:34
+#: components/WorldOption/WorldOption.tsx:35
 msgid "- Please Choose a Server -"
 msgstr "- マイ鯖を設定してください -"
 
@@ -167,8 +167,8 @@ msgstr ""
 #~ msgid "A goat has been made aware of this problem and will be looking into it for you!"
 #~ msgstr ""
 
-#: pages/contribute.tsx:110
 #: pages/contribute.tsx:125
+#: pages/contribute.tsx:140
 msgid "ACT plugin"
 msgstr "ACT プラグイン"
 
@@ -272,7 +272,7 @@ msgstr ""
 msgid "Any"
 msgstr ""
 
-#: pages/contribute.tsx:131
+#: pages/contribute.tsx:146
 msgid "Are you making your own application?"
 msgstr ""
 
@@ -350,7 +350,7 @@ msgstr ""
 msgid "Click on the list title to view market information for this list."
 msgstr ""
 
-#: pages/contribute.tsx:118
+#: pages/contribute.tsx:133
 msgid "Collaborative crafting tool"
 msgstr ""
 
@@ -430,7 +430,7 @@ msgstr ""
 msgid "DISCORD"
 msgstr "DISCORD"
 
-#: components/Market/ListingsTable/ListingsTable.tsx:215
+#: components/Market/ListingsTable/ListingsTable.tsx:217
 #: components/Market/SalesTable/SalesTable.tsx:160
 msgid "Data Center"
 msgstr ""
@@ -448,7 +448,7 @@ msgstr "期"
 #~ msgid "Decide if the trigger should check NQ/HQ or both."
 #~ msgstr ""
 
-#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:153
+#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:155
 msgid "Default Home World"
 msgstr ""
 
@@ -473,7 +473,7 @@ msgstr "Discord"
 msgid "Discord Webhook"
 msgstr ""
 
-#: pages/contribute.tsx:36
+#: pages/contribute.tsx:41
 msgid "Download"
 msgstr "ダウンロード"
 
@@ -497,7 +497,7 @@ msgstr ""
 #~ msgid "Events"
 #~ msgstr ""
 
-#: pages/contribute.tsx:94
+#: pages/contribute.tsx:108
 msgid "Every contribution helps to make the data on <strong>Universalis</strong> better, more accurate and more helpful. Thank you very much for helping out!"
 msgstr ""
 
@@ -506,7 +506,7 @@ msgstr ""
 #~ msgid "Expires:"
 #~ msgstr ""
 
-#: pages/contribute.tsx:119
+#: pages/contribute.tsx:134
 msgid "FFXIV Teamcraft is a tool for Final Fantasy XIV players that helps with crafting lists organization and crafting/gathering in general. It has a lot of features to make it a one stop shop, with things like integrated alarms, custom items, permissions system, realtime sharing, etc."
 msgstr ""
 
@@ -515,7 +515,7 @@ msgstr ""
 #~ msgid "FFXIVQuickLauncher is a faster launcher for FFXIV  aims to fix the slowness and tediousness of the regular launcher and adds a lot of QoL features to the game."
 #~ msgstr ""
 
-#: pages/contribute.tsx:103
+#: pages/contribute.tsx:117
 msgid "FFXIVQuickLauncher is a faster launcher for FFXIV aims to fix the slowness and tediousness of the regular launcher and adds a lot of QoL features to the game. A Universalis uploader that can be disabled is built into the launcher."
 msgstr ""
 
@@ -599,7 +599,7 @@ msgstr ""
 msgid "HOUSING"
 msgstr ""
 
-#: components/Market/ListingsTable/ListingsTable.tsx:219
+#: components/Market/ListingsTable/ListingsTable.tsx:221
 #: components/Market/SalesTable/SalesTable.tsx:164
 #: pages/account/alerts.tsx:29
 msgid "HQ"
@@ -617,6 +617,10 @@ msgstr ""
 
 #: pages/account/alerts.tsx:148
 msgid "Hide"
+msgstr ""
+
+#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:222
+msgid "Hide Price Cents"
 msgstr ""
 
 #: 
@@ -644,7 +648,7 @@ msgstr ""
 #~ msgid "How do you want to be notified?"
 #~ msgstr ""
 
-#: pages/contribute.tsx:84
+#: pages/contribute.tsx:98
 msgid "How to contribute to <strong>Universalis</strong>"
 msgstr ""
 
@@ -666,7 +670,7 @@ msgstr ""
 #~ msgid "If logged in and character verified, show if any friends have purchased this item."
 #~ msgstr ""
 
-#: pages/contribute.tsx:126
+#: pages/contribute.tsx:141
 msgid "If you are playing on chinese server(other servers are not supported), you can use Matcha plugin provided by FFCAFE which have built-in Universalis integration. Matcha also provides a overlay to show price information from Universalis."
 msgstr ""
 
@@ -674,7 +678,7 @@ msgstr ""
 msgid "If you continue to run into this issue, please jump on the discord for help!"
 msgstr ""
 
-#: pages/contribute.tsx:136
+#: pages/contribute.tsx:151
 msgid "If you wish to contribute to <strong>Universalis</strong> with your own application, please contact us on our <a href=\"%s\">Discord</a>. Let's work together!"
 msgstr ""
 
@@ -691,11 +695,11 @@ msgstr ""
 msgid "In the text box, enter in your <strong>AUTH CODE</strong>, then click on Confirm (twice)."
 msgstr ""
 
-#: pages/contribute.tsx:102
+#: pages/contribute.tsx:116
 msgid "In-Game addon"
 msgstr "In-Game アドオン"
 
-#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:190
+#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:192
 msgid "Include Tax"
 msgstr ""
 
@@ -740,7 +744,7 @@ msgstr ""
 msgid "LIST"
 msgstr "リスト"
 
-#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:59
+#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:60
 msgid "Language"
 msgstr "言語"
 
@@ -776,7 +780,7 @@ msgstr ""
 msgid "Least recently updated on {server}"
 msgstr ""
 
-#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:121
+#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:123
 msgid "Left Navigation"
 msgstr ""
 
@@ -831,7 +835,7 @@ msgstr "Discordでログイン"
 msgid "Logout"
 msgstr "ログアウト"
 
-#: components/UniversalisLayout/components/SearchBar/SearchBar.tsx:128
+#: components/UniversalisLayout/components/SearchBar/SearchBar.tsx:131
 msgid "Market"
 msgstr ""
 
@@ -844,7 +848,7 @@ msgstr ""
 msgid "Market info could not be fetched for: %s at this time."
 msgstr ""
 
-#: components/Market/ListingsTable/ListingsTable.tsx:222
+#: components/Market/ListingsTable/ListingsTable.tsx:224
 msgid "Mat"
 msgstr ""
 
@@ -863,7 +867,7 @@ msgstr ""
 msgid "Maximum"
 msgstr ""
 
-#: pages/market/[itemId].tsx:399
+#: pages/market/[itemId].tsx:395
 msgid "Menu"
 msgstr "メニュー"
 
@@ -903,9 +907,10 @@ msgstr ""
 msgid "New Alert"
 msgstr ""
 
-#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:143
-#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:176
-#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:210
+#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:145
+#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:178
+#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:212
+#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:242
 msgid "No"
 msgstr "いいえ"
 
@@ -914,13 +919,13 @@ msgstr "いいえ"
 msgid "No %s for sale."
 msgstr ""
 
-#: components/Market/ListingsTable/ListingsTable.tsx:244
+#: components/Market/ListingsTable/ListingsTable.tsx:246
 msgid "No Listings"
 msgstr ""
 
 #: components/Home/HomeUserList/HomeUserList.tsx:129
-#: components/Market/MarketRegionUpdateTimes/MarketRegionUpdateTimes.tsx:26
-#: components/Market/MarketServerUpdateTimes/MarketServerUpdateTimes.tsx:21
+#: components/Market/MarketRegionUpdateTimes/MarketRegionUpdateTimes.tsx:28
+#: components/Market/MarketServerUpdateTimes/MarketServerUpdateTimes.tsx:25
 msgid "No data"
 msgstr "データがありません"
 
@@ -974,7 +979,7 @@ msgstr ""
 #~ msgid "Position unknown, go hunt for them!"
 #~ msgstr ""
 
-#: components/Market/ListingsTable/ListingsTable.tsx:225
+#: components/Market/ListingsTable/ListingsTable.tsx:227
 #: components/Market/SalesTable/SalesTable.tsx:167
 msgid "Price"
 msgstr "価格"
@@ -998,7 +1003,7 @@ msgstr "価格"
 msgid "Purchase history (500 sales)"
 msgstr ""
 
-#: components/Market/ListingsTable/ListingsTable.tsx:228
+#: components/Market/ListingsTable/ListingsTable.tsx:230
 #: components/Market/SalesTable/SalesTable.tsx:170
 msgid "QTY"
 msgstr "量"
@@ -1078,7 +1083,7 @@ msgstr ""
 msgid "Result is less than {0}"
 msgstr ""
 
-#: components/Market/ListingsTable/ListingsTable.tsx:239
+#: components/Market/ListingsTable/ListingsTable.tsx:241
 msgid "Retainer"
 msgstr ""
 
@@ -1114,7 +1119,7 @@ msgstr ""
 #~ msgid "Save Alert"
 #~ msgstr ""
 
-#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:235
+#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:268
 msgid "Save Settings"
 msgstr ""
 
@@ -1122,7 +1127,7 @@ msgstr ""
 msgid "Saved"
 msgstr ""
 
-#: components/UniversalisLayout/components/SearchBar/SearchBar.tsx:112
+#: components/UniversalisLayout/components/SearchBar/SearchBar.tsx:115
 #: pages/account/characters.tsx:311
 msgid "Search"
 msgstr "検索"
@@ -1147,7 +1152,7 @@ msgstr "検索"
 #~ msgid "Sent Today"
 #~ msgstr ""
 
-#: components/Market/ListingsTable/ListingsTable.tsx:210
+#: components/Market/ListingsTable/ListingsTable.tsx:212
 #: components/Market/SalesTable/SalesTable.tsx:155
 #: pages/account/characters.tsx:265
 msgid "Server"
@@ -1274,11 +1279,11 @@ msgstr ""
 msgid "The site allows you to view in-game market for multiple servers at anytime, anywhere. It uses crowd-sourced data from multiple sources to provide the most up-to-date prices possible."
 msgstr ""
 
-#: pages/contribute.tsx:89
+#: pages/contribute.tsx:103
 msgid "There are multiple ways to contribute to <strong>Universalis</strong>. All of your contributions are anonymous - no one will be able to refer back to your character or account to know that you have uploaded any data. The applications below are tested by us to make sure that they don't endanger your account or your characters."
 msgstr ""
 
-#: components/Market/ListingsTable/ListingsTable.tsx:251
+#: components/Market/ListingsTable/ListingsTable.tsx:253
 msgid "There are no listings for this item, check back later!"
 msgstr ""
 
@@ -1295,11 +1300,11 @@ msgstr ""
 #~ msgid "This alert has no triggered events."
 #~ msgstr ""
 
-#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:125
+#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:127
 msgid "This enables a quick-access left-navigation of all market categories."
 msgstr ""
 
-#: pages/contribute.tsx:111
+#: pages/contribute.tsx:126
 msgid "This is a regular ACT plugin that runs next to the always-used FFXIV_ACT_PLUGIN - just drop it into your ACT plugins folder, add it to ACT and you're good to go! No configuration needed."
 msgstr ""
 
@@ -1308,15 +1313,19 @@ msgstr ""
 #~ msgid "This is a regular ACT plugin that runs next to the always-used FFXIV_ACT_PLUGIN - just drop it into your ACT plugins folder, add it to ACT and you\\'re good to go! No configuration needed."
 #~ msgstr ""
 
-#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:194
+#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:226
+msgid "This will hide the decimal point and cents values in price displays."
+msgstr ""
+
+#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:196
 msgid "This will show listing prices with tax included."
 msgstr ""
 
-#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:157
+#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:159
 msgid "This will show prices/history on your home world by default instead of cross-world."
 msgstr ""
 
-#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:90
+#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:92
 msgid "Timezone"
 msgstr ""
 
@@ -1337,7 +1346,7 @@ msgstr ""
 #~ msgid "Top 5 cheapest - Total for sale: %d"
 #~ msgstr ""
 
-#: components/Market/ListingsTable/ListingsTable.tsx:231
+#: components/Market/ListingsTable/ListingsTable.tsx:233
 #: components/Market/MarketNav/AlertsModal/AlertsModal.tsx:415
 #: components/Market/SalesTable/SalesTable.tsx:173
 #: pages/account/alerts.tsx:42
@@ -1461,9 +1470,10 @@ msgstr ""
 #~ msgid "Y: <span class=\"text-yellow\">%f</span>"
 #~ msgstr ""
 
-#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:146
-#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:179
-#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:213
+#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:148
+#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:181
+#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:215
+#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:245
 msgid "Yes"
 msgstr "はい"
 
@@ -1571,7 +1581,7 @@ msgstr ""
 #~ msgid "You must be logged-in to create item alerts."
 #~ msgstr ""
 
-#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:50
+#: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:51
 msgid "Your Server"
 msgstr "マイ鯖"
 
@@ -1595,6 +1605,11 @@ msgstr ""
 #: components/Market/MarketServerSelector/MarketServerSelector.tsx:22
 #: components/WorldOption/WorldOption.tsx:18
 msgid "中国"
+msgstr ""
+
+#: components/Market/MarketServerSelector/MarketServerSelector.tsx:24
+#: components/WorldOption/WorldOption.tsx:20
+msgid "繁中服"
 msgstr ""
 
 #: components/Market/MarketServerSelector/MarketServerSelector.tsx:23
