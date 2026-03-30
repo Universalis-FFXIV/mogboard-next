@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import Tooltip from '../../../Tooltip/Tooltip';
-import { useSession, signIn } from 'next-auth/react';
+import { signIn } from 'next-auth/react';
+import useSession from '../../../../hooks/useSession';
 import LoggedOut from '../../../LoggedOut/LoggedOut';
 import LoggedIn from '../../../LoggedIn/LoggedIn';
 import { Trans } from '@lingui/macro';

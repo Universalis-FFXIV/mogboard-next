@@ -1,6 +1,6 @@
 import { Trans } from '@lingui/macro';
 import { NextPage } from 'next';
-import { useSession } from 'next-auth/react';
+import useSession from '../../hooks/useSession';
 import Head from 'next/head';
 import Image from 'next/image';
 import AccountLayout from '../../components/AccountLayout/AccountLayout';

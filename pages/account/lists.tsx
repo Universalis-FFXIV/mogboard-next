@@ -11,7 +11,7 @@ import useSettings from '../../hooks/useSettings';
 import { Item } from '../../types/game/Item';
 import { UserList } from '../../types/universalis/user';
 import useSWR, { useSWRConfig } from 'swr';
-import { useSession } from 'next-auth/react';
+import useSession from '../../hooks/useSession';
 
 interface ListOverviewProps {
   list: UserList;
@@ -116,7 +116,9 @@ const Lists: NextPage = () => {
 
   const { mutate } = useSWRConfig();
   const { data: lists } = useSWR<UserList[]>('/api/web/lists', (url) =>
-    fetch(url).then((res) => res.json())
+    fetch(url)
+      .then((res) => res.json())
+      .then((res) => (Array.isArray(res) ? res : []))
   );
 
   const [selectedList, setSelectedList] = useState<string | null>(null);
