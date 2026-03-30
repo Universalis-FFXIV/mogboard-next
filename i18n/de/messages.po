@@ -6,12 +6,1406 @@ msgstr ""
 "X-Generator: POEditor.com\n"
 "Project-Id-Version: Universalis\n"
 "Language: de\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: \n"
-"PO-Revision-Date: \n"
-"Last-Translator: \n"
-"Language-Team: \n"
-"Plural-Forms: \n"
+
+#: 
+msgctxt "header_market"
+msgid "Market"
+msgstr "Marktbrett"
+
+#: 
+msgctxt "header_myaccount"
+msgid "My Account"
+msgstr "Mein Account"
+
+#: 
+msgctxt "header_discordlogin"
+msgid "Login via Discord"
+msgstr "Mit Discord einloggen"
+
+#: 
+msgctxt "nav_weapons"
+msgid "WEAPONS"
+msgstr "WAFFEN"
+
+#: 
+msgctxt "nav_armor"
+msgid "ARMOR"
+msgstr "RÜSTUNG"
+
+#: 
+msgctxt "nav_items"
+msgid "ITEMS"
+msgstr "ITEMS"
+
+#: 
+msgctxt "nav_housing"
+msgid "HOUSING"
+msgstr "Häuserbau"
+
+#: https://idioms.thefreedictionary.com/based+on
+msgctxt "footer_basedon"
+msgid "based on"
+msgstr "basierend auf"
+
+#: 
+msgctxt "footer_about"
+msgid "About"
+msgstr "Impressum"
+
+#: 
+msgctxt "footer_docs"
+msgid "API Documentation"
+msgstr "API Dokumentation"
+
+#: 
+msgctxt "footer_github"
+msgid "GitHub"
+msgstr "GitHub"
+
+#: 
+msgctxt "generic_discord"
+msgid "Discord"
+msgstr "Discord"
+
+#: 
+msgctxt "footer_license"
+msgid "FINAL FANTASY XIV © 2010 - 2020 SQUARE ENIX CO., LTD. All Rights Reserved."
+msgstr "FINAL FANTASY XIV © 2010 - 2020 SQUARE ENIX CO., LTD. Alle Rechte vorbehalten."
+
+#: 
+msgctxt "base_tabtitle"
+msgid "Final Fantasy XIV Online: Market Board aggregator. Find Prices, track Item History and create Price Alerts. Anywhere, anytime."
+msgstr "Final Fantasy XIV Online: Marktbrett-Infos. Finde Preise, verfolge Items über Zeit und erstelle Benachrichtigungen. Überall, zu jeder Zeit."
+
+#: 
+msgctxt "error_404_flavortext"
+msgid "Could not find the page you were looking for kupo~!"
+msgstr "Konnte diese Seite nicht finden, kupo~!"
+
+#: 
+msgctxt "error_404"
+msgid "404 Not Found"
+msgstr "404 Nicht Gefunden"
+
+#: 
+msgctxt "error_generic_tabtitle"
+msgid "Something went wrong"
+msgstr "Etwas ist schief gelaufen"
+
+#: 
+msgctxt "error_generic_title"
+msgid "Something went wrong!"
+msgstr "Etwas ist schief gelaufen!"
+
+#: 
+msgctxt "error_generic_made_aware"
+msgid "A goat has been made aware of this problem and will be looking into it for you!"
+msgstr "Ein Entwickler wurde über dieses Problem benachrichtigt und wird es überprüfen."
+
+#: 
+msgctxt "error_generic_not_aware"
+msgid "If you continue to run into this issue, please jump on the discord for help!"
+msgstr "Wenn dieses Problem weiterhin auftritt, melde dich bitte auf unserem Discord-Server."
+
+#: 
+msgctxt "home_market_activity"
+msgid "Market Activity"
+msgstr "Markt-Aktivität"
+
+#: 
+msgctxt "home_noalerts"
+msgid "You have no alerts set up."
+msgstr "Kein Alarm aktiviert."
+
+#: 
+msgctxt "generic_lists"
+msgid "Lists"
+msgstr "Listen"
+
+#: 
+msgctxt "home_nolists"
+msgid "You have no lists."
+msgstr "Du hast keine Listen."
+
+#: 
+msgctxt "generic_retainers"
+msgid "Retainers"
+msgstr "Gehilfen"
+
+#: 
+msgctxt "home_noretainers"
+msgid "You have no retainers."
+msgstr "Du hast keine Gehilfen."
+
+#: 
+msgctxt "home_logged_out"
+msgid "Logged-out"
+msgstr "Ausgeloggt"
+
+#: 
+msgctxt "home_logged_out_guide"
+msgid "Lists, Alerts, Market activity and retainer links will show here when you are logged into the site."
+msgstr "Listen, Alarme, Marktaktivitäten und Gehilfenlinks werden hier angezeigt, wenn du eingeloggt bist."
+
+#: 
+msgctxt "home_become_member"
+msgid "Become a member!"
+msgstr "Werde Mitglied!"
+
+#: 
+msgctxt "home_become_member_guide"
+msgid "Create alerts, make lists, add your retainers and get a personalised home page feed!"
+msgstr "Füge deine Gehilfen hinzu, erstelle Alarme, Listen und deine eigene Marktübersicht."
+
+#: Don't translate HTML tags.
+msgctxt "home_login_discord"
+msgid "Login via <strong>Discord</strong>"
+msgstr "Mit <strong>Discord</strong> einloggen "
+
+#: 
+msgctxt "discord_capitalized"
+msgid "DISCORD"
+msgstr "DISCORD"
+
+#: 
+msgctxt "home_recent_updates"
+msgid "Recent Updates"
+msgstr "Letzte Updates"
+
+#: 
+msgctxt "home_upload_counts_world"
+msgid "Upload Counts by World"
+msgstr "Aktualisierungen nach Welt"
+
+#: 
+msgctxt "home_uploads_today"
+msgid "Uploads today"
+msgstr "Aktualisierungen heute"
+
+#: 
+msgctxt "home_uploads_week"
+msgid "Uploads this week"
+msgstr "Aktualisierungen diese Woche"
+
+#: 
+msgctxt "thank_you"
+msgid "Thank you!"
+msgstr "Danke!"
+
+#: 
+msgctxt "home_current_tax_rates"
+msgid "Current Market Tax Rates on %s"
+msgstr "Aktuelle Marktsteuer in %s"
+
+#: 
+msgctxt "alert_watcher"
+msgid "Watcher: "
+msgstr "Alarm"
+
+#: 
+msgctxt "alert_last_triggered_event"
+msgid "Last Triggered Event: %s"
+msgstr "Letzter ausgelöster Alarm: %s"
+
+#: 
+msgctxt "alert_no_triggered_events"
+msgid "This alert has no triggered events."
+msgstr "Dieser Alarm hat noch keinen Auslöser."
+
+#: 
+msgctxt "list_guide"
+msgid "Click on the list title to view market information for this list."
+msgstr "Klicke auf den Listennamen um Marktinformationen für diese Liste abzurufen."
+
+#: 
+msgctxt "list_items_contained"
+msgid "%d items in this list"
+msgstr "%d Gegenstände auf der Liste"
+
+#: 
+msgctxt "news_universalis_welcome"
+msgid "Welcome to Universalis!"
+msgstr "Willkommen bei Universalis!"
+
+#: 
+msgctxt "news_contribute"
+msgid "Contribute to market board data"
+msgstr "Marktinformationen beitragen"
+
+#: 
+msgctxt "news_enjoy"
+msgid "Thank you, and enjoy your stay!"
+msgstr "Danke, genieß deinen Aufenthalt!"
+
+#: 
+msgctxt "news_product_blurb"
+msgid "Universalis is a market board data site with crowd sourced information, based on mogboard. It can aggregate market board information from multiple sources, so if you want to help out, please check out our contributing page."
+msgstr "Universalis ist eine auf Nutzerdaten und Mogboard basierende Marktinformationsseite. Es werden Daten aus unterschiedlichen Quellen genutzt. Um mitzuhelfen, schau gerne auf der Seite \"Mitmachen\" vorbei."
+
+#: 
+msgctxt "generic_your_server"
+msgid "Your Server"
+msgstr "Deine Welt"
+
+#: 
+msgctxt "option_choose_server_guide"
+msgid "- Please Choose a Server -"
+msgstr "- Bitte wähle eine Welt - "
+
+#: 
+msgctxt "generic_language"
+msgid "Language"
+msgstr "Sprache"
+
+#: 
+msgctxt "option_choose_language_guide"
+msgid "- Choose your language -"
+msgstr "- Wähle deine Sprache - "
+
+#: 
+msgctxt "generic_timezone"
+msgid "Timezone"
+msgstr "Zeitzone"
+
+#: 
+msgctxt "option_choose_timezone_guide"
+msgid "- Choose your timezone -"
+msgstr "- Wähle deine Zeitzone -"
+
+#: 
+msgctxt "generic_left_navigation"
+msgid "Left Navigation"
+msgstr "Linke Navigationsleiste"
+
+#: 
+msgctxt "option_left_nav_guide"
+msgid "This enables a quick-access left-navigation of all market categories."
+msgstr "Dies aktiviert eine Navigationsleiste für alle Markt-Kategorien."
+
+#: 
+msgctxt "generic_no"
+msgid "No"
+msgstr "Nein"
+
+#: 
+msgctxt "generic_yes"
+msgid "Yes"
+msgstr "Ja"
+
+#: 
+msgctxt "option_save_settings"
+msgid "Save Settings"
+msgstr "Speichere Einstellungen"
+
+#: 
+msgctxt "generic_default_home_world"
+msgid "Default Home World"
+msgstr "Standard Heimat Welt"
+
+#: 
+msgctxt "option_default_home_world_guide"
+msgid "This will show prices/history on your home world by default instead of cross-world."
+msgstr "Dies zeigt den Preisverlauf deiner Heimatwelt, anstatt weltenübergreifend."
+
+#: Don't translate HTML tags.
+msgctxt "about_whatisthis_title"
+msgid "What is <strong>Universalis</strong>?"
+msgstr "Was ist <strong>Universalis</strong>?"
+
+#: 
+msgctxt "about_whatisthis_explanation_1"
+msgid "The site allows you to view in-game market for multiple servers at anytime, anywhere. It uses crowd-sourced data from multiple sources to provide the most up-to-date prices possible."
+msgstr "Diese Seite erlaube es dir das Marktbrett verschiedener Sever jederzeit und überall einzusehen. XXX Missin grest"
+
+#: 
+msgctxt "about_whatisthis_infoquestion"
+msgid "What information can I get?"
+msgstr "Welche Informationen gibt es?"
+
+#: 
+msgctxt "about_whatisthis_explanation_2"
+msgid "All market information is available: Prices, Materia, Retainer, Crafters and even Buyers. Everything that you see in-game is available. Additional data-views have been added such as graphs, extended history and cross-world summary is also included."
+msgstr "Alle Marktinformationen sind verfügbar: Preise, Materia, Gehilfen, Handwerker und sogar Käufer. Alles was du im Spielst siehst ist hier. Zusätzliche Datenansichten wurden erstellt, zum Beispiel Diagramme, erweiterte Kaufhistorie und weltenübergreifende Zusammenfassungen."
+
+#: 
+msgctxt "about_whatisthis_accessquestion"
+msgid "Can I have access to the data?"
+msgstr "Sind die Daten öffentlich?"
+
+#: Don't translate HTML tags.
+msgctxt "about_whatisthis_explanation_3"
+msgid "<strong>Definitely!</strong>\n"
+"<br><br>\n"
+"Everything you see on Universalis is open for anyone to use, to learn more about how to access the data using a REST API Service, check out the %s documentation."
+msgstr "<strong>Auf jeden Fall!</strong>\n"
+"<br><br>\n"
+"Alles was du auf Unversalis sieht ist für jedermann offen und nutzbar. Wenn du mehr über die API erfahren möchtest, schau doch in der %s Dokumentation nach."
+
+#: 
+msgctxt "generic_special_thanks"
+msgid "Special thanks"
+msgstr "Besonderer Dank"
+
+#: 
+msgctxt "about_whatisthis_explanation_4"
+msgid "We would like to thank Vekien and Miu from %s for their initial work on mogboard, which made this site, in its current state, possible."
+msgstr "Wir möchten uns besonders bei Vekien und Miu aus %s, für ihre Unterstützung bei MogBoard bedanken, welches diese Seite in ihrer jetzigen Form erst möglich gemacht hat."
+
+#: 
+msgctxt "about_get_technical_title"
+msgid "So, how does it actually work? Get Technical."
+msgstr "Also, wie funktioniert das eigentlich?"
+
+#: Don't translate HTML tags.
+msgctxt "about_get_technical_explanation_1"
+msgid "<strong>Universalis</strong> runs a REST API that applications can post market board data to, after they collect the data from a running game instance by multiple users, anonymously."
+msgstr "<strong>Universalis</strong> hat eine API, die mit Marktdaten von vielen \n"
+"Spielern aus dem laufendem Spiel, anonym gefüttert wird."
+
+#: 
+msgctxt "about_get_technical_explanation_2"
+msgid "It stores this data, and reports it back to anyone that requests its endpoints - including this frontend, which visualizes the stored data and notifies you about changes."
+msgstr "Es speichert die Daten und sendet sie and jeden der sie abfragt - auch an diese Seite hier, die Daten visualisiert und dich über Änderungen benachrichtigt."
+
+#: 
+msgctxt "generic_credits"
+msgid "Credits"
+msgstr "Impressum"
+
+#: 
+msgctxt "karashiiro_credits"
+msgid "Database API, server maintenance"
+msgstr "Datenkbank API, Serverwartung"
+
+#: 
+msgctxt "goat_credits"
+msgid "Game stuff, stealing mogboard"
+msgstr "Spielbezogenes, Umsetzung von MogBoard"
+
+#: 
+msgctxt "about_honorable_mentions"
+msgid "Also thanks to: Vekien, Miu, Mino and all of our uploaders!"
+msgstr "Vielen Dank an: Vekien, Miu, Mino und an alle fleißigen Unterstützer."
+
+#: Don't translate HTML tags.
+msgctxt "about_data_sources"
+msgid "Game data sourced from <a href=\"%s\">XIVAPI</a> and <a href=\"%s\">FFCafe</a>"
+msgstr "Die Spieldaten kommen von <a href=\"%s\">XIVAPI</a> und <a href=\"%s\">FFCafe</a> "
+
+#: 
+msgctxt "about_more_questions"
+msgid "I have more questions!"
+msgstr "Ich habe noch Fragen!"
+
+#: Don't translate HTML tags.
+msgctxt "about_more_questions_directory"
+msgid "Hop onto <a href=\"%s\">our Discord</a> and you can ask all your questions."
+msgstr "Schau einfach auf <a href=\"%s\">unserem Discord</a> vorbei, und stell all deine Fragen."
+
+#: Don't translate HTML tags.
+msgctxt "about_pm_invite"
+msgid "You can also PM me: <span class=\"text-yellow\">%s</span> if you prefer :)"
+msgstr "Du kannst mir natürlich auch persönlich schreiben: <span class=\"text-yellow\">%s</span>, wenn du das bevorzugst :)"
+
+#: 
+msgctxt "contribute_howto_title"
+msgid "How to contribute to <strong>Universalis</strong>"
+msgstr "Wie du bei <strong>Universalis</strong> mithelfen kannst."
+
+#: 
+msgctxt "contribute_howto_explanation_1"
+msgid "There are multiple ways to contribute to <strong>Universalis</strong>. All of your contributions are anonymous - no one will be able to refer back to your character or account to know that you have uploaded any data. The applications below are tested by us to make sure that they don't endanger your account or your characters."
+msgstr "Es gibt viele Möglichkeiten wie du bei <strong>Universalis</strong> mitmachen kannst. Alle Daten werden anonym ausgewertet. Es kann also keiner Rückschlüsse auf deine Charaktere oder deinen Account ziehen. Die Anwendungen unten sind alle getestet, um sicher zu stellen, dass sie deine Charaktere und deinen Account nicht gefährden."
+
+#: 
+msgctxt "contribute_howto_explanation_2"
+msgid "Every contribution helps to make the data on <strong>Universalis</strong> better, more accurate and more helpful. Thank you very much for helping out!"
+msgstr "Jeder Beitrags hilft uns die Daten auf <strong>Universalis</strong> beser, genauer und hilfreicher zu gestalten. Vielen Dank für deine Mithilfe!"
+
+#: 
+msgctxt "contribute_applicationkind_ingame_addon"
+msgid "In-Game addon"
+msgstr "In-Game Addon"
+
+#: 
+msgctxt "contribute_description_xivlauncher"
+msgid "FFXIVQuickLauncher is a faster launcher for FFXIV  aims to fix the slowness and tediousness of the regular launcher and adds a lot of QoL features to the game."
+msgstr "FFXIVQuickLauncher ist ein schnellerer Launcher für FFXIV. Er zielt darauf ab die Trägheit und Umständlichkeit des normalen Launchers zu beheben, und bringt zusätzlich noch viele praktische Features mit."
+
+#: 
+msgctxt "contribute_description_act_plugin"
+msgid "This is a regular ACT plugin that runs next to the always-used FFXIV_ACT_PLUGIN - just drop it into your ACT plugins folder, add it to ACT and you\\'re good to go! No configuration needed."
+msgstr "Dieses Plugin ist ein normales ACT Plugin, das normal neben dem FFXIV_ACT_PLUGIN läuft. Installiere es einfach in deinem Plugin Ordner und füge es ACT hinzu. Du brauchst keine weiteren Einstellungen!"
+
+#: 
+msgctxt "contribute_applicationkind_act_plugin"
+msgid "ACT plugin"
+msgstr "ACT Plugin"
+
+#: 
+msgctxt "contribute_applicationkind_teamcraft"
+msgid "Collaborative crafting tool"
+msgstr "Gemeinschaftliches Handwerkstool"
+
+#: 
+msgctxt "contribute_description_teamcraft"
+msgid "FFXIV Teamcraft is a tool for Final Fantasy XIV players that helps with crafting lists organization and crafting/gathering in general. It has a lot of features to make it a one stop shop, with things like integrated alarms, custom items, permissions system, realtime sharing, etc."
+msgstr "FFXIV Teamcraft ist nein nützliches Tool für FF14, dass Spielern bei Handwerksberufen und "
+
+#: 
+msgctxt "contribute_invite_title"
+msgid "Are you making your own application?"
+msgstr "Machst du eine eigene Anwendung?"
+
+#: 
+msgctxt "contribute_invite_explanation"
+msgid "If you wish to contribute to <strong>Universalis</strong> with your own application, please contact us on our <a href=\"%s\">Discord</a>. Let\\'s work together!"
+msgstr "Wenn du bei <strong>Universalis</strong> mit deiner eigenen Anwendung mit machen möchtest, kontaktiere uns doch bitte auf unserem <a href=\"%s\">Discord</a. Lass uns zusammen arbeiten!"
+
+#: 
+msgctxt "generic_download"
+msgid "Download"
+msgstr "Herunterladen"
+
+#: 
+msgctxt "generic_name"
+msgid "Name"
+msgstr "Name"
+
+#: 
+msgctxt "generic_actions"
+msgid "Actions"
+msgstr "Aktionen"
+
+#: 
+msgctxt "generic_hq_question"
+msgid "HQ?"
+msgstr "HQ?"
+
+#: 
+msgctxt "generic_hq"
+msgid "HQ"
+msgstr "HQ"
+
+#: 
+msgctxt "generic_nq"
+msgid "NQ"
+msgstr "NQ"
+
+#: 
+msgctxt "generic_crossworld_question"
+msgid "Cross-World?"
+msgstr "Weltenübergreifend?"
+
+#: 
+msgctxt "generic_notification"
+msgid "Notification"
+msgstr "Benachrichtigung"
+
+#: 
+msgctxt "generic_email"
+msgid "Email"
+msgstr "Email"
+
+#: 
+msgctxt "generic_sent"
+msgid "Sent"
+msgstr "Gesendet"
+
+#: 
+msgctxt "generic_never"
+msgid "Never"
+msgstr "Niemals"
+
+#: 
+msgctxt "generic_edit"
+msgid "Edit"
+msgstr "Bearbeiten"
+
+#: 
+msgctxt "generic_delete"
+msgid "Delete"
+msgstr "Löschen"
+
+#: 
+msgctxt "alerts_table_no_alerts"
+msgid "You have no alerts for this item."
+msgstr "Du hast keine Alarme für diesen Gegenstand."
+
+#: There's a question mark after the phrase, but it's an image so don't include it here :V
+msgctxt "alerts_whatis_title"
+msgid "What\\'s an alert"
+msgstr "Was ist ein Alarm?"
+
+#: 
+msgctxt "alerts_maxed_out"
+msgid "You are currently maxed-out on alerts and will not be able to create any more."
+msgstr "Du hast die maximale Anzahl an Alarmen erreicht und kannst keine neuen erstellen."
+
+#: 
+msgctxt "alerts_create_alert_title"
+msgid "Create a new alert"
+msgstr "Erstelle einen neuen Alarm."
+
+#: 
+msgctxt "alerts_create_alert_guide_1"
+msgid "Give your alert a name (length: 4-100)"
+msgstr "Gib deinem Alarm einen Namen (Länge 4-100)"
+
+#: Trigger, as in a trigger for an alert.
+msgctxt "alerts_create_alert_guide_2"
+msgid "Decide if the trigger should check NQ/HQ or both."
+msgstr "Entscheide ob der Alarm bei NQ/HQ, oder beidem ausgelöst werden soll."
+
+#: 
+msgctxt "generic_normal_quality"
+msgid "Normal Quality"
+msgstr "Normale Qualität"
+
+#: 
+msgctxt "generic_high_quality"
+msgid "High-Quality"
+msgstr "Hohe Qualität"
+
+#: Trigger, as in a trigger for an alert.
+msgctxt "alerts_create_alert_guide_3"
+msgid "Setup Triggers <strong>(Max: 15)</strong>"
+msgstr "Auslöser einstellen <strong>(Max: 15)</strong>"
+
+#: Field, as in definition 10 as described here: https://www.merriam-webster.com/dictionary/field
+msgctxt "alerts_create_alert_guide_4"
+msgid "Select a Field"
+msgstr "Wähle ein Feld"
+
+#: Operator, as in +-/*&|
+msgctxt "alerts_create_alert_guide_5"
+msgid "Select an Operator"
+msgstr "Wähle einen Operator"
+
+#: As in adding something to a list.
+msgctxt "generic_add_to_list"
+msgid "Add"
+msgstr "Hinzufügen"
+
+#: 
+msgctxt "alerts_create_alert_guide_6"
+msgid "<span class=\"text-red\">NOTE:</span> The filter: <code>Price_Added</code> is a timestamp, it is NOT a Gil value. You can convert a date to a timestamp <a href=\"%s\" target=\"_blank\">here</a>, work is being done to improve this UI."
+msgstr "<span class=\"text-red\">BEACHTE:</span> Filter: <code>Preis hinzugefügt</code> Ist ein Datum, kein Gil Wert. Du kannst ein Datum in einen Zeitpunkt umwandeln <a href=\"%s\" target=\"_blank\">here</a>, es wird daran gearbeitet das Interface zu verbessern."
+
+#: 
+msgctxt "alerts_create_alert_guide_7"
+msgid "Trigger values are checked as a series of <strong>AND</strong> conditions."
+msgstr "Erfülle <strong>ALLE</strong> Bedingungen um den Alarm auszulösen."
+
+#: 
+msgctxt "alerts_create_alert_how_notify"
+msgid "How do you want to be notified?"
+msgstr "Wie willst du benachrichtigt werden?"
+
+#: 
+msgctxt "alerts_save_alert"
+msgid "Save Alert"
+msgstr "Speichere Alarm"
+
+#: 
+msgctxt "alerts_currently_editing"
+msgid "You are currently editing an alert"
+msgstr "Du bearbeitest gerade einen Alarm."
+
+#: 
+msgctxt "alerts_new_alert_tooltip"
+msgid "Reset the form and start a new alert"
+msgstr "Zurücksetzen und neuen Alarm starten"
+
+#: 
+msgctxt "alerts_new_alert"
+msgid "New Alert"
+msgstr "Neuer Alarm"
+
+#: 
+msgctxt "alerts_current_alerts_for"
+msgid "Current alerts for: %s"
+msgstr "Neuer Alarm für: %s"
+
+#: 
+msgctxt "alerts_loading"
+msgid "Loading alerts..."
+msgstr "Alarme werden geladen..."
+
+#: 
+msgctxt "generic_note_capitalized_colon"
+msgid "NOTE:"
+msgstr "Notiz:"
+
+#: 
+msgctxt "alerts_in_discord_notice"
+msgid "You must be in <a href=\"%s\" target=\"_blank\">our Discord server</a> to receive alerts."
+msgstr "Du musst auf <a href=\"%s\" target=\"_blank\">unserem Discordserver</a> sein, um Alarmnachrichten zu erhalten."
+
+#: 
+msgctxt "alerts_only_updates_under_condition_notice"
+msgid "Keep in mind that alerts will only be fired when the item is updated by someone."
+msgstr "Denk daran, dass ein Alarm nur ausgelöst wird, wenn ein IGegenstand von jemandem aktualisiert wird."
+
+#: 
+msgctxt "alerts_must_be_logged_in"
+msgid "You must be logged-in to create item alerts."
+msgstr "Du musst eingelogggt sein um Alarme zu erstellen."
+
+#: 
+msgctxt "alerts_deletion_confirmation"
+msgid "Are you sure you wish to delete this alert?"
+msgstr "Möchtest du diesen Alarm wirklich löschen?"
+
+#: 
+msgctxt "generic_deletion_confirmation"
+msgid "Yes I\\'m sure, delete it."
+msgstr "Ja, bitte löschen."
+
+#: 
+msgctxt "alerts_whatisthis_guide_1"
+msgid "What are alerts?"
+msgstr "Was sind Alarme?"
+
+#: 
+msgctxt "alerts_whatisthis_guide_2"
+msgid "Alerts allow you to setup notification watchers that can track an item and send you information such as price changes or history events."
+msgstr "Alarme erlauben es dir Benachrichtigungen zu erhalten, wenn sich zum Beispiel der Preis eines Items ändert."
+
+#: As in trigger for an alert.
+msgctxt "generic_alert_trigger"
+msgid "Triggers"
+msgstr "Auslöser"
+
+#: 
+msgctxt "alerts_whatisthis_guide_3"
+msgid "<strong>Triggers</strong>, these are conditions you can set on the alert to be checked at interval times and if any market entry meets the criteria of the condition then your alert will be \"Triggered\" and you'll receive a notification either via Discord or Email."
+msgstr "<strong>Auslöser</strong>, diese Bedingungen kannst du unter Alarme einstellen und benachrichtigt dich sobald ein Markteintrag diese erfüllt. Du kannst dich via Discord oder per Email darüber informieren lassen."
+
+#: 
+msgctxt "alerts_whatisthis_guide_4"
+msgid "Trigger conditions can be set against any market field and future plans will allow you to manage these dynamically as well as setup automatic triggers based on your retainers current sales."
+msgstr "Auslösebedingungen können überall, und in Zukunft sogar dynamisch genutzt werden. Es wird möglich sein diese auch anhand der Verkäufe deiner Gehilfen anzupassen."
+
+#: 
+msgctxt "alerts_trigger_condition_info_title"
+msgid "Trigger Condition Information"
+msgstr "Auslösebedingung"
+
+#: 
+msgctxt "alerts_trigger_condition_info_guide_1"
+msgid "<strong>Prices/History: Added</strong><br>\n"
+"This is currently an Epoch Unix Timestamp. Work is being done to improve this."
+msgstr "<strong>Preis/Verlauf: hinzugefügt</strong><br> Dies ist im Moment ein Epoch Unix Zeitstempel. Wir arbeiten an der Verbesserung."
+
+#: 
+msgctxt "alerts_trigger_condition_info_guide_2"
+msgid "<strong>Prices/History: \"IsXX\"</strong><br>\n"
+"The Is condition triggers such as IsHQ are bools and the value must be either 1 or 0 for true / false."
+msgstr "<strong> Preise/Verlauf: \"IsXX\"</strong><br>\n"
+"Diese Bedingung setzt den Wert von IsHQ auf 0 oder 1 (true / false), wie eine Boolean."
+
+#: 
+msgctxt "alerts_trigger_condition_info_guide_3"
+msgid "<strong>History:</strong><br>\n"
+"Events for history will be based on entries added to the history after the event was created."
+msgstr "<strong>Verlauf:</strong><br>\n"
+"Der Verlauf beachtet alle Einträge, die nach dem erstellen getätigt werden."
+
+#: 
+msgctxt "friends_guide_1"
+msgid "If logged in and character verified, show if any friends have purchased this item."
+msgstr "Zeigt Freunde die das Item gekauft haben an, wenn du eingeloggt bist und deinen Charakter verifiziert hast."
+
+#: 
+msgctxt "generic_quantity_shorthand"
+msgid "#"
+msgstr "#"
+
+#: 
+msgctxt "generic_item"
+msgid "Item"
+msgstr "Gegenstand"
+
+#: 
+msgctxt "generic_server"
+msgid "Server"
+msgstr "Welt"
+
+#: 
+msgctxt "generic_price"
+msgid "Price"
+msgstr "Preis"
+
+#: 
+msgctxt "generic_quantity_shorthand"
+msgid "QTY"
+msgstr "STK"
+
+#: 
+msgctxt "generic_total"
+msgid "Total"
+msgstr "Gesamt"
+
+#: 
+msgctxt "generic_percent_difference_shorthand"
+msgid "%Diff"
+msgstr "%Diff"
+
+#: 
+msgctxt "generic_buyer"
+msgid "Buyer"
+msgstr "Käufer"
+
+#: 
+msgctxt "generic_date"
+msgid "Date"
+msgstr "Datum"
+
+#: Shown if the item has no recorded sales, you can have fun with this.
+msgctxt "market_board_really_rare"
+msgid "Really rare!?"
+msgstr "Sehr selten!?"
+
+#: 
+msgctxt "market_board_no_recorded_history"
+msgid "There is currently no recorded history for this item on Universalis."
+msgstr "Es gibt im moment noch keine Daten für dieses Item auf Universalis."
+
+#: 
+msgctxt "generic_stack_size_colon"
+msgid "Stack:"
+msgstr "Stapel:"
+
+#: 
+msgctxt "generic_menu"
+msgid "Menu"
+msgstr "Menü"
+
+#: 
+msgctxt "generic_cross_world"
+msgid "Cross-World"
+msgstr "Weltenübergreifend"
+
+#: 
+msgctxt "generic_alerts"
+msgid "Alerts"
+msgstr "Alarme"
+
+#: %s here is HQ/NQ, using the existing translations for those.
+msgctxt "market_board_ppu"
+msgid "(%s) Price Per Unit"
+msgstr "(%s) Preis pro Stück"
+
+#: %s here is High-Quality/Normal Quality, using the existing translations for those.
+msgctxt "market_board_ppu_quantity"
+msgid "(%s) Price Per Unit QUANTITY"
+msgstr "(%s) Preis pro Stück STÜCKZAHL"
+
+#: 
+msgctxt "market_board_stack_size_histogram_title"
+msgid "STACK SIZE HISTOGRAM <small>Last 20 Sales</small>"
+msgstr "Stapelgrößen-Verteilung <small>Letzte 20 Verkäufe</small>"
+
+#: Cheapest HQ/Cheapest NQ
+msgctxt "market_board_cheapest_title"
+msgid "Cheapest %s"
+msgstr "Billigste %s"
+
+#: 
+msgctxt "generic_server_colon"
+msgid "Server:"
+msgstr "Server:"
+
+#: 
+msgctxt "generic_total_colon"
+msgid "Total:"
+msgstr "Gesamt:"
+
+#: 
+msgctxt "market_board_none_for_sale"
+msgid "No %s for sale."
+msgstr "Keine %s zum Verkauf."
+
+#: 
+msgctxt "market_board_no_hq_variant"
+msgid "Item has no HQ variant."
+msgstr "Der Gegenstand hat keine HQ Variante."
+
+#: 
+msgctxt "market_board_purchase_history_title"
+msgid "Cross-World Purchase history (500 sales)"
+msgstr "Weltenübergreifender Kaufverlauf (500 Verkäufe)"
+
+#: As in price per unit.
+msgctxt "generic_perunit"
+msgid "(%s) PerUnit"
+msgstr "(%s) Pro Stück"
+
+#: 
+msgctxt "generic_perunit_quantity"
+msgid "(%s) PerUnit QUANTITY"
+msgstr "(%s) Pro Stück STÜCKZAHL"
+
+#: 
+msgctxt "generic_prices_2"
+msgid "%s Prices"
+msgstr "%s Preise"
+
+#: 
+msgctxt "generic_purchase_history"
+msgid "%s Purchase History"
+msgstr "%s Kaufverlauf"
+
+#: 
+msgctxt "market_board_avg_perunit"
+msgid "Avg. Per Unit"
+msgstr "Durchschnitt pro Einheit"
+
+#: 
+msgctxt "market_board_avg_total"
+msgid "Avg. Total"
+msgstr "Durchschnitt Gesamt"
+
+#: 
+msgctxt "load_speed"
+msgid "Load Speed: %f"
+msgstr "Ladegeschwindigkeit: %f"
+
+#: 
+msgctxt "item_shops_purchasable_npc_title"
+msgid "Purchasable from NPC Vendors"
+msgstr "Von NPC Verkäufern erhältlich"
+
+#: 
+msgctxt "item_shops_purchasable_npc_explanation"
+msgid "As this item can be bought from NPCs for pure Gil, market information is not available."
+msgstr "Da dieses Item von NPCs für Gil gekauft werden kann, gibt es keine Marktinformationen."
+
+#: 
+msgctxt "generic_gil"
+msgid "Gil"
+msgstr "Gil"
+
+#: 
+msgctxt "item_shops_purchasable_npc_not_found"
+msgid "Position unknown, go hunt for them!"
+msgstr "Position unbekannt, finde sie!"
+
+#: 
+msgctxt "pos_x"
+msgid "X: <span class=\"text-yellow\">%f</span>"
+msgstr "X: <span class=\"text-yellow\">%f</span>"
+
+#: 
+msgctxt "pos_y"
+msgid "Y: <span class=\"text-yellow\">%f</span>"
+msgstr "Y: <span class=\"text-yellow\">%f</span> "
+
+#: 
+msgctxt "generic_items_colon"
+msgid "Items:"
+msgstr "Gegenstände:"
+
+#: 
+msgctxt "lists_have_none"
+msgid "You have no lists! <br> Create one by entering in a new name above."
+msgstr "Du hast noch keine Listen!  <br> Erstelle eine indem du einen euen Namen oben eingibst."
+
+#: 
+msgctxt "lists_logged_out"
+msgid "You are not logged in. Login using Discord to create item lists."
+msgstr "Du bist nicht eingeloggt. Logge dich mit Discord ein um Item Listen zu erstellen."
+
+#: 
+msgctxt "ext_garlandtools"
+msgid "Show on GarlandTools"
+msgstr "Zeige auf GarlandTools"
+
+#: 
+msgctxt "ext_teamcraft"
+msgid "Show on Teamcraft"
+msgstr "Zeige auf Teamcraft"
+
+#: Slang of "favorited"
+msgctxt "generic_faved"
+msgid "Faved"
+msgstr "Favorisiert"
+
+#: Verb
+msgctxt "generic_favourite"
+msgid "Favourite"
+msgstr "Favoriten"
+
+#: 
+msgctxt "lists_add_to_list"
+msgid "Add to list"
+msgstr "Der Liste hinzufügen"
+
+#: 
+msgctxt "lists_loading_lists"
+msgid "Loading your item lists"
+msgstr "Laden der Item Listen"
+
+#: 
+msgctxt "lists_limit_reached"
+msgid "You have reached the maximum of 12 lists. You cannot create any more."
+msgstr "Du hast bereits das Maximum von 12 Listen erreicht. Mehr kannst du nicht erstellen."
+
+#: 
+msgctxt "lists_option_1"
+msgid "Option 1) Create a new list:"
+msgstr "Option 1) Erstelle eine neue Liste:"
+
+#: 
+msgctxt "lists_option_2"
+msgid "Option 2) Use an existing list:"
+msgstr "Option 2) Nutze eine vorhandene Liste:"
+
+#: 
+msgctxt "generic_remove_capitalized"
+msgid "REMOVE"
+msgstr "ENTFERNEN"
+
+#: 
+msgctxt "no_market_data_title_1"
+msgid "Sorry, no market data!"
+msgstr "Sorry, keine Marktdaten!"
+
+#: 
+msgctxt "no_market_data_explanation_1"
+msgid "Universalis could not find any market data for this item on the server <strong>%s</strong>."
+msgstr "Universalis konnte keine Marktinformationen für diesen Gegenstand auf dem Server <strong>%s</strong> finden."
+
+#: 
+msgctxt "no_market_data_title_2"
+msgid "There can be a few reasons for this, here are some:"
+msgstr "Dafür kann es einige Gründe geben, zum Beispiel:"
+
+#: 
+msgctxt "no_market_data_explanation_2"
+msgid "%s is a brand new server"
+msgstr "%s ist ein neuer Server"
+
+#: 
+msgctxt "no_market_data_explanation_3"
+msgid "No one has contributed any information about this item yet"
+msgstr "Zu diesem Gegenstand wurde noch keine Informationen beigetragen."
+
+#: 
+msgctxt "no_market_data_explanation_4"
+msgid "Something broke"
+msgstr "Etwas ist schief gelaufen!"
+
+#: 
+msgctxt "no_market_data_explanation_5"
+msgid "If it is that last one, be sure to jump on <a href=\"%s\">Discord</a> and let us know!"
+msgstr "Wenn es das letzte ist, schau doch auf unserem <a href=\"%s\">Discord</a> vorbei und sag uns Bescheid!"
+
+#: 
+msgctxt "generic_prices_capitalized"
+msgid "PRICES"
+msgstr "PREISE"
+
+#: 
+msgctxt "generic_updated_colon"
+msgid "Updated:"
+msgstr "letzte Aktualisierung:"
+
+#: 
+msgctxt "generic_material_shorthand"
+msgid "Mat"
+msgstr "Mat"
+
+#: 
+msgctxt "generic_retainer"
+msgid "Retainer"
+msgstr "Gehilfe"
+
+#: 
+msgctxt "generic_creator"
+msgid "Creator"
+msgstr "Ersteller"
+
+#: 
+msgctxt "generic_no_listings"
+msgid "No Listings"
+msgstr "Keine Einträge"
+
+#: 
+msgctxt "prices_no_listings"
+msgid "There are no listings for this item, check back later!"
+msgstr "Es gibt keine Einträge für diesen Gegenstand. Schau später noch einmal vorbei!"
+
+#: 
+msgctxt "special_shops_title"
+msgid "Special Shops"
+msgstr "Spezialverkäufer"
+
+#: 
+msgctxt "special_shop_title_colon"
+msgid "Special Shop:"
+msgstr "Spezialverkäufer:"
+
+#: 
+msgctxt "generic_cost"
+msgid "Cost"
+msgstr "Kosten"
+
+#: 
+msgctxt "generic_qty_received"
+msgid "Qty Received"
+msgstr "Stk erhalten"
+
+#: 
+msgctxt "generic_quantity"
+msgid "Quantity"
+msgstr "Anzahl"
+
+#: 
+msgctxt "generic_ppu"
+msgid "Price Per Unit"
+msgstr "Preis pro Stück"
+
+#: 
+msgctxt "generic_price_total"
+msgid "Price Total"
+msgstr "Preis Gesamt"
+
+#: 
+msgctxt "generic_gil_per_token"
+msgid "Gil Per Token"
+msgstr "Gil pro Token"
+
+#: 
+msgctxt "shop_no_listings"
+msgid "None on the market board"
+msgstr "Keine Verfügbar"
+
+#: 
+msgctxt "generic_cannot_be_sold_capitalized"
+msgid "CANNOT BE SOLD"
+msgstr "KANN NICHT VERKAUFT WERDEN"
+
+#: 
+msgctxt "generic_hq_colon"
+msgid "HQ:"
+msgstr "HQ:"
+
+#: 
+msgctxt "generic_account"
+msgid "Account"
+msgstr "Account"
+
+#: 
+msgctxt "generic_data_center"
+msgid "Data Center"
+msgstr "Datenzentrum"
+
+#: 
+msgctxt "alerts_none_sent"
+msgid "Alert has not sent any notifications."
+msgstr "Alarm hat keine Benachrichtigungen geschickt."
+
+#: 
+msgctxt "alerts_useraccount_guide_1"
+msgid "You can add alerts on item pages."
+msgstr "Du kannst Alarme auf den Gegenstandsseiten hinzufügen."
+
+#: 
+msgctxt "generic_max_quantity"
+msgid "Max: %d"
+msgstr "Max: %d"
+
+#: 
+msgctxt "generic_events"
+msgid "Events"
+msgstr "Events"
+
+#: 
+msgctxt "generic_expires_colon"
+msgid "Expires:"
+msgstr "Läuft aus:"
+
+#: 
+msgctxt "alerts_is_active"
+msgid "Alert is active"
+msgstr "Alarm ist aktiv"
+
+#: 
+msgctxt "alerts_is_inactive"
+msgid "Alert has been disabled."
+msgstr "Alarm wurde deaktiviert."
+
+#: 
+msgctxt "generic_information"
+msgid "Information"
+msgstr "Informationen"
+
+#: 
+msgctxt "generic_type"
+msgid "Type"
+msgstr "Typ"
+
+#: 
+msgctxt "generic_sent_today"
+msgid "Sent Today"
+msgstr "Heute gesendet"
+
+#: 
+msgctxt "generic_last_sent"
+msgid "Last Sent"
+msgstr "Zuletzt gesendet"
+
+#: 
+msgctxt "generic_n_days"
+msgid "%d days"
+msgstr "%d Tage"
+
+#: 
+msgctxt "generic_max_alerts"
+msgid "Max Alerts"
+msgstr "Max Alarme"
+
+#: 
+msgctxt "generic_alert_expiry_time"
+msgid "Alert Expiry Time"
+msgstr "Alarm Auslaufzeit"
+
+#: 
+msgctxt "generic_alert_item_update"
+msgid "Alert Item Update"
+msgstr "Alarm Gegenstandsupdate"
+
+#: 
+msgctxt "alerts_useraccount_guide_2"
+msgid "Alerts allow you to track all kinds of information about items on the market and be informed either by Discord or email for any changes that meet your requirements. To get started with creating alerts, go search for any item and then click on the Alert tab on the left."
+msgstr "Alarme erlauben es dir alle möglichen Informationen zu einem Item im Blick zu behalten. Du kannst du über Discord oder Email informieren lassen, sollten die eingestellten Bedingungen erfüllt werden. Um einen Alarm zu erstellen, besuche eine beliebige Item-Seite, und klicke links auf \"Alarm\"."
+
+#: 
+msgctxt "alerts_useraccount_guide_3"
+msgid "<strong>Alert Expiration:</strong> To keep the system clean, alerts will expire after a set amount of time from when they were created. To refresh a notification you must return to Universalis and be logged in."
+msgstr "<strong>Alarm läuft aus:</strong> Um das System nicht unnötig zu belasten, laufen Alarme nach einer festgelegten Zeit aus. Um sie wieder zu aktivieren, besuche einfach wieder Universalis und logge dich ein."
+
+#: 
+msgctxt "alerts_useraccount_quota"
+msgid "You can create: <strong class=\"text-green\">%d</strong> alerts with an expiry time of: <strong class=\"text-green\">%d days</strong>."
+msgstr "Du kannst erstellen: <strong class=\"text-green\">%d</strong>Alarme mit einer Lufzeit von: <strong class=\"text-green\">%d Tage</strong>. "
+
+#: 
+msgctxt "generic_reports"
+msgid "Reports"
+msgstr "Berichte"
+
+#: 
+msgctxt "generic_characters"
+msgid "Characters"
+msgstr "Charaktere"
+
+#: 
+msgctxt "characters_set_main"
+msgid "Set character as MAIN."
+msgstr "Markiere als Hauptcharakter."
+
+#: 
+msgctxt "characters_no_characters"
+msgid "You have no characters, why not add one below!"
+msgstr "Du hast noch keine Charaktere. Füge doch welche unten hinzu!"
+
+#: 
+msgctxt "characters_add_new_title"
+msgid "Add a new character"
+msgstr "Füge neuen Charakter hinzu"
+
+#: 
+msgctxt "characters_auth_code"
+msgid "AUTH CODE: %s"
+msgstr "AUTH CODE: %s"
+
+#: 
+msgctxt "characters_guide_1"
+msgid "To add a new character, you must first add your verification code. <strong>Please add your MAIN character first</strong>."
+msgstr "Um einen neuen Charakter hinzuzufügen, musst du zuerst deinen Bestätigungscode hinzufügen. <strong>Bitte füge zuerst deinen Hauptcharakter hinzu!</strong>"
+
+#: 
+msgctxt "generic_selected"
+msgid "selected"
+msgstr "Ausgewählt"
+
+#: 
+msgctxt "generic_search"
+msgid "Search"
+msgstr "Suche"
+
+#: 
+msgctxt "generic_name_id_lodestone_url"
+msgid "Name, ID, or Lodestone URL"
+msgstr "Name, ID, oder Lodestone URL"
+
+#: 
+msgctxt "characters_guide_2"
+msgid "Go to Lodestone and Login with your character. Then <a href=\"%s\">click here to edit your profile</a>."
+msgstr "Gehe zum Lodestone und Logge dich mit deinem Charakter ein. Dann <a href=\"%s\">Klicke hier um dein Profil zu bearbeiten</a>."
+
+#: 
+msgctxt "characters_guide_3"
+msgid "In the text box, enter in your <strong>AUTH CODE</strong>, then click on Confirm (twice)."
+msgstr "Trage deinen <strong>AUTH CODE</strong> in der Textbox ein, und bestätige (zwei mal)."
+
+#: 
+msgctxt "characters_guide_4"
+msgid "Hop back to Universalis and fill in the form below. The site will search for your character and confirm your auth code."
+msgstr "Gehe zu Universalis zurück und fülle den Antrag unten aus. Die Seite wird nach deinem Charakter suchen und deinen Authentifizierungscode bestätigen."
+
+#: 
+msgctxt "generic_logout"
+msgid "Logout"
+msgstr "Ausloggen"
+
+#: 
+msgctxt "generic_oops"
+msgid "Oops!"
+msgstr "Oops!"
+
+#: 
+msgctxt "useraccount_index_logged_out_1"
+msgid "You must be logged in to view this area."
+msgstr "Du musst eingeloggt sein um das hier zu sehen."
+
+#: 
+msgctxt "useraccount_index_logged_out_2"
+msgid "You can <a href=\"%s\">login via Discord</a> to get that juicy access!"
+msgstr "Du kannst dich mit <a href=\"%s\">Discord einloggen</a> um einfach Zugriff zu erhalten!"
+
+#: 
+msgctxt "generic_delete_list"
+msgid "Delete List"
+msgstr "Lösche Liste"
+
+#: 
+msgctxt "useraccount_lists_no_lists"
+msgid "You have no lists, visit some items and create some!"
+msgstr "Du hast noch keine Listen. Schau auf den Gegenstandsseiten vorbei und erstelle welche!"
+
+#: 
+msgctxt "userlist_tab_title"
+msgid "Custom Universalis list by %s"
+msgstr "Eigene Universalis Liste von %s"
+
+#: 
+msgctxt "generic_list"
+msgid "List"
+msgstr "Liste"
+
+#: 
+msgctxt "userlists_no_items"
+msgid "You have no items in this list."
+msgstr "Du hast keine Gegenstände auf der Liste."
+
+#: 
+msgctxt "generic_list_capitalized"
+msgid "LIST"
+msgstr "LISTE"
+
+#: 
+msgctxt "generic_show_cross_world"
+msgid "Show Cross-World"
+msgstr "Zeige Weltenübergreifend"
+
+#: Like current/max items.
+msgctxt "n_of_m_items"
+msgid "%d / %d items"
+msgstr "%d / %d Gegenstände"
+
+#: 
+msgctxt "generic_show_home_server_only"
+msgid "Show Home Server Only"
+msgstr "Zeige nur die Heimat-Welt"
+
+#: 
+msgctxt "userlists_remove_item_tooltip"
+msgid "Remove item from list"
+msgstr "Entferne Gegenstand von der Liste"
+
+#: 
+msgctxt "userlists_top_5_sale"
+msgid "Top 5 cheapest - Total for sale: %d"
+msgstr "Top 5 Billigste - Gesamt angeboten: %d"
+
+#: 
+msgctxt "generic_last_5_sales"
+msgid "Last 5 sales"
+msgstr "Letzte 5 Verkäufe:"
+
+#: 
+msgctxt "generic_last_updated_colon"
+msgid "Last updated:"
+msgstr "Zuletzt aktualisiert:"
+
+#: 
+msgctxt "userlists_fetch_failed_for_item"
+msgid "Market info could not be fetched for: %s at this time."
+msgstr "Marktinformationen für: %s konnten gerade nicht abgerufen werden."
+
+#: 
+msgctxt "contribute_description_matcha"
+msgid "If you are playing on chinese server(other servers are not supported), you can use Matcha plugin provided by FFCAFE which have built-in Universalis integration. Matcha also provides a overlay to show price information from Universalis."
+msgstr "Wenn du auf einer chinesischen Welt spielst (andere Welten werden nicht unterstützt), kannst du das Matcha plugin von FFCAFE mit Universalis Integration nutzen."
+
+#: 
+msgctxt "generic_no_data"
+msgid "No data"
+msgstr "Keine Informationen"
+
+#: 
+msgctxt "generic_not_sellable"
+msgid "Not Sellable"
+msgstr "Unverkäuflich"
+
+#: 
+msgctxt "generic_cannot_be_sold"
+msgid "Cannot be sold"
+msgstr "Kann nicht verkauft werden"
+
+#: 
+msgctxt "user_list_recently_viewed"
+msgid "Recently Viewed"
+msgstr ""
+
+#: 
+msgctxt "user_list_favourites"
+msgid "Favourites"
+msgstr ""
+
+#: 
+msgctxt "alerts_create_alert_guide_6"
+msgid "Should the alert check the whole Data Center?"
+msgstr ""
+
+#: 
+msgctxt "alerts_create_alert_guide_7"
+msgid "Check entire Data Center"
+msgstr ""
+
+#: 
+msgctxt "lists_rename_list"
+msgid "Rename List"
+msgstr ""
+
+#: 
+msgctxt "generic_rename"
+msgid "Rename"
+msgstr ""
+
+#: 
+msgctxt "sales_label"
+msgid "Sales"
+msgstr ""
+
+#: 
+msgctxt "listings_label"
+msgid "Listings"
+msgstr ""
 
 #: components/Market/ListingsTable/ListingsTable.tsx:208
 #: components/Market/SalesTable/SalesTable.tsx:151
@@ -26,11 +1420,6 @@ msgstr "%Diff"
 #: components/List/ListHeader/ListHeader.tsx:28
 msgid "%d / %d items"
 msgstr "%d / %d Gegenstände"
-
-#: 
-#~ msgctxt "generic_n_days"
-#~ msgid "%d days"
-#~ msgstr "%d Tage"
 
 #: components/Home/HomeUserList/HomeUserList.tsx:79
 msgid "%d items in this list"
@@ -65,23 +1454,12 @@ msgid "(%s) PerUnit QUANTITY"
 msgstr "(%s) Pro Stück STÜCKZAHL"
 
 #: %s here is HQ/NQ, using the existing translations for those.
-#~ msgctxt "market_board_ppu"
-#~ msgid "(%s) Price Per Unit"
-#~ msgstr "(%s) Preis pro Stück"
-
 #: %s here is High-Quality/Normal Quality, using the existing translations for those.
-#~ msgctxt "market_board_ppu_quantity"
-#~ msgid "(%s) Price Per Unit QUANTITY"
-#~ msgstr "(%s) Preis pro Stück STÜCKZAHL"
-
 #: components/Market/MarketDataCenter/MarketDataCenter.tsx:91
 #: components/Market/MarketDataCenter/MarketDataCenter.tsx:107
 #: components/Market/MarketRegion/MarketRegion.tsx:110
 #: components/Market/MarketRegion/MarketRegion.tsx:128
 #: components/Market/MarketWorld/MarketWorld.tsx:43
-#~ msgid "(Includes 5% GST)"
-#~ msgstr ""
-
 #: components/WorldOption/WorldOption.tsx:38
 msgid "(Unknown)"
 msgstr ""
@@ -98,81 +1476,21 @@ msgstr "- Wähle deine Zeitzone -"
 msgid "- Please Choose a Server -"
 msgstr "- Bitte wähle eine Welt - "
 
-#: 
-#~ msgctxt "error_404"
-#~ msgid "404 Not Found"
-#~ msgstr "404 Nicht Gefunden"
-
-#: 
-#~ msgctxt "alerts_create_alert_guide_6"
-#~ msgid "<span class=\"text-red\">NOTE:</span> The filter: <code>Price_Added</code> is a timestamp, it is NOT a Gil value. You can convert a date to a timestamp <a href=\"%s\" target=\"_blank\">here</a>, work is being done to improve this UI."
-#~ msgstr "<span class=\"text-red\">BEACHTE:</span> Filter: <code>Preis hinzugefügt</code> Ist ein Datum, kein Gil Wert. Du kannst ein Datum in einen Zeitpunkt umwandeln <a href=\"%s\" target=\"_blank\">here</a>, es wird daran gearbeitet das Interface zu verbessern."
-
 #: components/Market/MarketNav/MarketNav.tsx:170
 msgid "<span>%s</span>"
 msgstr ""
 
-#: 
-#~ msgctxt "alerts_useraccount_guide_3"
-#~ msgid "<strong>Alert Expiration:</strong> To keep the system clean, alerts will expire after a set amount of time from when they were created. To refresh a notification you must return to Universalis and be logged in."
-#~ msgstr "<strong>Alarm läuft aus:</strong> Um das System nicht unnötig zu belasten, laufen Alarme nach einer festgelegten Zeit aus. Um sie wieder zu aktivieren, besuche einfach wieder Universalis und logge dich ein."
-
 #: Don't translate HTML tags.
-#~ msgctxt "about_whatisthis_explanation_3"
-#~ msgid ""
-#~ "<strong>Definitely!</strong>\n"
-#~ "<br><br>\n"
-#~ "Everything you see on Universalis is open for anyone to use, to learn more about how to access the data using a REST API Service, check out the %s documentation."
-#~ msgstr ""
-#~ "<strong>Auf jeden Fall!</strong>\n"
-#~ "<br><br>\n"
-#~ "Alles was du auf Unversalis sieht ist für jedermann offen und nutzbar. Wenn du mehr über die API erfahren möchtest, schau doch in der %s Dokumentation nach."
-
 #: pages/about.tsx:66
 msgid "<strong>Definitely!</strong><br /><br />Everything you see on Universalis is open for anyone to use, to learn more about how to access the data using a REST API Service, check out the %s documentation."
 msgstr ""
 
-#: 
-#~ msgctxt "alerts_trigger_condition_info_guide_3"
-#~ msgid ""
-#~ "<strong>History:</strong><br>\n"
-#~ "Events for history will be based on entries added to the history after the event was created."
-#~ msgstr ""
-#~ "<strong>Verlauf:</strong><br>\n"
-#~ "Der Verlauf beachtet alle Einträge, die nach dem erstellen getätigt werden."
-
-#: 
-#~ msgctxt "alerts_trigger_condition_info_guide_2"
-#~ msgid ""
-#~ "<strong>Prices/History: \"IsXX\"</strong><br>\n"
-#~ "The Is condition triggers such as IsHQ are bools and the value must be either 1 or 0 for true / false."
-#~ msgstr ""
-#~ "<strong> Preise/Verlauf: \"IsXX\"</strong><br>\n"
-#~ "Diese Bedingung setzt den Wert von IsHQ auf 0 oder 1 (true / false), wie eine Boolean."
-
-#: 
-#~ msgctxt "alerts_trigger_condition_info_guide_1"
-#~ msgid ""
-#~ "<strong>Prices/History: Added</strong><br>\n"
-#~ "This is currently an Epoch Unix Timestamp. Work is being done to improve this."
-#~ msgstr "<strong>Preis/Verlauf: hinzugefügt</strong><br> Dies ist im Moment ein Epoch Unix Zeitstempel. Wir arbeiten an der Verbesserung."
-
-#: 
-#~ msgctxt "alerts_whatisthis_guide_3"
-#~ msgid "<strong>Triggers</strong>, these are conditions you can set on the alert to be checked at interval times and if any market entry meets the criteria of the condition then your alert will be \"Triggered\" and you'll receive a notification either via Discord or Email."
-#~ msgstr "<strong>Auslöser</strong>, diese Bedingungen kannst du unter Alarme einstellen und benachrichtigt dich sobald ein Markteintrag diese erfüllt. Du kannst dich via Discord oder per Email darüber informieren lassen."
-
 #: pages/about.tsx:101
 msgid "<strong>Universalis</strong> runs a REST API that applications can post market board data to, after they collect the data from a running game instance by multiple users, anonymously."
-msgstr ""
-"<strong>Universalis</strong> hat eine API, die mit Marktdaten von vielen \n"
+msgstr "<strong>Universalis</strong> hat eine API, die mit Marktdaten von vielen \n"
 "Spielern aus dem laufendem Spiel, anonym gefüttert wird."
 
-#: 
-#~ msgctxt "error_generic_made_aware"
-#~ msgid "A goat has been made aware of this problem and will be looking into it for you!"
-#~ msgstr "Ein Entwickler wurde über dieses Problem benachrichtigt und wird es überprüfen."
-
+#. goat is https://github.com/goaaats, prefer not to translate dev names
 #: pages/contribute.tsx:125
 #: pages/contribute.tsx:140
 msgid "ACT plugin"
@@ -200,16 +1518,7 @@ msgstr "Impressum"
 msgid "Account"
 msgstr "Account"
 
-#: 
-#~ msgctxt "generic_actions"
-#~ msgid "Actions"
-#~ msgstr "Aktionen"
-
 #: As in adding something to a list.
-#~ msgctxt "generic_add_to_list"
-#~ msgid "Add"
-#~ msgstr "Hinzufügen"
-
 #: pages/account/characters.tsx:213
 msgid "Add a new character"
 msgstr "Füge neuen Charakter hinzu"
@@ -219,47 +1528,12 @@ msgstr "Füge neuen Charakter hinzu"
 msgid "Add to list"
 msgstr "Der Liste hinzufügen"
 
-#: 
-#~ msgctxt "generic_alert_expiry_time"
-#~ msgid "Alert Expiry Time"
-#~ msgstr "Alarm Auslaufzeit"
-
-#: 
-#~ msgctxt "generic_alert_item_update"
-#~ msgid "Alert Item Update"
-#~ msgstr "Alarm Gegenstandsupdate"
-
-#: 
-#~ msgctxt "alerts_is_inactive"
-#~ msgid "Alert has been disabled."
-#~ msgstr "Alarm wurde deaktiviert."
-
-#: 
-#~ msgctxt "alerts_none_sent"
-#~ msgid "Alert has not sent any notifications."
-#~ msgstr "Alarm hat keine Benachrichtigungen geschickt."
-
-#: 
-#~ msgctxt "alerts_is_active"
-#~ msgid "Alert is active"
-#~ msgstr "Alarm ist aktiv"
-
 #: components/AccountLayout/AccountLayout.tsx:40
 #: components/Market/MarketNav/AlertsModal/AlertsModal.tsx:640
 #: components/Market/MarketNav/MarketNav.tsx:353
 #: pages/account/alerts.tsx:223
 msgid "Alerts"
 msgstr "Alarme"
-
-#: 
-#~ msgctxt "alerts_whatisthis_guide_2"
-#~ msgid "Alerts allow you to setup notification watchers that can track an item and send you information such as price changes or history events."
-#~ msgstr "Alarme erlauben es dir Benachrichtigungen zu erhalten, wenn sich zum Beispiel der Preis eines Items ändert."
-
-#: 
-#~ msgctxt "alerts_useraccount_guide_2"
-#~ msgid "Alerts allow you to track all kinds of information about items on the market and be informed either by Discord or email for any changes that meet your requirements. To get started with creating alerts, go search for any item and then click on the Alert tab on the left."
-#~ msgstr "Alarme erlauben es dir alle möglichen Informationen zu einem Item im Blick zu behalten. Du kannst du über Discord oder Email informieren lassen, sollten die eingestellten Bedingungen erfüllt werden. Um einen Alarm zu erstellen, besuche eine beliebige Item-Seite, und klicke links auf \"Alarm\"."
 
 #: pages/about.tsx:49
 msgid "All market information is available: Prices, Materia, Retainer, Crafters and even Buyers. Everything that you see in-game is available. Additional data-views have been added such as graphs, extended history and cross-world summary is also included."
@@ -282,16 +1556,6 @@ msgstr ""
 msgid "Are you making your own application?"
 msgstr "Machst du eine eigene Anwendung?"
 
-#: 
-#~ msgctxt "alerts_deletion_confirmation"
-#~ msgid "Are you sure you wish to delete this alert?"
-#~ msgstr "Möchtest du diesen Alarm wirklich löschen?"
-
-#: 
-#~ msgctxt "item_shops_purchasable_npc_explanation"
-#~ msgid "As this item can be bought from NPCs for pure Gil, market information is not available."
-#~ msgstr "Da dieses Item von NPCs für Gil gekauft werden kann, gibt es keine Marktinformationen."
-
 #: components/Market/MarketNav/AlertsModal/AlertsModal.tsx:438
 #: pages/account/alerts.tsx:55
 msgid "Average"
@@ -312,11 +1576,6 @@ msgstr "Werde Mitglied!"
 #: components/Market/SalesTable/SalesTable.tsx:181
 msgid "Buyer"
 msgstr "Käufer"
-
-#: 
-#~ msgctxt "generic_cannot_be_sold_capitalized"
-#~ msgid "CANNOT BE SOLD"
-#~ msgstr "KANN NICHT VERKAUFT WERDEN"
 
 #: components/Market/MarketNav/AlertsModal/AlertsModal.tsx:423
 #: pages/account/alerts.tsx:121
@@ -343,11 +1602,6 @@ msgstr "Charaktere"
 msgid "Cheapest %s"
 msgstr "Billigste %s"
 
-#: 
-#~ msgctxt "alerts_create_alert_guide_7"
-#~ msgid "Check entire Data Center"
-#~ msgstr ""
-
 #: components/Home/HomeGuides/HomeGuides.tsx:7
 msgid "Check out the guides!"
 msgstr ""
@@ -369,19 +1623,9 @@ msgstr ""
 msgid "Contribute to market board data"
 msgstr "Marktinformationen beitragen"
 
-#: 
-#~ msgctxt "generic_cost"
-#~ msgid "Cost"
-#~ msgstr "Kosten"
-
 #: pages/404.tsx:12
 msgid "Could not find the page you were looking for kupo~!"
 msgstr "Konnte diese Seite nicht finden, kupo~!"
-
-#: 
-#~ msgctxt "alerts_create_alert_title"
-#~ msgid "Create a new alert"
-#~ msgstr "Erstelle einen neuen Alarm."
 
 #: components/Home/HomeLoggedOut/HomeLoggedOut.tsx:23
 msgid "Create alerts, make lists, add your retainers and get a personalised home page feed!"
@@ -391,29 +1635,14 @@ msgstr "Füge deine Gehilfen hinzu, erstelle Alarme, Listen und deine eigene Mar
 msgid "Create new alert"
 msgstr ""
 
-#: 
-#~ msgctxt "generic_creator"
-#~ msgid "Creator"
-#~ msgstr "Ersteller"
-
 #: pages/about.tsx:120
 msgid "Credits"
 msgstr "Impressum"
-
-#: 
-#~ msgctxt "generic_cross_world"
-#~ msgid "Cross-World"
-#~ msgstr "Weltenübergreifend"
 
 #: components/Market/MarketDataCenter/MarketDataCenter.tsx:151
 #: components/Market/MarketRegion/MarketRegion.tsx:178
 msgid "Cross-World Purchase history (500 sales)"
 msgstr "Weltenübergreifender Kaufverlauf (500 Verkäufe)"
-
-#: 
-#~ msgctxt "generic_crossworld_question"
-#~ msgid "Cross-World?"
-#~ msgstr "Weltenübergreifend?"
 
 #: components/TaxRatesPanel/TaxRatesPanel.tsx:12
 msgid "Current Market Tax Rates on %s"
@@ -422,11 +1651,6 @@ msgstr "Aktuelle Marktsteuer in %s"
 #: components/Market/MarketNav/AlertsModal/AlertsModal.tsx:646
 msgid "Current alerts for this item: {0}"
 msgstr ""
-
-#: 
-#~ msgctxt "alerts_current_alerts_for"
-#~ msgid "Current alerts for: %s"
-#~ msgstr "Neuer Alarm für: %s"
 
 #: pages/list/[listId].tsx:144
 msgid "Custom Universalis list by %s"
@@ -450,10 +1674,6 @@ msgid "Date"
 msgstr "Datum"
 
 #: Trigger, as in a trigger for an alert.
-#~ msgctxt "alerts_create_alert_guide_2"
-#~ msgid "Decide if the trigger should check NQ/HQ or both."
-#~ msgstr "Entscheide ob der Alarm bei NQ/HQ, oder beidem ausgelöst werden soll."
-
 #: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:155
 msgid "Default Home World"
 msgstr "Standard Heimat Welt"
@@ -483,43 +1703,18 @@ msgstr ""
 msgid "Download"
 msgstr "Herunterladen"
 
-#: 
-#~ msgctxt "generic_edit"
-#~ msgid "Edit"
-#~ msgstr "Bearbeiten"
-
-#: 
-#~ msgctxt "generic_email"
-#~ msgid "Email"
-#~ msgstr "Email"
-
 #: components/Market/MarketServerSelector/MarketServerSelector.tsx:18
 #: components/WorldOption/WorldOption.tsx:14
 msgid "Europe"
 msgstr ""
 
-#: 
-#~ msgctxt "generic_events"
-#~ msgid "Events"
-#~ msgstr "Events"
-
 #: pages/contribute.tsx:108
 msgid "Every contribution helps to make the data on <strong>Universalis</strong> better, more accurate and more helpful. Thank you very much for helping out!"
 msgstr "Jeder Beitrags hilft uns die Daten auf <strong>Universalis</strong> beser, genauer und hilfreicher zu gestalten. Vielen Dank für deine Mithilfe!"
 
-#: 
-#~ msgctxt "generic_expires_colon"
-#~ msgid "Expires:"
-#~ msgstr "Läuft aus:"
-
 #: pages/contribute.tsx:134
 msgid "FFXIV Teamcraft is a tool for Final Fantasy XIV players that helps with crafting lists organization and crafting/gathering in general. It has a lot of features to make it a one stop shop, with things like integrated alarms, custom items, permissions system, realtime sharing, etc."
 msgstr "FFXIV Teamcraft ist nein nützliches Tool für FF14, dass Spielern bei Handwerksberufen und "
-
-#: 
-#~ msgctxt "contribute_description_xivlauncher"
-#~ msgid "FFXIVQuickLauncher is a faster launcher for FFXIV  aims to fix the slowness and tediousness of the regular launcher and adds a lot of QoL features to the game."
-#~ msgstr "FFXIVQuickLauncher ist ein schnellerer Launcher für FFXIV. Er zielt darauf ab die Trägheit und Umständlichkeit des normalen Launchers zu beheben, und bringt zusätzlich noch viele praktische Features mit."
 
 #: pages/contribute.tsx:117
 msgid "FFXIVQuickLauncher is a faster launcher for FFXIV aims to fix the slowness and tediousness of the regular launcher and adds a lot of QoL features to the game. A Universalis uploader that can be disabled is built into the launcher."
@@ -537,11 +1732,6 @@ msgstr "Favorisiert"
 msgid "Favourite"
 msgstr "Favoriten"
 
-#: 
-#~ msgctxt "user_list_favourites"
-#~ msgid "Favourites"
-#~ msgstr ""
-
 #: components/Market/MarketNav/AlertsModal/AlertsModal.tsx:350
 #: pages/account/alerts.tsx:101
 msgid "Filter to"
@@ -550,11 +1740,6 @@ msgstr ""
 #: components/Market/MarketNav/AlertsModal/AlertsModal.tsx:386
 msgid "Filter..."
 msgstr ""
-
-#: 
-#~ msgctxt "base_tabtitle"
-#~ msgid "Final Fantasy XIV Online: Market Board aggregator. Find Prices, track Item History and create Price Alerts. Anywhere, anytime."
-#~ msgstr "Final Fantasy XIV Online: Marktbrett-Infos. Finde Preise, verfolge Items über Zeit und erstelle Benachrichtigungen. Überall, zu jeder Zeit."
 
 #: components/UniversalisLayout/components/SearchResults/SearchResults.tsx:31
 msgid "Found {0} / {totalResults} for <0>{searchTerm}</0>"
@@ -572,24 +1757,9 @@ msgstr "Spielbezogenes, Umsetzung von MogBoard"
 msgid "GarlandTools"
 msgstr ""
 
-#: 
-#~ msgctxt "generic_gil"
-#~ msgid "Gil"
-#~ msgstr "Gil"
-
-#: 
-#~ msgctxt "generic_gil_per_token"
-#~ msgid "Gil Per Token"
-#~ msgstr "Gil pro Token"
-
 #: components/UniversalisLayout/components/UniversalisFooter/UniversalisFooter.tsx:26
 msgid "GitHub"
 msgstr "GitHub"
-
-#: 
-#~ msgctxt "alerts_create_alert_guide_1"
-#~ msgid "Give your alert a name (length: 4-100)"
-#~ msgstr "Gib deinem Alarm einen Namen (Länge 4-100)"
 
 #: pages/account/characters.tsx:229
 msgid "Go to Lodestone and Login with your character. Then <a href=\"%s\">click here to edit your profile</a>."
@@ -611,16 +1781,6 @@ msgstr "Häuserbau"
 msgid "HQ"
 msgstr "HQ"
 
-#: 
-#~ msgctxt "generic_hq_colon"
-#~ msgid "HQ:"
-#~ msgstr "HQ:"
-
-#: 
-#~ msgctxt "generic_hq_question"
-#~ msgid "HQ?"
-#~ msgstr "HQ?"
-
 #: pages/account/alerts.tsx:148
 msgid "Hide"
 msgstr ""
@@ -629,31 +1789,16 @@ msgstr ""
 msgid "Hide Price Cents"
 msgstr ""
 
-#: 
-#~ msgctxt "generic_high_quality"
-#~ msgid "High-Quality"
-#~ msgstr "Hohe Qualität"
-
 #: pages/account/characters.tsx:240
 msgid "Hop back to Universalis and fill in the form below. The site will search for your character and confirm your auth code."
 msgstr "Gehe zu Universalis zurück und fülle den Antrag unten aus. Die Seite wird nach deinem Charakter suchen und deinen Authentifizierungscode bestätigen."
 
 #: components/MoreQuestions/MoreQuestions.tsx:16
-msgid ""
-"Hop onto <a href=\"%s\">our Discord</a> and you can\n"
+msgid "Hop onto <a href=\"%s\">our Discord</a> and you can\n"
 "ask all your questions."
 msgstr ""
 
 #: Don't translate HTML tags.
-#~ msgctxt "about_more_questions_directory"
-#~ msgid "Hop onto <a href=\"%s\">our Discord</a> and you can ask all your questions."
-#~ msgstr "Schau einfach auf <a href=\"%s\">unserem Discord</a> vorbei, und stell all deine Fragen."
-
-#: 
-#~ msgctxt "alerts_create_alert_how_notify"
-#~ msgid "How do you want to be notified?"
-#~ msgstr "Wie willst du benachrichtigt werden?"
-
 #: pages/contribute.tsx:98
 msgid "How to contribute to <strong>Universalis</strong>"
 msgstr "Wie du bei <strong>Universalis</strong> mithelfen kannst."
@@ -671,11 +1816,6 @@ msgstr "ITEMS"
 msgid "If it is that last one, be sure to jump on <a href=\"%s\">Discord</a> and let us know!"
 msgstr "Wenn es das letzte ist, schau doch auf unserem <a href=\"%s\">Discord</a> vorbei und sag uns Bescheid!"
 
-#: 
-#~ msgctxt "friends_guide_1"
-#~ msgid "If logged in and character verified, show if any friends have purchased this item."
-#~ msgstr "Zeigt Freunde die das Item gekauft haben an, wenn du eingeloggt bist und deinen Charakter verifiziert hast."
-
 #: pages/contribute.tsx:141
 msgid "If you are playing on chinese server(other servers are not supported), you can use Matcha plugin provided by FFCAFE which have built-in Universalis integration. Matcha also provides a overlay to show price information from Universalis."
 msgstr "Wenn du auf einer chinesischen Welt spielst (andere Welten werden nicht unterstützt), kannst du das Matcha plugin von FFCAFE mit Universalis Integration nutzen."
@@ -687,11 +1827,6 @@ msgstr "Wenn dieses Problem weiterhin auftritt, melde dich bitte auf unserem Dis
 #: pages/contribute.tsx:151
 msgid "If you wish to contribute to <strong>Universalis</strong> with your own application, please contact us on our <a href=\"%s\">Discord</a>. Let's work together!"
 msgstr ""
-
-#: 
-#~ msgctxt "contribute_invite_explanation"
-#~ msgid "If you wish to contribute to <strong>Universalis</strong> with your own application, please contact us on our <a href=\"%s\">Discord</a>. Let\\'s work together!"
-#~ msgstr "Wenn du bei <strong>Universalis</strong> mit deiner eigenen Anwendung mit machen möchtest, kontaktiere uns doch bitte auf unserem <a href=\"%s\">Discord</a. Lass uns zusammen arbeiten!"
 
 #: components/Home/HomeGuides/HomeGuides.tsx:11
 msgid "If you're new to the site, have a look at the <0>wiki</0> to read our community-contributed guides for making the most of Universalis and the broader ecosystem around it."
@@ -709,19 +1844,9 @@ msgstr "In-Game Addon"
 msgid "Include Tax"
 msgstr ""
 
-#: 
-#~ msgctxt "generic_information"
-#~ msgid "Information"
-#~ msgstr "Informationen"
-
 #: pages/about.tsx:105
 msgid "It stores this data, and reports it back to anyone that requests its endpoints - including this frontend, which visualizes the stored data and notifies you about changes."
 msgstr "Es speichert die Daten und sendet sie and jeden der sie abfragt - auch an diese Seite hier, die Daten visualisiert und dich über Änderungen benachrichtigt."
-
-#: 
-#~ msgctxt "generic_item"
-#~ msgid "Item"
-#~ msgstr "Gegenstand"
 
 #: components/Market/MarketCheapest/MarketCheapest.tsx:34
 msgid "Item has no HQ variant."
@@ -741,11 +1866,6 @@ msgstr "Gegenstände:"
 msgid "Japan"
 msgstr ""
 
-#: 
-#~ msgctxt "alerts_only_updates_under_condition_notice"
-#~ msgid "Keep in mind that alerts will only be fired when the item is updated by someone."
-#~ msgstr "Denk daran, dass ein Alarm nur ausgelöst wird, wenn ein IGegenstand von jemandem aktualisiert wird."
-
 #: components/List/ListHeader/ListHeader.tsx:32
 msgid "LIST"
 msgstr "LISTE"
@@ -757,16 +1877,6 @@ msgstr "Sprache"
 #: components/List/ListItemMarket/ListItemMarket.tsx:54
 msgid "Last 5 sales"
 msgstr "Letzte 5 Verkäufe:"
-
-#: 
-#~ msgctxt "generic_last_sent"
-#~ msgid "Last Sent"
-#~ msgstr "Zuletzt gesendet"
-
-#: 
-#~ msgctxt "alert_last_triggered_event"
-#~ msgid "Last Triggered Event: %s"
-#~ msgstr "Letzter ausgelöster Alarm: %s"
 
 #: components/Home/HomeUserList/HomeUserList.tsx:127
 #: components/List/ListItemMarket/ListItemMarket.tsx:71
@@ -810,21 +1920,6 @@ msgstr "Listen"
 msgid "Lists, Alerts, Market activity and retainer links will show here when you are logged into the site."
 msgstr "Listen, Alarme, Marktaktivitäten und Gehilfenlinks werden hier angezeigt, wenn du eingeloggt bist."
 
-#: 
-#~ msgctxt "load_speed"
-#~ msgid "Load Speed: %f"
-#~ msgstr "Ladegeschwindigkeit: %f"
-
-#: 
-#~ msgctxt "alerts_loading"
-#~ msgid "Loading alerts..."
-#~ msgstr "Alarme werden geladen..."
-
-#: 
-#~ msgctxt "lists_loading_lists"
-#~ msgid "Loading your item lists"
-#~ msgstr "Laden der Item Listen"
-
 #: components/Home/HomeNavbar/HomeNavBar.tsx:19
 msgid "Logged-out"
 msgstr "Ausgeloggt"
@@ -845,11 +1940,6 @@ msgstr "Ausloggen"
 msgid "Market"
 msgstr "Marktbrett"
 
-#: 
-#~ msgctxt "home_market_activity"
-#~ msgid "Market Activity"
-#~ msgstr "Markt-Aktivität"
-
 #: components/List/ListItemMarket/ListItemMarket.tsx:23
 msgid "Market info could not be fetched for: %s at this time."
 msgstr "Marktinformationen für: %s konnten gerade nicht abgerufen werden."
@@ -857,16 +1947,6 @@ msgstr "Marktinformationen für: %s konnten gerade nicht abgerufen werden."
 #: components/Market/ListingsTable/ListingsTable.tsx:224
 msgid "Mat"
 msgstr "Mat"
-
-#: 
-#~ msgctxt "generic_max_alerts"
-#~ msgid "Max Alerts"
-#~ msgstr "Max Alarme"
-
-#: 
-#~ msgctxt "generic_max_quantity"
-#~ msgid "Max: %d"
-#~ msgstr "Max: %d"
 
 #: components/Market/MarketNav/AlertsModal/AlertsModal.tsx:435
 #: pages/account/alerts.tsx:53
@@ -886,16 +1966,6 @@ msgstr ""
 msgid "My Account"
 msgstr "Mein Account"
 
-#: 
-#~ msgctxt "generic_note_capitalized_colon"
-#~ msgid "NOTE:"
-#~ msgstr "Notiz:"
-
-#: 
-#~ msgctxt "generic_nq"
-#~ msgid "NQ"
-#~ msgstr "NQ"
-
 #: components/Market/MarketNav/AlertsModal/AlertsModal.tsx:317
 msgid "Name"
 msgstr "Name"
@@ -903,11 +1973,6 @@ msgstr "Name"
 #: pages/account/characters.tsx:251
 msgid "Name, ID, or Lodestone URL"
 msgstr "Name, ID, oder Lodestone URL"
-
-#: 
-#~ msgctxt "generic_never"
-#~ msgid "Never"
-#~ msgstr "Niemals"
 
 #: components/Market/MarketNav/AlertsModal/AlertsModal.tsx:655
 msgid "New Alert"
@@ -939,24 +2004,9 @@ msgstr "Keine Informationen"
 msgid "No one has contributed any information about this item yet"
 msgstr "Zu diesem Gegenstand wurde noch keine Informationen beigetragen."
 
-#: 
-#~ msgctxt "shop_no_listings"
-#~ msgid "None on the market board"
-#~ msgstr "Keine Verfügbar"
-
-#: 
-#~ msgctxt "generic_normal_quality"
-#~ msgid "Normal Quality"
-#~ msgstr "Normale Qualität"
-
 #: components/Home/HomeUserList/HomeUserList.tsx:119
 msgid "Not Sellable"
 msgstr "Unverkäuflich"
-
-#: 
-#~ msgctxt "generic_notification"
-#~ msgid "Notification"
-#~ msgstr "Benachrichtigung"
 
 #: components/Market/MarketServerSelector/MarketServerSelector.tsx:21
 #: components/WorldOption/WorldOption.tsx:17
@@ -980,30 +2030,10 @@ msgstr "Option 2) Nutze eine vorhandene Liste:"
 msgid "PRICES"
 msgstr "PREISE"
 
-#: 
-#~ msgctxt "item_shops_purchasable_npc_not_found"
-#~ msgid "Position unknown, go hunt for them!"
-#~ msgstr "Position unbekannt, finde sie!"
-
 #: components/Market/ListingsTable/ListingsTable.tsx:227
 #: components/Market/SalesTable/SalesTable.tsx:167
 msgid "Price"
 msgstr "Preis"
-
-#: 
-#~ msgctxt "generic_ppu"
-#~ msgid "Price Per Unit"
-#~ msgstr "Preis pro Stück"
-
-#: 
-#~ msgctxt "generic_price_total"
-#~ msgid "Price Total"
-#~ msgstr "Preis Gesamt"
-
-#: 
-#~ msgctxt "item_shops_purchasable_npc_title"
-#~ msgid "Purchasable from NPC Vendors"
-#~ msgstr "Von NPC Verkäufern erhältlich"
 
 #: components/Market/MarketWorld/MarketWorld.tsx:82
 msgid "Purchase history (500 sales)"
@@ -1013,11 +2043,6 @@ msgstr ""
 #: components/Market/SalesTable/SalesTable.tsx:170
 msgid "QTY"
 msgstr "STK"
-
-#: 
-#~ msgctxt "generic_qty_received"
-#~ msgid "Qty Received"
-#~ msgstr "Stk erhalten"
 
 #: components/Market/MarketNav/AlertsModal/AlertsModal.tsx:412
 #: pages/account/alerts.tsx:40
@@ -1041,11 +2066,6 @@ msgstr "Sehr selten!?"
 msgid "Recent Updates"
 msgstr "Letzte Updates"
 
-#: 
-#~ msgctxt "user_list_recently_viewed"
-#~ msgid "Recently Viewed"
-#~ msgstr ""
-
 #: components/Market/MarketNav/AlertsModal/AlertsModal.tsx:378
 msgid "Remove"
 msgstr ""
@@ -1062,16 +2082,6 @@ msgstr ""
 #: components/List/ListRenameModal/ListRenameModal.tsx:74
 msgid "Rename List"
 msgstr ""
-
-#: 
-#~ msgctxt "generic_reports"
-#~ msgid "Reports"
-#~ msgstr "Berichte"
-
-#: 
-#~ msgctxt "alerts_new_alert_tooltip"
-#~ msgid "Reset the form and start a new alert"
-#~ msgstr "Zurücksetzen und neuen Alarm starten"
 
 #: components/Market/MarketNav/AlertsModal/AlertsModal.tsx:461
 msgid "Result is greater than"
@@ -1092,11 +2102,6 @@ msgstr ""
 #: components/Market/ListingsTable/ListingsTable.tsx:241
 msgid "Retainer"
 msgstr "Gehilfe"
-
-#: 
-#~ msgctxt "generic_retainers"
-#~ msgid "Retainers"
-#~ msgstr "Gehilfen"
 
 #: components/Market/MarketDataCenter/MarketDataCenter.tsx:157
 #: components/Market/MarketRegion/MarketRegion.tsx:184
@@ -1120,11 +2125,6 @@ msgstr ""
 msgid "Save"
 msgstr ""
 
-#: 
-#~ msgctxt "alerts_save_alert"
-#~ msgid "Save Alert"
-#~ msgstr "Speichere Alarm"
-
 #: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:268
 msgid "Save Settings"
 msgstr "Speichere Einstellungen"
@@ -1139,25 +2139,7 @@ msgid "Search"
 msgstr "Suche"
 
 #: Field, as in definition 10 as described here: https://www.merriam-webster.com/dictionary/field
-#~ msgctxt "alerts_create_alert_guide_4"
-#~ msgid "Select a Field"
-#~ msgstr "Wähle ein Feld"
-
 #: Operator, as in +-/*&|
-#~ msgctxt "alerts_create_alert_guide_5"
-#~ msgid "Select an Operator"
-#~ msgstr "Wähle einen Operator"
-
-#: 
-#~ msgctxt "generic_sent"
-#~ msgid "Sent"
-#~ msgstr "Gesendet"
-
-#: 
-#~ msgctxt "generic_sent_today"
-#~ msgid "Sent Today"
-#~ msgstr "Heute gesendet"
-
 #: components/Market/ListingsTable/ListingsTable.tsx:212
 #: components/Market/SalesTable/SalesTable.tsx:155
 #: pages/account/characters.tsx:265
@@ -1178,15 +2160,6 @@ msgid "Set character as MAIN."
 msgstr "Markiere als Hauptcharakter."
 
 #: Trigger, as in a trigger for an alert.
-#~ msgctxt "alerts_create_alert_guide_3"
-#~ msgid "Setup Triggers <strong>(Max: 15)</strong>"
-#~ msgstr "Auslöser einstellen <strong>(Max: 15)</strong>"
-
-#: 
-#~ msgctxt "alerts_create_alert_guide_6"
-#~ msgid "Should the alert check the whole Data Center?"
-#~ msgstr ""
-
 #: pages/account/alerts.tsx:148
 msgid "Show"
 msgstr ""
@@ -1215,17 +2188,8 @@ msgid "Show NQ and HQ"
 msgstr ""
 
 #: components/Market/MarketNav/MarketNav.tsx:335
-#~ msgid "Show on GarlandTools"
-#~ msgstr "Zeige auf GarlandTools"
-
 #: components/Market/MarketNav/MarketNav.tsx:326
-#~ msgid "Show on Saddlebag Exchange"
-#~ msgstr ""
-
 #: components/Market/MarketNav/MarketNav.tsx:344
-#~ msgid "Show on Teamcraft"
-#~ msgstr "Zeige auf Teamcraft"
-
 #: pages/about.tsx:97
 msgid "So, how does it actually work? Get Technical."
 msgstr "Also, wie funktioniert das eigentlich?"
@@ -1234,11 +2198,6 @@ msgstr "Also, wie funktioniert das eigentlich?"
 msgid "Something broke"
 msgstr "Etwas ist schief gelaufen!"
 
-#: 
-#~ msgctxt "error_generic_tabtitle"
-#~ msgid "Something went wrong"
-#~ msgstr "Etwas ist schief gelaufen"
-
 #: pages/500.tsx:11
 msgid "Something went wrong!"
 msgstr "Etwas ist schief gelaufen!"
@@ -1246,16 +2205,6 @@ msgstr "Etwas ist schief gelaufen!"
 #: components/Market/NoMarketData/NoMarketData.tsx:8
 msgid "Sorry, no market data!"
 msgstr "Sorry, keine Marktdaten!"
-
-#: 
-#~ msgctxt "special_shop_title_colon"
-#~ msgid "Special Shop:"
-#~ msgstr "Spezialverkäufer:"
-
-#: 
-#~ msgctxt "special_shops_title"
-#~ msgid "Special Shops"
-#~ msgstr "Spezialverkäufer"
 
 #: pages/about.tsx:76
 msgid "Special thanks"
@@ -1301,11 +2250,6 @@ msgstr "Dafür kann es einige Gründe geben, zum Beispiel:"
 msgid "There is currently no recorded history for this item on Universalis."
 msgstr "Es gibt im moment noch keine Daten für dieses Item auf Universalis."
 
-#: 
-#~ msgctxt "alert_no_triggered_events"
-#~ msgid "This alert has no triggered events."
-#~ msgstr "Dieser Alarm hat noch keinen Auslöser."
-
 #: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:127
 msgid "This enables a quick-access left-navigation of all market categories."
 msgstr "Dies aktiviert eine Navigationsleiste für alle Markt-Kategorien."
@@ -1313,11 +2257,6 @@ msgstr "Dies aktiviert eine Navigationsleiste für alle Markt-Kategorien."
 #: pages/contribute.tsx:126
 msgid "This is a regular ACT plugin that runs next to the always-used FFXIV_ACT_PLUGIN - just drop it into your ACT plugins folder, add it to ACT and you're good to go! No configuration needed."
 msgstr ""
-
-#: 
-#~ msgctxt "contribute_description_act_plugin"
-#~ msgid "This is a regular ACT plugin that runs next to the always-used FFXIV_ACT_PLUGIN - just drop it into your ACT plugins folder, add it to ACT and you\\'re good to go! No configuration needed."
-#~ msgstr "Dieses Plugin ist ein normales ACT Plugin, das normal neben dem FFXIV_ACT_PLUGIN läuft. Installiere es einfach in deinem Plugin Ordner und füge es ACT hinzu. Du brauchst keine weiteren Einstellungen!"
 
 #: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:226
 msgid "This will hide the decimal point and cents values in price displays."
@@ -1347,11 +2286,6 @@ msgstr "Um einen neuen Charakter hinzuzufügen, musst du zuerst deinen Bestätig
 msgid "Top 5 cheapest"
 msgstr ""
 
-#: 
-#~ msgctxt "userlists_top_5_sale"
-#~ msgid "Top 5 cheapest - Total for sale: %d"
-#~ msgstr "Top 5 Billigste - Gesamt angeboten: %d"
-
 #: components/Market/ListingsTable/ListingsTable.tsx:233
 #: components/Market/MarketNav/AlertsModal/AlertsModal.tsx:415
 #: components/Market/SalesTable/SalesTable.tsx:173
@@ -1364,31 +2298,7 @@ msgstr "Gesamt"
 msgid "Total:"
 msgstr "Gesamt:"
 
-#: 
-#~ msgctxt "alerts_trigger_condition_info_title"
-#~ msgid "Trigger Condition Information"
-#~ msgstr "Auslösebedingung"
-
-#: 
-#~ msgctxt "alerts_whatisthis_guide_4"
-#~ msgid "Trigger conditions can be set against any market field and future plans will allow you to manage these dynamically as well as setup automatic triggers based on your retainers current sales."
-#~ msgstr "Auslösebedingungen können überall, und in Zukunft sogar dynamisch genutzt werden. Es wird möglich sein diese auch anhand der Verkäufe deiner Gehilfen anzupassen."
-
-#: 
-#~ msgctxt "alerts_create_alert_guide_7"
-#~ msgid "Trigger values are checked as a series of <strong>AND</strong> conditions."
-#~ msgstr "Erfülle <strong>ALLE</strong> Bedingungen um den Alarm auszulösen."
-
 #: As in trigger for an alert.
-#~ msgctxt "generic_alert_trigger"
-#~ msgid "Triggers"
-#~ msgstr "Auslöser"
-
-#: 
-#~ msgctxt "generic_type"
-#~ msgid "Type"
-#~ msgstr "Typ"
-
 #: components/Market/MarketNav/AlertsModal/AlertsModal.tsx:409
 #: pages/account/alerts.tsx:38
 msgid "Unit price"
@@ -1430,11 +2340,6 @@ msgstr ""
 msgid "WEAPONS"
 msgstr "WAFFEN"
 
-#: 
-#~ msgctxt "alert_watcher"
-#~ msgid "Watcher: "
-#~ msgstr "Alarm"
-
 #: pages/about.tsx:81
 msgid "We would like to thank Vekien and Miu from %s for their initial work on mogboard, which made this site, in its current state, possible."
 msgstr "Wir möchten uns besonders bei Vekien und Miu aus %s, für ihre Unterstützung bei MogBoard bedanken, welches diese Seite in ihrer jetzigen Form erst möglich gemacht hat."
@@ -1442,11 +2347,6 @@ msgstr "Wir möchten uns besonders bei Vekien und Miu aus %s, für ihre Unterst�
 #: components/Home/HomeNews/HomeNews.tsx:8
 msgid "Welcome to Universalis!"
 msgstr "Willkommen bei Universalis!"
-
-#: 
-#~ msgctxt "alerts_whatisthis_guide_1"
-#~ msgid "What are alerts?"
-#~ msgstr "Was sind Alarme?"
 
 #: pages/about.tsx:46
 msgid "What information can I get?"
@@ -1457,24 +2357,10 @@ msgid "What is <strong>Universalis</strong>?"
 msgstr "Was ist <strong>Universalis</strong>?"
 
 #: There's a question mark after the phrase, but it's an image so don't include it here :V
-#~ msgctxt "alerts_whatis_title"
-#~ msgid "What\\'s an alert"
-#~ msgstr "Was ist ein Alarm?"
-
 #: components/Market/MarketNav/AlertsModal/AlertsModal.tsx:334
 #: pages/account/alerts.tsx:93
 msgid "World"
 msgstr ""
-
-#: 
-#~ msgctxt "pos_x"
-#~ msgid "X: <span class=\"text-yellow\">%f</span>"
-#~ msgstr "X: <span class=\"text-yellow\">%f</span>"
-
-#: 
-#~ msgctxt "pos_y"
-#~ msgid "Y: <span class=\"text-yellow\">%f</span>"
-#~ msgstr "Y: <span class=\"text-yellow\">%f</span> "
 
 #: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:148
 #: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:181
@@ -1483,67 +2369,19 @@ msgstr ""
 msgid "Yes"
 msgstr "Ja"
 
-#: 
-#~ msgctxt "generic_deletion_confirmation"
-#~ msgid "Yes I\\'m sure, delete it."
-#~ msgstr "Ja, bitte löschen."
-
-#: 
-#~ msgctxt "alerts_currently_editing"
-#~ msgid "You are currently editing an alert"
-#~ msgstr "Du bearbeitest gerade einen Alarm."
-
-#: 
-#~ msgctxt "alerts_maxed_out"
-#~ msgid "You are currently maxed-out on alerts and will not be able to create any more."
-#~ msgstr "Du hast die maximale Anzahl an Alarmen erreicht und kannst keine neuen erstellen."
-
-#: 
-#~ msgctxt "lists_logged_out"
-#~ msgid "You are not logged in. Login using Discord to create item lists."
-#~ msgstr "Du bist nicht eingeloggt. Logge dich mit Discord ein um Item Listen zu erstellen."
-
 #: components/AccountLayout/AccountLayout.tsx:61
 msgid "You can <0>login via Discord</0> to get that juicy access!"
 msgstr ""
-
-#: 
-#~ msgctxt "useraccount_index_logged_out_2"
-#~ msgid "You can <a href=\"%s\">login via Discord</a> to get that juicy access!"
-#~ msgstr "Du kannst dich mit <a href=\"%s\">Discord einloggen</a> um einfach Zugriff zu erhalten!"
-
-#: 
-#~ msgctxt "alerts_useraccount_guide_1"
-#~ msgid "You can add alerts on item pages."
-#~ msgstr "Du kannst Alarme auf den Gegenstandsseiten hinzufügen."
 
 #: components/MoreQuestions/MoreQuestions.tsx:25
 msgid "You can also DM me on Discord: <span class=\"text-yellow\">%s</span> if you prefer :)"
 msgstr ""
 
-#: components/MoreQuestions/MoreQuestions.tsx:25
-#~ msgid "You can also PM me: <span class=\"text-yellow\">%s</span> if you prefer :)"
-#~ msgstr "Du kannst mir natürlich auch persönlich schreiben: <span class=\"text-yellow\">%s</span>, wenn du das bevorzugst :)"
-
 #. <strong> doesnt show up in original string
-#: 
-#~ msgctxt "alerts_useraccount_quota"
-#~ msgid "You can create: <strong class=\"text-green\">%d</strong> alerts with an expiry time of: <strong class=\"text-green\">%d days</strong>."
-#~ msgstr "Du kannst erstellen: <strong class=\"text-green\">%d</strong>Alarme mit einer Lufzeit von: <strong class=\"text-green\">%d Tage</strong>. "
-
+#: components/MoreQuestions/MoreQuestions.tsx:25
 #: components/Market/MarketNav/AlertsModal/AlertsModal.tsx:733
 msgid "You can view all of your alerts on the <0>Alerts</0> page."
 msgstr ""
-
-#: 
-#~ msgctxt "alerts_table_no_alerts"
-#~ msgid "You have no alerts for this item."
-#~ msgstr "Du hast keine Alarme für diesen Gegenstand."
-
-#: 
-#~ msgctxt "home_noalerts"
-#~ msgid "You have no alerts set up."
-#~ msgstr "Kein Alarm aktiviert."
 
 #: pages/account/characters.tsx:204
 msgid "You have no characters, why not add one below!"
@@ -1565,28 +2403,13 @@ msgstr "Du hast noch keine Listen. Schau auf den Gegenstandsseiten vorbei und er
 msgid "You have no lists."
 msgstr "Du hast keine Listen."
 
-#: 
-#~ msgctxt "home_noretainers"
-#~ msgid "You have no retainers."
-#~ msgstr "Du hast keine Gehilfen."
-
 #: components/Market/MarketNav/MarketNav.tsx:146
 msgid "You have reached the maximum of 12 lists. You cannot create any more."
 msgstr "Du hast bereits das Maximum von 12 Listen erreicht. Mehr kannst du nicht erstellen."
 
-#: 
-#~ msgctxt "alerts_in_discord_notice"
-#~ msgid "You must be in <a href=\"%s\" target=\"_blank\">our Discord server</a> to receive alerts."
-#~ msgstr "Du musst auf <a href=\"%s\" target=\"_blank\">unserem Discordserver</a> sein, um Alarmnachrichten zu erhalten."
-
 #: components/AccountLayout/AccountLayout.tsx:58
 msgid "You must be logged in to view this area."
 msgstr "Du musst eingeloggt sein um das hier zu sehen."
-
-#: 
-#~ msgctxt "alerts_must_be_logged_in"
-#~ msgid "You must be logged-in to create item alerts."
-#~ msgstr "Du musst eingelogggt sein um Alarme zu erstellen."
 
 #: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:51
 msgid "Your Server"
@@ -1599,11 +2422,6 @@ msgstr ""
 #: components/UniversalisLayout/components/UniversalisFooter/UniversalisFooter.tsx:9
 msgid "based on"
 msgstr "basierend auf"
-
-#: 
-#~ msgctxt "generic_selected"
-#~ msgid "selected"
-#~ msgstr "Ausgewählt"
 
 #: components/UniversalisLayout/components/SearchCategoryResults/SearchCategoryResults.tsx:34
 msgid "{0} - {1} items"
@@ -1623,3 +2441,4 @@ msgstr ""
 #: components/WorldOption/WorldOption.tsx:19
 msgid "한국"
 msgstr ""
+
