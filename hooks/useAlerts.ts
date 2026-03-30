@@ -1,6 +1,6 @@
 import useSWR from 'swr';
-import { useCookies } from 'react-cookie';
 import { UserAlert } from '../types/universalis/user';
+import useSession from './useSession';
 
 const DEMO_ALERTS: UserAlert[] = [
   {
@@ -36,9 +36,7 @@ const DEMO_ALERTS: UserAlert[] = [
 ];
 
 export default function useAlerts() {
-  const [cookies] = useCookies(['demo_loggedin']);
-  const isDemo =
-    process.env.NEXT_PUBLIC_ENABLE_DEMO === 'true' && cookies.demo_loggedin === 'yes';
+  const { isDemo } = useSession();
 
   return useSWR(isDemo ? null : '/api/web/alerts', (url) =>
     fetch(url)

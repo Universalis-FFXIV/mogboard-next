@@ -699,7 +699,7 @@ msgstr "遊戲插件"
 
 #: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:192
 msgid "Include Tax"
-msgstr ""
+msgstr "含稅價格"
 
 #: 
 #~ msgctxt "generic_information"
@@ -1311,11 +1311,11 @@ msgstr "這是一個普通的 ACT 插件，可以和解析插件一起執行—�
 
 #: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:226
 msgid "This will hide the decimal point and cents values in price displays."
-msgstr ""
+msgstr "在價格顯示中隱藏小數點和分位數。"
 
 #: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:196
 msgid "This will show listing prices with tax included."
-msgstr ""
+msgstr "顯示含稅的上架價格。"
 
 #: components/UniversalisLayout/components/SettingsModal/SettingsModal.tsx:159
 msgid "This will show prices/history on your home world by default instead of cross-world."
