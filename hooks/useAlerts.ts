@@ -37,7 +37,8 @@ const DEMO_ALERTS: UserAlert[] = [
 
 export default function useAlerts() {
   const [cookies] = useCookies(['demo_loggedin']);
-  const isDemo = cookies.demo_loggedin === 'yes';
+  const isDemo =
+    process.env.NEXT_PUBLIC_ENABLE_DEMO === 'true' && cookies.demo_loggedin === 'yes';
 
   return useSWR(isDemo ? null : '/api/web/alerts', (url) =>
     fetch(url)
@@ -50,8 +51,7 @@ export default function useAlerts() {
         }
         return await res.json();
       })
-      .then((res) => res as UserAlert[])
-      .catch(console.error),
+      .then((res) => res as UserAlert[]),
     isDemo ? { fallbackData: DEMO_ALERTS } : undefined,
   );
 }

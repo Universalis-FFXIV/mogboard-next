@@ -163,7 +163,7 @@ function AlertPageEntry({ alert, worlds, onDelete }: AlertPageEntry) {
 
 const Alerts: NextPage = () => {
   const { mutate } = useSWRConfig();
-  const { status: sessionStatus } = useSession();
+  const { status: sessionStatus, isDemo } = useSession();
   const { data: alerts } = useAlerts();
   const { data: worlds } = useWorlds();
   const [settings] = useSettings();
@@ -198,8 +198,13 @@ const Alerts: NextPage = () => {
     return agg;
   }, new Map<ItemId, UserAlert[]>());
 
-  const deleteAlert = (alert: UserAlert) =>
-    fetch(`/api/web/alerts/${alert.id}`, {
+  const deleteAlert = (alert: UserAlert) => {
+    if (isDemo) {
+      window.alert('Cannot delete alerts in demo mode.');
+      return Promise.resolve();
+    }
+
+    return fetch(`/api/web/alerts/${alert.id}`, {
       method: 'DELETE',
     })
       .then(async (res) => {
@@ -213,6 +218,7 @@ const Alerts: NextPage = () => {
         return res;
       })
       .then((res) => res.json());
+  };
 
   return (
     <>

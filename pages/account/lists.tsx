@@ -116,7 +116,9 @@ const Lists: NextPage = () => {
 
   const { mutate } = useSWRConfig();
   const { data: lists } = useSWR<UserList[]>('/api/web/lists', (url) =>
-    fetch(url).then((res) => res.json())
+    fetch(url)
+      .then((res) => res.json())
+      .then((res) => (Array.isArray(res) ? res : []))
   );
 
   const [selectedList, setSelectedList] = useState<string | null>(null);

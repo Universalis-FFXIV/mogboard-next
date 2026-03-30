@@ -16,7 +16,8 @@ import { useCookies } from 'react-cookie';
 export default function useSession() {
   const session = useNextAuthSession();
   const [cookies] = useCookies(['demo_loggedin']);
-  const isDemo = cookies.demo_loggedin === 'yes';
+  const isDemo =
+    process.env.NEXT_PUBLIC_ENABLE_DEMO === 'true' && cookies.demo_loggedin === 'yes';
 
   if (isDemo) {
     return {
