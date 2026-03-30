@@ -1,6 +1,6 @@
 import { t, Trans } from '@lingui/macro';
 import { NextPage } from 'next';
-import useDemoSession from '../../hooks/useDemoSession';
+import useSession from '../../hooks/useSession';
 import Head from 'next/head';
 import Image from 'next/image';
 import { useRef, useState } from 'react';
@@ -17,7 +17,7 @@ import useDataCenters from '../../hooks/useDataCenters';
 type LodestoneParams = { lodestoneId: number } | { world: string; name: string };
 
 const Account: NextPage = () => {
-  const { status: sessionStatus } = useDemoSession();
+  const { status: sessionStatus } = useSession();
   const [settings] = useSettings();
 
   const { setPopup } = usePopup();

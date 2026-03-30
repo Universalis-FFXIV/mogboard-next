@@ -1,4 +1,4 @@
-import { useSession } from 'next-auth/react';
+import { useSession as useNextAuthSession } from 'next-auth/react';
 import { useCookies } from 'react-cookie';
 
 /**
@@ -13,8 +13,8 @@ import { useCookies } from 'react-cookie';
  * Data hooks (useAlerts, useLists, etc.) should skip fetching when in
  * demo mode by checking `isDemo` to avoid unnecessary 401s.
  */
-export default function useDemoSession() {
-  const session = useSession();
+export default function useSession() {
+  const session = useNextAuthSession();
   const [cookies] = useCookies(['demo_loggedin']);
   const isDemo = cookies.demo_loggedin === 'yes';
 

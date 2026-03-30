@@ -20,7 +20,7 @@ import { TaxRates } from '../types/universalis/TaxRates';
 import HomeLeastRecentlyUpdated from '../components/Home/HomeLeastRecentlyUpdated/HomeLeastRecentlyUpdated';
 import { FETCH_OPTIONS, getBaseUrl } from '../service/universalis';
 import useSWR from 'swr';
-import useDemoSession from '../hooks/useDemoSession';
+import useSession from '../hooks/useSession';
 import useDataCenters from '../hooks/useDataCenters';
 import HomeGuides from '../components/Home/HomeGuides/HomeGuides';
 import PatreonThanks from '../components/Home/PatreonThanks/PatreonThanks';
@@ -56,7 +56,7 @@ function zeroTaxRates(): Record<City, number> {
 }
 
 const Home: NextPage = () => {
-  const { status: sessionStatus } = useDemoSession();
+  const { status: sessionStatus } = useSession();
 
   const [settings] = useSettings();
   const lang = settings['mogboard_language'] || 'en';
