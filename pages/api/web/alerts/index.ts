@@ -27,7 +27,8 @@ class AlertsHandler {
         return res.status(400).json({ message: 'Maximum number of alerts has been created.' });
       }
     } catch (err) {
-      console.error(err);
+      console.log('ALERT_CREATE_VALIDATE_ERROR: ' + String(err));
+      console.log('ALERT_CREATE_VALIDATE_STACK: ' + (err instanceof Error ? err.stack : 'no stack'));
       return res.status(500).json({ message: 'An error occurred.' });
     }
 
@@ -46,7 +47,8 @@ class AlertsHandler {
     try {
       await Database.createUserAlert(alert);
     } catch (err) {
-      console.error(err);
+      console.log('ALERT_CREATE_INSERT_ERROR: ' + String(err));
+      console.log('ALERT_CREATE_INSERT_STACK: ' + (err instanceof Error ? err.stack : 'no stack'));
       return res.status(500).json({ message: 'An error occurred.' });
     }
 
@@ -66,7 +68,8 @@ class AlertsHandler {
       const userAlerts = await Database.getUserAlerts(session.user.id);
       alerts.push(...userAlerts);
     } catch (err) {
-      console.error(err);
+      console.log('ALERT_FETCH_ERROR: ' + String(err));
+      console.log('ALERT_FETCH_STACK: ' + (err instanceof Error ? err.stack : 'no stack'));
       return res.status(500).json({ message: 'An error occurred.' });
     }
 
