@@ -100,7 +100,7 @@ public class Program
 
                     Console.WriteLine("Exporting materia...");
                     var allMateria = new Dictionary<uint, MateriaDump>();
-                    var materiaData = GetData<Materia>(http, lang, "https://v2.xivapi.com/api/sheet/Materia?fields=Item,Value&limit=999999");
+                    var materiaData = GetData<Materia>(http, lang, "https://v2.xivapi.com/api/sheet/Materia?fields=Item,Value&limit=20");
                     foreach (var materia in materiaData)
                     {
                         allMateria.Add(materia.Id, new MateriaDump
