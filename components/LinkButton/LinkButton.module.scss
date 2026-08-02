@@ -1,0 +1,9 @@
+.linkButton {
+  all: unset;
+  cursor: pointer;
+}
+
+.linkButton:focus {
+  all: unset;
+  outline: revert;
+}

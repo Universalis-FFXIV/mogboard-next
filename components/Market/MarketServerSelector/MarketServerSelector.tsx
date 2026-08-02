@@ -24,6 +24,53 @@ const regionNameMapping = getServerRegionNameMap({
   traditionalChinese: t`繁中服`,
 });
 
+const getShownWorlds = (
+  selectedServer: Server,
+  regions: readonly Region[],
+  dcs: readonly DataCenter[],
+  homeDc: DataCenter | undefined
+) => {
+  // Filter worlds to only show those from the currently-selected data center, prioritizing the user's home server if provided.
+  // For regions in all other cases, show all worlds within the region. This is really scuffed but it shows the correct worlds
+  // in each server selector in all the scenarios I tested. We should maybe save if we got to a selected world from a selected
+  // DC or region so we can persist that scope when selecting a world after that?
+  const selectedRegionRollup =
+    selectedServer.type === 'region'
+      ? selectedServer.region
+      : selectedServer.type === 'dc'
+      ? selectedServer.dc.region
+      : dcs.find((dc) => dc.worlds.some((w) => w.id === selectedServer.world.id))?.region;
+  if (!homeDc && (!selectedRegionRollup || !regions.includes(selectedRegionRollup))) {
+    return [];
+  }
+
+  if (
+    homeDc &&
+    ((selectedServer.type === 'region' && selectedServer.region !== homeDc.region) ||
+      (selectedServer.type === 'dc' && selectedServer.dc.region !== homeDc.region))
+  ) {
+    return homeDc.worlds;
+  }
+
+  if (selectedServer.type === 'region') {
+    // Filter DCs and worlds to only show those from the currently selected region
+    const filteredDcs = selectedServer.region
+      ? dcs.filter((dc) => dc.region === selectedServer.region)
+      : [];
+
+    // Flatten all worlds from all data centers and sort them alphabetically
+    return filteredDcs.flatMap((dc) => dc.worlds).sort((a, b) => a.name.localeCompare(b.name));
+  }
+
+  const currentDc =
+    selectedServer.type === 'dc'
+      ? selectedServer.dc
+      : selectedServer.type === 'world'
+      ? dcs.find((dc) => dc.worlds.some((w) => w.id === selectedServer.world.id))
+      : undefined;
+  return currentDc?.worlds ?? homeDc?.worlds ?? dcs[0].worlds;
+};
+
 export default function MarketServerSelector({
   region,
   homeDc,
@@ -32,6 +79,7 @@ export default function MarketServerSelector({
   selectedServer,
   setSelectedServer,
 }: MarketServerSelectorProps) {
+  const filteredWorlds = getShownWorlds(selectedServer, [region], dcs, homeDc);
   return (
     <SimpleBar style={{ width: '100%' }}>
       <div className="item_nav_servers">
@@ -56,7 +104,7 @@ export default function MarketServerSelector({
             <i className="xiv-CrossWorld cw-summary"></i> {dc.name}
           </button>
         ))}
-        {(homeDc ?? dcs[0]).worlds.map((world, i) => {
+        {filteredWorlds.map((world, i) => {
           const homeWorld = world.name === homeWorldName;
           const icon = homeWorld ? 'xiv-ItemShard cw-home' : '';
           const className = homeWorld ? 'home-world' : '';
@@ -124,24 +172,15 @@ MarketServerSelector.Dynamic = function DynamicMarketServerSelector(
   props: DynamicMarketServerSelectorProps
 ) {
   const swrResult = useDataCenters(props.region);
-  const { data: dcs, error, isLoading } = swrResult;
-
-  // Debug logging - log everything
-  console.log('[MarketServerSelector.Dynamic] RENDER', {
-    region: props.region,
-    dcs: dcs,
-    dcsLength: dcs?.length,
-    error: error,
-    isLoading: isLoading,
-    swrKeys: Object.keys(swrResult),
-  });
+  const { data: dcs, error } = swrResult;
+  if (error) {
+    console.error(error);
+  }
 
   if (!dcs) {
-    console.log('[MarketServerSelector.Dynamic] returning skeleton');
     return <MarketServerSelector.Skeleton {...props} />;
   }
 
-  console.log('[MarketServerSelector.Dynamic] returning real component');
   return <MarketServerSelector {...props} dcs={dcs} />;
 };
 
@@ -158,8 +197,6 @@ MarketServerSelector.MultiRegion = function MultiRegionMarketServerSelector({
   setSelectedServer,
   homeWorldName,
 }: MultiRegionMarketServerSelectorProps) {
-  console.log('[MarketServerSelector.MultiRegion] RENDER', { regions });
-
   // Fetch data centers for all regions - we need to call hooks at the top level
   // Since regions array is limited to max 3 items (Japan, North-America, Europe, Oceania minus current),
   // we'll conditionally call hooks based on array length
@@ -167,27 +204,22 @@ MarketServerSelector.MultiRegion = function MultiRegionMarketServerSelector({
   const query1 = useDataCenters(regions[1] ?? regions[0]);
   const query2 = useDataCenters(regions[2] ?? regions[0]);
 
-  console.log('[MarketServerSelector.MultiRegion] queries', {
-    query0: { data: query0.data?.length, error: query0.error, isLoading: query0.isLoading },
-    query1: { data: query1.data?.length, error: query1.error, isLoading: query1.isLoading },
-    query2: { data: query2.data?.length, error: query2.error, isLoading: query2.isLoading },
-  });
-
   // Check if all necessary queries are loaded
   const allLoaded =
     query0.data !== undefined &&
     (regions.length < 2 || query1.data !== undefined) &&
     (regions.length < 3 || query2.data !== undefined);
 
-  console.log('[MarketServerSelector.MultiRegion] allLoaded:', allLoaded);
-
   if (!allLoaded) {
-    console.log('[MarketServerSelector.MultiRegion] returning skeleton');
     // Show skeleton for the first region while loading
-    return <MarketServerSelector.Skeleton region={regions[0]} selectedServer={selectedServer} setSelectedServer={setSelectedServer} />;
+    return (
+      <MarketServerSelector.Skeleton
+        region={regions[0]}
+        selectedServer={selectedServer}
+        setSelectedServer={setSelectedServer}
+      />
+    );
   }
-
-  console.log('[MarketServerSelector.MultiRegion] returning real component');
 
   // Combine all data centers from all regions
   const allDcs = [
@@ -210,9 +242,7 @@ MarketServerSelector.MultiRegion = function MultiRegionMarketServerSelector({
   const filteredDcs = currentSelectedRegion
     ? allDcs.filter((dc) => dc.region === currentSelectedRegion)
     : [];
-
-  // Flatten all worlds from all data centers and sort them alphabetically
-  const filteredWorlds = filteredDcs.flatMap((dc) => dc.worlds).sort((a, b) => a.name.localeCompare(b.name));
+  const filteredWorlds = getShownWorlds(selectedServer, regions, filteredDcs, undefined);
 
   return (
     <SimpleBar style={{ width: '100%' }}>

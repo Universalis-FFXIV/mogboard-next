@@ -1,6 +1,11 @@
 import { t, Trans } from '@lingui/macro';
 import { useRef, useState, useCallback } from 'react';
-import { SearchItem, searchItemsV1, searchItemsV2, searchItemsTc } from '../../../../service/search';
+import {
+  SearchItem,
+  searchItemsV1,
+  searchItemsV2,
+  searchItemsTc,
+} from '../../../../service/search';
 import useClickOutside from '../../../../hooks/useClickOutside';
 import useSettings from '../../../../hooks/useSettings';
 import debounce from 'lodash.debounce';

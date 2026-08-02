@@ -28,7 +28,9 @@ class AlertsHandler {
       }
     } catch (err) {
       console.log('ALERT_CREATE_VALIDATE_ERROR: ' + String(err));
-      console.log('ALERT_CREATE_VALIDATE_STACK: ' + (err instanceof Error ? err.stack : 'no stack'));
+      console.log(
+        'ALERT_CREATE_VALIDATE_STACK: ' + (err instanceof Error ? err.stack : 'no stack')
+      );
       return res.status(500).json({ message: 'An error occurred.' });
     }
 

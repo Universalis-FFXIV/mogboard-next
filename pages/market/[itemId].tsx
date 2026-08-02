@@ -41,6 +41,7 @@ interface StaticMarketsProps {
   homeDc: DataCenter;
   dcs: DataCenter[];
   selectedServer: Server;
+  setSelectedServer: (server: Server) => void;
   lang: Language;
 }
 
@@ -55,6 +56,7 @@ const StaticMarkets = ({
   homeDc,
   dcs,
   selectedServer,
+  setSelectedServer,
 }: StaticMarketsProps) => {
   return (
     <div className="tab">
@@ -75,6 +77,7 @@ const StaticMarkets = ({
               );
               return agg;
             }, {} as Record<string | number, number>)}
+            setSelectedServer={setSelectedServer}
           />
         </ErrorBoundary>
         <ErrorBoundary>
@@ -99,6 +102,7 @@ const StaticMarkets = ({
             <MarketServerUpdateTimes
               worlds={dc.worlds.sort((a, b) => a.name.localeCompare(b.name))}
               worldUploadTimes={markets[dc.name]?.worldUploadTimes ?? dc.worlds.map(() => 0)}
+              setSelectedServer={setSelectedServer}
             />
           </ErrorBoundary>
           <ErrorBoundary>
@@ -140,13 +144,20 @@ interface DynamicMarketsProps {
   item: Item;
   region: string;
   selectedServer: Server;
+  setSelectedServer: (server: Server) => void;
   lang: Language;
 }
 
 /**
  * Market data on-demand.
  */
-const DynamicMarkets = ({ item, selectedServer, region, lang }: DynamicMarketsProps) => {
+const DynamicMarkets = ({
+  item,
+  selectedServer,
+  setSelectedServer,
+  region,
+  lang,
+}: DynamicMarketsProps) => {
   const { data: market } = useRegionMarket(region, item.id);
   const { data: dcs } = useDataCenters(region);
 
@@ -166,6 +177,18 @@ const DynamicMarkets = ({ item, selectedServer, region, lang }: DynamicMarketsPr
     [market]
   );
 
+  // World views only require world-level data, so they render independently
+  // of region-level market and data center requests.
+  if (selectedServer.type === 'world') {
+    return (
+      <div className="tab-page tab-summary open">
+        <ErrorBoundary>
+          <MarketWorld.Dynamic item={item} world={selectedServer.world} lang={lang} open />
+        </ErrorBoundary>
+      </div>
+    );
+  }
+
   if (!market || !dcs) {
     return (
       <div className="tab-page tab-summary open">
@@ -180,7 +203,11 @@ const DynamicMarkets = ({ item, selectedServer, region, lang }: DynamicMarketsPr
         <div className="tab">
           <div className="tab-page tab-summary open">
             <ErrorBoundary>
-              <MarketRegionUpdateTimes dcs={dcs} worldUploadTimes={getWorldUploadTimes()} />
+              <MarketRegionUpdateTimes
+                dcs={dcs}
+                worldUploadTimes={getWorldUploadTimes()}
+                setSelectedServer={setSelectedServer}
+              />
             </ErrorBoundary>
             <ErrorBoundary>
               <MarketRegion.Dynamic item={item} region={region} dcs={dcs} lang={lang} open />
@@ -197,21 +224,13 @@ const DynamicMarkets = ({ item, selectedServer, region, lang }: DynamicMarketsPr
               <MarketServerUpdateTimes
                 worlds={dc.worlds.sort((a, b) => a.name.localeCompare(b.name))}
                 worldUploadTimes={getWorldUploadTimes(dc)}
+                setSelectedServer={setSelectedServer}
               />
             </ErrorBoundary>
             <ErrorBoundary>
               <MarketDataCenter.Dynamic item={item} dc={dc} lang={lang} open />
             </ErrorBoundary>
           </div>
-        </div>
-      );
-    case 'world':
-      const { world } = selectedServer;
-      return (
-        <div className="tab-page tab-summary open">
-          <ErrorBoundary>
-            <MarketWorld.Dynamic item={item} world={world} lang={lang} open />
-          </ErrorBoundary>
         </div>
       );
   }
@@ -224,11 +243,18 @@ interface MarketsProps {
   homeDc: DataCenter;
   dcs: DataCenter[];
   selectedServer: Server;
+  setSelectedServer: (server: Server) => void;
   lang: Language;
 }
 
 const Markets = (props: MarketsProps) => {
-  if (props.markets !== undefined) {
+  // Render the data we already hydrated if we hydrated it; otherwise use the dynamic component because
+  // we didn't hydrate it and need to fetch the data dynamically.
+  if (
+    props.markets !== undefined &&
+    props.selectedServer.type === 'dc' &&
+    props.markets[props.selectedServer.dc.name] !== undefined
+  ) {
     const markets = props.markets; // Help TS out a bit
     return <StaticMarkets {...props} markets={markets} />;
   } else {
@@ -333,6 +359,24 @@ const Market: NextPage<MarketProps> = ({
     }
   }, lists);
 
+  // This gets special treatment, and isn't loaded into the page by default.
+  // Typically, all data is loaded ahead of time to support scrapers/sheets,
+  // but for this part of the UI we're not bound to that decision.
+  const [dynamicServer, setDynamicServerBase] = useState<Server | null>(null);
+  const [dynamicRegion, setDynamicRegion] = useState<Region | null>(null);
+
+  const setDynamicServer = useCallback((s: Server | null) => {
+    if (s == null) {
+      setDynamicRegion(null);
+    } else if (s.type === 'region') {
+      setDynamicRegion(s.region);
+    } else if (s.type === 'dc') {
+      setDynamicRegion(s.dc.region);
+    }
+    // World selections retain the region of the surrounding dynamic context.
+    setDynamicServerBase(s);
+  }, []);
+
   const selectServer = useCallback(
     (s: Server) => {
       // Set the new last-selected server for future page loads
@@ -347,13 +391,22 @@ const Market: NextPage<MarketProps> = ({
       setDynamicServer(null);
       setSelectedServer(s);
     },
-    [setLastSelectedServer]
+    [setLastSelectedServer, setDynamicServer]
   );
 
-  // This gets special treatment, and isn't loaded into the page by default.
-  // Typically, all data is loaded ahead of time to support scrapers/sheets,
-  // but for this part of the UI we're not bound to that decision.
-  const [dynamicServer, setDynamicServer] = useState<Server | null>(null);
+  // Selections made within the dynamic view (e.g. the update-time world
+  // links) replace the dynamic selection, preserving the external
+  // region/data center context instead of resetting to the home region.
+  const selectDynamicServer = useCallback(
+    (s: Server) => {
+      if (dynamicServer != null) {
+        setDynamicServer(s);
+      } else {
+        selectServer(s);
+      }
+    },
+    [dynamicServer, selectServer, setDynamicServer]
+  );
 
   const item = getItem(itemId, lang);
 
@@ -424,17 +477,12 @@ const Market: NextPage<MarketProps> = ({
           </div>
           <Markets
             item={item}
-            region={
-              dynamicServer && dynamicServer.type === 'region'
-                ? dynamicServer.region
-                : dynamicServer && dynamicServer.type === 'dc'
-                ? dynamicServer.dc.region
-                : region
-            }
+            region={dynamicRegion ?? region}
             markets={dynamicServer ? undefined : markets}
             homeDc={homeDc}
             dcs={dcs}
             selectedServer={dynamicServer ?? selectedServer}
+            setSelectedServer={selectDynamicServer}
             lang={lang}
           />
         </div>
