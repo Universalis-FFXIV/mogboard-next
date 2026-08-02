@@ -150,15 +150,15 @@ export async function searchItemsTc(
   lang: string,
   abort?: AbortController
 ): Promise<ItemSearchResults> {
-  const params = new URLSearchParams({  
-    sheets: 'Items',  
-    query: query,  
-    language: lang,  
-    limit: '100',  
-    field: 'Name,ItemSearchCategory.Name,Icon,LevelItem.todo,Rarity',  
-  });  
+  const params = new URLSearchParams({
+    sheets: 'Items',
+    query: query,
+    language: lang,
+    limit: '100',
+    field: 'Name,ItemSearchCategory.Name,Icon,LevelItem.todo,Rarity',
+  });
 
-  const searchUrl = `https://tc-ffxiv-item-search-service.onrender.com/items/search?${params.toString()}`;  
+  const searchUrl = `https://tc-ffxiv-item-search-service.onrender.com/items/search?${params.toString()}`;
   const data = await fetch(searchUrl, {
     signal: abort?.signal,
   })
@@ -188,7 +188,7 @@ export async function searchItemsTc(
         rarity: result.rarity,
       }))
       .sort((a, b) => b.levelItem - a.levelItem),
-  }
+  };
 }
 
 function iconUrlV2(icon: BoilmasterIcon): string {

@@ -223,7 +223,9 @@ export default function SettingsModal({ isOpen, closeModal, onSave }: SettingsMo
               </label>
               <div style={{ paddingBottom: 10 }}>
                 <small>
-                  <Trans>This will hide the decimal point and cents values in price displays.</Trans>
+                  <Trans>
+                    This will hide the decimal point and cents values in price displays.
+                  </Trans>
                 </small>
               </div>
               <div className="form">

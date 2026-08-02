@@ -38,18 +38,20 @@ const DEMO_ALERTS: UserAlert[] = [
 export default function useAlerts() {
   const { isDemo } = useSession();
 
-  return useSWR(isDemo ? null : '/api/web/alerts', (url) =>
-    fetch(url)
-      .then(async (res) => {
-        if (!res.ok) {
-          const body = res.headers.get('Content-Type')?.includes('application/json')
-            ? (await res.json()).message
-            : await res.text();
-          throw new Error(body);
-        }
-        return await res.json();
-      })
-      .then((res) => res as UserAlert[]),
-    isDemo ? { fallbackData: DEMO_ALERTS } : undefined,
+  return useSWR(
+    isDemo ? null : '/api/web/alerts',
+    (url) =>
+      fetch(url)
+        .then(async (res) => {
+          if (!res.ok) {
+            const body = res.headers.get('Content-Type')?.includes('application/json')
+              ? (await res.json()).message
+              : await res.text();
+            throw new Error(body);
+          }
+          return await res.json();
+        })
+        .then((res) => res as UserAlert[]),
+    isDemo ? { fallbackData: DEMO_ALERTS } : undefined
   );
 }
