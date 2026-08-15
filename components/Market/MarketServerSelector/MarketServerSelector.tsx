@@ -186,6 +186,7 @@ MarketServerSelector.Dynamic = function DynamicMarketServerSelector(
 
 export interface MultiRegionMarketServerSelectorProps {
   regions: readonly Region[];
+  dcs: readonly DataCenter[];
   selectedServer: Server;
   setSelectedServer: (server: Server) => void;
   homeWorldName?: string;
@@ -193,54 +194,28 @@ export interface MultiRegionMarketServerSelectorProps {
 
 MarketServerSelector.MultiRegion = function MultiRegionMarketServerSelector({
   regions,
+  dcs,
   selectedServer,
   setSelectedServer,
   homeWorldName,
 }: MultiRegionMarketServerSelectorProps) {
-  // Fetch data centers for all regions - we need to call hooks at the top level
-  // Since regions array is limited to max 3 items (Japan, North-America, Europe, Oceania minus current),
-  // we'll conditionally call hooks based on array length
-  const query0 = useDataCenters(regions[0]);
-  const query1 = useDataCenters(regions[1] ?? regions[0]);
-  const query2 = useDataCenters(regions[2] ?? regions[0]);
-
-  // Check if all necessary queries are loaded
-  const allLoaded =
-    query0.data !== undefined &&
-    (regions.length < 2 || query1.data !== undefined) &&
-    (regions.length < 3 || query2.data !== undefined);
-
-  if (!allLoaded) {
-    // Show skeleton for the first region while loading
-    return (
-      <MarketServerSelector.Skeleton
-        region={regions[0]}
-        selectedServer={selectedServer}
-        setSelectedServer={setSelectedServer}
-      />
-    );
-  }
-
-  // Combine all data centers from all regions
-  const allDcs = [
-    ...(query0.data ?? []),
-    ...(regions.length >= 2 ? query1.data ?? [] : []),
-    ...(regions.length >= 3 ? query2.data ?? [] : []),
-  ];
-
   // Determine which region is currently selected
-  const currentSelectedRegion =
+  const selectedRegion =
     selectedServer.type === 'region'
       ? selectedServer.region
       : selectedServer.type === 'dc'
       ? selectedServer.dc.region
       : selectedServer.type === 'world'
-      ? allDcs.find((dc) => dc.worlds.some((w) => w.id === selectedServer.world.id))?.region
+      ? dcs.find((dc) => dc.worlds.some((w) => w.id === selectedServer.world.id))?.region
       : undefined;
+
+  // Only show data centers when the selected region belongs to this selector
+  const currentSelectedRegion =
+    selectedRegion && regions.includes(selectedRegion) ? selectedRegion : undefined;
 
   // Filter DCs and worlds to only show those from the currently selected region
   const filteredDcs = currentSelectedRegion
-    ? allDcs.filter((dc) => dc.region === currentSelectedRegion)
+    ? dcs.filter((dc) => dc.region === currentSelectedRegion)
     : [];
   const filteredWorlds = getShownWorlds(selectedServer, regions, filteredDcs, undefined);
 

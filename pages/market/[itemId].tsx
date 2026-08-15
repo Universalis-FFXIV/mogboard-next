@@ -270,6 +270,7 @@ interface MarketProps {
   region: Region;
   homeDc: DataCenter;
   dcs: DataCenter[];
+  allDcs: DataCenter[];
   queryServer: string | null;
 }
 
@@ -281,6 +282,7 @@ const Market: NextPage<MarketProps> = ({
   region,
   homeDc,
   dcs,
+  allDcs,
   queryServer,
 }) => {
   const [settings, setSetting] = useSettings();
@@ -466,6 +468,7 @@ const Market: NextPage<MarketProps> = ({
                     <ErrorBoundary>
                       <MarketServerSelector.MultiRegion
                         regions={REGIONS.filter((r) => r !== region && isGlobalServerRegion(r))}
+                        dcs={allDcs}
                         selectedServer={dynamicServer ?? selectedServer}
                         setSelectedServer={setDynamicServer}
                         homeWorldName={settings['mogboard_server']}
@@ -674,6 +677,7 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
       region: dc.region,
       homeDc: dc,
       dcs: regionDcs,
+      allDcs: dcs,
       queryServer,
     },
   };
