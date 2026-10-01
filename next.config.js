@@ -12,6 +12,7 @@ const nextConfig = {
     domains: [
       'xivapi.com',
       'v2.xivapi.com',
+      'xivapi-v2.xivcdn.com',
       'universalis-ffxiv.github.io',
       'img2.finalfantasyxiv.com',
       'cdn.discordapp.com',
