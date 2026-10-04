@@ -98,22 +98,14 @@ public class Program
 
                   Console.WriteLine("Exporting materia...");
                   var allMateria = new Dictionary<uint, MateriaDump>();
-                  var materiaData = GetData<Materia>(http, "https://cafemaker.wakingsands.com/Materia?columns=ID,Value*,Item*&limit=999999");
+                  var materiaData = GetData<Materia>(http, "https://xivapi-v2.xivcdn.com/api/sheet/Materia?fields=Item[].todo,Value&limit=999999");
                   foreach (var materia in materiaData)
                   {
                       allMateria.Add(materia.Id, new MateriaDump
                       {
                           Id = materia.Id,
-                          Slots = new[]
-                          {
-                              materia.Value0, materia.Value1, materia.Value2, materia.Value3, materia.Value4,
-                              materia.Value5, materia.Value6, materia.Value7, materia.Value8, materia.Value9,
-                          },
-                          Items = new[]
-                          {
-                              materia.Item0?.Id ?? 0, materia.Item1?.Id ?? 0, materia.Item2?.Id ?? 0, materia.Item3?.Id ?? 0, materia.Item4?.Id ?? 0,
-                              materia.Item5?.Id ?? 0, materia.Item6?.Id ?? 0, materia.Item7?.Id ?? 0, materia.Item8?.Id ?? 0, materia.Item9?.Id ?? 0,
-                          },
+                          Slots = materia.Fields!.Value,
+                          Items = materia.Fields!.Item!.Select(item => item.Id).ToArray(),
                       });
                   }
 
@@ -147,19 +139,20 @@ public class Program
               });
     }
 
-    private static T[] GetData<T>(HttpClient http, string uri)
+    private static XIVAPIRowWrapper<T>[] GetData<T>(HttpClient http, string uri)
     {
-        int? pageNext = 1;
-        var data = new List<T>();
+        uint? lastRow = null;
+        var data = new List<XIVAPIRowWrapper<T>>();
         do
         {
+            var pageUri = lastRow.HasValue ? uri + $"&after={lastRow}" : uri;
             var pageData = JsonSerializer.Deserialize<XIVAPIIndex<T>>(http
-                                                                      .GetStringAsync(uri + $"&page={pageNext}")
-                                                                      .GetAwaiter()
-                                                                      .GetResult());
-            data.AddRange(pageData!.Results!);
-            pageNext = pageData!.Pagination!.PageNext;
-        } while (pageNext != null);
+                .GetStringAsync(pageUri)
+                .GetAwaiter()
+                .GetResult());
+            data.AddRange(pageData!.Rows!);
+            lastRow = pageData.Rows?.LastOrDefault()?.Id;
+        } while (lastRow != null);
 
         return data.ToArray();
     }
@@ -167,64 +160,22 @@ public class Program
 
 public class XIVAPIIndex<T>
 {
-    public PaginationData? Pagination { get; init; }
+    [JsonPropertyName("rows")]
+    public XIVAPIRowWrapper<T>[]? Rows { get; init; }
+}
 
-    public T[]? Results { get; init; }
+public class XIVAPIRowWrapper<T>
+{
+    [JsonPropertyName("row_id")]
+    public uint Id { get; init; }
 
-    public class PaginationData
-    {
-        public int? PageNext { get; init; }
-    }
+    [JsonPropertyName("fields")]
+    public T? Fields { get; init; }
 }
 
 public class Materia
 {
-    [JsonPropertyName("ID")]
-    public uint Id { get; init; }
+    public XIVAPIRowWrapper<object>[]? Item { get; init; }
 
-    public MateriaItem? Item0 { get; init; }
-
-    public MateriaItem? Item1 { get; init; }
-
-    public MateriaItem? Item2 { get; init; }
-
-    public MateriaItem? Item3 { get; init; }
-
-    public MateriaItem? Item4 { get; init; }
-
-    public MateriaItem? Item5 { get; init; }
-
-    public MateriaItem? Item6 { get; init; }
-
-    public MateriaItem? Item7 { get; init; }
-
-    public MateriaItem? Item8 { get; init; }
-
-    public MateriaItem? Item9 { get; init; }
-
-    public short Value0 { get; init; }
-
-    public short Value1 { get; init; }
-
-    public short Value2 { get; init; }
-
-    public short Value3 { get; init; }
-
-    public short Value4 { get; init; }
-
-    public short Value5 { get; init; }
-
-    public short Value6 { get; init; }
-
-    public short Value7 { get; init; }
-
-    public short Value8 { get; init; }
-
-    public short Value9 { get; init; }
-
-    public class MateriaItem
-    {
-        [JsonPropertyName("ID")]
-        public uint Id { get; init; }
-    }
+    public short[]? Value { get; init; }
 }

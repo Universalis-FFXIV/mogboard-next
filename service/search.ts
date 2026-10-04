@@ -101,9 +101,7 @@ export interface SearchItem {
 }
 
 function getRepositoryUrl(lang: string) {
-  if (lang === 'chs') {
-    return 'https://cafemaker.wakingsands.com';
-  } else if (lang === 'ko') {
+  if (lang === 'ko') {
     return 'https://lalafell-api.universalis.app/api';
   } else {
     throw new Error(`Out of range: ${lang}`);
@@ -200,7 +198,8 @@ export async function searchItemsV2(
   lang: string,
   abort?: AbortController
 ): Promise<ItemSearchResults> {
-  const searchUrl = 'https://v2.xivapi.com/api/search';
+  const baseUrl = lang === 'chs' ? 'https://xivapi-v2.xivcdn.com/api' : 'https://v2.xivapi.com/api';
+  const searchUrl = `${baseUrl}/search`;
   const keywords = query
     .split(' ')
     .map((term) => `+Name~"${term}"`)
@@ -236,7 +235,10 @@ export async function searchItemsV2(
       .filter((result) => result.fields.ItemSearchCategory.row_id >= 1)
       .map((result) => ({
         id: result.row_id,
-        icon: iconUrlV2(result.fields.Icon),
+        icon:
+          lang === 'chs'
+            ? `${baseUrl}/asset?path=${result.fields.Icon.path}&format=png`
+            : iconUrlV2(result.fields.Icon),
         itemKind: result.fields.ItemSearchCategory.fields.Name,
         itemSearchCategory: {
           id: result.fields.ItemSearchCategory.row_id,

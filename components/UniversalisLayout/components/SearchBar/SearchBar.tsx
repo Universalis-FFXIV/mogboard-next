@@ -74,9 +74,6 @@ export default function SearchBar({ onResults, onMarketClicked }: SearchBarProps
           res.resultsTotal = totalResults;
 
           onResults(res.results, res.resultsTotal, q);
-        } else if (lang === 'chs') {
-          const res = await searchItemsV1(q, lang, undefined, abort.current);
-          onResults(res.results, res.resultsTotal, q);
         } else if (lang === 'tc') {
           const res = await searchItemsTc(q, lang, abort.current);
           onResults(res.results, res.resultsTotal, q);
