@@ -12,12 +12,29 @@ export const authOptions: NextAuthOptions = {
     DiscordProvider({
       clientId: process.env['DISCORD_CLIENT_ID'] ?? '',
       clientSecret: process.env['DISCORD_CLIENT_SECRET'] ?? '',
+      // openid-client defaults to a 3500ms timeout on the token exchange and
+      // userinfo requests to Discord; slow responses surface as error=OAuthCallback.
+      httpOptions: { timeout: 15000 },
     }),
   ],
   session: {
     strategy: 'jwt',
   },
   secret: process.env['NEXTAUTH_SECRET'],
+  logger: {
+    error(code, metadata) {
+      const err = metadata instanceof Error ? metadata : metadata?.error;
+      AuthLogger.error(`next-auth error [${code}]: ${err?.message ?? 'unknown'}`, {
+        name: err?.name,
+        stack: err?.stack,
+        providerId: metadata instanceof Error ? undefined : metadata?.providerId,
+      });
+    },
+    warn(code) {
+      AuthLogger.warn(`next-auth warning [${code}]`);
+    },
+    debug() {},
+  },
   callbacks: {
     async jwt({ token, account }) {
       const userId = token.sub;
