@@ -12,6 +12,11 @@ export const authOptions: NextAuthOptions = {
     DiscordProvider({
       clientId: process.env['DISCORD_CLIENT_ID'] ?? '',
       clientSecret: process.env['DISCORD_CLIENT_SECRET'] ?? '',
+      // Discord returns an RFC 9207 `iss` parameter on authorization redirects.
+      // openid-client validates it against the issuer's `issuer` field, which
+      // next-auth leaves undefined, causing the callback to throw an OAuthCallback error.
+      // See: https://discord.com/.well-known/openid-configuration
+      issuer: 'https://discord.com',
       // openid-client defaults to a 3500ms timeout on the token exchange and
       // userinfo requests to Discord; slow responses surface as error=OAuthCallback.
       httpOptions: { timeout: 15000 },
